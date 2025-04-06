@@ -1,0 +1,136 @@
+.datatable-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.datatable-container {
+    overflow-x: auto;
+    margin: 0;
+    padding: 1rem;
+    width: 100%;
+}
+
+.datatable-top,
+.datatable-bottom {
+    padding: 1rem;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.datatable-search {
+    flex: 1;
+    max-width: 300px;
+}
+
+.datatable-selector {
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1em;
+}
+
+.datatable-input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    transition: border-color 0.15s ease-in-out;
+}
+
+.datatable-input:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.datatable-pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    gap: 0.25rem;
+}
+
+.datatable-pagination li {
+    margin: 0;
+}
+
+.datatable-pagination a,
+.datatable-pagination button {
+    padding: 0.375rem 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    background: #fff;
+    color: #212529;
+    transition: all 0.15s ease-in-out;
+}
+
+.datatable-pagination a:hover,
+.datatable-pagination button:hover {
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+    color: #0d6efd;
+}
+
+.datatable-pagination .datatable-active a,
+.datatable-pagination .datatable-active button {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .datatable-top,
+    .datatable-bottom {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .datatable-search {
+        max-width: none;
+    }
+
+    .datatable-selector {
+        width: 100%;
+    }
+
+    .datatable-pagination {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+}
+
+/* Keep existing table styles but enhance them */
+.datatable-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.datatable-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+}
+
+.datatable-table td,
+.datatable-table th {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.datatable-table tbody tr:hover {
+    background-color: rgba(0,0,0,0.02);
+}
