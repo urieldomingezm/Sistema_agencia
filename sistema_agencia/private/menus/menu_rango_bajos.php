@@ -54,16 +54,16 @@ class Navbar
                       <div class="accordion-body p-0">
                         <ul class="list-unstyled mb-0">
                           <?php foreach ($item['dropdown'] as $dropdownItem): ?>
-                              <?php if ($dropdownItem == 'divider'): ?>
-                                <li><hr class="dropdown-divider mx-3"></li>
-                              <?php else: ?>
-                                <li>
-                                    <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
-                                        <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
-                                        <?= $dropdownItem ?>
-                                    </a>
-                                </li>
-                              <?php endif; ?>
+                            <?php if ($dropdownItem == 'divider'): ?>
+                              <li><hr class="dropdown-divider mx-3"></li>
+                            <?php else: ?>
+                              <li>
+                                <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
+                                  <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
+                                  <?= $dropdownItem ?>
+                                </a>
+                              </li>
+                            <?php endif; ?>
                           <?php endforeach; ?>
                         </ul>
                       </div>
@@ -72,8 +72,8 @@ class Navbar
                     <h2 class="accordion-header">
                       <a class="accordion-button" 
                          href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
-                          <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
-                          <?= $item['name'] ?>
+                        <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
+                        <?= $item['name'] ?>
                       </a>
                     </h2>
                   <?php endif; ?>
@@ -104,6 +104,7 @@ class Navbar
       'Inicio' => 'fas fa-home',
       'Perfil' => 'fas fa-user',
       'Informacion' => 'fas fa-info-circle',
+      'Ascenso' => 'fas fa-arrow-up'
     ];
     return $icons[$itemName] ?? 'fas fa-circle';
   }
@@ -115,6 +116,8 @@ class Navbar
       'Cerrar session' => 'fas fa-sign-out-alt',
       'Requisitos paga' => 'fas fa-list-check',
       'Calcular rango' => 'fas fa-calculator',
+      'Gestion de tiempo' => 'fas fa-clock',
+      'Gestion ascenso' => 'fas fa-users',
     ];
     return $icons[$itemName] ?? 'fas fa-circle';
   }
@@ -123,7 +126,9 @@ class Navbar
   {
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
-      ];
+      'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
+      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos'
+    ];
 
     if (isset($modalItems[$item])) {
       return $modalItems[$item];
@@ -137,6 +142,7 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
+  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso']],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);
