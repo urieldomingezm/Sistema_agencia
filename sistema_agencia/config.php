@@ -11,13 +11,13 @@ define('ADMIN_PATH', ROOT_PATH . 'admin/');
 
 // Rutas de configuración y plantillas
 define('TEMPLATES_PATH', PRIVATE_PATH . 'plantilla/');
-define('CONFIG_PATH', PRIVATE_PATH . 'config/');
+define('CONFIG_PATH', PRIVATE_PATH . 'conexion/');
 define('SCRIPTS_PATH', PRIVATE_PATH . 'scripts/');
 
 // Rutas de autenticación y procesos
-define('AUTH_DJ_PATH', PRIVATE_PATH . 'config/procesos/autenticacion/');
-define('PROCESO_ATHUR_PATH', PRIVATE_PATH . 'config/procesos/autenticacion/');
-define('PROCESOS_LOGIN_PATH', PRIVATE_PATH . 'config/procesos/login_registro/');
+define('AUTH_DJ_PATH', PRIVATE_PATH . 'conexion/procesos/autenticacion/');
+define('PROCESO_ATHUR_PATH', PRIVATE_PATH . 'conexion/procesos/autenticacion/');
+define('PROCESOS_LOGIN_PATH', PRIVATE_PATH . 'conexion/procesos/login_registro/');
 
 // Rutas de modelos y POO
 define('POO_PATH', PRIVATE_PATH . 'poo/login/');
@@ -25,8 +25,8 @@ define('MODELOS_PATH', PRIVATE_PATH . 'modelos/login/');
 define('POO_HOME_PATH', PRIVATE_PATH . 'modelos/home/');
 
 // Rutas de contenido principal
-define('BODY_HOME_PATH', PRIVATE_PATH . 'config/procesos/home/');
-define('BODY_DJ_PATH', PRIVATE_PATH . 'config/procesos/dj/');
+define('BODY_HOME_PATH', PRIVATE_PATH . 'conexion/procesos/home/');
+define('BODY_DJ_PATH', PRIVATE_PATH . 'conexion/procesos/dj/');
 define('MENU_PATH', PRIVATE_PATH . 'menus/');
 define('SUBSCRIPTIONS_PATH', PRIVATE_PATH . 'subscriptions/');
 
