@@ -15,7 +15,7 @@ define('CONFIG_PATH', PRIVATE_PATH . 'conexion/');
 define('SCRIPTS_PATH', PRIVATE_PATH . 'scripts/');
 
 // Rutas de autenticación y procesos
-define('AUTH_DJ_PATH', PRIVATE_PATH . 'conexion/procesos/autenticacion/');
+define('AUTH_DJ_PATH', PRIVATE_PATH . 'radio/');
 define('PROCESO_ATHUR_PATH', PRIVATE_PATH . 'conexion/procesos/autenticacion/');
 define('PROCESOS_LOGIN_PATH', PRIVATE_PATH . 'conexion/procesos/login_registro/');
 
@@ -25,7 +25,8 @@ define('MODELOS_PATH', PRIVATE_PATH . 'modelos/login/');
 define('POO_HOME_PATH', PRIVATE_PATH . 'modelos/home/');
 
 // Rutas de contenido principal
-define('BODY_HOME_PATH', PRIVATE_PATH . 'conexion/procesos/home/');
+define('BODY_HOME_PATH', PRIVATE_PATH . 'plantilla/home/inicio/');
+define('BODY_INICIO_PATH', PRIVATE_PATH . 'plantilla/home/session/');
 define('BODY_DJ_PATH', PRIVATE_PATH . 'conexion/procesos/dj/');
 define('MENU_PATH', PRIVATE_PATH . 'menus/');
 define('SUBSCRIPTIONS_PATH', PRIVATE_PATH . 'subscriptions/');
@@ -42,13 +43,13 @@ define('MODAL_GESTION_TIEMPO_PATH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/'
 
 // Rutas públicas de recursos
 define('MUSIC_PATH', PUBLIC_PATH . 'music/');
-define('CUSTOM_LOGIN_REGISTRO_PATH', PUBLIC_PATH . 'custom/custom_login_registro/');
-define('CUSTOM_LOGIN_REGISTRO_CSS_PATH', PUBLIC_PATH . 'custom/custom_login_registro/css/');
-define('CUSTOM_HOME_PATH', PUBLIC_PATH . 'custom/custom_home/');
-define('CUSTOM_HOME_CSS_PATH', PUBLIC_PATH . 'custom/custom_home/css/');
-define('CUSTOM_HOME_JS_PATH', PUBLIC_PATH . 'custom/custom_home/js/');
-define('CUSTOM_RADIO_PATH', PUBLIC_PATH . 'custom/custom_radio/');
-define('CUSTOM_RADIO_CSS_PATH', PUBLIC_PATH . 'custom/custom_radio/css/');
+define('CUSTOM_LOGIN_REGISTRO_PATH', PUBLIC_PATH . 'assets/custom_general/custom_login_registro/');
+define('CUSTOM_LOGIN_REGISTRO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_login_registro/css/');
+define('CUSTOM_HOME_PATH', PUBLIC_PATH . 'assets/custom_general/custom_home/');
+define('CUSTOM_HOME_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_home/css/');
+define('CUSTOM_HOME_JS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_home/js/');
+define('CUSTOM_RADIO_PATH', PUBLIC_PATH . 'assets/custom_general/custom_radio/');
+define('CUSTOM_RADIO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_radio/css/');
 
 // Rutas de usuario
 define('MI_CUENTA_PATH', USUARIO_PATH . 'mi_cuenta/');
