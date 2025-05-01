@@ -32,6 +32,15 @@ class Header
         echo '<title>' . $this->title . '</title>';
         echo '<link rel="icon" type="image/x-icon" href="/public/custom/custom_radio/img/dj.jpg">';
 
+        // Google Analytics
+        echo '<script async src="https://www.googletagmanager.com/gtag/js?id=G-GPVYVF599C"></script>';
+        echo '<script>';
+        echo 'window.dataLayer = window.dataLayer || [];';
+        echo 'function gtag(){dataLayer.push(arguments);}';
+        echo 'gtag("js", new Date());';
+        echo 'gtag("config", "G-GPVYVF599C");';
+        echo '</script>';
+
         // Cargar archivos desde CDN por defecto
 
         // FONT AWESOME
