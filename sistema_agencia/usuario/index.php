@@ -203,6 +203,9 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </div>
 
+
+</body>
+
 <body>
     <div id="loader-wrapper" class="loader-wrapper">
         <div class="loader">
@@ -384,7 +387,6 @@ if (!isset($_SESSION['user_id'])) {
             }
         }
     </style>
-</body>
 
 <?php require_once(TEMPLATES_PATH . 'footer.php'); ?>
 
