@@ -18,7 +18,7 @@ class Footer
                     <div class="col-md-12 text-center">
                         <div class="footer-content">
                             <span class="copyright">
-                                &copy; <?= date('Y') ?> Agencia Atenas. Todos los derechos reservados para Ing. Medina
+                                &copy; <?= date('Y') ?> Agencia Shein. Todos los derechos reservados para Ing. Medina
                             </span>
                         </div>
                     </div>
