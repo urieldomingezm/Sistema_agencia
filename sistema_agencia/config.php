@@ -34,6 +34,9 @@ define('SCRIPTS_PATH', PRIVATE_PATH . 'scripts/');
 define('SUBSCRIPTIONS_PATH', PRIVATE_PATH . 'subscriptions/');      
 define('MODAL_PATH', PRIVATE_PATH . 'modals/');   
 
+// Rutas para proceso de gestion de tiempo
+define('GESTION_TIEMPO_PATCH', PRIVATE_PATH . 'procesos/gestion_tiempos/');
+
 // Rutas a carpetas públicas como CSS, JS, IMG
 define('PUBLIC_PATH', ROOT_PATH . 'public/');
 

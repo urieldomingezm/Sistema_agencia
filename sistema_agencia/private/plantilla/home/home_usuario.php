@@ -31,175 +31,6 @@ class BodyHome
             ?>
         </div>
 
-        <style>
-        .home-container {
-            background: linear-gradient(135deg, #f6f8fd 0%, #f0f3fa 100%);
-            min-height: 100vh;
-            padding-bottom: 4rem;
-        }
-
-        .welcome-header {
-            background: linear-gradient(90deg, #8A2BE2, #9370DB);
-            padding: 3rem 0;
-            margin-bottom: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .welcome-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('/public/custom/custom_login_registro/img/hb.png');
-            opacity: 0.1;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 2rem;
-            position: relative;
-            display: inline-block;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, #00c6fb, #005bea);
-            border-radius: 2px;
-        }
-
-        .team-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .team-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-
-        .team-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 4px solid #005bea;
-            padding: 3px;
-            margin-bottom: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .team-card:hover .team-avatar {
-            transform: scale(1.1);
-        }
-
-        .news-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .news-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .news-image {
-            height: 200px;
-            object-fit: cover;
-            width: 100%;
-        }
-
-        .news-content {
-            padding: 1.5rem;
-        }
-
-        .country-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .country-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .country-flag {
-            width: 100%;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 1rem;
-        }
-
-        .membership-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .membership-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #00c6fb, #005bea);
-        }
-
-        .membership-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .membership-image {
-            width: 100%;
-            height: 180px;
-            object-fit: contain;
-            margin-bottom: 1rem;
-        }
-
-        .section-container {
-            padding: 3rem 0;
-            position: relative;
-        }
-
-        @media (max-width: 768px) {
-            .welcome-header {
-                padding: 2rem 0;
-            }
-
-            .section-title {
-                font-size: 1.5rem;
-            }
-
-            .team-avatar {
-                width: 100px;
-                height: 100px;
-            }
-        }
-        </style>
         <?php
     }
 
@@ -341,32 +172,32 @@ class BodyHome
             [
                 'title' => 'Membresía Gold',
                 'benefits' => 'Mimsmos beneficios de bronce y silver + fila vip + Guarda paga + Mision libre.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/gold2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/gold2.png' // URL de la imagen
             ],
             [
                 'title' => 'Membresía Bronce',
                 'benefits' => 'Incluye ropa libre + Chat libre + Baile + Uso de efectos.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/premim2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/premim2.png' // URL de la imagen
             ],
             [
                 'title' => 'Membresía regla libre',
                 'benefits' => 'Chat, Mision y ropa libre',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/regla2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/regla2.png' // URL de la imagen
             ],
             [
                 'title' => 'Membresía save',
                 'benefits' => 'Guarda tu paga por 48 Horas.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/save2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/save2.png' // URL de la imagen
             ],
             [
                 'title' => 'Membresía Fila Vip',
                 'benefits' => 'Garantiza beneficios frente al resto de usuarios que no tengan fila vip.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/vip2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/vip2.png' // URL de la imagen
             ],
             [
                 'title' => 'Membresía silver',
                 'benefits' => 'Mismos beneficios de la Membresia bronce + Reduccion en requisitos.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/silver2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/silver2.png' // URL de la imagen
             ],
         ];
 

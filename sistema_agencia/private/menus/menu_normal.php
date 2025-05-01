@@ -7,7 +7,7 @@ class Navbar
   private $searchPlaceholder;
   private $searchButtonText;
 
-  public function __construct($brand, $items, $searchPlaceholder = "Search", $searchButtonText = "Search")
+  public function __construct($brand, $items, $searchPlaceholder = "Buscar", $searchButtonText = "Buscar")
   {
     $this->brand = $brand;
     $this->items = $items;
@@ -17,117 +17,118 @@ class Navbar
 
   public function render()
   {
-    echo '<style>
-      .dropdown-menu {
-        background-color: #343a40;
-      }
-      .dropdown-item {
-        color: white;
-      }
-      .dropdown-item:hover, .dropdown-item:focus {
-        background-color: rgba(0, 0, 0, 0.7);
-        color: white;
-      }
-      .user-dropdown .dropdown-toggle::after {
-        display: none;
-      }
-      .navbar-brand {
-        flex-grow: 1;
-        text-align: center;
-      }
-      .navbar-nav {
-        flex-grow: 1;
-        justify-content: flex-end;
-      }
-      .navbar-nav .nav-item {
-        margin-left: 15px;
-      }
-      .user-dropdown {
-        margin-left: auto;
-        display: flex;
-        align-items: center;
-      }
-      .user-dropdown .dropdown-toggle {
-        padding-left: 10px;
-        padding-right: 10px;
-      }
-      .user-dropdown img {
-        margin-right: 10px;
-      }
-      @media (max-width: 991.98px) {
-        .navbar-nav {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .navbar-nav .nav-item {
-          margin-left: 0;
-          margin-bottom: 10px;
-        }
-        .navbar-collapse {
-          padding-top: 10px;
-        }
-      }
-    </style>';
+?>
+    <nav class="custom-navbar navbar fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="index.php">
+          <i class="fas fa-building me-2"></i><?= $this->brand ?>
+        </a>
 
-    echo '<nav class="navbar navbar-expand-lg fixed-top" style="background-color:rgb(209, 25, 96);" data-bs-theme="dark">';
-    echo '<div class="container-fluid d-flex">';
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+          <i class="fas fa-bars"></i>
+        </button>
 
-    // Navbar brand centrado
-    echo '<a class="navbar-brand text-white" href="#">' . $this->brand . '</a>';
+        <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title">
+              <i class="fas fa-compass me-2"></i>Menú Principal
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+          </div>
 
-    // Botón del toggler con SVG personalizado
-    echo '<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">';
-    echo '<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-          </svg>';
-    echo '</button>';
+          <div class="offcanvas-body">
+            <div class="accordion" id="menuAccordion">
+              <?php foreach ($this->items as $index => $item): ?>
+                <div class="accordion-item">
+                  <?php if (isset($item['dropdown'])): ?>
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                              data-bs-target="#collapse<?= $index ?>" aria-expanded="false">
+                          <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
+                          <?= $item['name'] ?>
+                      </button>
+                    </h2>
+                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse" data-bs-parent="#menuAccordion">
+                      <div class="accordion-body">
+                        <ul class="list-unstyled">
+                          <?php foreach ($item['dropdown'] as $dropdownItem): ?>
+                            <?php if ($dropdownItem == 'divider'): ?>
+                              <hr class="dropdown-divider">
+                            <?php else: ?>
+                              <li>
+                                <?php if ($dropdownItem == 'Iniciar session'): ?>
+                                  <a class="menu-link" href="login.php">
+                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    <?= $dropdownItem ?>
+                                  </a>
+                                <?php elseif ($dropdownItem == 'Registrarse'): ?>
+                                  <a class="menu-link" href="registrar.php">
+                                    <i class="fas fa-user-plus me-2"></i>
+                                    <?= $dropdownItem ?>
+                                  </a>
+                                <?php else: ?>
+                                  <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
+                                    <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
+                                    <?= $dropdownItem ?>
+                                  </a>
+                                <?php endif; ?>
+                              </li>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
+                        </ul>
+                      </div>
+                    </div>
+                  <?php else: ?>
+                    <h2 class="accordion-header">
+                      <a class="accordion-button" href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
+                          <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
+                          <?= $item['name'] ?>
+                      </a>
+                    </h2>
+                  <?php endif; ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
 
-    echo '<div class="collapse navbar-collapse" id="navbarSupportedContent">';
-    
-    // Elementos alineados a la derecha
-    echo '<ul class="navbar-nav ms-auto mb-2 mb-lg-0">';
+            <form class="search-form mt-3" role="search" method="GET" action="/usuario/index.php">
+              <div class="input-group">
+                <input type="search" class="form-control" name="q" 
+                       placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </nav>
+<?php
+  }
 
-    foreach ($this->items as $item) {
-      if (isset($item['dropdown'])) {
-        echo '<li class="nav-item dropdown">';
-        echo '<a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">';
-        echo $item['name'];
-        echo '</a>';
-        echo '<ul class="dropdown-menu">';
-        foreach ($item['dropdown'] as $dropdownItem) {
-          if ($dropdownItem == 'divider') {
-            echo '<li><hr class="dropdown-divider"></li>';
-          } else {
-            // Modificando para agregar los href de 'Iniciar Session' y 'Registrarse'
-            if ($dropdownItem == 'Iniciar Session') {
-              echo '<li><a class="dropdown-item" href="login.php">' . $dropdownItem . '</a></li>';
-            } elseif ($dropdownItem == 'Registrarse') {
-              echo '<li><a class="dropdown-item" href="registrar.php">' . $dropdownItem . '</a></li>';
-            } else {
-              echo '<li><a class="dropdown-item" href="login.php">' . $dropdownItem . '</a></li>';
-            }
-          }
-        }
-        echo '</ul>';
-        echo '</li>';
-      } else {
-        echo '<li class="nav-item">';
-        echo '<a class="nav-link text-white' . (isset($item['active']) && $item['active'] ? ' active' : '') . '" href="#">' . $item['name'] . '</a>';
-        echo '</li>';
-      }
-    }
+  private function getMenuIcon($itemName)
+  {
+    $icons = [
+      'Inicio' => 'fas fa-home',
+      'Unirse' => 'fas fa-user-plus',
+      'Informacion' => 'fas fa-info-circle'
+    ];
+    return $icons[$itemName] ?? 'fas fa-circle';
+  }
 
-    echo '</ul>';
+  private function getDropdownIcon($itemName)
+  {
+    $icons = [
+      'Iniciar session' => 'fas fa-sign-in-alt',
+      'Registrarse' => 'fas fa-user-plus',
+      'Rangos' => 'fas fa-star'
+    ];
+    return $icons[$itemName] ?? 'fas fa-circle';
+  }
 
-    // Formulario de búsqueda
-    echo '<form class="d-flex ms-3" role="search">';
-    echo '<input class="form-control me-2 bg-light text-dark" type="search" placeholder="' . $this->searchPlaceholder . '" aria-label="Search">';
-    echo '<button class="btn btn-light" type="submit">' . $this->searchButtonText . '</button>';
-    echo '</form>';
-
-    echo '</div>';
-    echo '</div>';
-    echo '</nav>';
+  private function getItemUrl($item)
+  {
+    return 'index.php?page=' . strtolower(str_replace(' ', '_', $item));
   }
 }
 
@@ -139,5 +140,4 @@ $items = [
 
 $navbar = new Navbar('Agencia Atenas', $items);
 $navbar->render();
-
 ?>

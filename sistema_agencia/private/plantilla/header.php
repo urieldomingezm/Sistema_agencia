@@ -122,6 +122,12 @@ $header->addJsFile('/public/custom/custom_gestion_ascensos/js/script.js');
 // Archivos estilos CSS para menus CSS personalizados (versiones locales)
 $header->addCssFile('/public/assets/custom_general/custom_menus/style.css');
 
+// Archivos estilos de body home (versiones locales)
+$header->addCssFile('/public/assets/custom_general/custom_home/style.css');
+
+// Archivos estilos de tablas (versiones locales)
+$header->addCssFile('/public/assets/custom_general/custom_tablas/style.css');
+
 // Archivos de tabla de rangos, misiones y costos CSS personalizados (versiones locales)
 // $header->addCssFile('/public/custom/custom_tabla_rangos/css/style.css');
 $header->addCssFile('/public/custom/custom/css/style.css');
