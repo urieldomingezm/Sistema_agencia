@@ -119,6 +119,9 @@ $header->addJsFile('/public/custom/simple_datatables/js/script.js');
 $header->addCssFile('/public/custom/custom_gestion_ascensos/css/style.css');
 $header->addJsFile('/public/custom/custom_gestion_ascensos/js/script.js');
 
+// Archivos estilos CSS para menus CSS personalizados (versiones locales)
+$header->addCssFile('/public/assets/custom_general/custom_menus/style.css');
+
 // Archivos de tabla de rangos, misiones y costos CSS personalizados (versiones locales)
 // $header->addCssFile('/public/custom/custom_tabla_rangos/css/style.css');
 $header->addCssFile('/public/custom/custom/css/style.css');
