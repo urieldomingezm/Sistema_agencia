@@ -36,50 +36,55 @@ class Navbar
           </div>
 
           <div class="offcanvas-body">
-            <ul class="navbar-nav">
-              <?php foreach ($this->items as $item): ?>
-                <?php if (isset($item['dropdown'])): ?>
-                  <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-                      <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
-                      <?= $item['name'] ?>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <?php foreach ($item['dropdown'] as $dropdownItem): ?>
-                        <?php if ($dropdownItem == 'divider'): ?>
-                          <li>
-                            <hr class="dropdown-divider">
-                          </li>
-                        <?php else: ?>
-                          <li>
-                            <a class="dropdown-item" href="<?= $this->getItemUrl($dropdownItem) ?>">
-                              <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
-                              <?= $dropdownItem ?>
-                            </a>
-                          </li>
-                        <?php endif; ?>
-                      <?php endforeach; ?>
-                    </ul>
-                  </li>
+            <div class="accordion" id="menuAccordion">
+              <?php foreach ($this->items as $index => $item): ?>
+                <div class="accordion-item">
+                  <?php if (isset($item['dropdown'])): ?>
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button" 
+                              data-bs-toggle="collapse" 
+                              data-bs-target="#collapse<?= $index ?>" 
+                              aria-expanded="false">
+                          <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
+                          <?= $item['name'] ?>
+                      </button>
+                    </h2>
+                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse" 
+                         data-bs-parent="#menuAccordion">
+                        <div class="accordion-body p-0">
+                            <ul class="list-unstyled mb-0">
+                                <?php foreach ($item['dropdown'] as $dropdownItem): ?>
+                                    <?php if ($dropdownItem == 'divider'): ?>
+                                        <li><hr class="dropdown-divider mx-3"></li>
+                                    <?php else: ?>
+                                        <li>
+                                            <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
+                                                <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
+                                                <?= $dropdownItem ?>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
                 <?php else: ?>
-                  <li class="nav-item">
-                    <a class="nav-link<?= (isset($item['active']) && $item['active'] ? ' active' : '') ?>"
-                      href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
-                      <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
-                      <?= $item['name'] ?>
-                    </a>
-                  </li>
+                    <h2 class="accordion-header">
+                        <a class="accordion-button" 
+                           href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
+                            <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
+                            <?= $item['name'] ?>
+                        </a>
+                    </h2>
                 <?php endif; ?>
+                </div>
               <?php endforeach; ?>
-            </ul>
+            </div>
 
-            <form class="search-form" role="search" method="GET" action="/usuario/index.php">
+            <form class="search-form mt-3" role="search" method="GET" action="/usuario/index.php">
               <div class="input-group">
-                <input type="search"
-                  class="form-control"
-                  name="q"
-                  placeholder="<?= $this->searchPlaceholder ?>"
-                  aria-label="Search">
+                <input type="search" class="form-control" name="q" 
+                       placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">
                   <i class="fas fa-search"></i>
                 </button>
@@ -95,6 +100,50 @@ class Navbar
         background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
         padding: 1rem;
         box-shadow: 0 2px 15px rgba(139, 92, 246, 0.2);
+      }
+
+      .accordion-item {
+        border: none;
+        background: transparent;
+        margin-bottom: 0.5rem;
+      }
+
+      .accordion-button {
+        background: transparent;
+        color: #000;
+        font-weight: 500;
+        border-radius: 8px;
+        padding: 1rem;
+        text-decoration: none;
+        box-shadow: none;
+      }
+
+      .accordion-button:not(.collapsed) {
+        background: rgba(139, 92, 246, 0.25);
+        color: #000;
+        box-shadow: none;
+      }
+
+      .accordion-button:hover {
+        background: rgba(167, 139, 250, 0.2);
+      }
+
+      .accordion-button::after {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+      }
+
+      .menu-link {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        color: #000;
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .menu-link:hover {
+        background: rgba(167, 139, 250, 0.2);
+        color: #000;
+        text-decoration: none;
       }
 
       .navbar-brand {
@@ -280,7 +329,7 @@ $items = [
   ['name' => 'Gestion de usuarios', 'dropdown' => ['Verificar usuarios', 'Gestionar usuarios']],
 ];
 
-$navbar = new Navbar('Agencia Atenas', $items);
+$navbar = new Navbar('Agencia Shein', $items);
 $navbar->render();
 
 

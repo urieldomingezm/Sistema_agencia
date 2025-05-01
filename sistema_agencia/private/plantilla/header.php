@@ -1,12 +1,6 @@
 <?php
 session_start();
 
-$currentPage = basename($_SERVER['PHP_SELF']);
-if (!in_array($currentPage, ['login.php', 'registrar.php']) && !isset($_SESSION['user_id'])) {
-    header('Location: /login.php');
-    exit;
-}
-
 class Header
 {
     private $title;
@@ -42,9 +36,6 @@ class Header
 
         // FONT AWESOME
         echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">';
-        
-        //POPPER
-        echo '<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>';
         
         //DATA TABLE SIMPLE
         echo '<link id="datatable-css" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">';

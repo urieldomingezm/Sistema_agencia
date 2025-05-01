@@ -227,7 +227,7 @@ class BodyHome
         <header class="welcome-header text-center">
             <div class="container">
                 <h1 class="display-4 text-white mb-3">
-                    <i class="fas fa-star me-2"></i> Agencia Atenas <i class="fas fa-star me-2"></i>
+                    <i class="fas fa-star me-2"></i> Agencia Shein <i class="fas fa-star me-2"></i>
                 </h1>
                 <p class="lead text-white mb-2">
                     Bienvenido <?= $username ?> 
@@ -243,12 +243,12 @@ class BodyHome
     private function renderTeamSection()
     {
         $teamMembers = [
-            ['name' => 'Santidemg', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20blonde%20hair%20and%20suit&aspect=1:1', 'rank' => 'Dueño'],
-            ['name' => 'Manu', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20pink%20hair&aspect=1:1', 'rank' => 'Dueño'],
-            ['name' => 'Carlos Díaz', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20brown%20hair%20and%20glasses&aspect=1:1', 'rank' => 'Dueño'],
-            ['name' => 'María Ruiz', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20red%20dress&aspect=1:1', 'rank' => 'Dueño'],
-            ['name' => 'Loucio', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20blue%20outfit&aspect=1:1', 'rank' => 'Administrador'],
-            ['name' => 'Sofia', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20green%20dress&aspect=1:1', 'rank' => 'Administradora'],
+            ['name' => 'Jo.c', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20blonde%20hair%20and%20suit&aspect=1:1', 'rank' => 'Dueño'],
+            ['name' => 'Snotra', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20pink%20hair&aspect=1:1', 'rank' => 'Dueño'],
+            ['name' => 'Keekti08', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20brown%20hair%20and%20glasses&aspect=1:1', 'rank' => 'Dueño'],
+            ['name' => 'xavi88zkv1', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20red%20dress&aspect=1:1', 'rank' => 'Dueño'],
+            ['name' => 'sandraxxl', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20blue%20outfit&aspect=1:1', 'rank' => 'Administrador'],
+            ['name' => 'xOllStarx', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20green%20dress&aspect=1:1', 'rank' => 'Administradora'],
         ];
 
         echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 50px 0;">';
@@ -339,34 +339,34 @@ class BodyHome
     {
         $memberships = [
             [
-                'title' => 'Membresía gold',
-                'benefits' => 'Bonificación del 5% en paga.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/gold.png' // URL de la imagen
+                'title' => 'Membresía Gold',
+                'benefits' => 'Mimsmos beneficios de bronce y silver + fila vip + Guarda paga + Mision libre.',
+                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/gold2.png' // URL de la imagen
             ],
             [
-                'title' => 'Membresía Premium',
-                'benefits' => 'Bonificación del 15% en paga.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/premim.png' // URL de la imagen
+                'title' => 'Membresía Bronce',
+                'benefits' => 'Incluye ropa libre + Chat libre + Baile + Uso de efectos.',
+                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/premim2.png' // URL de la imagen
             ],
             [
                 'title' => 'Membresía regla libre',
-                'benefits' => 'Bonificación del 25% en paga.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/regla.png' // URL de la imagen
+                'benefits' => 'Chat, Mision y ropa libre',
+                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/regla2.png' // URL de la imagen
             ],
             [
                 'title' => 'Membresía save',
-                'benefits' => 'Bonificación del 35% en paga.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/save.png' // URL de la imagen
+                'benefits' => 'Guarda tu paga por 48 Horas.',
+                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/save2.png' // URL de la imagen
             ],
             [
-                'title' => 'Membresía vip',
-                'benefits' => 'Bonificación del 50% en paga.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/vip.png' // URL de la imagen
+                'title' => 'Membresía Fila Vip',
+                'benefits' => 'Garantiza beneficios frente al resto de usuarios que no tengan fila vip.',
+                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/vip2.png' // URL de la imagen
             ],
             [
                 'title' => 'Membresía silver',
-                'benefits' => 'Bonificación del 50% en paga.',
-                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/silver.png' // URL de la imagen
+                'benefits' => 'Mismos beneficios de la Membresia bronce + Reduccion en requisitos.',
+                'image' => '/public/custom/custom_requisitos_rangos/image/membresias/silver2.png' // URL de la imagen
             ],
         ];
 
