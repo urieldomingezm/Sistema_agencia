@@ -135,14 +135,46 @@ class BodyHome
     private function renderPaydaySection()
     {
         $countries = [
-            ['name' => 'México', 'flag' => 'https://flagcdn.com/mx.svg'],
-            ['name' => 'Argentina', 'flag' => 'https://flagcdn.com/ar.svg'],
-            ['name' => 'Colombia', 'flag' => 'https://flagcdn.com/co.svg'],
-            ['name' => 'Perú', 'flag' => 'https://flagcdn.com/pe.svg'],
-            ['name' => 'Chile', 'flag' => 'https://flagcdn.com/cl.svg'],
-            ['name' => 'Brasil', 'flag' => 'https://flagcdn.com/br.svg'],
-            ['name' => 'España', 'flag' => 'https://flagcdn.com/es.svg'],
-            ['name' => 'Estados Unidos', 'flag' => 'https://flagcdn.com/us.svg'],
+            [
+                'name' => 'México',
+                'flag' => 'https://flagcdn.com/mx.svg',
+                'paytime' => '03:00 p.m.'
+            ],
+            [
+                'name' => 'Argentina',
+                'flag' => 'https://flagcdn.com/ar.svg',
+                'paytime' => '06:00 p.m.'
+            ],
+            [
+                'name' => 'Colombia',
+                'flag' => 'https://flagcdn.com/co.svg',
+                'paytime' => '04:00 p.m.'
+            ],
+            [
+                'name' => 'Perú',
+                'flag' => 'https://flagcdn.com/pe.svg',
+                'paytime' => '04:00 p.m.'
+            ],
+            [
+                'name' => 'Chile',
+                'flag' => 'https://flagcdn.com/cl.svg',
+                'paytime' => '06:00 p.m.'
+            ],
+            [
+                'name' => 'Brasil',
+                'flag' => 'https://flagcdn.com/br.svg',
+                'paytime' => '06:00 p.m.'
+            ],
+            [
+                'name' => 'España',
+                'flag' => 'https://flagcdn.com/es.svg',
+                'paytime' => '10:00 p.m.'
+            ],
+            [
+                'name' => 'Estados Unidos',
+                'flag' => 'https://flagcdn.com/us.svg',
+                'paytime' => '----'
+            ],
         ];
 
         echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 20px 0;">';
@@ -155,7 +187,7 @@ class BodyHome
             echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 8px 15px rgba(0,0,0,0.2);">';
             echo '<img src="' . $country['flag'] . '" style="width: 100%; height: 120px; border-radius: 8px; object-fit: cover;">';
             echo '<p style="color: #333; margin-top: 15px; font-size: 18px; font-weight: bold;">' . $country['name'] . '</p>';
-            echo '<p style="color: #666; font-size: 16px;">Hora de paga: 14:00</p>';
+            echo '<p style="color: #666; font-size: 16px;">Hora de paga: ' . $country['paytime'] . '</p>';
             echo '</div>';
             echo '</div>';
         }
