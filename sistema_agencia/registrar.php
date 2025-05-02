@@ -288,6 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <input type="text" class="form-control" name="verificationCode">
                                 <small class="form-text text-muted">Ingresa el código que colocaste en tu lema/motto de Habbo</small>
                             </div>
+                            <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
                             <button type="submit" class="btn btn-primary w-100">Registrarse</button>
                         </form>
                         <div class="text-center mt-3">
