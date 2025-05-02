@@ -101,8 +101,11 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                                     </button>
                                 </div>
                             </div>
-                            <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
-                            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+                            <div class="g-recaptcha mb-3" data-sitekey="6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0"></div>
+                            <button type="submit" class="btn btn-primary w-100 g-recaptcha" 
+                                    data-sitekey="6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0" 
+                                    data-callback='onSubmit' 
+                                    data-action='submit'>Iniciar Sesión</button>
                         </form>
                         <div class="text-center mt-3">
                             <a href="registrar.php" class="text-decoration-none" style="color: #8B5CF6;">¿No tienes cuenta? Regístrate</a>
@@ -113,6 +116,13 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
         </div>
     </div>
 </body>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    function onSubmit(token) {
+        document.getElementById("loginForm").submit();
+    }
+</script>
 
 <script>
     document.getElementById('togglePassword').addEventListener('click', function() {
