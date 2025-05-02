@@ -23,17 +23,17 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
         }
 
         .card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            border: 1px solid #e0e0e0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 2px solid #000000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
         .card-header {
-            background: #f8f9fa;
-            color: #333333;
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            color: white;
             border-radius: 20px 20px 0 0 !important;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 2px solid #ffffff;
             padding: 20px;
         }
 
