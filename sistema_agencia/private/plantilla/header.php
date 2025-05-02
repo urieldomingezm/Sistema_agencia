@@ -3,7 +3,7 @@ session_start();
 
 class Header
 {
-    private $title;
+    private $title = ["sdsds"];
     private $cssFiles = [];
     private $jsFiles = [];
 
@@ -30,7 +30,7 @@ class Header
         echo '<meta charset="UTF-8">';
         echo '<meta name="viewport" content="width=device-width, initial-scale=1.0">';
         echo '<title>' . $this->title . '</title>';
-        echo '<link rel="icon" type="image/x-icon" href="/public/custom/custom_radio/img/dj.jpg">';
+        echo '<link rel="icon" type="image/x-icon" href="/public/assets/custom_general/custom_radio/img/dj.jpg">';
 
         // Google Analytics
         echo '<script async src="https://www.googletagmanager.com/gtag/js?id=G-32NSVX1ZQD"></script>';
