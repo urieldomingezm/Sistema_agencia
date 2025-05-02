@@ -74,12 +74,15 @@ class BodyHome
     private function renderTeamSection()
     {
         $teamMembers = [
-            ['name' => 'Jo.c', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20blonde%20hair%20and%20suit&aspect=1:1', 'rank' => 'Dueño'],
-            ['name' => 'Snotra', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20pink%20hair&aspect=1:1', 'rank' => 'Dueño'],
-            ['name' => 'Keekti08', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20brown%20hair%20and%20glasses&aspect=1:1', 'rank' => 'Dueño'],
-            ['name' => 'xavi88zkv1', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20red%20dress&aspect=1:1', 'rank' => 'Dueño'],
-            ['name' => 'sandraxxl', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20blue%20outfit&aspect=1:1', 'rank' => 'Administrador'],
-            ['name' => 'xOllStarx', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20green%20dress&aspect=1:1', 'rank' => 'Administradora'],
+            ['name' => 'Snotra', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Snotra&headonly=1&head_direction=3&size=sl', 'rank' => 'Founder'],
+            ['name' => 'Jo.C', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Jo.C&headonly=1&head_direction=3&size=sl', 'rank' => 'Founder'],
+            ['name' => 'xOllStarx', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=xOllStarx&headonly=1&head_direction=3&size=sl', 'rank' => 'Dueño'],
+            ['name' => 'BigBarneyStinso', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=BigBarneyStinso&headonly=1&head_direction=3&size=sl', 'rank' => 'Gerente'],
+            ['name' => 'Nefita', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Nefita&headonly=1&head_direction=3&size=sl', 'rank' => 'Manager'],
+            ['name' => 'Keekit08', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Keekit08&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
+            ['name' => 'juancBQ', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=juancBQ&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
+            ['name' => 'mutilla_', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=mutilla_&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
+            ['name' => 'Vanderlind', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Vanderlind&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
         ];
 
         echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 50px 0;">';

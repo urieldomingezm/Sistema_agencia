@@ -30,47 +30,55 @@ class BodyHome
         $teamMembers = [
             [
                 'id' => '1',
-                'name' => 'Santidemgs',
-                'role' => 'ATN- Supervisor -XDD -SDD #',
+                'name' => 'Snotra',
                 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20blonde%20hair%20and%20suit&aspect=1:1',
-                'rank' => 'Dueño',
-                'discord' => '#santidemgs',
-                'habbo' => 'Santidemgs'
+                'rank' => 'Founder',
             ],
             [
                 'id' => '2',
-                'name' => 'Alys',
-                'role' => 'ATN- Supervisor -XDD -SDD #',
+                'name' => 'Jo.C',
                 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20pink%20hair&aspect=1:1',
-                'rank' => 'Dueño',
-                'discord' => '#alys',
-                'habbo' => 'Alys'
+                'rank' => 'Founder',
             ],
             [
                 'id' => '3',
-                'name' => 'Morrys.ale',
-                'role' => 'ATN- Supervisor -XDD -SDD #',
+                'name' => 'xOllStarx',
                 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20brown%20hair%20and%20glasses&aspect=1:1',
                 'rank' => 'Dueño',
             ],
             [
                 'id' => '4',
-                'name' => 'Eli98',
-                'role' => 'ATN- Supervisor -XDD -SDD #',
+                'name' => 'BigBarneyStinso',
                 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20red%20dress&aspect=1:1',
-                'rank' => 'Dueño',
+                'rank' => 'Gerente',
             ],
             [
                 'id' => '5',
-                'name' => 'Kisame231',
-                'role' => 'ATN- Supervisor -XDD -SDD #',
+                'name' => 'Nefita',
                 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20female%20with%20blue%20outfit&aspect=1:1',
-                'rank' => 'Administrador',
+                'rank' => 'Manager',
             ],
             [
                 'id' => '6',
-                'name' => 'Brujita23s',
-                'role' => 'ATN- Supervisor -XDD -SDD #',
+                'name' => 'Keekit08',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20dark%20hair%20and%20casual%20clothes&aspect=1:1',
+                'rank' => 'Administrador',
+            ],
+            [
+                'id' => '7',
+                'name' => 'juancBQ',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20dark%20hair%20and%20casual%20clothes&aspect=1:1',
+                'rank' => 'Administrador',
+            ],
+            [
+                'id' => '8',
+                'name' => 'mutilla_',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20dark%20hair%20and%20casual%20clothes&aspect=1:1',
+                'rank' => 'Administrador',
+            ],
+            [
+                'id' => '9',
+                'name' => 'Vanderlind',
                 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20avatar%20with%20dark%20hair%20and%20casual%20clothes&aspect=1:1',
                 'rank' => 'Administrador',
             ],
@@ -78,7 +86,7 @@ class BodyHome
 
             echo '<section class="team-section py-5" style="background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);">';
             echo '<div class="container">';
-            echo '<h2 class="text-center mb-5" style="color: white; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">';
+            echo '<h2 class="text-center mb-4" style="color: white; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">';
             echo '<i class="bi bi-award me-2" style="color: #e0e0e0;"></i>';
             echo 'Nuestro Equipo';
             echo '<i class="bi bi-award ms-2" style="color: #e0e0e0;"></i>';
@@ -86,23 +94,18 @@ class BodyHome
             echo '<div class="row justify-content-center g-4">';
 
             foreach ($teamMembers as $member) {
-                echo '<div class="col-12 col-sm-6 col-lg-4">';
-                echo '<div class="team-card" style="background: white; border-radius: 20px; overflow: hidden; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(0,0,0,0.1);">';
+                echo '<div class="col-12 col-sm-6 col-lg-4 mb-4">';
+                echo '<div class="team-card" style="background: white; border-radius: 15px; overflow: hidden; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">';
                 echo '<div class="position-relative">';
-                echo '<div class="team-banner" style="height: 80px; background: linear-gradient(45deg, #2c2c2c, #404040);"></div>';
-                echo '<div class="text-center" style="margin-top: -50px;">';
-                echo '<img src="' . $member['image'] . '" class="team-avatar" style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">';
+                echo '<div class="team-banner" style="height: 70px; background: linear-gradient(45deg, #2c2c2c, #404040);"></div>';
+                echo '<div class="text-center" style="margin-top: -40px;">';
+                echo '<img src="' . $member['image'] . '" class="team-avatar" style="width: 80px; height: 80px; border-radius: 50%; border: 4px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">';
                 echo '</div>';
                 echo '</div>';
-                echo '<div class="p-4 text-center">';
-                echo '<h3 class="mb-2" style="color: #333; font-weight: 600;">' . $member['name'] . '</h3>';
-                echo '<p class="text-muted mb-3" style="font-size: 0.9rem;">' . $member['role'] . '</p>';
-                echo '<span class="rank-badge" style="background: linear-gradient(45deg, #2c2c2c, #404040); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 500;">';
+                echo '<div class="p-3 text-center">';
+                echo '<h3 class="mb-2" style="color: #333; font-weight: 600; font-size: 1rem;">' . $member['name'] . '</h3>';
+                echo '<span class="rank-badge" style="background: linear-gradient(45deg, #2c2c2c, #404040); color: white; padding: 5px 15px; border-radius: 15px; font-size: 0.85rem; font-weight: 500;">';
                 echo '<i class="bi bi-star-fill me-1"></i>' . $member['rank'] . '</span>';
-                echo '<div class="social-links mt-4">';
-                echo '<a href="https://discord.com" class="mx-2" style="color: #404040;"><i class="bi bi-discord fa-lg"></i></a>';
-                echo '<a href="https://www.habbo.es" class="mx-2" style="color: #2c2c2c;"><i class="bi bi-house-door fa-lg"></i></a>';
-                echo '</div>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
