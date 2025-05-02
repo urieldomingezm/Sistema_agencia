@@ -101,38 +101,38 @@ class Navbar
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Inicio' => 'fas fa-home',
-      'Perfil' => 'fas fa-user',
-      'Informacion' => 'fas fa-info-circle',
-      'Ascenso' => 'fas fa-arrow-up',
-      'Ventas' => 'fas fa-shopping-cart',
-      'Paga' => 'fas fa-money-bill-wave',
-      'Gestion de usuarios' => 'fas fa-user-check'
+      'Inicio' => 'bi bi-house',
+      'Perfil' => 'bi bi-person',
+      'Informacion' => 'bi bi-info-circle',
+      'Ascenso' => 'bi bi-arrow-up',
+      'Ventas' => 'bi bi-cart',
+      'Paga' => 'bi bi-cash-stack',
+      'Gestion de usuarios' => 'bi bi-people'
     ];
-    return $icons[$itemName] ?? 'fas fa-circle';
+    return $icons[$itemName] ?? 'bi bi-circle';
   }
 
   private function getDropdownIcon($itemName)
   {
     $icons = [
-      'Ver perfil' => 'fas fa-user-circle',
-      'Cerrar session' => 'fas fa-sign-out-alt',
-      'Requisitos paga' => 'fas fa-list-check',
-      'Calcular rango' => 'fas fa-calculator',
-      'Gestion de tiempo' => 'fas fa-clock',
-      'Gestion ascenso' => 'fas fa-users',
-      'Ventas membresias' => 'fas fa-id-card',
-      'total ventas' => 'fas fa-chart-line',
-      'Gestion de pagas' => 'fas fa-wallet',
-      'Pagar usuario' => 'fas fa-hand-holding-usd',
-      'Grafico total de pagas' => 'fas fa-chart-pie',
-      'Verificar usuarios' => 'fas fa-user-shield', 
-      'Gestionar usuarios' => 'fas fa-users-cog',
-      'Vender membresias' => 'fas fa-tags',
-      'Vender rangos' => 'fas fa-crown',
-      'Ventas rangos' => 'fas fa-star',
+      'Ver perfil' => 'bi bi-person-circle',
+      'Cerrar session' => 'bi bi-box-arrow-right',
+      'Requisitos paga' => 'bi bi-list-check',
+      'Calcular rango' => 'bi bi-calculator',
+      'Gestion de tiempo' => 'bi bi-clock',
+      'Gestion ascenso' => 'bi bi-people',
+      'Ventas membresias' => 'bi bi-person-badge',
+      'total ventas' => 'bi bi-graph-up',
+      'Gestion de pagas' => 'bi bi-wallet2',
+      'Pagar usuario' => 'bi bi-cash-coin',
+      'Grafico total de pagas' => 'bi bi-pie-chart',
+      'Verificar usuarios' => 'bi bi-shield-check', 
+      'Gestionar usuarios' => 'bi bi-gear',
+      'Vender membresias' => 'bi bi-tags',
+      'Vender rangos' => 'bi bi-award',
+      'Ventas rangos' => 'bi bi-star',
     ];
-    return $icons[$itemName] ?? 'fas fa-circle';
+    return $icons[$itemName] ?? 'bi bi-circle';
   }
 
   private function getItemUrl($item)

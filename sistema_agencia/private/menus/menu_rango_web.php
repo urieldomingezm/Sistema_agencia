@@ -20,17 +20,17 @@ class Navbar
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
-          <i class="fas fa-building me-2"></i><?= $this->brand ?>
+          <i class="bi bi-building me-2"></i><?= $this->brand ?>
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-          <i class="fas fa-bars"></i>
+          <i class="bi bi-list"></i>
         </button>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title">
-              <i class="fas fa-compass me-2"></i>Menú Principal
+              <i class="bi bi-compass me-2"></i>Menú Principal
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
           </div>
@@ -86,7 +86,7 @@ class Navbar
                 <input type="search" class="form-control" name="q" 
                        placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">
-                  <i class="fas fa-search"></i>
+                  <i class="bi bi-search"></i>
                 </button>
               </div>
             </form>
@@ -101,34 +101,34 @@ class Navbar
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Inicio' => 'fas fa-home',
-      'Perfil' => 'fas fa-user',
-      'Informacion' => 'fas fa-info-circle',
-      'Ascenso' => 'fas fa-arrow-up',
-      'Ventas' => 'fas fa-shopping-cart',
-      'Paga' => 'fas fa-money-bill-wave'
+      'Inicio' => 'bi bi-house',
+      'Perfil' => 'bi bi-person',
+      'Informacion' => 'bi bi-info-circle',
+      'Ascenso' => 'bi bi-arrow-up',
+      'Ventas' => 'bi bi-cart',
+      'Paga' => 'bi bi-cash-stack'
     ];
-    return $icons[$itemName] ?? 'fas fa-circle';
+    return $icons[$itemName] ?? 'bi bi-circle';
   }
 
   private function getDropdownIcon($itemName)
   {
     $icons = [
-      'Ver perfil' => 'fas fa-user-circle',
-      'Cerrar session' => 'fas fa-sign-out-alt',
-      'Requisitos paga' => 'fas fa-list-check',
-      'Calcular rango' => 'fas fa-calculator',
-      'Gestion de tiempo' => 'fas fa-clock',
-      'Gestion ascenso' => 'fas fa-users',
-      'Ventas membresias' => 'fas fa-id-card',
-      'Ventas rangos' => 'fas fa-star',
-      'Grafico total ventas' => 'fas fa-chart-line',
-      'Vender membresias y rangos' => 'fas fa-tags',
-      'Gestion de pagas' => 'fas fa-wallet',
-      'Pagar usuario' => 'fas fa-hand-holding-usd',
-      'Grafico total de pagas' => 'fas fa-chart-pie'
+      'Ver perfil' => 'bi bi-person-circle',
+      'Cerrar session' => 'bi bi-box-arrow-right',
+      'Requisitos paga' => 'bi bi-list-check',
+      'Calcular rango' => 'bi bi-calculator',
+      'Gestion de tiempo' => 'bi bi-clock',
+      'Gestion ascenso' => 'bi bi-people',
+      'Ventas membresias' => 'bi bi-person-badge',
+      'Ventas rangos' => 'bi bi-star',
+      'Grafico total ventas' => 'bi bi-graph-up',
+      'Vender membresias y rangos' => 'bi bi-tags',
+      'Gestion de pagas' => 'bi bi-wallet2',
+      'Pagar usuario' => 'bi bi-cash-coin',
+      'Grafico total de pagas' => 'bi bi-pie-chart'
     ];
-    return $icons[$itemName] ?? 'fas fa-circle';
+    return $icons[$itemName] ?? 'bi bi-circle';
   }
 
   private function getItemUrl($item)

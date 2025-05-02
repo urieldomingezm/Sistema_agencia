@@ -20,17 +20,17 @@ class Navbar
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
-          <i class="fas fa-building me-2"></i><?= $this->brand ?>
+          <i class="bi bi-building me-2"></i><?= $this->brand ?>
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-          <i class="fas fa-bars"></i>
+          <i class="bi bi-list"></i>
         </button>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title">
-              <i class="fas fa-compass me-2"></i>Menú Principal
+              <i class="bi bi-compass me-2"></i>Menú Principal
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
           </div>
@@ -86,7 +86,7 @@ class Navbar
                 <input type="search" class="form-control" name="q" 
                        placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">
-                  <i class="fas fa-search"></i>
+                  <i class="bi bi-search"></i>
                 </button>
               </div>
             </form>
@@ -102,22 +102,22 @@ class Navbar
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Inicio' => 'fas fa-home',
-      'Perfil' => 'fas fa-user',
-      'Informacion' => 'fas fa-info-circle',
+      'Inicio' => 'bi bi-house',
+      'Perfil' => 'bi bi-person',
+      'Informacion' => 'bi bi-info-circle'
     ];
-    return $icons[$itemName] ?? 'fas fa-circle';
+    return $icons[$itemName] ?? 'bi bi-circle';
   }
 
   private function getDropdownIcon($itemName)
   {
     $icons = [
-      'Ver perfil' => 'fas fa-user-circle',
-      'Cerrar session' => 'fas fa-sign-out-alt',
-      'Requisitos paga' => 'fas fa-list-check',
-      'Calcular rango' => 'fas fa-calculator',
+      'Ver perfil' => 'bi bi-person-circle',
+      'Cerrar session' => 'bi bi-box-arrow-right',
+      'Requisitos paga' => 'bi bi-list-check',
+      'Calcular rango' => 'bi bi-calculator'
     ];
-    return $icons[$itemName] ?? 'fas fa-circle';
+    return $icons[$itemName] ?? 'bi bi-circle';
   }
 
   private function getItemUrl($item)

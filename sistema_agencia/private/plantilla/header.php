@@ -42,9 +42,6 @@ class Header
         echo '</script>';
 
         // Cargar archivos desde CDN por defecto
-
-        // FONT AWESOME
-        echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">';
         
         //DATA TABLE SIMPLE
         echo '<link id="datatable-css" href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet">';
@@ -66,9 +63,6 @@ class Header
        
         // BOOSTRAP ICONS
         echo '<link id="icons-css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">';
-       
-        // JUST VALIDATE
-        echo '<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>';
 
         foreach ($this->cssFiles as $file) {
             echo '<link href="' . $file . '" rel="stylesheet">';
@@ -99,13 +93,11 @@ class Header
                 }
             }
             window.onload = function () {
-                checkAndLoadCDN("bootstrap-css", "/public/custom/bootstrap/bootstrap.css");
-                checkAndLoadCDN("bootstrap-js", "/public/custom/bootstrap/bootstrap.bundle.min.js");
-                checkAndLoadCDN("datatable-css", "/public/custom/datatables/style.css");
-                checkAndLoadCDN("datatable-js", "/public/custom/datatables/datatables.js");
-                checkAndLoadCDN("icons-css", "/public/custom/bootstrap/icons.css");
-                checkAndLoadCDN("sweetalert-css", "/public/custom/sweetalert2/sweetalert2.min.css");
-                checkAndLoadCDN("chart-css", "/public/custom/chart.js/chart.min.css");
+                checkAndLoadCDN("bootstrap-css", "/public/assets/framework/bootstrap/bootstrap.css");
+                checkAndLoadCDN("bootstrap-js", "/public/assets/framework/bootstrap/bootstrap.bundle.min.js");
+                checkAndLoadCDN("datatable-css", "/public/assets/framework/data_simple/style.css");
+                checkAndLoadCDN("datatable-js", "/public/assets/framework/data_simple/script.js");
+                checkAndLoadCDN("icons-css", "/public/assets/framework/bootstrap/icons/bootstrap-icons.css");
             };
         </script>';
 
@@ -114,19 +106,15 @@ class Header
     }
 }
 
+// Corregir las rutas de los archivos locales
 $header = new Header('Agencia Habbo Atenas');
-// Archivos CSS personalizados (versiones locales)
-$header->addCssFile('/public/custom/bootstrap/bootstrap.css');
-$header->addCssFile('/public/custom/bootstrap/bootstrap.min.css');
-$header->addCssFile('/public/custom/bootstrap/icons.css');
+$header->addCssFile('/public/assets/framework/bootstrap/bootstrap.css');
+$header->addCssFile('/public/assets/framework/bootstrap/bootstrap.min.css');
+$header->addCssFile('/public/assets/framework/bootstrap/icons.css');
 
-// Archivos de datatable simple CSS y JS personalizados (versiones locales)
-$header->addCssFile('/public/custom/simple_datatables/css/style.css');
-$header->addJsFile('/public/custom/simple_datatables/js/script.js');
-
-// Archivos de gestion de ascenso CSS y JS personalizados (versiones locales)
-$header->addCssFile('/public/custom/custom_gestion_ascensos/css/style.css');
-$header->addJsFile('/public/custom/custom_gestion_ascensos/js/script.js');
+// Corregir la ruta de datatable
+$header->addCssFile('/public/assets/framework/data_simple/style.css');
+$header->addJsFile('/public/assets/framework/data_simple/script.js');
 
 // Archivos estilos CSS para menus CSS personalizados (versiones locales)
 $header->addCssFile('/public/assets/custom_general/custom_menus/style.css');
@@ -137,15 +125,13 @@ $header->addCssFile('/public/assets/custom_general/custom_home/style.css');
 // Archivos estilos de tablas (versiones locales)
 $header->addCssFile('/public/assets/custom_general/custom_tablas/style.css');
 
-// Archivos de tabla de rangos, misiones y costos CSS personalizados (versiones locales)
-// $header->addCssFile('/public/custom/custom_tabla_rangos/css/style.css');
-$header->addCssFile('/public/custom/custom/css/style.css');
+// Archivos estilos para perfiles (versiones locales)
+$header->addCssFile('/public/assets/custom_general/custom_perfil/style.css');
 
-// Archivos de gestion de tiempos CSS y JS personalizados (versiones locales)
-$header->addCssFile('/public/custom/custom_gestion_tiempos/css/style.css');
-$header->addJsFile('/public/custom/custom_gestion_tiempos/js/script.js');
+// Archivos de tabla de rangos, misiones y costos CSS personalizados (versiones locales)
+$header->addCssFile('/public/assets/custom_general/custom/css/style.css');
 
 // Archivos JS personalizados
-$header->addJsFile('/public/custom/custom/js/script.js');
+$header->addJsFile('/public/assets/custom_general/custom/js/script.js');
 
 $header->render();
