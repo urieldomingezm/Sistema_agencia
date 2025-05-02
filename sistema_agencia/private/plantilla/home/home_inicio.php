@@ -17,7 +17,7 @@ class BodyHome
         echo '<main class="flex-shrink-0">';
         echo '<header style="background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%); padding: 40px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);">';
         echo '<div class="container text-center">';
-        echo '<h1 style="color: white; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">✨ Agencia Shein ✨</h1>';
+        echo '<h1 style="color: white; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);"><i class="bi bi-stars me-2"></i>Agencia Shein<i class="bi bi-stars ms-2"></i></h1>';
         echo '<p style="color: #e0e0e0; font-size: 1.2rem;">La mejor comunidad de Habbo Hotel</p>';
         echo '<a href="/login.php" style="background: #ffffff; color: #2c2c2c; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);">¡Únete ahora!</a>';
         echo '</div>';
@@ -79,9 +79,9 @@ class BodyHome
             echo '<section class="team-section py-5" style="background: linear-gradient(135deg, #333333 0%, #1a1a1a 100%);">';
             echo '<div class="container">';
             echo '<h2 class="text-center mb-5" style="color: white; font-weight: 800; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">';
-            echo '<i class="fas fa-crown me-2" style="color: #e0e0e0;"></i>';
+            echo '<i class="bi bi-award me-2" style="color: #e0e0e0;"></i>';
             echo 'Nuestro Equipo';
-            echo '<i class="fas fa-crown ms-2" style="color: #e0e0e0;"></i>';
+            echo '<i class="bi bi-award ms-2" style="color: #e0e0e0;"></i>';
             echo '</h2>';
             echo '<div class="row justify-content-center g-4">';
 
@@ -98,10 +98,10 @@ class BodyHome
                 echo '<h3 class="mb-2" style="color: #333; font-weight: 600;">' . $member['name'] . '</h3>';
                 echo '<p class="text-muted mb-3" style="font-size: 0.9rem;">' . $member['role'] . '</p>';
                 echo '<span class="rank-badge" style="background: linear-gradient(45deg, #2c2c2c, #404040); color: white; padding: 6px 15px; border-radius: 20px; font-size: 0.9rem; font-weight: 500;">';
-                echo '<i class="fas fa-star me-1"></i>' . $member['rank'] . '</span>';
+                echo '<i class="bi bi-star-fill me-1"></i>' . $member['rank'] . '</span>';
                 echo '<div class="social-links mt-4">';
-                echo '<a href="https://discord.com" class="mx-2" style="color: #404040;"><i class="fab fa-discord fa-lg"></i></a>';
-                echo '<a href="https://www.habbo.es" class="mx-2" style="color: #2c2c2c;"><i class="fas fa-hotel fa-lg"></i></a>';
+                echo '<a href="https://discord.com" class="mx-2" style="color: #404040;"><i class="bi bi-discord fa-lg"></i></a>';
+                echo '<a href="https://www.habbo.es" class="mx-2" style="color: #2c2c2c;"><i class="bi bi-house-door fa-lg"></i></a>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
@@ -120,7 +120,7 @@ class BodyHome
 
         echo '<section style="background: #f0f0f0; padding: 50px 0;">';
         echo '<div class="container text-center">';
-        echo '<h2 style="color: #2c2c2c; font-weight: 700; margin-bottom: 40px;">🎮 Próximos Eventos 🎮</h2>';
+        echo '<h2 style="color: #2c2c2c; font-weight: 700; margin-bottom: 40px;"><i class="bi bi-calendar-event me-2"></i>Próximos Eventos<i class="bi bi-calendar-event ms-2"></i></h2>';
         echo '<div class="row">';
 
         foreach ($events as $event) {
