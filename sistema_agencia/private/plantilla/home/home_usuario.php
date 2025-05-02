@@ -75,8 +75,8 @@ class BodyHome
     {
         $teamMembers = [
             ['name' => 'Snotra', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Snotra&headonly=1&head_direction=3&size=sl', 'rank' => 'Founder'],
-            ['name' => 'Jo.C', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Jo.C&headonly=1&head_direction=3&size=sl', 'rank' => 'Founder'],
-            ['name' => 'xOllStarx', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=xOllStarx&headonly=1&head_direction=3&size=sl', 'rank' => 'Dueño'],
+            ['name' => 'Jo.C', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Jo.C&headonly=1&head_direction=3&size=sl', 'rank' => 'Dueño'],
+            ['name' => 'xOllStarx', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=xOllStarx&headonly=1&head_direction=3&size=sl', 'rank' => 'Founder'],
             ['name' => 'BigBarneyStinso', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=BigBarneyStinso&headonly=1&head_direction=3&size=sl', 'rank' => 'Gerente'],
             ['name' => 'Nefita', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Nefita&headonly=1&head_direction=3&size=sl', 'rank' => 'Manager'],
             ['name' => 'Keekit08', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Keekit08&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
