@@ -68,3 +68,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
+
+
+<script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.querySelector('input[name="password"]');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('bi-eye-fill');
+            this.querySelector('i').classList.toggle('bi-eye-slash-fill');
+        });
+
+        const validator = new JustValidate('#loginForm', {
+            validateBeforeSubmitting: true,
+        });
+
+        validator
+            .addField('[name="username"]', [{
+                    rule: 'required',
+                    errorMessage: 'El usuario es requerido'
+                },
+                {
+                    rule: 'minLength',
+                    value: 3,
+                    errorMessage: 'El usuario debe tener al menos 3 caracteres'
+                }
+            ])
+            .addField('[name="password"]', [{
+                    rule: 'required',
+                    errorMessage: 'La contraseña es requerida'
+                },
+                {
+                    rule: 'minLength',
+                    value: 8,
+                    errorMessage: 'La contraseña debe tener al menos 8 caracteres'
+                }
+            ])
+            .onSuccess((event) => {
+                const form = event.target;
+                fetch('login.php', {
+                        method: 'POST',
+                        body: new FormData(form)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Bienvenido!',
+                                text: data.message,
+                                confirmButtonColor: '#8B5CF6'
+                            }).then(() => {
+                                window.location.href = 'usuario/index.php';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.message,
+                                confirmButtonColor: '#8B5CF6'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al iniciar sesión',
+                            confirmButtonColor: '#8B5CF6'
+                        });
+                    });
+            });
+    </script>
