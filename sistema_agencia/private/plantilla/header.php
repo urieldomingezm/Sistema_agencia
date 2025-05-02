@@ -121,7 +121,7 @@ class Header
 }
 
 // Corregir las rutas de los archivos locales
-$header = new Header('Agencia Habbo Atenas');
+$header = new Header('Agencia Shein Habbo');
 $header->addCssFile('/public/assets/framework/bootstrap/bootstrap.css');
 $header->addCssFile('/public/assets/framework/bootstrap/bootstrap.min.css');
 $header->addCssFile('/public/assets/framework/bootstrap/icons.css');
