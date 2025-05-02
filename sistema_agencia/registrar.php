@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
 // Primero manejar la solicitud POST antes de cualquier salida
@@ -14,70 +14,70 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 
 
 <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #F3F0FF 0%, #E9D5FF 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #F3F0FF 0%, #E9D5FF 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-        .card {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            border: none;
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
-            backdrop-filter: blur(10px);
-        }
+    .card {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        border: none;
+        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
+        backdrop-filter: blur(10px);
+    }
 
-        .card-header {
-            background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
-            color: white;
-            border-radius: 20px 20px 0 0 !important;
-            border: none;
-            padding: 20px;
-        }
+    .card-header {
+        background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+        color: white;
+        border-radius: 20px 20px 0 0 !important;
+        border: none;
+        padding: 20px;
+    }
 
-        .form-control {
-            border-radius: 10px;
-            padding: 12px;
-            border: 2px solid #E9D5FF;
-        }
+    .form-control {
+        border-radius: 10px;
+        padding: 12px;
+        border: 2px solid #E9D5FF;
+    }
 
-        .form-control:focus {
-            border-color: #8B5CF6;
-            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
-        }
+    .form-control:focus {
+        border-color: #8B5CF6;
+        box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+    }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
-            border: none;
-            border-radius: 10px;
-            padding: 12px 30px;
-            font-weight: 600;
-        }
+    .btn-primary {
+        background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 30px;
+        font-weight: 600;
+    }
 
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-            transform: translateY(-2px);
-        }
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+        transform: translateY(-2px);
+    }
 
-        /* Add validation styles */
-        .just-validate-error-label {
-            color: #dc3545;
-            font-size: 0.875em;
-            margin-top: 0.25rem;
-        }
+    /* Add validation styles */
+    .just-validate-error-label {
+        color: #dc3545;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
 
-        .just-validate-error-field {
-            border-color: #dc3545 !important;
-        }
+    .just-validate-error-field {
+        border-color: #dc3545 !important;
+    }
 
-        .just-validate-success-field {
-            border-color: #198754 !important;
-        }
-    </style>
+    .just-validate-success-field {
+        border-color: #198754 !important;
+    }
+</style>
 
 <body>
     <div class="container">
@@ -85,7 +85,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
             <div class="col-md-6 col-lg-5">
                 <div class="card">
                     <div class="card-header text-center">
-                        <h4 class="mb-0">✨ Registro Agencia Atenas ✨</h4>
+                        <h4 class="mb-0">✨ Registro ✨</h4>
                     </div>
                     <div class="card-body p-4">
                         <form id="registrationForm" method="post">
@@ -224,11 +224,10 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                         });
                     });
             });
-
     </script>
 </body>
 
 
-<?php 
+<?php
 require_once(TEMPLATES_PATH . 'footer.php');
 ?>
