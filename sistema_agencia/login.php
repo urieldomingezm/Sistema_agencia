@@ -15,7 +15,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #F3F0FF 0%, #E9D5FF 100%);
+            background: linear-gradient(135deg, #000000 0%, #222222 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -23,38 +23,46 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            border: none;
-            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
-            backdrop-filter: blur(10px);
+            border: 2px solid #000000;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
         .card-header {
-            background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
             color: white;
             border-radius: 20px 20px 0 0 !important;
-            border: none;
+            border-bottom: 2px solid #ffffff;
             padding: 20px;
         }
 
         .form-control {
             border-radius: 10px;
             padding: 12px;
-            border: 2px solid #E9D5FF;
+            border: 2px solid #000000;
+            background-color: #f8f9fa;
         }
 
         .form-control:focus {
-            border-color: #8B5CF6;
-            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+            border-color: #000000;
+            box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
-            border: none;
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            color: white;
+            border: 2px solid #000000;
             border-radius: 10px;
             padding: 12px 30px;
             font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #333333 0%, #000000 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .btn-primary:hover {
