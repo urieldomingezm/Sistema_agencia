@@ -73,6 +73,9 @@ class Header
         echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
         echo '<link id="sweetalert-css" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.7/dist/sweetalert2.min.css" rel="stylesheet">';
 
+        // VALIDATE.JS
+        echo '<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>';
+
         // BOOSTRAP ICONS
         echo '<link id="icons-css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">';
 
