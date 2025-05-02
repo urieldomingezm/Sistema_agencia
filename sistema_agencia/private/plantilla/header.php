@@ -107,24 +107,6 @@ class Header
                     document.head.appendChild(newElement);
                 }
             }
-
-            // Verificar compatibilidad con Performance Observer antes de usarlo
-            if (window.PerformanceObserver) {
-                try {
-                    const supportedEntryTypes = PerformanceObserver.supportedEntryTypes;
-                    if (supportedEntryTypes && supportedEntryTypes.includes("longtask")) {
-                        const observer = new PerformanceObserver((list) => {
-                            for (const entry of list.getEntries()) {
-                                console.log("Long task detected:", entry);
-                            }
-                        });
-                        observer.observe({entryTypes: ["longtask"]});
-                    }
-                } catch (e) {
-                    console.log("PerformanceObserver not supported:", e);
-                }
-            }
-
             window.onload = function () {
                 checkAndLoadCDN("bootstrap-css", "/public/assets/framework/bootstrap/bootstrap.css");
                 checkAndLoadCDN("bootstrap-js", "/public/assets/framework/bootstrap/bootstrap.bundle.min.js");
