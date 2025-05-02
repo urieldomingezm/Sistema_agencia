@@ -17,7 +17,7 @@ class RadioPlayer
     public function render()
     {
         echo '<div class="radio-container text-center">';
-        echo '    <img src="/public/custom/custom_radio/img/dj.jpg" class="radio-cover" alt="Radio Cover">';
+        echo '    <img src="/public/assets/custom_general/custom_radio/img/dj.jpg" class="radio-cover" alt="Radio Cover">';
         echo '    <div class="radio-info">';
         echo '        <p class="dj-label">DJ: <span>' . htmlspecialchars($this->djName) . '</span></p>';
         if ($this->mountPoint) {
@@ -56,42 +56,71 @@ class RadioPlayer
                 var playButton = document.getElementById("playButton");
                 var pauseButton = document.getElementById("pauseButton");
                 var muteButton = document.getElementById("muteButton");
-                var radioCover = document.querySelector(".radio-cover"); // Selecciona la imagen
+                var radioCover = document.querySelector(".radio-cover");
+                var mountPointStatus = document.querySelector(".mount-point-status span");
 
                 var defaultStreamURL = "' . $this->defaultStreamURL . '";
-                var streamURL = "' . $this->streamURL . '"; // Solo la URL de la radio principal
-                var mountPoint = "' . $this->mountPoint . '"; // Mount point para listen2myradio
+                var streamURL = "' . $this->streamURL . '";
+                var mountPoint = "' . $this->mountPoint . '";
 
-                // Función para verificar si la radio en vivo está disponible
+                // Función modificada para verificar disponibilidad del stream
                 function checkStreamAvailability(streamURL, callback) {
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("HEAD", streamURL, true);
-                    xhr.onreadystatechange = function() {
-                        if (xhr.readyState === 4) {
-                            if (xhr.status === 200) {
-                                // Stream está disponible
-                                callback(true);
-                            } else {
-                                // Stream no disponible
-                                callback(false);
-                            }
-                        }
-                    };
-                    xhr.send();
+                    // Usar una técnica alternativa para verificar disponibilidad
+                    var audioTest = new Audio();
+                    audioTest.src = streamURL;
+                    audioTest.preload = "auto";
+                    
+                    audioTest.addEventListener("canplaythrough", function() {
+                        callback(true);
+                    });
+                    
+                    audioTest.addEventListener("error", function() {
+                        callback(false);
+                    });
+                    
+                    setTimeout(function() {
+                        callback(false);
+                    }, 5000);
                 }
 
-                // Función para reproducir la radio
+                // Verificar disponibilidad solo cuando el usuario interactúe
+                playButton.addEventListener("click", function() {
+                    checkStreamAvailability(defaultStreamURL, function(isLiveAvailable) {
+                        if (isLiveAvailable) {
+                            streamURL = defaultStreamURL;
+                            if (mountPointStatus) {
+                                mountPointStatus.textContent = "Conectado a: " + streamURL;
+                            }
+                            playRadio();
+                        } else {
+                            if (mountPointStatus) {
+                                mountPointStatus.textContent = "Radio no disponible";
+                            }
+                            alert("La radio no está disponible en este momento");
+                        }
+                    });
+                });
+
+                // Función para reproducir la radio (solo después de interacción)
                 function playRadio() {
-                    // Inicia la reproducción de la radio
-                    radio.src = streamURL;
-                    radio.play();
-
-                    // Activar la animación de giro
-                    radioCover.classList.add("playing");
-
-                    // Desactiva el botón de Play y activa el de Pause
-                    playButton.disabled = true;
-                    pauseButton.disabled = false;
+                    try {
+                        radio.src = streamURL;
+                        var playPromise = radio.play();
+                        
+                        if (playPromise !== undefined) {
+                            playPromise.catch(error => {
+                                console.log("Autoplay prevented:", error);
+                                playButton.disabled = false;
+                                pauseButton.disabled = true;
+                            });
+                        }
+                        
+                        radioCover.classList.add("playing");
+                        playButton.disabled = true;
+                        pauseButton.disabled = false;
+                    } catch (error) {
+                        console.error("Error al reproducir:", error);
+                    }
                 }
 
                 // Función para pausar la radio
@@ -149,17 +178,6 @@ class RadioPlayer
                     console.log("Radio no disponible");
                     alert("La radio en vivo no está disponible en este momento.");
                 };
-
-                // Verificar la disponibilidad del stream en vivo y cambiar la fuente de la radio
-                checkStreamAvailability(defaultStreamURL, function(isLiveAvailable) {
-                    if (isLiveAvailable) {
-                        streamURL = defaultStreamURL;
-                        document.querySelector(".mount-point-status span").textContent = "Conectado a: " + streamURL;
-                        playRadio(); // Reproducir la radio una vez determinado el streamURL
-                    } else {
-                        document.querySelector(".mount-point-status span").textContent = "Radio no disponible";
-                    }
-                });
 
                 // Actualizar el estado de los botones cuando la radio se reproduce o se pausa automáticamente
                 radio.addEventListener("play", function() {

@@ -107,7 +107,7 @@ class UserController {
         echo '<div class="search-results-container">';
         echo '<div class="card shadow-lg border-0 rounded-lg">';
         echo '<div class="card-header bg-gradient-primary">';
-        echo '<h4 class="text-dark mb-0"><i class="fas fa-search me-2"></i>Resultados para: "' . htmlspecialchars($query) . '"</h4>';
+        echo '<h4 class="text-dark mb-0"><i class="bi bi-search me-2"></i>Resultados para: "' . htmlspecialchars($query) . '"</h4>';
         echo '</div>';
         echo '<div class="card-body">';
 
@@ -125,11 +125,11 @@ class UserController {
         foreach ($results as $result) {
             echo '<a href="' . $result['url'] . '" class="result-item">';
             echo '<div class="d-flex align-items-center p-3 border-bottom transition-hover">';
-            echo '<i class="fas fa-link me-3 text-primary"></i>';
+            echo '<i class="bi bi-link-45deg me-3 text-primary"></i>';
             echo '<div>';
             echo '<h5 class="mb-0">' . ucfirst($result['title']) . '</h5>';
             echo '</div>';
-            echo '<i class="fas fa-chevron-right ms-auto text-muted"></i>';
+            echo '<i class="bi bi-chevron-right ms-auto text-muted"></i>';
             echo '</div>';
             echo '</a>';
         }
@@ -138,7 +138,7 @@ class UserController {
 
     private function renderNoResults() {
         echo '<div class="text-center p-4">';
-        echo '<i class="fas fa-search-minus fa-3x text-muted mb-3"></i>';
+        echo '<i class="bi bi-search-x fa-3x text-muted mb-3"></i>';
         echo '<div class="alert alert-warning mb-0">';
         echo '<h5 class="alert-heading">No se encontraron resultados</h5>';
         echo '<p class="mb-0">Intenta con otros términos de búsqueda</p>';

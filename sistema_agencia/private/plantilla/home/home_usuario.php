@@ -58,7 +58,7 @@ class BodyHome
         <header class="welcome-header text-center">
             <div class="container">
                 <h1 class="display-4 text-white mb-3">
-                    <i class="fas fa-star me-2"></i> Agencia Shein <i class="fas fa-star me-2"></i>
+                    <i class="bi bi-star-fill me-2"></i> Agencia Shein <i class="bi bi-star-fill me-2"></i>
                 </h1>
                 <p class="lead text-white mb-2">
                     Bienvenido <?= $username ?> 
@@ -84,7 +84,7 @@ class BodyHome
 
         echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 50px 0;">';
         echo '<div class="container text-center">';
-        echo '<h2 style="color: black; font-weight: bold;">👑 Nuestro Equipo 👑</h2>';
+        echo '<h2 style="color: black; font-weight: bold;"><i class="bi bi-people-fill me-1"></i> Nuestro Equipo <i class="bi bi-people-fill me-1"></i></h2>';
         echo '<div class="row justify-content-center">'; // Centrar el contenido
 
         foreach ($teamMembers as $member) {
@@ -112,7 +112,7 @@ class BodyHome
 
         echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
         echo '<div class="container text-center">';
-        echo '<h2 style="color: black; font-weight: bold;">🎉 Noticias 🎉</h2>';
+        echo '<h2 style="color: black; font-weight: bold;"><i class="bi bi-newspaper me-1"></i> Noticias <i class="bi bi-newspaper me-1"></i></h2>';
         echo '<div class="row">';
 
         foreach ($events as $event) {
@@ -179,7 +179,7 @@ class BodyHome
 
         echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 20px 0;">';
         echo '<div class="container text-center">';
-        echo '<h2 style="color: black; font-weight: bold;">💰 Día de Paga 💰</h2>';
+        echo '<h2 style="color: black; font-weight: bold;"><i class="bi bi-cash-coin me-1"></i> Día de Paga <i class="bi bi-cash-coin me-1"></i></h2>';
         echo '<div class="row justify-content-center">';
 
         foreach ($countries as $country) {
@@ -235,7 +235,7 @@ class BodyHome
 
         echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
         echo '<div class="container text-center">';
-        echo '<h2 style="color: #333; font-weight: bold;">🌟 Membresías Disponibles 🌟</h2>';
+        echo '<h2 style="color: #333; font-weight: bold;"><i class="bi bi-gem me-1"></i> Membresías Disponibles <i class="bi bi-gem me-1"></i></h2>';
         echo '<p style="color: #666; font-size: 18px;">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
         echo '<div class="row justify-content-center">';
 

@@ -28,7 +28,7 @@ $userData = $userProfile->getUserData();
                 <div class="profile-card glass-effect">
                     <div class="card-header bg-gradient-primary">
                         <div class="header-icon">
-                            <i class="fas fa-user-circle"></i>
+                            <i class="bi bi-person-circle"></i>
                         </div>
                         <h3>Información Personal</h3>
                     </div>
@@ -49,7 +49,7 @@ $userData = $userProfile->getUserData();
                 <div class="profile-card glass-effect">
                     <div class="card-header bg-gradient-success">
                         <div class="header-icon">
-                            <i class="fas fa-money-bill-wave"></i>
+                            <i class="bi bi-cash-coin"></i>
                         </div>
                         <h3>Información de Paga</h3>
                     </div>
@@ -74,7 +74,7 @@ $userData = $userProfile->getUserData();
                 <div class="profile-card glass-effect">
                     <div class="card-header bg-gradient-info">
                         <div class="header-icon">
-                            <i class="fas fa-tasks"></i>
+                            <i class="bi bi-list-check"></i>
                         </div>
                         <h3>Información de Misión</h3>
                     </div>
