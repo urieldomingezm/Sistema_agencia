@@ -1,4 +1,4 @@
-<?php
+<?php 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
 // First handle the login POST request before any output
@@ -13,70 +13,70 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 ?>
 
 <style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #F3F0FF 0%, #E9D5FF 100%);
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F3F0FF 0%, #E9D5FF 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-    .card {
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 20px;
-        border: none;
-        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
-        backdrop-filter: blur(10px);
-    }
+        .card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
+            backdrop-filter: blur(10px);
+        }
 
-    .card-header {
-        background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
-        color: white;
-        border-radius: 20px 20px 0 0 !important;
-        border: none;
-        padding: 20px;
-    }
+        .card-header {
+            background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+            color: white;
+            border-radius: 20px 20px 0 0 !important;
+            border: none;
+            padding: 20px;
+        }
 
-    .form-control {
-        border-radius: 10px;
-        padding: 12px;
-        border: 2px solid #E9D5FF;
-    }
+        .form-control {
+            border-radius: 10px;
+            padding: 12px;
+            border: 2px solid #E9D5FF;
+        }
 
-    .form-control:focus {
-        border-color: #8B5CF6;
-        box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
-    }
+        .form-control:focus {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+        }
 
-    .btn-primary {
-        background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
-        border: none;
-        border-radius: 10px;
-        padding: 12px 30px;
-        font-weight: 600;
-    }
+        .btn-primary {
+            background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
 
-    .btn-primary:hover {
-        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-        transform: translateY(-2px);
-    }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            transform: translateY(-2px);
+        }
 
-    /* Validation styles */
-    .just-validate-error-label {
-        color: #dc3545;
-        font-size: 0.875em;
-        margin-top: 0.25rem;
-    }
+        /* Validation styles */
+        .just-validate-error-label {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 0.25rem;
+        }
 
-    .just-validate-error-field {
-        border-color: #dc3545 !important;
-    }
+        .just-validate-error-field {
+            border-color: #dc3545 !important;
+        }
 
-    .just-validate-success-field {
-        border-color: #198754 !important;
-    }
-</style>
+        .just-validate-success-field {
+            border-color: #198754 !important;
+        }
+    </style>
 
 <body>
     <div class="container">
@@ -101,11 +101,8 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                                     </button>
                                 </div>
                             </div>
-                            <div class="g-recaptcha mb-3" data-sitekey="6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0"></div>
-                            <button type="submit" class="btn btn-primary w-100 g-recaptcha" 
-                                    data-sitekey="6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0" 
-                                    data-callback='onSubmit' 
-                                    data-action='submit'>Iniciar Sesión</button>
+                            <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+                            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                         </form>
                         <div class="text-center mt-3">
                             <a href="registrar.php" class="text-decoration-none" style="color: #8B5CF6;">¿No tienes cuenta? Regístrate</a>
@@ -117,84 +114,77 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
     </div>
 </body>
 
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
-    function onSubmit(token) {
-        document.getElementById("loginForm").submit();
-    }
-</script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.querySelector('input[name="password"]');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('bi-eye-fill');
+            this.querySelector('i').classList.toggle('bi-eye-slash-fill');
+        });
 
-<script>
-    document.getElementById('togglePassword').addEventListener('click', function() {
-        const passwordInput = document.querySelector('input[name="password"]');
-        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordInput.setAttribute('type', type);
-        this.querySelector('i').classList.toggle('bi-eye-fill');
-        this.querySelector('i').classList.toggle('bi-eye-slash-fill');
-    });
+        const validator = new JustValidate('#loginForm', {
+            validateBeforeSubmitting: true,
+        });
 
-    const validator = new JustValidate('#loginForm', {
-        validateBeforeSubmitting: true,
-    });
-
-    validator
-        .addField('[name="username"]', [{
-                rule: 'required',
-                errorMessage: 'El usuario es requerido'
-            },
-            {
-                rule: 'minLength',
-                value: 3,
-                errorMessage: 'El usuario debe tener al menos 3 caracteres'
-            }
-        ])
-        .addField('[name="password"]', [{
-                rule: 'required',
-                errorMessage: 'La contraseña es requerida'
-            },
-            {
-                rule: 'minLength',
-                value: 8,
-                errorMessage: 'La contraseña debe tener al menos 8 caracteres'
-            }
-        ])
-        .onSuccess((event) => {
-            const form = event.target;
-            fetch('login.php', {
-                    method: 'POST',
-                    body: new FormData(form)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: '¡Bienvenido!',
-                            text: data.message,
-                            confirmButtonColor: '#8B5CF6'
-                        }).then(() => {
-                            window.location.href = 'usuario/index.php';
-                        });
-                    } else {
+        validator
+            .addField('[name="username"]', [{
+                    rule: 'required',
+                    errorMessage: 'El usuario es requerido'
+                },
+                {
+                    rule: 'minLength',
+                    value: 3,
+                    errorMessage: 'El usuario debe tener al menos 3 caracteres'
+                }
+            ])
+            .addField('[name="password"]', [{
+                    rule: 'required',
+                    errorMessage: 'La contraseña es requerida'
+                },
+                {
+                    rule: 'minLength',
+                    value: 8,
+                    errorMessage: 'La contraseña debe tener al menos 8 caracteres'
+                }
+            ])
+            .onSuccess((event) => {
+                const form = event.target;
+                fetch('login.php', {
+                        method: 'POST',
+                        body: new FormData(form)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Bienvenido!',
+                                text: data.message,
+                                confirmButtonColor: '#8B5CF6'
+                            }).then(() => {
+                                window.location.href = 'usuario/index.php';
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.message,
+                                confirmButtonColor: '#8B5CF6'
+                            });
+                        }
+                    })
+                    .catch(error => {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: data.message,
+                            text: 'Error al iniciar sesión',
                             confirmButtonColor: '#8B5CF6'
                         });
-                    }
-                })
-                .catch(error => {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Error al iniciar sesión',
-                        confirmButtonColor: '#8B5CF6'
                     });
-                });
-        });
-</script>
+            });
+    </script>
 
-<?php
+<?php 
 require_once(TEMPLATES_PATH . 'footer.php');
 ?>

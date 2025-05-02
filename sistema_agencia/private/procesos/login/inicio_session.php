@@ -28,16 +28,6 @@ class UserLogin
                 return ['success' => false, 'message' => 'Usuario y contraseña son requeridos'];
             }
 
-            // Validar reCAPTCHA
-            $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
-            $secretKey = "6LfUGiwrAAAAAGeoeQkQNhJtZOmav26ovKCpFl-d";
-            $recaptchaUrl = "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}";
-            $recaptcha = json_decode(file_get_contents($recaptchaUrl));
-
-            if (!$recaptcha->success || $recaptcha->score < 0.5) {
-                return ['success' => false, 'message' => 'Verificación reCAPTCHA fallida'];
-            }
-
             $query = "SELECT id, usuario_registro, password_registro, rol_id FROM {$this->table} 
                      WHERE usuario_registro = :username";
 
