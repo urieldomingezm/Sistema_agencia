@@ -3,7 +3,7 @@ session_start();
 
 class Header
 {
-    private $title = ["sdsds"];
+    private $title;
     private $cssFiles = [];
     private $jsFiles = [];
 
