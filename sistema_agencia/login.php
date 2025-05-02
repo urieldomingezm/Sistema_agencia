@@ -15,13 +15,27 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #000000 0%, #222222 100%);
+            background: 
+                linear-gradient(45deg,
+                    #8B5CF6 25%, 
+                    #EC4899 25%,
+                    #EC4899 50%,
+                    #3B82F6 50%,
+                    #3B82F6 75%,
+                    #10B981 75%
+                );
+            background-size: 100px 100px;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            animation: moveBackground 30s linear infinite;
         }
 
+        @keyframes moveBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 200px 200px; }
+        }
         .card {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
