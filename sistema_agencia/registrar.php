@@ -1,6 +1,13 @@
 <?php 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
+// Primero manejar la solicitud POST antes de cualquier salida
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
+    exit; // Detener ejecución después de manejar POST
+}
+
+// Solo después de manejar POST, incluir header y otros contenidos
 require_once(TEMPLATES_PATH . 'header.php');
 require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 ?>
