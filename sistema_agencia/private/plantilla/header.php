@@ -115,6 +115,10 @@ class Header
 
         echo '</head>';
         echo '<body>';
+        echo '<div style="text-align: center; padding: 5px; font-size: 10px; color: #666;">';
+        echo 'Protegido por reCAPTCHA';
+        echo '</div>';
+        echo '</html>';
     }
 }
 
