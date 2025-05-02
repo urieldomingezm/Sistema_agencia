@@ -83,27 +83,27 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                     <div class="card-body p-4">
                         <form id="registrationForm" method="post">
                             <div class="mb-3">
-                                <label class="form-label">Usuario</label>
+                                <label class="form-label"><i class="bi bi-person-fill"></i> Usuario</label>
                                 <input type="text" class="form-control" name="username" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Nombre en Habbo</label>
+                                <label class="form-label"><i class="bi bi-person-badge-fill"></i> Nombre en Habbo</label>
                                 <input type="text" class="form-control" name="habboName" required>
-                                <small class="form-text text-muted">Ingresa tu nombre exacto de Habbo</small>
+                                <small class="form-text text-muted"><i class="bi bi-info-circle"></i> Ingresa tu nombre exacto de Habbo</small>
                             </div>
                             <div class="mb-4">
-                                <label class="form-label">Contraseña</label>
+                                <label class="form-label"><i class="bi bi-lock-fill"></i> Contraseña</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" name="password" required>
                                     <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                        <i class="fa-solid fa-eye"></i>
+                                        <i class="bi bi-eye-fill"></i>
                                     </button>
                                 </div>
                             </div>
                             <div id="verificationSection" style="display: none;" class="mb-3">
-                                <label class="form-label">Código de Verificación</label>
+                                <label class="form-label"><i class="bi bi-shield-lock"></i> Código de Verificación</label>
                                 <input type="text" class="form-control" name="verificationCode">
-                                <small class="form-text text-muted">Ingresa el código que colocaste en tu lema/motto de Habbo</small>
+                                <small class="form-text text-muted"><i class="bi bi-info-circle"></i> Ingresa el código que colocaste en tu lema/motto de Habbo</small>
                             </div>
                             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
                             <button type="submit" class="btn btn-primary w-100">Registrarse</button>

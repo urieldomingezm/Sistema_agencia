@@ -82,15 +82,15 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                     <div class="card-body p-4">
                         <form id="loginForm" method="post">
                             <div class="mb-3">
-                                <label class="form-label">Usuario</label>
+                                <label class="form-label"><i class="bi bi-person-fill"></i> Usuario</label>
                                 <input type="text" class="form-control" name="username" required>
                             </div>
                             <div class="mb-4">
-                                <label class="form-label">Contraseña</label>
+                                <label class="form-label"><i class="bi bi-lock-fill"></i> Contraseña</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" name="password" required>
                                     <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-                                        <i class="fa-solid fa-eye"></i>
+                                        <i class="bi bi-eye-fill"></i>
                                     </button>
                                 </div>
                             </div>
