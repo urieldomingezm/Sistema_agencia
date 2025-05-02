@@ -1,124 +1,11 @@
-<?php
-session_start();
+<?php 
+require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
-class Database
-{
-    private $host;
-    private $db_name;
-    private $username;
-    private $password;
-    private $conn;
-
-    public function __construct()
-    {
-        $this->host = getenv('MYSQL_HOST') ?: 'localhost';
-        $this->db_name = getenv('MYSQL_DATABASE') ?: 'sistema_agencia';
-        $this->username = getenv('MYSQL_USER') ?: 'root';
-        $this->password = getenv('MYSQL_PASSWORD') ?: '';
-
-        if (!$this->host || !$this->db_name || !$this->username || !$this->password) {
-            error_log("Error: Algunas variables de entorno no están definidas.");
-        }
-    }
-
-    public function getConnection()
-    {
-        $this->conn = null;
-
-        try {
-            $dsn = "mysql:host=" . $this->host . ";dbname=" . $this->db_name;
-            $this->conn = new PDO($dsn, $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $exception) {
-            error_log("Error de conexión: " . $exception->getMessage());
-            echo "Error de conexión a la base de datos.";
-        }
-
-        return $this->conn;
-    }
-}
-
-class UserLogin
-{
-    private $conn;
-    private $table = 'registro_usuario';
-
-    public function __construct()
-    {
-        try {
-            $database = new Database();
-            $this->conn = $database->getConnection();
-            if (!$this->conn) {
-                throw new Exception("Error de conexión a la base de datos");
-            }
-        } catch (Exception $e) {
-            error_log("Error en constructor UserLogin: " . $e->getMessage());
-            throw $e;
-        }
-    }
-
-    public function login($username, $password)
-    {
-        try {
-            if (empty($username) || empty($password)) {
-                return ['success' => false, 'message' => 'Usuario y contraseña son requeridos'];
-            }
-
-            $query = "SELECT id, usuario_registro, password_registro, rol_id FROM {$this->table} 
-                     WHERE usuario_registro = :username";
-
-            $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':username', $username);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-                if (password_verify($password, $user['password_registro'])) {
-                    $_SESSION['user_id'] = $user['id'];
-                    $_SESSION['username'] = $user['usuario_registro'];
-                    $_SESSION['rol_id'] = $user['rol_id'];
-
-                    return ['success' => true, 'message' => '¡Bienvenido!'];
-                }
-            }
-
-            return ['success' => false, 'message' => 'Usuario o contraseña incorrectos'];
-        } catch (PDOException $e) {
-            error_log("Error en login: " . $e->getMessage());
-            return ['success' => false, 'message' => 'Error al iniciar sesión'];
-        }
-    }
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        $login = new UserLogin();
-        $result = $login->login($_POST['username'], $_POST['password']);
-        header('Content-Type: application/json');
-        echo json_encode($result);
-    } catch (Exception $e) {
-        header('Content-Type: application/json');
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
-    }
-    exit;
-}
+require_once(TEMPLATES_PATH . 'header.php');
+require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión - Agencia Shein</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
-    <!-- Add Just-Validate -->
-    <script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <style>
+<style>
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #F3F0FF 0%, #E9D5FF 100%);
@@ -183,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-color: #198754 !important;
         }
     </style>
-</head>
 
 <body>
     <div class="container">
@@ -220,9 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
+  <script>
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.querySelector('input[name="password"]');
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -294,4 +178,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
 </body>
 
-</html>
+<?php 
+require_once(TEMPLATES_PATH . 'footer.php');
+?>
