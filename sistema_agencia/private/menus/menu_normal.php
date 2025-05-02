@@ -21,17 +21,17 @@ class Navbar
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
-          <i class="fas fa-building me-2"></i><?= $this->brand ?>
+          <i class="bi bi-building me-2"></i><?= $this->brand ?>
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-          <i class="fas fa-bars"></i>
+          <i class="bi bi-list"></i>
         </button>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
           <div class="offcanvas-header">
             <h5 class="offcanvas-title">
-              <i class="fas fa-compass me-2"></i>Menú Principal
+              <i class="bi bi-compass me-2"></i>Menú Principal
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
           </div>
@@ -95,7 +95,7 @@ class Navbar
                 <input type="search" class="form-control" name="q" 
                        placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">
-                  <i class="fas fa-search"></i>
+                  <i class="bi bi-search"></i>
                 </button>
               </div>
             </form>
@@ -109,21 +109,21 @@ class Navbar
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Inicio' => 'fas fa-home',
-      'Unirse' => 'fas fa-user-plus',
-      'Informacion' => 'fas fa-info-circle'
+      'Inicio' => 'bi bi-house',
+      'Unirse' => 'bi bi-person-plus',
+      'Informacion' => 'bi bi-info-circle'
     ];
-    return $icons[$itemName] ?? 'fas fa-circle';
+    return $icons[$itemName] ?? 'bi bi-circle';
   }
 
   private function getDropdownIcon($itemName)
   {
     $icons = [
-      'Iniciar session' => 'fas fa-sign-in-alt',
-      'Registrarse' => 'fas fa-user-plus',
-      'Rangos' => 'fas fa-star'
+      'Iniciar session' => 'bi bi-box-arrow-in-right',
+      'Registrarse' => 'bi bi-person-plus',
+      'Rangos' => 'bi bi-star'
     ];
-    return $icons[$itemName] ?? 'fas fa-circle';
+    return $icons[$itemName] ?? 'bi bi-circle';
   }
 
   private function getItemUrl($item)
