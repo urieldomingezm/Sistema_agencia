@@ -41,6 +41,18 @@ class Header
         echo 'gtag("config", "G-32NSVX1ZQD");';
         echo '</script>';
 
+        // reCAPTCHA v3
+        echo '<script src="https://www.google.com/recaptcha/api.js?render=6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0"></script>';
+        echo '<script>';
+        echo 'function executeRecaptcha(action) {';
+        echo '    grecaptcha.ready(function() {';
+        echo '        grecaptcha.execute("6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0", {action: action})';
+        echo '        .then(function(token) {';
+        echo '            document.getElementById("g-recaptcha-response").value = token;';
+        echo '        });';
+        echo '    });';
+        echo '}';
+        echo '</script>';
         // Cargar archivos desde CDN por defecto
         
         //DATA TABLE SIMPLE
