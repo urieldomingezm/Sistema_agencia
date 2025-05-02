@@ -116,6 +116,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                         </form>
                         <div class="text-center mt-3">
                             <a href="login.php" class="text-decoration-none" style="color: #8B5CF6;">¿Ya tienes cuenta? Inicia sesión</a>
+                            <a href="inicio.php" class="text-decoration-none" style="color: #8B5CF6;">regresar al inicio</a>
                         </div>
                     </div>
                 </div>
