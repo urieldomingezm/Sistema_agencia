@@ -80,7 +80,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                         <h4 class="mb-0">✨ Iniciar Sesión ✨</h4>
                     </div>
                     <div class="card-body p-4">
-                        <form id="loginForm">
+                        <form id="loginForm" method="post">
                             <div class="mb-3">
                                 <label class="form-label">Usuario</label>
                                 <input type="text" class="form-control" name="username" required>
