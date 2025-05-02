@@ -57,10 +57,6 @@ class UserLogin
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        if (headers_sent()) {
-            throw new Exception("Headers already sent");
-        }
-        
         $login = new UserLogin();
         $result = $login->login($_POST['username'], $_POST['password']);
         header('Content-Type: application/json');
