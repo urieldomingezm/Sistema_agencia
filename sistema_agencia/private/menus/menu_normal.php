@@ -138,6 +138,6 @@ $items = [
   ['name' => 'Informacion', 'dropdown' => ['Rangos']],
 ];
 
-$navbar = new Navbar('Agencia Atenas', $items);
+$navbar = new Navbar('Agencia Shein', $items);
 $navbar->render();
 ?>
