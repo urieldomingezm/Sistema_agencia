@@ -15,59 +15,45 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: 
-                linear-gradient(45deg,
-                    #8B5CF6 25%, 
-                    #EC4899 25%,
-                    #EC4899 50%,
-                    #3B82F6 50%,
-                    #3B82F6 75%,
-                    #10B981 75%
-                );
-            background-size: 100px 100px;
+            background: #ffffff;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: moveBackground 30s linear infinite;
         }
 
-        @keyframes moveBackground {
-            0% { background-position: 0 0; }
-            100% { background-position: 200px 200px; }
-        }
         .card {
-            background: rgba(255, 255, 255, 0.95);
+            background: #ffffff;
             border-radius: 20px;
-            border: 2px solid #000000;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         .card-header {
-            background: linear-gradient(135deg, #000000 0%, #333333 100%);
-            color: white;
+            background: #f8f9fa;
+            color: #333333;
             border-radius: 20px 20px 0 0 !important;
-            border-bottom: 2px solid #ffffff;
+            border-bottom: 1px solid #e0e0e0;
             padding: 20px;
         }
 
         .form-control {
-            border-radius: 10px;
+            border-radius: 8px;
             padding: 12px;
-            border: 2px solid #000000;
-            background-color: #f8f9fa;
+            border: 1px solid #e0e0e0;
+            background-color: #ffffff;
         }
 
         .form-control:focus {
-            border-color: #000000;
-            box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.25);
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.1);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
             color: white;
-            border: 2px solid #000000;
-            border-radius: 10px;
+            border: none;
+            border-radius: 8px;
             padding: 12px 30px;
             font-weight: 600;
             transition: all 0.3s ease;
