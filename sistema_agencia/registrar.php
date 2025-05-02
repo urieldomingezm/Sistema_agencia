@@ -16,7 +16,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #F3F0FF 0%, #E9D5FF 100%);
+        background: #ffffff;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -24,18 +24,17 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     }
 
     .card {
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
-        border: none;
-        box-shadow: 0 10px 20px rgba(139, 92, 246, 0.1);
-        backdrop-filter: blur(10px);
+        border: 2px solid #000000;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     }
 
     .card-header {
-        background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+        background: linear-gradient(135deg, #000000 0%, #333333 100%);
         color: white;
         border-radius: 20px 20px 0 0 !important;
-        border: none;
+        border-bottom: 2px solid #ffffff;
         padding: 20px;
     }
 
