@@ -138,42 +138,42 @@ class BodyHome
             [
                 'name' => 'México',
                 'flag' => 'https://flagcdn.com/mx.svg',
-                'paytime' => '03:00 p.m.'
+                'paytime' => '14:00'
             ],
             [
                 'name' => 'Argentina',
                 'flag' => 'https://flagcdn.com/ar.svg',
-                'paytime' => '06:00 p.m.'
+                'paytime' => '17:00'
             ],
             [
                 'name' => 'Colombia',
                 'flag' => 'https://flagcdn.com/co.svg',
-                'paytime' => '04:00 p.m.'
+                'paytime' => '15:00'
             ],
             [
                 'name' => 'Perú',
                 'flag' => 'https://flagcdn.com/pe.svg',
-                'paytime' => '04:00 p.m.'
+                'paytime' => '15:00'
             ],
             [
                 'name' => 'Chile',
                 'flag' => 'https://flagcdn.com/cl.svg',
-                'paytime' => '06:00 p.m.'
+                'paytime' => '16:00'
             ],
             [
                 'name' => 'Brasil',
                 'flag' => 'https://flagcdn.com/br.svg',
-                'paytime' => '06:00 p.m.'
+                'paytime' => '17:00'
             ],
             [
                 'name' => 'España',
                 'flag' => 'https://flagcdn.com/es.svg',
-                'paytime' => '10:00 p.m.'
+                'paytime' => '22:00'
             ],
             [
                 'name' => 'Estados Unidos',
                 'flag' => 'https://flagcdn.com/us.svg',
-                'paytime' => '----'
+                'paytime' => '14:00'
             ],
         ];
 
