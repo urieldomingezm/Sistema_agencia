@@ -96,7 +96,7 @@ class RadioPlayer
                             if (mountPointStatus) {
                                 mountPointStatus.textContent = "Radio no disponible";
                             }
-                            alert("La radio no está disponible en este momento");
+                            // Se eliminó el alert() que estaba aquí
                         }
                     });
                 });
@@ -176,7 +176,7 @@ class RadioPlayer
                 // Detectar error de la radio (si no está disponible)
                 radio.onerror = function() {
                     console.log("Radio no disponible");
-                    alert("La radio en vivo no está disponible en este momento.");
+                    // Se eliminó el alert() que estaba aquí
                 };
 
                 // Actualizar el estado de los botones cuando la radio se reproduce o se pausa automáticamente
