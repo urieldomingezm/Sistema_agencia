@@ -123,8 +123,8 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
             const passwordInput = document.querySelector('input[name="password"]');
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordInput.setAttribute('type', type);
-            this.querySelector('i').classList.toggle('fa-eye');
-            this.querySelector('i').classList.toggle('fa-eye-slash');
+            this.querySelector('i').classList.toggle('bi-eye-fill');
+            this.querySelector('i').classList.toggle('bi-eye-slash-fill');
         });
         // Initialize Just-Validate
         const validator = new JustValidate('#registrationForm', {
