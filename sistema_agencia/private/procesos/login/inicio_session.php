@@ -31,13 +31,11 @@ class UserLogin
             // Validar reCAPTCHA
             $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
             $secretKey = "6LfUGiwrAAAAAGeoeQkQNhJtZOmav26ovKCpFl-d";
-            
             $recaptchaUrl = "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}";
-            $recaptcha = file_get_contents($recaptchaUrl);
-            $recaptcha = json_decode($recaptcha);
-            
+            $recaptcha = json_decode(file_get_contents($recaptchaUrl));
+
             if (!$recaptcha->success || $recaptcha->score < 0.5) {
-                return ['success' => false, 'message' => 'Por favor completa el reCAPTCHA correctamente'];
+                return ['success' => false, 'message' => 'Verificación reCAPTCHA fallida'];
             }
 
             $query = "SELECT id, usuario_registro, password_registro, rol_id FROM {$this->table} 
