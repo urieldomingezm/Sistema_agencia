@@ -25,7 +25,7 @@ class Navbar
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-          <i class="fas fa-bars"></i>
+          <i class="bi bi-list"></i>
         </button>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
@@ -102,15 +102,15 @@ class Navbar
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Inicio' => 'bi bi-house',
-      'Perfil' => 'bi bi-person',
-      'Informacion' => 'bi bi-info-circle',
-      'Ascenso' => 'bi bi-arrow-up',
-      'Ventas' => 'bi bi-cart',
-      'Paga' => 'bi bi-cash-stack',
-      'Gestion de usuarios' => 'bi bi-people'
+      'Inicio' => 'bi bi-house-door-fill',
+      'Perfil' => 'bi bi-person-fill',
+      'Informacion' => 'bi bi-info-circle-fill',
+      'Ascenso' => 'bi bi-arrow-up-circle-fill',
+      'Ventas' => 'bi bi-cart-fill',
+      'Paga' => 'bi bi-wallet-fill',
+      'Gestion de usuarios' => 'bi bi-people-fill'
     ];
-    return $icons[$itemName] ?? 'bi bi-circle';
+    return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
 
   private function getDropdownIcon($itemName)
@@ -119,21 +119,21 @@ class Navbar
       'Ver perfil' => 'bi bi-person-circle',
       'Cerrar session' => 'bi bi-box-arrow-right',
       'Requisitos paga' => 'bi bi-list-check',
-      'Calcular rango' => 'bi bi-calculator',
-      'Gestion de tiempo' => 'bi bi-clock',
-      'Gestion ascenso' => 'bi bi-people',
-      'Ventas membresias' => 'bi bi-person-badge',
-      'total ventas' => 'bi bi-graph-up',
+      'Calcular rango' => 'bi bi-calculator-fill',
+      'Gestion de tiempo' => 'bi bi-clock-fill',
+      'Gestion ascenso' => 'bi bi-people-fill',
+      'Ventas membresias' => 'bi bi-person-badge-fill',
+      'total ventas' => 'bi bi-graph-up-arrow',
       'Gestion de pagas' => 'bi bi-wallet2',
-      'Pagar usuario' => 'bi bi-cash-coin',
-      'Grafico total de pagas' => 'bi bi-pie-chart',
-      'Verificar usuarios' => 'bi bi-shield-check', 
-      'Gestionar usuarios' => 'bi bi-gear',
-      'Vender membresias' => 'bi bi-tags',
-      'Vender rangos' => 'bi bi-award',
-      'Ventas rangos' => 'bi bi-star',
+      'Pagar usuario' => 'bi bi-cash',
+      'Grafico total de pagas' => 'bi bi-pie-chart-fill',
+      'Verificar usuarios' => 'bi bi-shield-check-fill', 
+      'Gestionar usuarios' => 'bi bi-gear-fill',
+      'Vender membresias' => 'bi bi-tags-fill',
+      'Vender rangos' => 'bi bi-award-fill',
+      'Ventas rangos' => 'bi bi-star-fill',
     ];
-    return $icons[$itemName] ?? 'bi bi-circle';
+    return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
 
   private function getItemUrl($item)
