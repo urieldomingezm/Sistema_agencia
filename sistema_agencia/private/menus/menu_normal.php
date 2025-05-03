@@ -21,7 +21,8 @@ class Navbar
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
-          <i class="bi bi-building me-2"></i><?= $this->brand ?>
+          <img src="/public/assets/custom_general/custom_menus/icono.png" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
+          <?= $this->brand ?>
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
@@ -109,9 +110,9 @@ class Navbar
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Inicio' => 'bi bi-house',
-      'Unirse' => 'bi bi-person-plus',
-      'Informacion' => 'bi bi-info-circle'
+      'Inicio' => 'bi bi-house-door',
+      'Unirse' => 'bi bi-people',
+      'Informacion' => 'bi bi-info-square'
     ];
     return $icons[$itemName] ?? 'bi bi-circle';
   }
@@ -120,8 +121,8 @@ class Navbar
   {
     $icons = [
       'Iniciar session' => 'bi bi-box-arrow-in-right',
-      'Registrarse' => 'bi bi-person-plus',
-      'Rangos' => 'bi bi-star'
+      'Registrarse' => 'bi bi-person-add',
+      'Rangos' => 'bi bi-award-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle';
   }

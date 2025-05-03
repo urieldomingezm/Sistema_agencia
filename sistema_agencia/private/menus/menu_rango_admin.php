@@ -20,7 +20,8 @@ class Navbar
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
-          <i class="fas fa-building me-2"></i><?= $this->brand ?>
+        <img src="/public/assets/custom_general/custom_menus/icono.png" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
+        <?= $this->brand ?>
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
