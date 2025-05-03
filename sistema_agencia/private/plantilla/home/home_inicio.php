@@ -14,6 +14,7 @@ class BodyHome
     private function renderHeader()
     {
         echo '<br><br>';
+        echo '<br><br>';
         echo '<main class="flex-shrink-0">';
         echo '<header style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 40px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">';
         echo '<div class="container text-center">';
