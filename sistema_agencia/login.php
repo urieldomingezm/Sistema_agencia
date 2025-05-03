@@ -124,6 +124,9 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
     </div>
 </body>
 
+<!-- Agregar CDN de SweetAlert2 antes de los scripts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     document.getElementById('togglePassword').addEventListener('click', function() {
         const passwordInput = document.querySelector('input[name="password"]');
