@@ -13,7 +13,7 @@ define('BODY_HOME_PATH', PRIVATE_PATH . 'plantilla/home/');
 define('BODY_DJ_PATH', PRIVATE_PATH . 'radio/'); 
 
 // Rutas para procesos de login, registros, etc
-define('PROCESOS_LOGIN_PATH', PRIVATE_PATH . 'config/procesos/login_registro/'); 
+define('PROCESOS_LOGIN_PATH', PRIVATE_PATH . 'procesos/login/'); 
 
 // Rutas para modales de ascender y tomar tiempo usando menus
 define('MODALES_MENU_PATH', PRIVATE_PATH . 'modal/moda_menus_ascender/');
