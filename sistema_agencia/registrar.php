@@ -26,12 +26,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     .card {
         background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
-        border: 2px solid #000000;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        border: 2px solid #4a6bff;
+        box-shadow: 0 10px 20px rgba(74, 107, 255, 0.2);
     }
 
     .card-header {
-        background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
         color: white;
         border-radius: 20px 20px 0 0 !important;
         border-bottom: 2px solid #ffffff;
@@ -41,25 +41,28 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     .form-control {
         border-radius: 10px;
         padding: 12px;
-        border: 2px solid #E9D5FF;
+        border: 2px solid #e0e0e0;
     }
 
     .form-control:focus {
-        border-color: #8B5CF6;
-        box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.25);
+        border-color: #4a6bff;
+        box-shadow: 0 0 0 0.25rem rgba(74, 107, 255, 0.25);
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
         border: none;
         border-radius: 10px;
         padding: 12px 30px;
         font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
     }
 
     .btn-primary:hover {
-        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+        background: linear-gradient(135deg, #2541b2 0%, #4a6bff 100%);
         transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(37, 65, 178, 0.3);
     }
 
     /* Add validation styles */
@@ -115,9 +118,9 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                             <button type="submit" class="btn btn-primary w-100">Registrarse</button>
                         </form>
                         <div class="text-center mt-3">
-                            <a href="login.php" class="text-decoration-none" style="color: #8B5CF6;">¿Ya tienes cuenta? Inicia sesión</a>
+                            <a href="login.php" class="text-decoration-none" style="color: #4a6bff;">¿Ya tienes cuenta? Inicia sesión</a>
                             <br>
-                            <a href="index.php" class="text-decoration-none" style="color: #8B5CF6;">regresar al inicio</a>
+                            <a href="index.php" class="text-decoration-none" style="color: #4a6bff;">regresar al inicio</a>
                         </div>
                     </div>
                 </div>

@@ -25,12 +25,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
         .card {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            border: 2px solid #000000;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 2px solid #4a6bff;
+            box-shadow: 0 10px 20px rgba(74, 107, 255, 0.2);
         }
 
         .card-header {
-            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+            background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
             color: white;
             border-radius: 20px 20px 0 0 !important;
             border-bottom: 2px solid #ffffff;
@@ -45,12 +45,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
         }
 
         .form-control:focus {
-            border-color: #8B5CF6;
-            box-shadow: 0 0 0 0.25rem rgba(139, 92, 246, 0.1);
+            border-color: #4a6bff;
+            box-shadow: 0 0 0 0.25rem rgba(74, 107, 255, 0.1);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+            background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
             color: white;
             border: none;
             border-radius: 8px;
@@ -60,9 +60,9 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #333333 0%, #000000 100%);
+            background: linear-gradient(135deg, #2541b2 0%, #4a6bff 100%);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 5px 15px rgba(37, 65, 178, 0.3);
         }
 
         .btn-primary:hover {
@@ -113,9 +113,9 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
                         </form>
                         <div class="text-center mt-3">
-                            <a href="registrar.php" class="text-decoration-none" style="color: #8B5CF6;">¿No tienes cuenta? Regístrate</a>
+                            <a href="registrar.php" class="text-decoration-none" style="color: #4a6bff;">¿No tienes cuenta? Regístrate</a>
                             <br>
-                            <a href="index.php" class="text-decoration-none" style="color: #8B5CF6;">regresar al inicio</a>
+                            <a href="index.php" class="text-decoration-none" style="color: #4a6bff;">regresar al inicio</a>
                         </div>
                     </div>
                 </div>
