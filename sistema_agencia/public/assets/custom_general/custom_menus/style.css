@@ -1,5 +1,5 @@
 .custom-navbar {
-    background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+    background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
     padding: 1rem;
     box-shadow: 0 2px 15px rgba(139, 92, 246, 0.2);
   }
@@ -21,13 +21,13 @@
   }
 
   .accordion-button:not(.collapsed) {
-    background: rgba(139, 92, 246, 0.25);
+    background: rgba(74, 107, 255, 0.25);
     color: #000;
     box-shadow: none;
   }
 
   .accordion-button:hover {
-    background: rgba(167, 139, 250, 0.2);
+    background: rgba(74, 107, 255, 0.2);
   }
 
   .accordion-button::after {
@@ -43,7 +43,7 @@
   }
 
   .menu-link:hover {
-    background: rgba(167, 139, 250, 0.2);
+    background: rgba(74, 107, 255, 0.2);
     color: #000;
     text-decoration: none;
   }
@@ -72,17 +72,17 @@
   }
 
   .nav-link:hover {
-    background: rgba(167, 139, 250, 0.2);
+    background: rgba(74, 107, 255, 0.2);
     color: #000 !important;
   }
 
   .nav-link.active {
-    background: rgba(139, 92, 246, 0.25);
+    background: rgba(74, 107, 255, 0.25);
     color: #000 !important;
   }
 
   .dropdown-item:hover {
-    background: rgba(167, 139, 250, 0.1);
+    background: rgba(74, 107, 255, 0.1);
     color: #000;
   }
 
@@ -157,7 +157,7 @@
   }
 
   .offcanvas-header {
-    background: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+    background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
     color: #000;
   }
 
