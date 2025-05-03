@@ -271,7 +271,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                                 });
                         });
                 });
-    }); // Cerrar correctamente el onSuccess
+    });
 </script>
 
 <?php
