@@ -4,8 +4,7 @@ services:
   web:
     build: .
     ports:
-      - "80:80"  # Cambiado de 8081:80
-      - "443:443" # Cambiado de 8443:443
+      - "90:90"  # Cambiado de 8081:80
     volumes:
       - .:/var/www/html
       - /etc/letsencrypt:/etc/letsencrypt
