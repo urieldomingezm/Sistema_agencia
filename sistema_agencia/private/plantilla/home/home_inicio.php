@@ -44,7 +44,7 @@ class BodyHome
                 'id' => '3',
                 'name' => 'xOllStarx',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=xOllStarx&headonly=1&head_direction=3&size=sl',
-                'rank' => 'Dueño',
+                'rank' => 'Gerente',
             ],
             [
                 'id' => '4',
