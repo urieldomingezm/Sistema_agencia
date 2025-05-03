@@ -181,7 +181,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                                             icon: 'success',
                                             title: '¡Bienvenido!',
                                             text: data.message,
-                                            confirmButtonColor: '#8B5CF6'
+                                            confirmButtonColor: '#4a6bff'
                                         }).then(() => {
                                             if (data.redirect) {
                                                 window.location.href = data.redirect;
@@ -194,7 +194,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                                             icon: 'error',
                                             title: 'Error',
                                             text: data.message,
-                                            confirmButtonColor: '#8B5CF6'
+                                            confirmButtonColor: '#4a6bff'
                                         });
                                     }
                                 })
@@ -203,11 +203,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                                         icon: 'error',
                                         title: 'Error',
                                         text: 'Error al iniciar sesión',
-                                        confirmButtonColor: '#8B5CF6'
+                                        confirmButtonColor: '#4a6bff'
                                     });
                                 });
                         });
                 });
+    }); // Cerrar correctamente el onSuccess
 </script>
 
 <?php
