@@ -30,14 +30,14 @@ class BodyHome
         $teamMembers = [
             [
                 'id' => '1',
-                'name' => 'Snotra',
-                'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Snotra&headonly=1&head_direction=3&size=sl1',
-                'rank' => 'Founder',
+                'name' => 'Jo.C',
+                'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Jo.C&headonly=1&head_direction=3&size=sl1',
+                'rank' => 'Dueño',
             ],
             [
                 'id' => '2',
-                'name' => 'Jo.C',
-                'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Jo.C&headonly=1&head_direction=3&size=sl',
+                'name' => 'Snotra',
+                'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Snotra&headonly=1&head_direction=3&size=sl',
                 'rank' => 'Founder',
             ],
             [
