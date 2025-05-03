@@ -84,6 +84,58 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
     .just-validate-success-field {
         border-color: #198754 !important;
     }
+
+    /* Estilos adicionales para responsividad */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+        
+        .card {
+            margin: 10px;
+        }
+        
+        .form-control {
+            font-size: 16px; /* Mejor legibilidad en móviles */
+        }
+    }
+
+    /* Mejoras en la alineación de campos */
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .input-group {
+        position: relative;
+    }
+
+    .just-validate-error-label {
+        position: absolute;
+        left: 0;
+        bottom: -20px;
+        font-size: 0.75rem;
+        color: #dc3545;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
+
+    .input-group .form-control {
+        border-right: none;
+    }
+
+    .input-group .btn-outline-secondary {
+        border-left: none;
+        background: white;
+    }
+
+    .input-group .btn-outline-secondary:hover {
+        background: #f8f9fa;
+    }
 </style>
 
 <body>
@@ -96,11 +148,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                     </div>
                     <div class="card-body p-4">
                         <form id="loginForm" method="post">
-                            <div class="mb-3">
+                            <div class="form-group mb-3">
                                 <label class="form-label"><i class="bi bi-person-fill"></i> Usuario</label>
                                 <input type="text" class="form-control" name="username" required>
                             </div>
-                            <div class="mb-4">
+                            <br>
+                            <div class="form-group mb-4">
                                 <label class="form-label"><i class="bi bi-lock-fill"></i> Contraseña</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" name="password" required>
@@ -138,10 +191,19 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 
     const validator = new JustValidate('#loginForm', {
         validateBeforeSubmitting: true,
+        focusInvalidField: true,
+        lockForm: true,
+        errorFieldCssClass: 'is-invalid',
+        successFieldCssClass: 'is-valid',
+        errorLabelStyle: {
+            fontSize: '12px',
+            color: '#dc3545',
+        }
     });
 
     validator
-        .addField('[name="username"]', [{
+        .addField('[name="username"]', [
+            {
                 rule: 'required',
                 errorMessage: 'El usuario es requerido'
             },
@@ -151,7 +213,8 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                 errorMessage: 'El usuario debe tener al menos 3 caracteres'
             }
         ])
-        .addField('[name="password"]', [{
+        .addField('[name="password"]', [
+            {
                 rule: 'required',
                 errorMessage: 'La contraseña es requerida'
             },
