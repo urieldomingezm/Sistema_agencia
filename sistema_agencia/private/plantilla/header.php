@@ -41,6 +41,9 @@ class Header
         echo 'gtag("config", "G-32NSVX1ZQD");';
         echo '</script>';
 
+        // Google Ads
+        echo '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1683982217981918" crossorigin="anonymous"></script>';
+
         // reCAPTCHA v3
         echo '<script src="https://www.google.com/recaptcha/api.js?render=6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0"></script>';
         echo '<script>';
