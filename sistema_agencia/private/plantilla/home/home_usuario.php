@@ -55,7 +55,7 @@ class BodyHome
             default => 'bg-warning'
         };
         ?>
-        <header class="welcome-header text-center">
+        <header class="welcome-header text-center" style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 40px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
             <div class="container">
                 <h1 class="display-4 text-white mb-3">
                     <i class="bi bi-star-fill me-2"></i> Agencia Shein <i class="bi bi-star-fill me-2"></i>
