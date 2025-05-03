@@ -7,8 +7,12 @@ class UserController {
     private $userRango;
 
     public function __construct() {
-        if (!isset($_SESSION['user_id'])) {
-            echo "<script>window.location.href = '/login.php';</script>";
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+        
+        if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
+            header('Location: /login.php');
             exit;
         }
 
