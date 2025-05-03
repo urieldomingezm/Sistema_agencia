@@ -90,13 +90,14 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
         .container {
             padding: 15px;
         }
-        
+
         .card {
             margin: 10px;
         }
-        
+
         .form-control {
-            font-size: 16px; /* Mejor legibilidad en móviles */
+            font-size: 16px;
+            /* Mejor legibilidad en móviles */
         }
     }
 
@@ -202,8 +203,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
     });
 
     validator
-        .addField('[name="username"]', [
-            {
+        .addField('[name="username"]', [{
                 rule: 'required',
                 errorMessage: 'El usuario es requerido'
             },
@@ -213,8 +213,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                 errorMessage: 'El usuario debe tener al menos 3 caracteres'
             }
         ])
-        .addField('[name="password"]', [
-            {
+        .addField('[name="password"]', [{
                 rule: 'required',
                 errorMessage: 'La contraseña es requerida'
             },
@@ -225,53 +224,53 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
             }
         ])
         .onSuccess((event) => {
-                event.preventDefault();
-                grecaptcha.ready(function() {
-                    grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
-                            action: 'login'
-                        })
-                        .then(function(token) {
-                            document.getElementById('g-recaptcha-response').value = token;
-                            const form = event.target;
-                            fetch('login.php', {
-                                    method: 'POST',
-                                    body: new FormData(form)
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: '¡Bienvenido!',
-                                            text: data.message,
-                                            confirmButtonColor: '#4a6bff'
-                                        }).then(() => {
-                                            if (data.redirect) {
-                                                window.location.href = data.redirect;
-                                            } else {
-                                                window.location.href = '/usuario/index.php';
-                                            }
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Error',
-                                            text: data.message,
-                                            confirmButtonColor: '#4a6bff'
-                                        });
-                                    }
-                                })
-                                .catch(error => {
+            event.preventDefault();
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
+                        action: 'login'
+                    })
+                    .then(function(token) {
+                        document.getElementById('g-recaptcha-response').value = token;
+                        const form = event.target;
+                        fetch('login.php', {
+                                method: 'POST',
+                                body: new FormData(form)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Bienvenido!',
+                                        text: data.message,
+                                        confirmButtonColor: '#4a6bff'
+                                    }).then(() => {
+                                        if (data.redirect) {
+                                            window.location.href = data.redirect;
+                                        } else {
+                                            window.location.href = '/usuario/index.php';
+                                        }
+                                    });
+                                } else {
                                     Swal.fire({
                                         icon: 'error',
                                         title: 'Error',
-                                        text: 'Error al iniciar sesión',
+                                        text: data.message,
                                         confirmButtonColor: '#4a6bff'
                                     });
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al iniciar sesión',
+                                    confirmButtonColor: '#4a6bff'
                                 });
-                        });
-                });
-    });
+                            });
+                    });
+            });
+        });
 </script>
 
 <?php
