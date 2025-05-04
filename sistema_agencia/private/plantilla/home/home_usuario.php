@@ -24,7 +24,6 @@ class BodyHome
         <div class="home-container">
             <?php
             $this->renderHeader();
-            $this->renderTeamSection();
             $this->renderEventsSection();
             $this->renderPaydaySection();
             $this->renderMembershipSection();
@@ -69,40 +68,6 @@ class BodyHome
             </div>
         </header>
         <?php
-    }
-
-    private function renderTeamSection()
-    {
-        $teamMembers = [
-            ['name' => 'Snotra', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Snotra&headonly=1&head_direction=3&size=sl', 'rank' => 'Founder'],
-            ['name' => 'Jo.C', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Jo.C&headonly=1&head_direction=3&size=sl', 'rank' => 'Dueño'],
-            ['name' => 'xOllStarx', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=xOllStarx&headonly=1&head_direction=3&size=sl', 'rank' => 'Founder'],
-            ['name' => 'BigBarneyStinso', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=BigBarneyStinso&headonly=1&head_direction=3&size=sl', 'rank' => 'Gerente'],
-            ['name' => 'Nefita', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Nefita&headonly=1&head_direction=3&size=sl', 'rank' => 'Manager'],
-            ['name' => 'Keekit08', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Keekit08&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
-            ['name' => 'juancBQ', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=juancBQ&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
-            ['name' => 'mutilla_', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=mutilla_&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
-            ['name' => 'Vanderlind', 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Vanderlind&headonly=1&head_direction=3&size=sl', 'rank' => 'Administradora'],
-        ];
-
-        echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 50px 0;">';
-        echo '<div class="container text-center">';
-        echo '<h2 style="color: black; font-weight: bold;"><i class="bi bi-people-fill me-1"></i> Nuestro Equipo <i class="bi bi-people-fill me-1"></i></h2>';
-        echo '<div class="row justify-content-center">'; // Centrar el contenido
-
-        foreach ($teamMembers as $member) {
-            echo '<div class="col-12 col-sm-6 col-md-4 mb-4">'; // 1 columna en móvil, 2 en tablet, 3 en PC
-            echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
-            echo '<img src="' . $member['image'] . '" style="border-radius: 50%; width: 100px; height: 100px; border: 3px solid #FFD700;">';
-            echo '<h3 style="color: #333;">' . $member['name'] . '</h3>';
-            echo '<span style="background: #FF4500; color: white; padding: 5px 10px; border-radius: 10px;">' . $member['rank'] . '</span>';
-            echo '</div>';
-            echo '</div>';
-        }
-
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
     }
 
     private function renderEventsSection()
@@ -183,20 +148,47 @@ class BodyHome
         echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 20px 0;">';
         echo '<div class="container text-center">';
         echo '<h2 style="color: black; font-weight: bold;"><i class="bi bi-cash-coin me-1"></i> Día de Paga <i class="bi bi-cash-coin me-1"></i></h2>';
-        echo '<div class="row justify-content-center">';
-
-        foreach ($countries as $country) {
-            echo '<div class="col-6 col-sm-4 col-md-3 mb-4">';
-            echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 8px 15px rgba(0,0,0,0.2);">';
-            echo '<img src="' . $country['flag'] . '" style="width: 100%; height: 120px; border-radius: 8px; object-fit: cover;">';
-            echo '<p style="color: #333; margin-top: 15px; font-size: 18px; font-weight: bold;">' . $country['name'] . '</p>';
-            echo '<p style="color: #666; font-size: 16px;">Hora de paga: ' . $country['paytime'] . '</p>';
+        
+        echo '<div id="paydayCarousel" class="carousel slide" data-bs-ride="carousel">';
+        
+        echo '<div class="carousel-inner">';
+        
+        $itemsPerSlide = 4;
+        $totalSlides = ceil(count($countries) / $itemsPerSlide);
+        
+        for ($i = 0; $i < $totalSlides; $i++) {
+            echo '<div class="carousel-item ' . ($i === 0 ? 'active' : '') . '">';
+            echo '<div class="row justify-content-center">';
+            
+            for ($j = $i * $itemsPerSlide; $j < min(($i + 1) * $itemsPerSlide, count($countries)); $j++) {
+                $country = $countries[$j];
+                echo '<div class="col-md-3 mb-4">';
+                echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 8px 15px rgba(0,0,0,0.2);">';
+                echo '<img src="' . $country['flag'] . '" style="width: 100%; height: 120px; border-radius: 8px; object-fit: cover;">';
+                echo '<p style="color: #333; margin-top: 15px; font-size: 18px; font-weight: bold;">' . $country['name'] . '</p>';
+                echo '<p style="color: #666; font-size: 16px;">Hora de paga: ' . $country['paytime'] . '</p>';
+                echo '</div>';
+                echo '</div>';
+            }
+            
             echo '</div>';
             echo '</div>';
         }
-
+        
         echo '</div>';
-        echo '</div>';
+        
+        // Controles del carrusel (flechas negras)
+        echo '<button class="carousel-control-prev" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev" style="width: 5%;">';
+        echo '<span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: black; border-radius: 50%; padding: 15px;"></span>';
+        echo '<span class="visually-hidden">Anterior</span>';
+        echo '</button>';
+        echo '<button class="carousel-control-next" type="button" data-bs-target="#paydayCarousel" data-bs-slide="next" style="width: 5%;">';
+        echo '<span class="carousel-control-next-icon" aria-hidden="true" style="background-color: black; border-radius: 50%; padding: 15px;"></span>';
+        echo '<span class="visually-hidden">Siguiente</span>';
+        echo '</button>';
+        
+        echo '</div>'; // Fin del carrusel
+        echo '</div>'; // Fin del container
         echo '</section>';
     }
 
