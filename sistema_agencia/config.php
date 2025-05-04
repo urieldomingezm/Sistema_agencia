@@ -53,5 +53,9 @@ define('CUSTOM_RADIO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_radi
 // Ruta de carpeta para modales de gestion de ascenso
 define('MODAL_GESTION_ASCENSO_PATH', PRIVATE_PATH . 'modal/modal_gestion_ascenso/'); 
 // Ruta de carpeta para modales de gestion de tiempo
-define('MODAL_GESTION_TIEMPO_PATH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/'); 
+define('MODAL_GESTION_TIEMPO_PATH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/');
+
+// Rutas a rangos de usuarios
+define('RANGOS_PATH', ROOT_PATH . 'usuario/rangos/');
+define('VER_RANGOS_PATH', ROOT_PATH . 'usuario/');
 ?>

@@ -129,6 +129,9 @@ class Navbar
 
   private function getItemUrl($item)
   {
+    if ($item === 'Rangos') {
+      return 'rangos.php';
+    }
     return 'index.php?page=' . strtolower(str_replace(' ', '_', $item));
   }
 }
