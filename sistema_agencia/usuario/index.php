@@ -31,12 +31,18 @@ class UserController {
             $stmt->execute();
 
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $this->userRango = $row['rango'];
+                $this->userRango = $row['rango'] ?? 'Agente';
+                $_SESSION['rango'] = $this->userRango;
+            } else {
+                // Si no se encuentra el usuario, establecer Agente como valor por defecto
+                $this->userRango = 'Agente';
                 $_SESSION['rango'] = $this->userRango;
             }
         } catch (PDOException $e) {
             error_log("Error al obtener rango: " . $e->getMessage());
-            $this->userRango = 'default';
+            // En caso de error, establecer un valor por defecto
+            $this->userRango = 'Agente';
+            $_SESSION['rango'] = $this->userRango;
         }
     }
 
@@ -182,10 +188,11 @@ class UserController {
     }
 
     private function renderAccessDenied() {
+        $rango = $this->userRango ?? 'Agente';
         echo '<div class="alert alert-danger text-center mt-5">';
         echo '<h4 class="alert-heading">Acceso Denegado</h4>';
-        echo '<p>No tienes los permisos necesarios para acceder a esta página u la pagina no existe.</p>';
-        echo '<p>Tu rango actual es: ' . htmlspecialchars($this->userRango) . '</p>';
+        echo '<p>No tienes los permisos necesarios para acceder a esta página o la página no existe.</p>';
+        echo '<p>Tu rango actual es: ' . htmlspecialchars($rango) . '</p>';
         echo '<p>Redirigiendo a la página principal...</p>';
         echo '</div>';
         echo '<meta http-equiv="refresh" content="3;url=index.php">';
