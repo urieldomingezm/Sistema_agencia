@@ -24,11 +24,15 @@ class UserLogin
     public function login($username, $password)
     {
         try {
+            if (!isset($_SESSION)) {
+                session_start();
+            }
+            
             if (empty($username) || empty($password)) {
                 return ['success' => false, 'message' => 'Usuario y contraseña son requeridos'];
             }
 
-            $query = "SELECT id, usuario_registro, password_registro, rol_id FROM {$this->table} 
+            $query = "SELECT id, usuario_registro, password_registro, rol_id, rango FROM {$this->table} 
                      WHERE usuario_registro = :username";
 
             $stmt = $this->conn->prepare($query);
@@ -42,8 +46,13 @@ class UserLogin
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['username'] = $user['usuario_registro'];
                     $_SESSION['rol_id'] = $user['rol_id'];
+                    $_SESSION['rango'] = $user['rango'];
 
-                    return ['success' => true, 'message' => '¡Bienvenido!'];
+                    return [
+                        'success' => true, 
+                        'message' => '¡Bienvenido!',
+                        'redirect' => '/usuario/index.php'
+                    ];
                 }
             }
 
