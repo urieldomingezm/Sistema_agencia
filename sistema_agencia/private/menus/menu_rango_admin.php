@@ -19,7 +19,7 @@ class Navbar
 ?>
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="index.php">
+        <a class="navbar-brand text-white" href="index.php">
         <img src="/public/assets/custom_general/custom_menus/icono.png" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;">
         <?= $this->brand ?>
         </a>
@@ -29,9 +29,9 @@ class Navbar
         </button>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
-          <div class="offcanvas-header">
+          <div class="offcanvas-header text-white">
             <h5 class="offcanvas-title">
-              <i class="fas fa-compass me-2"></i>Menú Principal
+              Menú Principal
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
           </div>
