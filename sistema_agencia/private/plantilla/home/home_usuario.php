@@ -1,10 +1,8 @@
 <?php
-class BodyHome
-{
+class BodyHome {
     private $userData;
 
     public function __construct() {
-
         if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
             echo "<script>window.location.href = '/login.php';</script>";
             exit;
@@ -14,12 +12,10 @@ class BodyHome
             'id' => $_SESSION['user_id'],
             'username' => $_SESSION['username'],
             'verificado' => $_SESSION['verificado'] ?? 0
-            
         ];
     }
     
-    public function render()
-    {
+    public function render() {
         ?>
         <div class="home-container">
             <?php
@@ -29,30 +25,11 @@ class BodyHome
             $this->renderMembershipSection();
             ?>
         </div>
-
         <?php
     }
 
-    private function getRolName($verificado) {
-        $estados = [
-            0 => 'En espera de verificación',
-            1 => 'Usuario Verificado',
-            2 => 'Usuario Rechazado'
-        ];
-        return $estados[$verificado] ?? 'Estado Desconocido';
-    }
-
-    private function renderHeader()
-    {
+    private function renderHeader() {
         $username = htmlspecialchars($this->userData['username']);
-        $verificado = $_SESSION['verificado'] ?? 0;
-        $estadoName = $this->getRolName($verificado);
-        
-        $badgeClass = match($verificado) {
-            1 => 'bg-success',
-            2 => 'bg-danger',
-            default => 'bg-warning'
-        };
         ?>
         <header class="welcome-header text-center" style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 40px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
             <div class="container">
@@ -62,16 +39,12 @@ class BodyHome
                 <p class="lead text-white mb-2">
                     Bienvenido <?= $username ?> 
                 </p>
-                <p class="text-white-50">
-                    Estado: <span class="badge <?= $badgeClass ?>"><?= $estadoName ?></span>
-                </p>
             </div>
         </header>
         <?php
     }
 
-    private function renderEventsSection()
-    {
+    private function renderEventsSection() {
         $events = [
             ['title' => 'Fiesta de Bienvenida', 'description' => 'Conoce a todos los miembros de Agencia Atenas en nuestra fiesta de bienvenida', 'date' => '15 de Marzo, 2025', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20party%20room%20with%20lots%20of%20avatars%20dancing&aspect=16:9'],
             ['title' => 'Construcción', 'description' => 'Muestra tus habilidades de construcción y gana premios increíbles', 'date' => '22 de Marzo, 2025', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20building%20competition%20with%20furniture%20and%20decorations&aspect=16:9'],
@@ -100,8 +73,7 @@ class BodyHome
         echo '</section>';
     }
 
-    private function renderPaydaySection()
-    {
+    private function renderPaydaySection() {
         $countries = [
             [
                 'name' => 'México',
@@ -193,8 +165,7 @@ class BodyHome
     }
 
 
-    private function renderMembershipSection()
-    {
+    private function renderMembershipSection() {
         $memberships = [
             [
                 'title' => 'Membresía Gold',
@@ -259,7 +230,6 @@ class BodyHome
     }
 }
 
-// Instancia y renderizado de la clase
 require_once(BODY_DJ_PATH . 'dj_radio.php');
 $bodyHome = new BodyHome();
 $bodyHome->render();
