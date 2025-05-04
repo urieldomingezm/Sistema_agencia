@@ -23,15 +23,12 @@ class UserRegistration
 
     private function getClientIP()
     {
-        // Verificar si existe proxy
         if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
             $ip = $_SERVER['HTTP_CLIENT_IP'];
         }
-        // Verificar si viene de proxy transparente
         elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
         }
-        // Si no hay proxy, usar la IP remota directa
         else {
             $ip = $_SERVER['REMOTE_ADDR'];
         }
@@ -48,6 +45,15 @@ class UserRegistration
         return $stmt->fetchColumn() > 0;
     }
 
+    private function generateUniqueCode() {
+        $characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        $code = '';
+        for ($i = 0; $i < 5; $i++) {
+            $code .= $characters[rand(0, strlen($characters) - 1)];
+        }
+        return $code;
+    }
+
     public function register($username, $password, $habboName)
     {
         try {
@@ -61,7 +67,6 @@ class UserRegistration
                 return ['success' => false, 'message' => 'Ya existe un registro con esta IP'];
             }
 
-            // Verificar si el nombre de Habbo ya existe
             $checkHabbo = "SELECT COUNT(*) FROM {$this->table} WHERE nombre_habbo = :habbo_name";
             $stmt = $this->conn->prepare($checkHabbo);
             $stmt->bindParam(':habbo_name', $habboName);
@@ -71,15 +76,18 @@ class UserRegistration
             }
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $codigo_time = $this->generateUniqueCode();
+            
             $query = "INSERT INTO {$this->table} 
-                     (usuario_registro, password_registro, nombre_habbo, rol_id, rango, fecha_registro, ip_registro, verificado) 
-                     VALUES (:username, :password, :habbo_name, 1, 'Agente', NOW(), :ip, 0)";
+                     (usuario_registro, password_registro, nombre_habbo, rol_id, rango, fecha_registro, ip_registro, codigo_time) 
+                     VALUES (:username, :password, :habbo_name, 1, 'Agente', NOW(), :ip, :codigo_time)";
 
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':username', $username);
             $stmt->bindParam(':password', $hashedPassword);
             $stmt->bindParam(':habbo_name', $habboName);
             $stmt->bindParam(':ip', $ip);
+            $stmt->bindParam(':codigo_time', $codigo_time);
 
             if ($stmt->execute()) {
                 return ['success' => true, 'message' => '¡Registro exitoso! Por favor, inicia sesión para continuar.'];
@@ -93,7 +101,6 @@ class UserRegistration
     }
 }
 
-// Manejo de la solicitud POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $registration = new UserRegistration();

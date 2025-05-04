@@ -34,13 +34,11 @@ class UserController {
                 $this->userRango = $row['rango'] ?? 'Agente';
                 $_SESSION['rango'] = $this->userRango;
             } else {
-                // Si no se encuentra el usuario, establecer Agente como valor por defecto
                 $this->userRango = 'Agente';
                 $_SESSION['rango'] = $this->userRango;
             }
         } catch (PDOException $e) {
             error_log("Error al obtener rango: " . $e->getMessage());
-            // En caso de error, establecer un valor por defecto
             $this->userRango = 'Agente';
             $_SESSION['rango'] = $this->userRango;
         }
@@ -48,7 +46,6 @@ class UserController {
 
     private function loadMenu() {
         $menuMap = [
-            'En Espera de ser verificado' => 'menu_aunno_verificado.php',
             'Agente' => 'menu_rango_bajos.php',
             'Seguridad' => 'menu_rango_bajos.php',
             'Tecnico' => 'menu_rango_bajos.php',
