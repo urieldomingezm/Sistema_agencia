@@ -132,6 +132,8 @@ class Navbar
       'Vender membresias' => 'bi bi-tags-fill',
       'Vender rangos' => 'bi bi-award-fill',
       'Ventas rangos' => 'bi bi-star-fill',
+      'Dar ascenso' => 'bi bi-arrow-up-square-fill',
+      'Tomar tiempo' => 'bi bi-stopwatch-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -156,7 +158,7 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
-  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso']],
+  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'divider', 'Dar ascenso', 'Tomar tiempo']],
   ['name' => 'Ventas', 'dropdown' => ['Ventas membresias', 'Ventas rangos', 'total ventas', 'divider', 'Vender membresias','Vender rangos']],
   ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Pagar usuario', 'Grafico total de pagas']],
   ['name' => 'Gestion de usuarios', 'dropdown' => ['Verificar usuarios', 'Gestionar usuarios']],
