@@ -23,7 +23,20 @@ class UserRegistration
 
     private function getClientIP()
     {
-        return $_SERVER['REMOTE_ADDR'];
+        // Verificar si existe proxy
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        }
+        // Verificar si viene de proxy transparente
+        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        // Si no hay proxy, usar la IP remota directa
+        else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+        
+        return $ip;
     }
 
     private function checkExistingIP($ip)
