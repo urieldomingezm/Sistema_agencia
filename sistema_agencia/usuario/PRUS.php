@@ -1,36 +1,37 @@
 <!-- PROCESO DE VER PERFIL -->
 <?php
 require_once(VER_PERFIL_PATCH . 'ver_perfil.php');
-
 $userProfile = new UserProfile();
 $userData = $userProfile->getUserData();
 ?>
 
-
-<div class="profile-header text-center py-5 position-relative overflow-hidden">
+<div class="profile-header text-center py-3 position-relative overflow-hidden">
     <div class="background-pattern"></div>
     <div class="container position-relative">
-        <div class="avatar-container mb-4">
-            <div class="avatar-wrapper">
+        <div class="d-flex align-items-center justify-content-center">
+            <div class="avatar-container me-3" style="width: 70px; height: 70px;">
                 <img src="<?php echo $userData['avatar']; ?>"
-                    class="rounded-circle shadow-lg border border-4 border-white"
-                    alt="Profile Avatar">
-                <div class="status-badge pulse"></div>
+                    class="rounded-circle shadow border border-2 border-white"
+                    alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="status-badge pulse" style="width: 12px; height: 12px;"></div>
+            </div>
+            <div>
+                <h1 class="h4 fw-bold text-white text-shadow mb-0"><?php echo $userData['username']; ?></h1>
+                <small class="text-white-50"><?php echo $userData['role']; ?></small>
             </div>
         </div>
-        <h1 class="display-4 fw-bold text-white mb-2 text-shadow"><?php echo $userData['username']; ?></h1>
     </div>
 </div>
 
-<div class="container py-5">
-    <div class="row g-4">
-        <!-- Tarjeta de Información Personal -->
+<div class="container py-3">
+    <div class="row g-3">
+        <!-- Secciones de información -->
         <div class="col-md-4">
-            <div class="profile-card glass-effect">
-                <div class="card-header bg-gradient-primary d-flex align-items-center">
-                    <h3 class="mb-0">Información Personal</h3>
+            <div class="profile-card glass-effect h-100">
+                <div class="card-header bg-gradient-primary py-2">
+                    <h3 class="h5 mb-0">Información Personal</h3>
                 </div>
-                <div class="stats-card">
+                <div class="stats-card p-2">
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Usuario</span>
                         <span class="info-value"><?php echo $userData['username']; ?></span>
@@ -47,13 +48,12 @@ $userData = $userProfile->getUserData();
             </div>
         </div>
 
-        <!-- Tarjeta de Información de Time de Paga -->
         <div class="col-md-4">
-            <div class="profile-card glass-effect">
-                <div class="card-header bg-gradient-success d-flex align-items-center">
-                    <h3 class="mb-0">Time de Paga</h3>
+            <div class="profile-card glass-effect h-100">
+                <div class="card-header bg-gradient-success py-2">
+                    <h3 class="h5 mb-0">Time de Paga</h3>
                 </div>
-                <div class="stats-card">
+                <div class="stats-card p-2">
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Día de paga</span>
                         <span class="info-value"><?php echo $userData['paymentDate']; ?> de cada mes</span>
@@ -70,13 +70,12 @@ $userData = $userProfile->getUserData();
             </div>
         </div>
 
-        <!-- Tarjeta de Información de Misión -->
         <div class="col-md-4">
-            <div class="profile-card glass-effect">
-                <div class="card-header bg-gradient-info d-flex align-items-center">
-                    <h3 class="mb-0">Información de Misión</h3>
+            <div class="profile-card glass-effect h-100">
+                <div class="card-header bg-gradient-info py-2">
+                    <h3 class="h5 mb-0">Información de Misión</h3>
                 </div>
-                <div class="stats-card">
+                <div class="stats-card p-2">
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Misión actual</span>
                         <span class="info-value"><?php echo $userData['mission']; ?></span>
