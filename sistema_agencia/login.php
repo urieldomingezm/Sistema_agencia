@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
 // First handle the login POST request before any output
@@ -13,78 +13,131 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 ?>
 
 <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #ffffff;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        border: 2px solid #4a6bff;
+        box-shadow: 0 10px 20px rgba(74, 107, 255, 0.2);
+    }
+
+    .card-header {
+        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
+        color: white;
+        border-radius: 20px 20px 0 0 !important;
+        border-bottom: 2px solid #ffffff;
+        padding: 20px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid #e0e0e0;
+        background-color: #ffffff;
+    }
+
+    .form-control:focus {
+        border-color: #4a6bff;
+        box-shadow: 0 0 0 0.25rem rgba(74, 107, 255, 0.1);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #2541b2 0%, #4a6bff 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(37, 65, 178, 0.3);
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
+        transform: translateY(-2px);
+    }
+
+    /* Validation styles */
+    .just-validate-error-label {
+        color: #dc3545;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
+
+    .just-validate-error-field {
+        border-color: #dc3545 !important;
+    }
+
+    .just-validate-success-field {
+        border-color: #198754 !important;
+    }
+
+    /* Estilos adicionales para responsividad */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
         }
 
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            border: 2px solid #4a6bff;
-            box-shadow: 0 10px 20px rgba(74, 107, 255, 0.2);
-        }
-
-        .card-header {
-            background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
-            color: white;
-            border-radius: 20px 20px 0 0 !important;
-            border-bottom: 2px solid #ffffff;
-            padding: 20px;
+            margin: 10px;
         }
 
         .form-control {
-            border-radius: 8px;
-            padding: 12px;
-            border: 1px solid #e0e0e0;
-            background-color: #ffffff;
+            font-size: 16px;
+            /* Mejor legibilidad en móviles */
         }
+    }
 
-        .form-control:focus {
-            border-color: #4a6bff;
-            box-shadow: 0 0 0 0.25rem rgba(74, 107, 255, 0.1);
-        }
+    /* Mejoras en la alineación de campos */
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
+    .input-group {
+        position: relative;
+    }
 
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #2541b2 0%, #4a6bff 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 65, 178, 0.3);
-        }
+    .just-validate-error-label {
+        position: absolute;
+        left: 0;
+        bottom: -20px;
+        font-size: 0.75rem;
+        color: #dc3545;
+    }
 
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-            transform: translateY(-2px);
-        }
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+    }
 
-        /* Validation styles */
-        .just-validate-error-label {
-            color: #dc3545;
-            font-size: 0.875em;
-            margin-top: 0.25rem;
-        }
+    .input-group .form-control {
+        border-right: none;
+    }
 
-        .just-validate-error-field {
-            border-color: #dc3545 !important;
-        }
+    .input-group .btn-outline-secondary {
+        border-left: none;
+        background: white;
+    }
 
-        .just-validate-success-field {
-            border-color: #198754 !important;
-        }
-    </style>
+    .input-group .btn-outline-secondary:hover {
+        background: #f8f9fa;
+    }
+</style>
 
 <body>
     <div class="container">
@@ -96,11 +149,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                     </div>
                     <div class="card-body p-4">
                         <form id="loginForm" method="post">
-                            <div class="mb-3">
+                            <div class="form-group mb-3">
                                 <label class="form-label"><i class="bi bi-person-fill"></i> Usuario</label>
                                 <input type="text" class="form-control" name="username" required>
                             </div>
-                            <div class="mb-4">
+                            <br>
+                            <div class="form-group mb-4">
                                 <label class="form-label"><i class="bi bi-lock-fill"></i> Contraseña</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" name="password" required>
@@ -125,76 +179,97 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 </body>
 
 <script>
-        document.getElementById('togglePassword').addEventListener('click', function() {
-            const passwordInput = document.querySelector('input[name="password"]');
-            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordInput.setAttribute('type', type);
-            this.querySelector('i').classList.toggle('bi-eye-fill');
-            this.querySelector('i').classList.toggle('bi-eye-slash-fill');
-        });
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.querySelector('input[name="password"]');
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('bi-eye-fill');
+        this.querySelector('i').classList.toggle('bi-eye-slash-fill');
+    });
 
-        const validator = new JustValidate('#loginForm', {
-            validateBeforeSubmitting: true,
-        });
+    const validator = new JustValidate('#loginForm', {
+        validateBeforeSubmitting: true,
+        focusInvalidField: true,
+        lockForm: true,
+        errorFieldCssClass: 'is-invalid',
+        successFieldCssClass: 'is-valid',
+        errorLabelStyle: {
+            fontSize: '12px',
+            color: '#dc3545',
+        }
+    });
 
-        validator
-            .addField('[name="username"]', [{
-                    rule: 'required',
-                    errorMessage: 'El usuario es requerido'
-                },
-                {
-                    rule: 'minLength',
-                    value: 3,
-                    errorMessage: 'El usuario debe tener al menos 3 caracteres'
-                }
-            ])
-            .addField('[name="password"]', [{
-                    rule: 'required',
-                    errorMessage: 'La contraseña es requerida'
-                },
-                {
-                    rule: 'minLength',
-                    value: 8,
-                    errorMessage: 'La contraseña debe tener al menos 8 caracteres'
-                }
-            ])
-            .onSuccess((event) => {
-                const form = event.target;
-                fetch('login.php', {
-                        method: 'POST',
-                        body: new FormData(form)
+    validator
+        .addField('[name="username"]', [{
+                rule: 'required',
+                errorMessage: 'El usuario es requerido'
+            },
+            {
+                rule: 'minLength',
+                value: 3,
+                errorMessage: 'El usuario debe tener al menos 3 caracteres'
+            }
+        ])
+        .addField('[name="password"]', [{
+                rule: 'required',
+                errorMessage: 'La contraseña es requerida'
+            },
+            {
+                rule: 'minLength',
+                value: 8,
+                errorMessage: 'La contraseña debe tener al menos 8 caracteres'
+            }
+        ])
+        .onSuccess((event) => {
+            event.preventDefault();
+            grecaptcha.ready(function() {
+                grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
+                        action: 'login'
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Bienvenido!',
-                                text: data.message,
-                                confirmButtonColor: '#8B5CF6'
-                            }).then(() => {
-                                window.location.href = 'usuario/index.php';
+                    .then(function(token) {
+                        document.getElementById('g-recaptcha-response').value = token;
+                        const form = event.target;
+                        fetch('login.php', {
+                                method: 'POST',
+                                body: new FormData(form)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '¡Bienvenido!',
+                                        text: data.message,
+                                        confirmButtonColor: '#4a6bff'
+                                    }).then(() => {
+                                        if (data.redirect) {
+                                            window.location.href = data.redirect;
+                                        } else {
+                                            window.location.href = '/usuario/index.php';
+                                        }
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Error',
+                                        text: data.message,
+                                        confirmButtonColor: '#4a6bff'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: 'Error al iniciar sesión',
+                                    confirmButtonColor: '#4a6bff'
+                                });
                             });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: data.message,
-                                confirmButtonColor: '#8B5CF6'
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Error al iniciar sesión',
-                            confirmButtonColor: '#8B5CF6'
-                        });
                     });
             });
-    </script>
+        });
+</script>
 
-<?php 
+<?php
 require_once(TEMPLATES_PATH . 'footer.php');
 ?>
