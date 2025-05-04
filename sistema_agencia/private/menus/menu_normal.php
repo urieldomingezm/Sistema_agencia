@@ -59,12 +59,12 @@ class Navbar
                               <li>
                                 <?php if ($dropdownItem == 'Iniciar session'): ?>
                                   <a class="menu-link" href="login.php">
-                                    <i class="fas fa-sign-in-alt me-2"></i>
+                                    <i class="bi bi-box-arrow-in-right me-2"></i>
                                     <?= $dropdownItem ?>
                                   </a>
                                 <?php elseif ($dropdownItem == 'Registrarse'): ?>
                                   <a class="menu-link" href="registrar.php">
-                                    <i class="fas fa-user-plus me-2"></i>
+                                    <i class="bi bi-person-plus me-2"></i>
                                     <?= $dropdownItem ?>
                                   </a>
                                 <?php else: ?>
@@ -138,7 +138,7 @@ class Navbar
 
 $items = [
   ['name' => 'Inicio', 'active' => true],
-  ['name' => 'Unirse', 'dropdown' => ['Iniciar session','Registrarse']],
+  ['name' => 'Unirse', 'dropdown' => ['Iniciar session', 'Registrarse']],
   ['name' => 'Informacion', 'dropdown' => ['Rangos']],
 ];
 
