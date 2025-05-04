@@ -5,172 +5,19 @@
 
 <?php require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php'); ?>
 
-<style>
-.rank-tabs {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 2rem 0;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-}
-
-.nav-pills .nav-link {
-    border-radius: 12px;
-    padding: 1rem;
-    margin: 0.5rem;
-    transition: all 0.3s ease;
-    background: white;
-    color: #333;
-    border: 1px solid #dee2e6;
-}
-
-.nav-pills .nav-link.active {
-    background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.2);
-}
-
-.tab-content-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.tab-img {
-    width: 50px;
-    height: 50px;
-    transition: transform 0.3s ease;
-}
-
-.nav-link:hover .tab-img {
-    transform: scale(1.1);
-}
-
-.table {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
-}
-
-.table thead th {
-    background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
-    color: white;
-    font-weight: 500;
-    border: none;
-    padding: 1rem;
-}
-
-.table tbody tr:hover {
-    background-color: rgba(0, 123, 255, 0.05);
-}
-
-.table td, .table th {
-    vertical-align: middle;
-    padding: 1rem;
-    border-color: #f0f0f0;
-}
-
-.requirement-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease;
-}
-
-.requirement-card:hover {
-    transform: translateY(-3px);
-}
-
-.requirement-title {
-    color: #2c3e50;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-.requirement-title::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 50px;
-    height: 3px;
-    background: linear-gradient(90deg, #00c6fb, #005bea);
-    border-radius: 2px;
-}
-
-.icon-container {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0.5rem;
-}
-
-.icon-container img {
-    width: 30px;
-    height: 30px;
-    transition: transform 0.3s ease;
-}
-
-.icon-container:hover img {
-    transform: scale(1.1);
-}
-
-@media (max-width: 768px) {
-    .nav-pills {
-        flex-direction: column;
-    }
-    
-    .nav-pills .nav-link {
-        margin: 0.25rem;
-    }
-    
-    .table-responsive {
-        margin: 0 -1rem;
-    }
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: #2c3e50;
-}
-
-.section-header h4 {
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.mission-info {
-    background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
-    color: white;
-    padding: 1rem;
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.mission-info h4 {
-    margin: 0.5rem 0;
-    font-size: 1.1rem;
-}
-</style>
 
 <section class="margenes">
-    <ul class="nav nav-pills justify-content-center flex-wrap" id="myTab" role="tablist">
-        <li class="nav-item flex-grow-1 text-center" role="presentation">
-            <button class="nav-link active w-100" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">
-                <div class="tab-content-container">
-                    <img src="/public/assets/custom_general/custom_requisitos_rangos/image/agt.png" alt="Agente" class="tab-img">
-                    <span class="tab-text"></span>
+    <ul class="nav nav-pills justify-content-center flex-wrap gap-2" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active p-2" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab">
+                <div class="card border-0 bg-transparent">
+                    <div class="card-body p-2 text-center">
+                        <img src="/public/assets/custom_general/custom_requisitos_rangos/image/agt.png" alt="Agente" class="img-fluid mb-2" style="width: 30px; height: 30px;">
+                    </div>
                 </div>
             </button>
         </li>
+        <!-- Repite el mismo patrón para los demás tabs -->
         <li class="nav-item flex-grow-1 text-center" role="presentation">
             <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
                 <div class="tab-content-container">
@@ -222,7 +69,7 @@
         <li class="nav-item flex-grow-1 text-center" role="presentation">
             <button class="nav-link w-100" id="op-tab" data-bs-toggle="tab" data-bs-target="#op-tab-pane" type="button" role="tab" aria-controls="op-tab-pane" aria-selected="false">
                 <div class="tab-content-container">
-                    <img src="/public/assets/custom_general/custom_requisitos_rangos/image/op.png" alt="Operativo" class="tab-img">
+                    <img src="/public/assets/custom_general/custom_requisitos_rangos/image/ceo.png" alt="Operativo" class="tab-img">
                     <span class="tab-text"></span>
                 </div>
             </button>
@@ -239,7 +86,7 @@
 
     <!-- TAB DE CONTENIDO -->
 
-    <div class="tab-content" id="myTabContent">
+    <div class="tab-content mt-4" id="myTabContent">
         
         <!-- TAB PARA AGENTES -->
 
@@ -280,91 +127,219 @@
 </section>
 
 <style>
-    .margenes {
-        margin: 10px 25px 18%;
+    .nav-pills {
+        background: #f8f9fa;
+        border-radius: 15px;
+        padding: 1rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-pills .nav-item {
+        flex: 0 0 auto;
+        margin: 0.25rem;
+    }
+
+    .nav-pills .nav-link {
+        border-radius: 12px;
+        padding: 0.75rem;
+        min-width: 80px;
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border: 1px solid #dee2e6;
+        transition: all 0.3s ease;
+    }
+
+    .nav-pills .nav-link.active {
+        background: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+        transform: translateY(-2px);
     }
 
     .tab-content-container {
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
+        height: 100%;
     }
 
     .tab-img {
         width: 40px;
         height: 40px;
-    }
-
-    .tab-text {
-        margin-top: 5px;
-        font-size: 14px;
+        object-fit: contain;
     }
 
     @media (max-width: 768px) {
-        .nav-pills .nav-item {
-            flex: 1 0 20%;
-            max-width: 20%;
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .tab-content-container {
-            flex-direction: row;
-            justify-content: flex-start;
-        }
-
-        .tab-img {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-        }
-
-        .tab-text {
-            font-size: 12px;
-            text-align: center;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .nav-pills .nav-item {
-            flex: 1 0 50%;
-            max-width: 50%;
-            text-align: center;
-            margin-bottom: 10px;
+        .nav-pills .nav-link {
+            min-width: 70px;
+            height: 70px;
+            padding: 0.5rem;
         }
 
         .tab-img {
             width: 35px;
             height: 35px;
         }
+    }
 
-        .tab-text {
-            font-size: 11px;
+    @media (max-width: 576px) {
+        .nav-pills .nav-link {
+            min-width: 60px;
+            height: 60px;
+        }
+
+        .tab-img {
+            width: 30px;
+            height: 30px;
         }
     }
 
-    .table-responsive {
-        overflow-x: hidden;
-        display: block;
-        width: 100%;
+    .nav-pills .nav-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    h4 {
-        font-size: 16px;
+    .card {
+        transition: all 0.3s ease;
     }
 
-    p {
-        font-size: 14px;
+    @media (max-width: 768px) {
+        .nav-pills {
+            padding: 0.5rem;
+        }
+
+        .nav-pills .nav-item {
+            width: auto;
+        }
+
+        .nav-pills .nav-link {
+            padding: 0.5rem;
+            min-width: 60px;
+        }
+
+        .card-body {
+            padding: 0.5rem !important;
+        }
+
+        img {
+            width: 30px !important;
+            height: 30px !important;
+        }
     }
 
-    table {
-        width: 100%;
+    @media (max-width: 576px) {
+        .nav-pills .nav-item {
+            margin: 0.15rem;
+        }
+
+        .nav-pills .nav-link {
+            min-width: 50px;
+        }
+
+        img {
+            width: 25px !important;
+            height: 25px !important;
+        }
     }
 
-    th,
-    td {
-        padding: 8px;
-        font-size: 12px;
+    .margenes {
+        margin: 10px 25px calc(18% + 20px);
+    }
+
+    /* Estilos para las tablas */
+    .table {
+        background-color: #ffffff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        border: none;
+    }
+
+    .table thead {
+        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
+        color: white;
+    }
+
+    .table thead th {
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        padding: 1.2rem 1rem;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .table tbody tr {
+        transition: all 0.3s ease;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .table tbody tr:hover {
+        background-color: rgba(74, 107, 255, 0.05);
+        transform: translateY(-2px);
+    }
+
+    .table tbody td {
+        padding: 1rem;
+        font-size: 0.95rem;
+        color: #333;
+        vertical-align: middle;
+    }
+
+    /* Estilos para texto dentro de las tablas */
+    .table h4 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2541b2;
+        margin-bottom: 0.5rem;
+    }
+
+    .table p {
+        font-size: 0.95rem;
+        color: #666;
+        line-height: 1.5;
+        margin-bottom: 0;
+    }
+
+    /* Estilos responsivos para las tablas */
+    @media (max-width: 768px) {
+        .table thead th {
+            font-size: 0.8rem;
+            padding: 1rem 0.8rem;
+        }
+
+        .table tbody td {
+            font-size: 0.85rem;
+            padding: 0.8rem;
+        }
+
+        .table h4 {
+            font-size: 1rem;
+        }
+
+        .table p {
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .table-responsive {
+            margin: 0 -15px;
+            width: calc(100% + 30px);
+        }
+
+        .table thead th {
+            font-size: 0.75rem;
+            padding: 0.8rem 0.6rem;
+        }
+
+        .table tbody td {
+            font-size: 0.8rem;
+            padding: 0.6rem;
+        }
     }
 </style>
+
