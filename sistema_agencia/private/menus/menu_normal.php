@@ -30,7 +30,7 @@ class Navbar
         </button>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
-          <div class="offcanvas-header">
+          <div class="offcanvas-header text-white">
             <h5 class="offcanvas-title">
               Menú Principal
             </h5>
