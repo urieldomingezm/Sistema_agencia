@@ -109,11 +109,6 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                                     </button>
                                 </div>
                             </div>
-                            <div id="verificationSection" style="display: none;" class="mb-3">
-                                <label class="form-label"><i class="bi bi-shield-lock"></i> Código de Verificación</label>
-                                <input type="text" class="form-control" name="verificationCode">
-                                <small class="form-text text-muted"><i class="bi bi-info-circle"></i> Ingresa el código que colocaste en tu lema/motto de Habbo</small>
-                            </div>
                             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
                             <button type="submit" class="btn btn-primary w-100">Registrarse</button>
                         </form>
@@ -137,7 +132,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
             this.querySelector('i').classList.toggle('bi-eye-fill');
             this.querySelector('i').classList.toggle('bi-eye-slash-fill');
         });
-        // Initialize Just-Validate
+        
         const validator = new JustValidate('#registrationForm', {
             validateBeforeSubmitting: true,
         });
@@ -180,35 +175,14 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                     })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.success && data.verification) {
-                            Swal.fire({
-                                icon: 'info',
-                                title: 'Código de Verificación',
-                                html: `Tu código es: <strong>${data.code}</strong><br>
-                           Por favor, coloca este código en tu lema/motto de Habbo.<br>
-                           Una vez colocado, ingresa el código aquí para completar el registro.`,
-                                confirmButtonColor: '#8B5CF6'
-                            }).then(() => {
-                                document.getElementById('verificationSection').style.display = 'block';
-                                validator.addField('[name="verificationCode"]', [{
-                                        rule: 'required',
-                                        errorMessage: 'El código de verificación es requerido'
-                                    },
-                                    {
-                                        rule: 'minLength',
-                                        value: 5,
-                                        errorMessage: 'El código debe tener 5 caracteres'
-                                    }
-                                ]);
-                            });
-                        } else if (data.success) {
+                        if (data.success) {
                             Swal.fire({
                                 icon: 'success',
                                 title: '¡Registro Exitoso!',
                                 text: data.message,
                                 confirmButtonColor: '#8B5CF6'
                             }).then(() => {
-                                window.location.href = 'usuario/index.php';
+                                window.location.href = 'login.php';
                             });
                         } else {
                             Swal.fire({
