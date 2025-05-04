@@ -32,7 +32,7 @@ class BodyHome
                 'id' => '1',
                 'name' => 'Jo.C',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Jo.C&headonly=1&head_direction=3&size=sl1',
-                'rank' => 'Dueño',
+                'rank' => 'Founder',
             ],
             [
                 'id' => '2',
@@ -50,7 +50,7 @@ class BodyHome
                 'id' => '4',
                 'name' => 'BigBarneyStinso',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=BigBarneyStinso&headonly=1&head_direction=3&size=sl',
-                'rank' => 'Gerente',
+                'rank' => 'Manager',
             ],
             [
                 'id' => '5',

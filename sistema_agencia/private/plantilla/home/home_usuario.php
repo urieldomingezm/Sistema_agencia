@@ -200,7 +200,7 @@ class BodyHome
                 'title' => 'Membresía Gold',
                 'benefits' => 'Mimsmos beneficios de bronce y silver + fila vip + Guarda paga + Mision libre.',
                 'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/gold2.png',
-                'price' => '40 créditos por mex'
+                'price' => '40 créditos por mes'
             ],
             [
                 'title' => 'Membresía Bronce',
