@@ -36,6 +36,10 @@ $userData = $userProfile->getUserData();
                         <span class="info-value"><?php echo $userData['username']; ?></span>
                     </div>
                     <div class="info-item d-flex align-items-center">
+                        <span class="info-label me-2">Código</span>
+                        <span class="info-value"><?php echo $userData['codigo']; ?></span>
+                    </div>
+                    <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Rango</span>
                         <span class="info-value badge-custom"><?php echo $userData['role']; ?></span>
                     </div>
@@ -43,11 +47,11 @@ $userData = $userProfile->getUserData();
             </div>
         </div>
 
-        <!-- Tarjeta de Información de Paga -->
+        <!-- Tarjeta de Información de Time de Paga -->
         <div class="col-md-4">
             <div class="profile-card glass-effect">
                 <div class="card-header bg-gradient-success d-flex align-items-center">
-                    <h3 class="mb-0">Información de Paga</h3>
+                    <h3 class="mb-0">Time de Paga</h3>
                 </div>
                 <div class="stats-card">
                     <div class="info-item d-flex align-items-center">
@@ -86,6 +90,12 @@ $userData = $userProfile->getUserData();
                         <span class="info-value"><?php echo $userData['estimatedTime']; ?></span>
                     </div>
                     <div class="info-item d-flex align-items-center">
+                        <span class="info-label me-2">Estado ascenso</span>
+                        <span class="info-value badge <?php echo ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning'; ?>">
+                            <?php echo ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'Disponible' : 'Pendiente'; ?>
+                        </span>
+                    </div>
+                    <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Estado</span>
                         <span class="status-pill glow"><?php echo $userData['status']; ?></span>
                     </div>
@@ -94,3 +104,19 @@ $userData = $userProfile->getUserData();
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Verificar cada minuto si el ascenso está disponible
+    setInterval(() => {
+        fetch('<?php echo VER_PERFIL_PATCH; ?>check_ascenso.php')
+            .then(response => response.json())
+            .then(data => {
+                if(data.disponible) {
+                    document.querySelector('.badge').classList.replace('bg-warning', 'bg-success');
+                    document.querySelector('.badge').textContent = 'Disponible';
+                }
+            });
+    }, 60000);
+});
+</script>

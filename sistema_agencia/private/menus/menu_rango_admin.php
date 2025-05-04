@@ -143,7 +143,8 @@ class Navbar
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
-      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos'
+      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso'
     ];
 
     if (isset($modalItems[$item])) {
@@ -167,7 +168,11 @@ $items = [
 $navbar = new Navbar('Agencia Shein', $items);
 $navbar->render();
 
+// Modales para dar ascenso y tomar tiempo
+require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
 
+
+// Modales para calcular rango, pagar usuario y vender rangos
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
 require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
 require_once(MODALES_MENU_VENTAS_PATH . 'modal_vender_rangos.php');

@@ -57,6 +57,8 @@ class UserRegistration
     public function register($username, $password, $habboName)
     {
         try {
+            $this->conn->beginTransaction();
+
             if (empty($username) || empty($password) || empty($habboName)) {
                 return ['success' => false, 'message' => 'Todos los campos son requeridos'];
             }
@@ -78,6 +80,7 @@ class UserRegistration
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $codigo_time = $this->generateUniqueCode();
             
+            // Insertar en tabla registro_usuario
             $query = "INSERT INTO {$this->table} 
                      (usuario_registro, password_registro, nombre_habbo, rol_id, rango, fecha_registro, ip_registro, codigo_time) 
                      VALUES (:username, :password, :habbo_name, 1, 'Agente', NOW(), :ip, :codigo_time)";
@@ -89,12 +92,30 @@ class UserRegistration
             $stmt->bindParam(':ip', $ip);
             $stmt->bindParam(':codigo_time', $codigo_time);
 
-            if ($stmt->execute()) {
-                return ['success' => true, 'message' => '¡Registro exitoso! Por favor, inicia sesión para continuar.'];
+            if (!$stmt->execute()) {
+                throw new Exception("Error al guardar el registro de usuario");
             }
 
-            return ['success' => false, 'message' => 'Error al guardar el registro'];
+            // Insertar en tabla ascensos
+            $queryAscenso = "INSERT INTO ascensos 
+                            (codigo_time, rango_actual, mision_actual, mision_nueva, 
+                             estado_ascenso, fecha_disponible_ascenso, es_recluta) 
+                            VALUES 
+                            (:codigo_time, 'Agente', 'AGE- Iniciado I', NULL, 
+                             'en_espera', DATE_ADD(NOW(), INTERVAL 30 MINUTE), TRUE)";
+
+            $stmtAscenso = $this->conn->prepare($queryAscenso);
+            $stmtAscenso->bindParam(':codigo_time', $codigo_time);
+
+            if (!$stmtAscenso->execute()) {
+                throw new Exception("Error al guardar el registro de ascenso");
+            }
+
+            $this->conn->commit();
+            return ['success' => true, 'message' => '¡Registro exitoso! Por favor, inicia sesión para continuar.'];
+
         } catch (PDOException $e) {
+            $this->conn->rollBack();
             error_log("Error en registro: " . $e->getMessage());
             return ['success' => false, 'message' => 'Error en el registro: ' . $e->getMessage()];
         }

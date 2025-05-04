@@ -13,8 +13,18 @@ class UserProfile {
         $conn = $database->getConnection();
 
         try {
-            // Obtener datos básicos del usuario
-            $query = "SELECT usuario_registro, rango FROM registro_usuario WHERE id = :user_id";
+            // Obtener datos básicos del usuario y ascensos
+            $query = "SELECT r.usuario_registro, r.rango, r.codigo_time,
+                            a.mision_actual, a.estado_ascenso, 
+                            a.fecha_disponible_ascenso, a.usuario_encargado,
+                            CASE 
+                               WHEN a.fecha_disponible_ascenso <= NOW() THEN 'disponible'
+                               ELSE 'pendiente'
+                            END as estado_disponibilidad
+                      FROM registro_usuario r
+                      LEFT JOIN ascensos a ON r.codigo_time = a.codigo_time
+                      WHERE r.id = :user_id";
+            
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':user_id', $_SESSION['user_id']);
             $stmt->execute();
@@ -24,30 +34,19 @@ class UserProfile {
                 throw new Exception('Usuario no encontrado');
             }
 
-            // Obtener datos de ascenso
-            $ascensoQuery = "SELECT ascenso_rango, ascenso_mision_nueva, ascenso_status, 
-                                  ascenso_hora_proxima, ascenso_encargado_usuario 
-                           FROM gestion_ascenso 
-                           WHERE ascenso_usuario = :username 
-                           ORDER BY ascenso_fecha_registro DESC LIMIT 1";
-            $stmt = $conn->prepare($ascensoQuery);
-            $stmt->bindParam(':username', $userData['usuario_registro']);
-            $stmt->execute();
-            $ascensoData = $stmt->fetch(PDO::FETCH_ASSOC);
-
             $this->userData = [
                 'username' => htmlspecialchars($userData['usuario_registro']),
                 'role' => htmlspecialchars($userData['rango']),
-                'mission' => $ascensoData ? htmlspecialchars($ascensoData['ascenso_mision_nueva']) : 'Sin misión asignada',
+                'codigo' => htmlspecialchars($userData['codigo_time']),
+                'mission' => $userData['mision_actual'] ?? 'No disponible',
                 'avatar' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($userData['usuario_registro']) . '&action=none&direction=2&head_direction=2&gesture=&size=sl&headonly=1r',
-                'nextMission' => 'Pendiente',
                 'paymentTime' => '14:00',
                 'paymentDate' => '15',
-                'hoursDeducted' => '1:00',
-                'totalHours' => '5:00',
-                'estimatedTime' => $ascensoData ? htmlspecialchars($ascensoData['ascenso_hora_proxima']) : 'No disponible',
-                'status' => $ascensoData ? htmlspecialchars($ascensoData['ascenso_status']) : 'Pendiente',
-                'encargado' => $ascensoData ? htmlspecialchars($ascensoData['ascenso_encargado_usuario']) : 'No asignado'
+                'totalHours' => '0:00',
+                'estimatedTime' => $userData['fecha_disponible_ascenso'] ? date('d/m/Y H:i', strtotime($userData['fecha_disponible_ascenso'])) : 'No disponible',
+                'status' => $this->formatStatus($userData['estado_ascenso'] ?? null),
+                'encargado' => $userData['usuario_encargado'] ?? 'No asignado',
+                'estado_disponibilidad' => $userData['fecha_disponible_ascenso'] && strtotime($userData['fecha_disponible_ascenso']) <= time() ? 'disponible' : 'pendiente'
             ];
         } catch (Exception $e) {
             error_log("Error al obtener datos del usuario: " . $e->getMessage());
@@ -55,16 +54,27 @@ class UserProfile {
         }
     }
 
+    private function formatStatus($status) {
+        if ($status === null) return 'No disponible';
+        
+        $statusMap = [
+            'pendiente' => 'Pendiente',
+            'ascendido' => 'Ascendido',
+            'en_espera' => 'En espera'
+        ];
+
+        return $statusMap[$status] ?? 'No disponible';
+    }
+
     private function setDefaultUserData() {
         $this->userData = [
             'username' => 'Usuario',
             'role' => 'No disponible',
+            'codigo' => 'No disponible',
             'mission' => 'Sin misión asignada',
             'avatar' => 'https://api.a0.dev/assets/image?text=Usuario%20no%20encontrado&aspect=1:1',
-            'nextMission' => 'No disponible',
             'paymentTime' => '--:--',
             'paymentDate' => '--',
-            'hoursDeducted' => '--:--',
             'totalHours' => '--:--',
             'estimatedTime' => 'No disponible',
             'status' => 'No disponible',
@@ -80,8 +90,4 @@ class UserProfile {
         return $this->userData;
     }
 }
-
-// Eliminar estas líneas que causan la duplicación
-// $userProfile = new UserProfile();
-// $userProfile->render();
 ?>

@@ -40,6 +40,9 @@ define('GESTION_TIEMPO_PATCH', PRIVATE_PATH . 'procesos/gestion_tiempos/');
 // Rutas para procesos
 define('VER_PERFIL_PATCH', PRIVATE_PATH . 'procesos/perfil/');
 
+// Rutas para dar ascensos
+define('DAR_ASCENSO_PATCH', PRIVATE_PATH . 'modal/modal_ascensos/');
+
 // Rutas a carpetas públicas como CSS, JS, IMG
 define('PUBLIC_PATH', ROOT_PATH . 'public/');
 
