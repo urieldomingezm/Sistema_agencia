@@ -25,7 +25,7 @@ class Navbar
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-          <i class="bi bi-bootstrap"></i>
+          <i class="bi bi-list text-white"></i>
         </button>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
