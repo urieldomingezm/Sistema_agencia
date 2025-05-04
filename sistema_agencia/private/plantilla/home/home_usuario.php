@@ -199,32 +199,38 @@ class BodyHome
             [
                 'title' => 'Membresía Gold',
                 'benefits' => 'Mimsmos beneficios de bronce y silver + fila vip + Guarda paga + Mision libre.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/gold2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/gold2.png',
+                'price' => '40 créditos por mex'
             ],
             [
                 'title' => 'Membresía Bronce',
                 'benefits' => 'Incluye ropa libre + Chat libre + Baile + Uso de efectos.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/premim2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/premim2.png',
+                'price' => '28 créditos por mes'
             ],
             [
                 'title' => 'Membresía regla libre',
                 'benefits' => 'Chat, Mision y ropa libre',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/regla2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/regla2.png',
+                'price' => '25 créditos por mes'
             ],
             [
                 'title' => 'Membresía save',
                 'benefits' => 'Guarda tu paga por 48 Horas.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/save2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/save2.png',
+                'price' => '10 créditos por mes'
             ],
             [
                 'title' => 'Membresía Fila Vip',
                 'benefits' => 'Garantiza beneficios frente al resto de usuarios que no tengan fila vip.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/vip2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/vip2.png',
+                'price' => '15 créditos por mes'
             ],
             [
                 'title' => 'Membresía silver',
                 'benefits' => 'Mismos beneficios de la Membresia bronce + Reduccion en requisitos.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/silver2.png' // URL de la imagen
+                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/silver2.png',
+                'price' => '34 créditos por mes'
             ],
         ];
 
@@ -235,17 +241,20 @@ class BodyHome
         echo '<div class="row justify-content-center">';
 
         foreach ($memberships as $membership) {
-            echo '<div class="col-12 col-sm-6 col-md-4 mb-4">'; // 1 columna en móvil, 2 en tablet, 3 en PC
+            echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
             echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
-            echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;">'; // Imagen de la membresía
+            echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;">';
             echo '<h3 style="color: #333;">' . $membership['title'] . '</h3>';
             echo '<p style="color: #008080; font-weight: bold;">' . $membership['benefits'] . '</p>';
+            echo '<div style="background: #FFD700; color: #333; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">';
+            echo '<i class="bi bi-coin me-2"></i>' . $membership['price'];
+            echo '</div>';
             echo '</div>';
             echo '</div>';
         }
 
-        echo '</div>'; // Cierre de la fila
-        echo '</div>'; // Cierre del contenedor
+        echo '</div>';
+        echo '</div>';
         echo '</section>';
     }
 }
