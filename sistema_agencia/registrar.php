@@ -1,17 +1,14 @@
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
-// Primero manejar la solicitud POST antes de cualquier salida
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
-    exit; // Detener ejecución después de manejar POST
+    exit;
 }
 
-// Solo después de manejar POST, incluir header y otros contenidos
 require_once(TEMPLATES_PATH . 'header.php');
 require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 ?>
-
 
 <style>
     body {
@@ -79,6 +76,51 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     .just-validate-success-field {
         border-color: #198754 !important;
     }
+
+    /* Estilos adicionales para responsividad */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+
+        .card {
+            margin: 10px;
+        }
+
+        .form-control {
+            font-size: 16px;
+        }
+    }
+
+    /* Mejoras en la alineación de campos */
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .input-group {
+        position: relative;
+    }
+
+    /* Ajustes para los mensajes de validación */
+    .form-group {
+        margin-bottom: 2rem;  /* Aumentado para dar espacio a los mensajes */
+        position: relative;
+    }
+
+    .just-validate-error-label {
+        position: absolute;
+        left: 0;
+        top: 100%;  /* Cambiado de bottom a top */
+        font-size: 0.75rem;
+        color: #dc3545;
+        margin-top: 0.25rem;
+    }
+
+    /* Ajuste para el grupo de contraseña */
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
 </style>
 
 <body>
@@ -115,7 +157,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                         <div class="text-center mt-3">
                             <a href="login.php" class="text-decoration-none" style="color: #4a6bff;">¿Ya tienes cuenta? Inicia sesión</a>
                             <br>
-                            <a href="index.php" class="text-decoration-none" style="color: #4a6bff;">regresar al inicio</a>
+                            <a href="index.php" class="text-decoration-none" style="color: #4a6bff;">Regresar al inicio</a>
                         </div>
                     </div>
                 </div>
@@ -124,7 +166,6 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     </div>
 
     <script>
-        // visualizar contraseña
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.querySelector('input[name="password"]');
             const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -135,10 +176,19 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
         
         const validator = new JustValidate('#registrationForm', {
             validateBeforeSubmitting: true,
+            focusInvalidField: true,
+            lockForm: true,
+            errorFieldCssClass: 'is-invalid',
+            successFieldCssClass: 'is-valid',
+            errorLabelStyle: {
+                fontSize: '12px',
+                color: '#dc3545'
+            }
         });
 
         validator
-            .addField('[name="username"]', [{
+            .addField('[name="username"]', [
+                {
                     rule: 'required',
                     errorMessage: 'El usuario es requerido'
                 },
@@ -146,9 +196,15 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                     rule: 'minLength',
                     value: 3,
                     errorMessage: 'El usuario debe tener al menos 3 caracteres'
+                },
+                {
+                    rule: 'maxLength',
+                    value: 16,
+                    errorMessage: 'El usuario no puede tener más de 16 caracteres'
                 }
             ])
-            .addField('[name="habboName"]', [{
+            .addField('[name="habboName"]', [
+                {
                     rule: 'required',
                     errorMessage: 'El nombre de Habbo es requerido'
                 },
@@ -156,55 +212,74 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                     rule: 'minLength',
                     value: 3,
                     errorMessage: 'El nombre debe tener al menos 3 caracteres'
+                },
+                {
+                    rule: 'maxLength',
+                    value: 16,
+                    errorMessage: 'El nombre no puede tener más de 16 caracteres'
                 }
             ])
-            .addField('[name="password"]', [{
+            .addField('[name="password"]', [
+                {
                     rule: 'required',
                     errorMessage: 'La contraseña es requerida'
                 },
                 {
                     rule: 'password',
                     errorMessage: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número'
+                },
+                {
+                    rule: 'maxLength',
+                    value: 16,
+                    errorMessage: 'La contraseña no puede tener más de 16 caracteres'
                 }
             ])
             .onSuccess((event) => {
-                const form = event.target;
-                fetch('registrar.php', {
-                        method: 'POST',
-                        body: new FormData(form)
+                event.preventDefault();
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
+                        action: 'register'
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Registro Exitoso!',
-                                text: data.message,
-                                confirmButtonColor: '#8B5CF6'
-                            }).then(() => {
-                                window.location.href = 'login.php';
-                            });
-                        } else {
+                    .then(function(token) {
+                        document.getElementById('g-recaptcha-response').value = token;
+                        const form = event.target;
+                        fetch('registrar.php', {
+                            method: 'POST',
+                            body: new FormData(form)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Registro Exitoso!',
+                                    text: data.message,
+                                    confirmButtonColor: '#4a6bff'
+                                }).then(() => {
+                                    window.location.href = 'login.php';
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: data.message,
+                                    confirmButtonColor: '#4a6bff'
+                                });
+                            }
+                        })
+                        .catch(error => {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: data.message,
-                                confirmButtonColor: '#8B5CF6'
+                                text: 'Ocurrió un error en el registro',
+                                confirmButtonColor: '#4a6bff'
                             });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Ocurrió un error en el registro',
-                            confirmButtonColor: '#8B5CF6'
                         });
                     });
+                });
             });
     </script>
 </body>
-
 
 <?php
 require_once(TEMPLATES_PATH . 'footer.php');
