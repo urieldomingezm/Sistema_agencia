@@ -91,7 +91,7 @@ $userData = $userProfile->getUserData();
                     </div>
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Estado ascenso</span>
-                        <span class="info-value badge <?php echo ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning'; ?>">
+                        <span class="info-value badge text-white <?php echo ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning'; ?>">
                             <?php echo ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'Disponible' : 'Pendiente'; ?>
                         </span>
                     </div>
