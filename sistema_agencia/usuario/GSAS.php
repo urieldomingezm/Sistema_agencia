@@ -5,7 +5,6 @@ require_once(GESTION_ASCENSOS_PATCH . 'mostrar_usuarios.php');
 
 // Rutas a modales de gestion de ascensos
 require_once(DAR_ASCENSO_PATCH . 'informacion_cliente.php');
-
 ?>
 
 <div class="container mt-4">
@@ -36,7 +35,7 @@ require_once(DAR_ASCENSO_PATCH . 'informacion_cliente.php');
                                 <?= htmlspecialchars($ascenso['estado_ascenso']) ?>
                             </span>
                         </td>
-                        <td><?= htmlspecialchars(date('h:i A', strtotime($ascenso['fecha_disponible_ascenso']))) ?></td>
+                        <td><?= htmlspecialchars($ascenso['fecha_disponible_ascenso'] ? date('h:i A', strtotime($ascenso['fecha_disponible_ascenso'])) : 'No disponible') ?></td>
                         <td><?= htmlspecialchars($ascenso['usuario_encargado'] ?? 'No disponible') ?></td>
                     </tr>
                     <?php endforeach; ?>
@@ -45,3 +44,18 @@ require_once(DAR_ASCENSO_PATCH . 'informacion_cliente.php');
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    new simpleDatatables.DataTable('#datatable', {
+        perPage: 10,
+        perPageSelect: [10, 25, 50, 100],
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "{select} registros por página",
+            noRows: "No se encontraron registros",
+            info: "Mostrando {start} a {end} de {rows} registros"
+        }
+    });
+});
+</script>
