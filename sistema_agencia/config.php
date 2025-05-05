@@ -17,8 +17,6 @@ define('PROCESOS_LOGIN_PATH', PRIVATE_PATH . 'procesos/login/');
 
 // Rutas para modales de ascender y tomar tiempo usando menus
 define('MODALES_MENU_PATH', PRIVATE_PATH . 'modal/moda_menus_ascender/');
-// Rutas para autenticacion de usuario
-define('PROCESO_ATHUR_PATH', PRIVATE_PATH . 'config/procesos/autenticacion/');
 
 // Rutas para modales de paga
 define('MODALES_MENU_PAGA_PATH', PRIVATE_PATH . 'modal/modal_menu_paga/');
@@ -27,11 +25,7 @@ define('MODALES_MENU_PAGA_PATH', PRIVATE_PATH . 'modal/modal_menu_paga/');
 define('MODALES_MENU_VENTAS_PATH', PRIVATE_PATH . 'modal/modal_menu_ventas/');
 
 // Rutas de configuración privadas
-define('MENU_PATH', PRIVATE_PATH . 'menus/');     
-define('MODAL_GESTION_TIME_PATH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/'); 
-define('MODAL_GESTION_TIME_ADMIN_PATH', PRIVATE_PATH . 'modal/modal_gestion_time_admin/');      
-define('SCRIPTS_PATH', PRIVATE_PATH . 'scripts/');     
-define('SUBSCRIPTIONS_PATH', PRIVATE_PATH . 'subscriptions/');      
+define('MENU_PATH', PRIVATE_PATH . 'menus/');              
 define('MODAL_PATH', PRIVATE_PATH . 'modals/');   
 
 // Rutas para proceso de gestion de tiempo
@@ -42,6 +36,9 @@ define('VER_PERFIL_PATCH', PRIVATE_PATH . 'procesos/perfil/');
 
 // Rutas para dar ascensos
 define('DAR_ASCENSO_PATCH', PRIVATE_PATH . 'modal/modal_ascensos/');
+
+// Rutas para gestion de ascensos
+define('GESTION_ASCENSOS_PATCH', PRIVATE_PATH . 'procesos/gestion_ascensos/');
 
 // Rutas a carpetas públicas como CSS, JS, IMG
 define('PUBLIC_PATH', ROOT_PATH . 'public/');
@@ -54,7 +51,8 @@ define('CUSTOM_HOME_JS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_home/j
 define('CUSTOM_RADIO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_radio/');
 
 // Ruta de carpeta para modales de gestion de ascenso
-define('MODAL_GESTION_ASCENSO_PATH', PRIVATE_PATH . 'modal/modal_gestion_ascenso/'); 
+define('MODAL_GESTION_ASCENSO_PATH', PRIVATE_PATH . 'modal/modal_gestion_ascenso/');
+
 // Ruta de carpeta para modales de gestion de tiempo
 define('MODAL_GESTION_TIEMPO_PATH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/');
 
