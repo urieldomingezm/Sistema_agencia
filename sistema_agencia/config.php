@@ -37,6 +37,9 @@ define('MENU_PATH', PRIVATE_PATH . 'menus/');
 define('RANGOS_PATH', ROOT_PATH . 'usuario/rangos/');
 define('VER_RANGOS_PATH', ROOT_PATH . 'usuario/');
 
+// Rutas para anti-saltos urls
+define('ANTI_SALTOS_PATH', PRIVATE_PATH . 'procesos/anti_saltos/');
+
 // Rutas para assets personalizados
 define('CUSTOM_LOGIN_REGISTRO_PATH', PUBLIC_PATH . 'assets/custom_general/custom_login_registro/');
 define('CUSTOM_LOGIN_REGISTRO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_login_registro/css/');
