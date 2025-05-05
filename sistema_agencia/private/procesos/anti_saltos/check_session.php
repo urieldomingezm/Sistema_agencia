@@ -8,10 +8,10 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
     // Alerta para usuarios no logueados
     $_SESSION['login_error'] = [
         'title' => 'Acceso restringido',
-        'message' => 'Se informará al administrador de la página que está intentando acceder a una sección restringida. Esto podría resultar en el bloqueo de su cuenta. Gracias por su comprensión.',
+        'message' => 'Debes iniciar sesión para acceder a esta sección',
         'icon' => 'error'
     ];
-    header('Location: /index.php');
+    header('Location: /login.php');
     exit;
 } elseif (!$isDeveloper) {
     // Alerta para usuarios normales que intentan acceder a áreas privadas
@@ -30,7 +30,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
     $cnd = [
         'success' => false,
         'message' => 'Debes iniciar sesión para acceder a esta página',
-        'redirect' => '/index.php',
+        'redirect' => '/login.php',  // Cambiado de index.php a login.php
         'icon' => 'error',
         'title' => 'Error',
         'showConfirmButton' => true,
