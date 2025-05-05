@@ -144,7 +144,8 @@ class Navbar
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
-      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso'
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
+      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#id_tomar_tiempo',
     ];
 
     if (isset($modalItems[$item])) {
@@ -170,6 +171,7 @@ $navbar->render();
 
 // Modales para dar ascenso y tomar tiempo
 require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
+require_once(DAR_ASCENSO_PATCH.'dar_tiempo.php');
 
 
 // Modales para calcular rango, pagar usuario y vender rangos
