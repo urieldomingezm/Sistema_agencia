@@ -32,8 +32,10 @@ class UserLogin
                 return ['success' => false, 'message' => 'Usuario y contraseña son requeridos'];
             }
 
-            $query = "SELECT id, usuario_registro, password_registro, rol_id, rango FROM {$this->table} 
-                     WHERE usuario_registro = :username";
+            $query = "SELECT r.id, r.usuario_registro, r.password_registro, r.rol_id, a.rango_actual 
+                     FROM {$this->table} r
+                     LEFT JOIN ascensos a ON r.codigo_time = a.codigo_time
+                     WHERE r.usuario_registro = :username";
 
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':username', $username);
@@ -46,7 +48,7 @@ class UserLogin
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['username'] = $user['usuario_registro'];
                     $_SESSION['rol_id'] = $user['rol_id'];
-                    $_SESSION['rango'] = $user['rango'];
+                    $_SESSION['rango'] = $user['rango_actual'] ?? 'Agente';
 
                     return [
                         'success' => true, 

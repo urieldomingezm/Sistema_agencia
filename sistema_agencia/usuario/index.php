@@ -25,13 +25,16 @@ class UserController {
 
     private function loadUserRank() {
         try {
-            $query = "SELECT rango FROM registro_usuario WHERE id = :user_id";
+            $query = "SELECT a.rango_actual 
+                 FROM registro_usuario r
+                 JOIN ascensos a ON r.codigo_time = a.codigo_time
+                 WHERE r.id = :user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':user_id', $_SESSION['user_id']);
             $stmt->execute();
 
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $this->userRango = $row['rango'] ?? 'Agente';
+                $this->userRango = $row['rango_actual'] ?? 'Agente';
                 $_SESSION['rango'] = $this->userRango;
             } else {
                 $this->userRango = 'Agente';

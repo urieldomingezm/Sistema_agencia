@@ -82,8 +82,8 @@ class UserRegistration
             
             // Insertar en tabla registro_usuario
             $query = "INSERT INTO {$this->table} 
-                     (usuario_registro, password_registro, nombre_habbo, rol_id, rango, fecha_registro, ip_registro, codigo_time) 
-                     VALUES (:username, :password, :habbo_name, 1, 'Agente', NOW(), :ip, :codigo_time)";
+                     (usuario_registro, password_registro, nombre_habbo, rol_id, fecha_registro, ip_registro, codigo_time) 
+                     VALUES (:username, :password, :habbo_name, 1, NOW(), :ip, :codigo_time)";
 
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':username', $username);

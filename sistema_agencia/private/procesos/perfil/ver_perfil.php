@@ -14,13 +14,9 @@ class UserProfile {
 
         try {
             // Obtener datos básicos del usuario y ascensos
-            $query = "SELECT r.usuario_registro, r.rango, r.codigo_time,
+            $query = "SELECT r.usuario_registro, r.codigo_time, a.rango_actual,
                             a.mision_actual, a.estado_ascenso, 
-                            a.fecha_disponible_ascenso, a.usuario_encargado,
-                            CASE 
-                               WHEN a.fecha_disponible_ascenso <= NOW() THEN 'disponible'
-                               ELSE 'pendiente'
-                            END as estado_disponibilidad
+                            a.fecha_disponible_ascenso, a.usuario_encargado
                       FROM registro_usuario r
                       LEFT JOIN ascensos a ON r.codigo_time = a.codigo_time
                       WHERE r.id = :user_id";
@@ -36,7 +32,7 @@ class UserProfile {
 
             $this->userData = [
                 'username' => htmlspecialchars($userData['usuario_registro']),
-                'role' => htmlspecialchars($userData['rango']),
+                'role' => htmlspecialchars($userData['rango_actual'] ?? 'Agente'),
                 'codigo' => htmlspecialchars($userData['codigo_time']),
                 'mission' => $userData['mision_actual'] ?? 'No disponible',
                 'avatar' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($userData['usuario_registro']) . '&action=none&direction=2&head_direction=2&gesture=&size=sl&headonly=1r',
