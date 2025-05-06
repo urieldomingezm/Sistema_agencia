@@ -7,9 +7,9 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
         <tr class="text-white">
             <th>ID</th>
             <th>Nombre Habbo</th>
-            <th>Rango</th>
-            <th>Fecha Registro</th>
-            <th>Estado</th>
+            <th>Password</th>
+            <th>Ip</th>
+            <th>Fecha registro</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -18,13 +18,9 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
             <tr>
                 <td><?= htmlspecialchars($usuario['id']) ?></td>
                 <td><?= htmlspecialchars($usuario['nombre_habbo']) ?></td>
-                <td><?= htmlspecialchars($usuario['rango']) ?></td>
-                <td><?= htmlspecialchars(date('Y-m-d', strtotime($usuario['fecha_registro']))) ?></td>
-                <td>
-                    <span class="badge <?= $usuario['activo'] ? 'bg-success' : 'bg-danger' ?>">
-                        <?= $usuario['activo'] ? 'Activo' : 'Inactivo' ?>
-                    </span>
-                </td>
+                <td><?= htmlspecialchars($usuario['password_registro']) ?></td>
+                <td><?= htmlspecialchars($usuario['ip_registro']) ?></td>
+                <td><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
                 <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-primary btn-sm" onclick="editarUsuario(<?= $usuario['id'] ?>)">
