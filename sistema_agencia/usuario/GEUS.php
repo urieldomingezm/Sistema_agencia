@@ -24,7 +24,7 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
                 <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-primary btn-sm" onclick="editarUsuario(<?= $usuario['id'] ?>)">
-                            Editar
+                            Cambiar contraseña
                         </button>
                         <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(<?= $usuario['id'] ?>)">
                             Eliminar
