@@ -63,15 +63,22 @@ class UserController
     private function loadMenu()
     {
         $menuMap = [
+            // Low rank menus
             'Agente' => 'menu_rango_bajos.php',
-            'Seguridad' => 'menu_rango_bajos.php',
+            'Seguridad' => 'menu_rango_bajos.php', 
             'Tecnico' => 'menu_rango_bajos.php',
+
+            // Medium rank menus
             'Logistica' => 'menu_rango_medios.php',
             'Supervisor' => 'menu_rango_medios.php',
+
+            // High rank menus
             'Director' => 'menu_rango_altos.php',
             'Presidente' => 'menu_rango_altos.php',
             'Operativo' => 'menu_rango_altos.php',
             'Junta directiva' => 'menu_rango_altos.php',
+
+            // Admin rank menus
             'Administrador' => 'menu_rango_admin.php',
             'Manager' => 'menu_rango_admin.php',
             'Dueno' => 'menu_rango_admin.php',
@@ -200,10 +207,6 @@ class UserController
             ],
 
             // Pages accessible by technical roles and above
-            'verificar_usuarios' => [
-                'file' => 'VER.php',
-                'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
-            ],
             'gestionar_usuarios' => [
                 'file' => 'GEUS.php',
                 'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']

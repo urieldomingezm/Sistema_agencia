@@ -1,87 +1,136 @@
-<?php
-require_once(CONFIG_PATH . 'bd.php');
-
-try {
-    $database = new Database();
-    $conn = $database->getConnection();
-
-    $query = "SELECT h.id, r.usuario_registro, r.nombre_habbo, r.rango, 
-              h.verificado_por, h.fecha_verificacion, h.estado_verificacion
-              FROM historial_verificaciones h
-              INNER JOIN registro_usuario r ON h.usuario_id = r.id
-              ORDER BY h.fecha_verificacion DESC";
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
-    $verificaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log("Error: " . $e->getMessage());
-    $verificaciones = [];
-}
+<?php 
+require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
 ?>
 
-<div class="container-fluid mt-4">
-    <div class="card shadow">
-        <div class="card-header bg-gradient-primary">
-            <h5 class="text-white mb-0">
-                <i class="fas fa-history me-2"></i>Historial de Verificaciones
-            </h5>
-        </div>
-        <div class="card-body">
-            <table id="historialTable" class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Nombre Habbo</th>
-                        <th>Rango</th>
-                        <th>Verificado Por</th>
-                        <th>Fecha Verificación</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($verificaciones as $verificacion): ?>
-                        <tr>
-                            <td><?= $verificacion['id'] ?></td>
-                            <td><?= htmlspecialchars($verificacion['usuario_registro']) ?></td>
-                            <td><?= htmlspecialchars($verificacion['nombre_habbo']) ?></td>
-                            <td><?= htmlspecialchars($verificacion['rango']) ?></td>
-                            <td><?= htmlspecialchars($verificacion['verificado_por']) ?></td>
-                            <td><?= $verificacion['fecha_verificacion'] ?></td>
-                            <td>
-                                <?php if ($verificacion['estado_verificacion'] == 1): ?>
-                                    <span class="badge bg-success">Verificado</span>
-                                <?php else: ?>
-                                    <span class="badge bg-danger">Rechazado</span>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<table id="usuariosTable" class="table table-striped table-hover">
+    <thead>
+        <tr class="text-white">
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Nombre Habbo</th>
+            <th>Rango</th>
+            <th>Fecha Registro</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($usuarios as $usuario): ?>
+            <tr>
+                <td><?= htmlspecialchars($usuario['id']) ?></td>
+                <td><?= htmlspecialchars($usuario['usuario']) ?></td>
+                <td><?= htmlspecialchars($usuario['nombre_habbo']) ?></td>
+                <td><?= htmlspecialchars($usuario['rango']) ?></td>
+                <td><?= htmlspecialchars(date('Y-m-d', strtotime($usuario['fecha_registro']))) ?></td>
+                <td>
+                    <span class="badge <?= $usuario['activo'] ? 'bg-success' : 'bg-danger' ?>">
+                        <?= $usuario['activo'] ? 'Activo' : 'Inactivo' ?>
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-primary btn-sm" onclick="editarUsuario(<?= $usuario['id'] ?>)">
+                            Editar
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(<?= $usuario['id'] ?>)">
+                            Eliminar
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        new simpleDatatables.DataTable("#historialTable", {
+    document.addEventListener('DOMContentLoaded', function() {
+        const dataTable = new simpleDatatables.DataTable("#usuariosTable", {
             searchable: true,
             fixedHeight: true,
             perPage: 10,
+            perPageSelect: [10, 25, 50, 100],
             labels: {
-                placeholder: "Buscar en el historial...",
-                perPage: "Mostrar registros",
+                placeholder: "Buscar...",
+                perPage: "registros por página",
                 noRows: "No se encontraron registros",
                 info: "Mostrando {start} a {end} de {rows} registros",
-                noResults: "No hay resultados"
+                loading: "Cargando...",
+                infoFiltered: "(filtrado de {rows} registros totales)"
             }
         });
     });
 </script>
 
-<style>
-    .badge {
-        font-size: 0.875rem;
-    }
-</style>
+<table id="ventasTable" class="table table-striped table-hover">
+    <thead>
+        <tr class="text-white">
+            <th>ID</th>
+            <th>Membresia</th>
+            <th>Compra</th>
+            <th>Caducidad</th>
+            <th>Estado</th>
+            <th>Costo</th>
+            <th>Comprador</th>
+            <th>Encargado</th>
+            <th>Fecha Compra</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($ventas as $venta): ?>
+            <tr>
+                <td><?= htmlspecialchars($venta['venta_id']) ?></td>
+                <td><?= htmlspecialchars($venta['venta_titulo']) ?></td>
+                <td><?= htmlspecialchars($venta['venta_compra']) ?></td>
+                <td><?= htmlspecialchars($venta['venta_caducidad']) ?></td>
+                <td>
+                    <span class="badge <?= strtolower($venta['venta_estado']) === 'activo' ? 'bg-success' : 'bg-danger' ?>">
+                        <?= htmlspecialchars(ucfirst(strtolower($venta['venta_estado']))) ?>
+                    </span>
+                </td>
+                <td><?= htmlspecialchars($venta['venta_costo']) ?></td>
+                <td><?= htmlspecialchars($venta['venta_comprador']) ?></td>
+                <td><?= htmlspecialchars($venta['venta_encargado']) ?></td>
+                <td><?= htmlspecialchars(date('Y-m-d', strtotime($venta['venta_fecha_compra']))) ?></td>
+                <td>
+                    <div class="dropdown">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-danger btn-sm" onclick="deleteVenta(<?= $venta['venta_id'] ?>)">
+                                Eliminar
+                            </button>
+                            <button class="btn btn-success btn-sm" onclick="renovarVenta(<?= $venta['venta_id'] ?>)">
+                                Renovar
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu.show').forEach(function(menu) {
+                menu.classList.remove('show');
+            });
+        }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const dataTable = new simpleDatatables.DataTable("#ventasTable", {
+            searchable: true,
+            fixedHeight: true,
+            perPage: 10,
+            perPageSelect: [10, 25, 50, 100],
+            labels: {
+                placeholder: "Buscar...",
+                perPage: "registros por página",
+                noRows: "No se encontraron registros",
+                info: "Mostrando {start} a {end} de {rows} registros",
+                loading: "Cargando...",
+                infoFiltered: "(filtrado de {rows} registros totales)"
+            }
+        });
+    });
+</script>
