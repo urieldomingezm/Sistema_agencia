@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 05-05-2025 a las 16:29:09
--- Versión del servidor: 8.0.42
+-- Tiempo de generación: 06-05-2025 a las 12:36:41
+-- Versión del servidor: 8.0.41
 -- Versión de PHP: 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -32,12 +32,11 @@ CREATE TABLE `ascensos` (
   `codigo_time` varchar(5) NOT NULL,
   `rango_actual` varchar(50) NOT NULL,
   `mision_actual` varchar(255) DEFAULT NULL,
-  `mision_nueva` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `firma_usuario` varchar(10) DEFAULT NULL,
   `firma_encargado` varchar(10) DEFAULT NULL,
   `estado_ascenso` enum('pendiente','ascendido','en_espera') DEFAULT 'pendiente',
   `fecha_ultimo_ascenso` datetime DEFAULT CURRENT_TIMESTAMP,
-  `fecha_disponible_ascenso` datetime DEFAULT NULL,
+  `fecha_disponible_ascenso` time DEFAULT NULL,
   `usuario_encargado` varchar(50) DEFAULT NULL,
   `es_recluta` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -46,18 +45,17 @@ CREATE TABLE `ascensos` (
 -- Volcado de datos para la tabla `ascensos`
 --
 
-INSERT INTO `ascensos` (`ascenso_id`, `codigo_time`, `rango_actual`, `mision_actual`, `mision_nueva`, `firma_usuario`, `firma_encargado`, `estado_ascenso`, `fecha_ultimo_ascenso`, `fecha_disponible_ascenso`, `usuario_encargado`, `es_recluta`) VALUES
-(1, '4554K', 'Administrador', 'AGE- Iniciado I', NULL, NULL, NULL, 'en_espera', '2025-05-04 22:44:50', '2025-05-04 23:14:50', NULL, 1),
-(2, 'G1H2I', 'Administrador', 'administrado G', NULL, 'REN', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(3, 'J4K5L', 'Seguridad', 'Seguridad', NULL, 'null', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(4, 'S0T1U', 'Fundador', 'Fundador', NULL, 'ADL', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(5, 'V2W3X', 'Administrador', 'administrado G', NULL, 'CBQ', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(6, 'Y4Z5A', 'Fundador', 'Fundador', NULL, 'JOC', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(7, 'B6C7D', 'Administrador', 'administrado G', NULL, 'MPM', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(8, 'E8F9G', 'Fundador', 'Fundador', NULL, 'STK', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(9, 'H0I1J', 'Administrador', 'administrado G', NULL, 'NEF', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(10, 'P8Q9R', 'Administrador', 'administrado G', NULL, 'BLU', NULL, 'en_espera', '2025-05-05 03:11:15', NULL, NULL, 0),
-(11, 'GSUDH', 'Agente', 'AGE- Iniciado I', NULL, NULL, NULL, 'en_espera', '2025-05-05 05:54:13', '2025-05-05 06:24:13', NULL, 1);
+INSERT INTO `ascensos` (`ascenso_id`, `codigo_time`, `rango_actual`, `mision_actual`, `firma_usuario`, `firma_encargado`, `estado_ascenso`, `fecha_ultimo_ascenso`, `fecha_disponible_ascenso`, `usuario_encargado`, `es_recluta`) VALUES
+(1, '4554K', 'Administrador', 'AGE- Iniciado I', NULL, NULL, 'en_espera', '2025-05-04 22:44:50', '00:14:50', NULL, 1),
+(2, 'G1H2I', 'Administrador', 'administrado G', 'REN', NULL, 'en_espera', '2025-05-05 03:11:15', '00:14:50', NULL, 0),
+(3, 'J4K5L', 'Seguridad', 'Seguridad', 'null', NULL, 'en_espera', '2025-05-05 03:11:15', '00:00:00', NULL, 0),
+(4, 'S0T1U', 'Director', 'sdsdsdsdsd', 'ADL', 'sss', 'ascendido', '2025-05-06 03:41:58', '00:14:50', 'Santidemg2', 0),
+(5, 'V2W3X', 'Administrador', 'administrado G', 'CBQ', NULL, 'pendiente', '2025-05-05 03:11:15', '00:14:50', NULL, 0),
+(6, 'Y4Z5A', 'Presidente', 'SDSDSDSDSDSDSDSDS', 'JOC', '7U7', 'ascendido', '2025-05-06 04:10:59', '00:14:50', 'Santidemg2', 0),
+(7, 'B6C7D', 'Administrador', 'administrado G', 'MPM', NULL, 'en_espera', '2025-05-05 03:11:15', '00:14:50', NULL, 0),
+(8, 'E8F9G', 'Fundador', 'Fundador', 'STK', NULL, 'en_espera', '2025-05-05 03:11:15', '00:14:50', NULL, 0),
+(9, 'H0I1J', 'Administrador', 'administrado G', 'NEF', NULL, 'en_espera', '2025-05-05 03:11:15', '00:14:50', NULL, 0),
+(10, 'P8Q9R', 'Administrador', 'administrado G', 'BLU', NULL, 'en_espera', '2025-05-05 03:11:15', '00:14:50', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -116,7 +114,6 @@ INSERT INTO `gestion_tiempo` (`tiempo_id`, `codigo_time`, `tiempo_status`, `tiem
 CREATE TABLE `gestion_ventas` (
   `venta_id` int NOT NULL,
   `venta_titulo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `venta_descripcion` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `venta_compra` date DEFAULT NULL,
   `venta_caducidad` date DEFAULT NULL,
   `venta_estado` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -130,9 +127,8 @@ CREATE TABLE `gestion_ventas` (
 -- Volcado de datos para la tabla `gestion_ventas`
 --
 
-INSERT INTO `gestion_ventas` (`venta_id`, `venta_titulo`, `venta_descripcion`, `venta_compra`, `venta_caducidad`, `venta_estado`, `venta_costo`, `venta_comprador`, `venta_encargado`, `venta_fecha_compra`) VALUES
-(1, 'sdsd', 'sds', '2025-03-12', '2025-03-14', 'dsds', 21, 'sds', 'dsds', '2025-03-14 03:46:20'),
-(2, 'venta_rango', 'sdsds', NULL, NULL, 'sdsds', 23, 'dasd', 'asda', '2025-03-14 03:57:07');
+INSERT INTO `gestion_ventas` (`venta_id`, `venta_titulo`, `venta_compra`, `venta_caducidad`, `venta_estado`, `venta_costo`, `venta_comprador`, `venta_encargado`, `venta_fecha_compra`) VALUES
+(3, 'Membresia VIP', '2025-03-20', '2125-03-20', 'ACTIVO', 35, '-_:Evolution:_-', 'juancBQ', '2025-05-06 10:54:04');
 
 -- --------------------------------------------------------
 
@@ -191,8 +187,7 @@ INSERT INTO `registro_usuario` (`id`, `usuario_registro`, `password_registro`, `
 (37, 'maria51162', '$2y$10$VHf4SOKGgWTwkbJHyE2kSO5ueIku4IDgyGbTtcctvu2.HJpfRsJe.', '1', '2025-05-04 20:43:49', '79.117.162.218', 'maria51162', 'B6C7D'),
 (38, 'xOllstarx', '$2y$10$N/wx1youJtM8T0nuh6NVpuQykNBCfcRYo2hgrQUlUCHqpgNSD4jkG', '1', '2025-05-04 22:02:35', '187.132.203.144', 'xOllstarx', 'E8F9G'),
 (39, 'Nefita', '$2y$10$QGzzuEZk6XIlWcgAQ042.OHoKts5jcqyITcjNpyHjAIfetqNHp3Ru', '1', '2025-05-04 22:45:19', '181.51.89.41', 'Nefita', 'H0I1J'),
-(40, 'Vanderlind', '$2y$10$4QUUrIKmi1me0RJtzNdsBuJBk3b6WT.sYz2/pYI8nMGvRMusNcbwO', '1', '2025-05-04 03:47:05', '187.133.255.40', 'Vanderlind', 'P8Q9R'),
-(41, 'keekit08', '$2y$10$K4oOPc9K2ZoefT/qMlS9.ev7E942lRh9NHfepvcjEvePmAr6KtEwu', '1', '2025-05-05 05:54:13', '188.79.111.143', 'keekit08', 'GSUDH');
+(40, 'Vanderlind', '$2y$10$4QUUrIKmi1me0RJtzNdsBuJBk3b6WT.sYz2/pYI8nMGvRMusNcbwO', '1', '2025-05-04 03:47:05', '187.133.255.40', 'Vanderlind', 'P8Q9R');
 
 --
 -- Índices para tablas volcadas
@@ -248,7 +243,7 @@ ALTER TABLE `registro_usuario`
 -- AUTO_INCREMENT de la tabla `ascensos`
 --
 ALTER TABLE `ascensos`
-  MODIFY `ascenso_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ascenso_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `gestion_pagas`
@@ -266,7 +261,7 @@ ALTER TABLE `gestion_tiempo`
 -- AUTO_INCREMENT de la tabla `gestion_ventas`
 --
 ALTER TABLE `gestion_ventas`
-  MODIFY `venta_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `venta_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `historial_ascensos`
@@ -278,7 +273,7 @@ ALTER TABLE `historial_ascensos`
 -- AUTO_INCREMENT de la tabla `registro_usuario`
 --
 ALTER TABLE `registro_usuario`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- Restricciones para tablas volcadas
