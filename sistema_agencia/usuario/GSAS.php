@@ -45,17 +45,20 @@ require_once(DAR_ASCENSO_PATCH . 'informacion_cliente.php');
     </div>
 </div>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    new simpleDatatables.DataTable('#datatable', {
-        perPage: 10,
-        perPageSelect: [10, 25, 50, 100],
-        labels: {
-            placeholder: "Buscar...",
-            perPage: "{select} registros por página",
-            noRows: "No se encontraron registros",
-            info: "Mostrando {start} a {end} de {rows} registros"
-        }
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabla = document.querySelector("#datatable");
+        new simpleDatatables.DataTable(tabla, {
+            perPage: 3,
+            perPageSelect: [3, 5, 10],
+            labels: {
+                placeholder: "Buscar...",
+                perPage: "{select} registros por página",
+                noRows: "No hay registros disponibles",
+                info: "Mostrando {start} a {end} de {rows} registros",
+            }
+        });
     });
-});
 </script>
+
