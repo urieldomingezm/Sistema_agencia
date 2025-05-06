@@ -1,5 +1,11 @@
 <?php 
+
+// PROCESO PARA MOSTRAR TODOS LOS USUARIOS REGISTRADOS EN LA BASE DE DATOS Y PODER EDITARLOS O ELIMINARLOS
 require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
+
+// MODAL PARA EDITAR LA CONTRASEÑA DE LOS USUARIOS
+require_once(MODAL_GESTION_USUARIOS_PACH.'modificar_contraseña.php');
+
 ?>
 
 <table id="usuariosTable" class="table table-striped table-hover">
@@ -68,4 +74,49 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
             }
         });
     });
+</script>
+
+<script>
+    function editarUsuario(id) {
+        // Mostrar modal con los datos del usuario
+        $.ajax({
+            url: '/private/modal/modal_gestion_usuarios/modificar_contraseña.php?id=' + id,
+            success: function(response) {
+                $('body').append(response);
+                $('#modalCambiarPassword').modal('show');
+                
+                // Configurar el formulario
+                $('#formCambiarPassword').on('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = $(this).serializeArray();
+                    const data = {};
+                    formData.forEach(item => {
+                        data[item.name] = item.value;
+                    });
+                    
+                    // Enviar datos al servidor
+                    $.ajax({
+                        url: '/private/procesos/gestion_usuarios/modificar_usuarios.php',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(data),
+                        success: function(response) {
+                            $('#modalCambiarPassword').modal('hide');
+                            Swal.fire({
+                                title: response.success ? 'Éxito' : 'Error',
+                                text: response.message,
+                                icon: response.success ? 'success' : 'error'
+                            });
+                        }
+                    });
+                });
+                
+                // Limpiar modal al cerrar
+                $('#modalCambiarPassword').on('hidden.bs.modal', function() {
+                    $(this).remove();
+                });
+            }
+        });
+    }
 </script>
