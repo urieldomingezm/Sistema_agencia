@@ -1,5 +1,7 @@
 <?php
 // PROCESO PARA MOSTRAR TODOS LOS USUARIOS REGISTRADOS EN LA BASE DE DATOS Y PODER EDITARLOS O ELIMINARLOS
+require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+require_once(CONFIG_PATH . 'bd.php');
 require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
 
 if (isset($_GET['id'])) {
