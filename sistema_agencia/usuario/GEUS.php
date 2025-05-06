@@ -6,7 +6,7 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
     <thead>
         <tr class="text-white">
             <th>ID</th>
-            <th>Nombre Habbo</th>
+            <th>Habbo</th>
             <th>Password</th>
             <th>Ip</th>
             <th>Fecha registro</th>
@@ -19,7 +19,7 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
                 <td><?= htmlspecialchars($usuario['id']) ?></td>
                 <td><?= htmlspecialchars($usuario['nombre_habbo']) ?></td>
                 <td><?= htmlspecialchars($usuario['password_registro']) ?></td>
-                <td><?= htmlspecialchars($usuario['ip_registro']) ?></td>
+                <td><?= htmlspecialchars(substr(md5($usuario['ip_registro']), 0, 16)) ?></td>
                 <td><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
                 <td>
                     <div class="btn-group" role="group">
