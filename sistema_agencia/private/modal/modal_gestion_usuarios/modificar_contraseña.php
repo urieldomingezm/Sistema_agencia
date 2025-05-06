@@ -1,8 +1,10 @@
 <?php
-// PROCESO PARA MOSTRAR TODOS LOS USUARIOS REGISTRADOS EN LA BASE DE DATOS Y PODER EDITARLOS O ELIMINARLOS
-require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+// Definir rutas constantes
+define('CONFIG_PATH', $_SERVER['DOCUMENT_ROOT'] . '/private/conexion/');
+define('GESTION_USUARIOS_PACH', $_SERVER['DOCUMENT_ROOT'] . '/private/procesos/gestion_usuarios/');
+
 require_once(CONFIG_PATH . 'bd.php');
-require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
+require_once(GESTION_USUARIOS_PACH . 'mostrar_usuarios.php');
 
 if (isset($_GET['id'])) {
     $database = new Database();
@@ -24,7 +26,7 @@ if (isset($_GET['id'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="formCambiarPassword">
+                <form id="formCambiarPassword" action="/private/procesos/gestion_usuarios/modificar_usuarios.php" method="POST">
                     <input type="hidden" name="id" value="<?= $usuario['id'] ?? '' ?>">
                     <div class="mb-3">
                         <label class="form-label">ID</label>
