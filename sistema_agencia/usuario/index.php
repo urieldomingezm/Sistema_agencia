@@ -2,7 +2,6 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 require_once(TEMPLATES_PATH . 'header.php');
 
-
 class UserController {
     private $conn;
     private $userRango;
@@ -13,7 +12,17 @@ class UserController {
         }
         
         if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
-            header('Location: /login.php');
+            echo "<script>
+            Swal.fire({
+                title: 'Acceso no autorizado',
+                text: 'Debes iniciar sesión para acceder a esta sección',
+                icon: 'error',
+                confirmButtonText: 'Entendido',
+                willClose: () => {
+                    window.location.href = '/login.php';
+                }
+            });
+            </script>";
             exit;
         }
 
