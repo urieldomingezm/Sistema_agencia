@@ -131,7 +131,7 @@ require_once(GESTION_RENOVAR_VENTA_PATCH.'renovar.php');
             perPageSelect: [10, 25, 50, 100],
             labels: {
                 placeholder: "Buscar...",
-                perPage: "{select} registros por página",
+                perPage: "registros por página",
                 noRows: "No se encontraron registros",
                 info: "Mostrando {start} a {end} de {rows} registros",
                 loading: "Cargando...",
