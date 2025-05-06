@@ -23,11 +23,11 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
                 <td><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-primary btn-sm" onclick="editarUsuario(<?= $usuario['id'] ?>)">
-                            Cambiar contraseña
+                        <button class="btn btn-primary btn-sm rounded-pill me-2" onclick="editarUsuario(<?= $usuario['id'] ?>)">
+                            <i class="bi bi-key-fill"></i> Contraseña
                         </button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(<?= $usuario['id'] ?>)">
-                            Eliminar
+                        <button class="btn btn-danger btn-sm rounded-pill" onclick="eliminarUsuario(<?= $usuario['id'] ?>)">
+                            <i class="bi bi-trash-fill"></i> Eliminar
                         </button>
                     </div>
                 </td>
@@ -35,6 +35,21 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
         <?php endforeach; ?>
     </tbody>
 </table>
+
+<style>
+    .btn-sm {
+        padding: 0.35rem 0.75rem;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+    }
+    .btn-sm:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .rounded-pill {
+        border-radius: 50rem !important;
+    }
+</style>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
