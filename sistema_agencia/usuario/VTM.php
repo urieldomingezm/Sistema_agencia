@@ -4,143 +4,130 @@ require_once(GESTION_VENTAS_PATCH . 'mostrar_ventas.php');
 
 <style>
     .table-responsive {
-        border-radius: 8px;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .table th,
+    .table td {
+        white-space: nowrap;
+        max-width: 200px;
         overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-overflow: ellipsis;
     }
-    
-    .table thead th {
-        background-color: #2c3e50;
-        color: white;
-        font-weight: 600;
-        padding: 15px;
+
+    .table th {
+        position: sticky;
+        top: 0;
+        background-color: rgb(0, 128, 255);
+        z-index: 1;
     }
-    
-    .table tbody td {
-        vertical-align: middle;
-        padding: 12px;
+
+    .dataTables_wrapper {
+        margin-top: 1rem;
     }
-    
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(44,62,80,0.05);
-    }
-    
-    .table-hover tbody tr:hover {
-        background-color: rgba(44,62,80,0.1);
-    }
-    
-    .badge {
-        padding: 6px 12px;
-        font-size: 0.9em;
-        font-weight: 500;
+
+    .dataTables_filter input {
+        margin-left: 0.5rem;
         border-radius: 4px;
-    }
-    
-    .bg-success {
-        background-color: #28a745!important;
-    }
-    
-    .bg-danger {
-        background-color: #dc3545!important;
+        border: 1px solid #ddd;
+        padding: 0.375rem 0.75rem;
     }
 </style>
 
-<div class="dashboard-container">
-    <div class="card">
-        <div class="card-header bg-gradient-primary py-3 border-0">
-            <div class="d-flex justify-content-between align-items-center">
-                <h3>Ventas de Membresías</h3>
-            </div>
-        </div>
-        <div class="card-body">
-            <table id="ventasTable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Título</th>
-                        <th>Compra</th>
-                        <th>Caducidad</th>
-                        <th>Estado</th>
-                        <th>Costo</th>
-                        <th>Comprador</th>
-                        <th>Encargado</th>
-                        <th>Fecha Compra</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($ventas as $venta): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($venta['venta_id']) ?></td>
-                        <td><?= htmlspecialchars($venta['venta_titulo']) ?></td>
-                        <td><?= htmlspecialchars($venta['venta_compra']) ?></td>
-                        <td><?= htmlspecialchars($venta['venta_caducidad']) ?></td>
-                        <td>
-                            <?php
-                            $badgeClass = '';
-                            $estado = strtolower($venta['venta_estado']);
-                            if ($estado === 'activo') {
-                                $badgeClass = 'bg-success';
-                            } elseif ($estado === 'caducado') {
-                                $badgeClass = 'bg-danger';
-                            }
-                            ?>
-                            <span class="badge <?= $badgeClass ?>">
-                                <?= htmlspecialchars(ucfirst($venta['venta_estado'])) ?>
-                            </span>
-                        </td>
-                        <td><?= htmlspecialchars($venta['venta_costo']) ?></td>
-                        <td><?= htmlspecialchars($venta['venta_comprador']) ?></td>
-                        <td><?= htmlspecialchars($venta['venta_encargado']) ?></td>
-                        <td><?= htmlspecialchars(date('Y-m-d', strtotime($venta['venta_fecha_compra']))) ?></td>
-                        <td>
-                            <button class="btn btn-danger btn-sm" onclick="deleteVenta(<?= $venta['venta_id'] ?>)">
-                                <i class="bi bi-trash"></i>
+<div class="table-responsive">
+    <table id="ventasTable" class="table table-striped table-hover">
+        <thead>
+            <tr class="text-white">
+                <th>ID</th>
+                <th>Membresia</th>
+                <th>Compra</th>
+                <th>Caducidad</th>
+                <th>Estado</th>
+                <th>Costo</th>
+                <th>Comprador</th>
+                <th>Encargado</th>
+                <th>Fecha Compra</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($ventas as $venta): ?>
+                <tr>
+                    <td><?= htmlspecialchars($venta['venta_id']) ?></td>
+                    <td><?= htmlspecialchars($venta['venta_titulo']) ?></td>
+                    <td><?= htmlspecialchars($venta['venta_compra']) ?></td>
+                    <td><?= htmlspecialchars($venta['venta_caducidad']) ?></td>
+                    <td>
+                        <span class="badge <?= strtolower($venta['venta_estado']) === 'activo' ? 'bg-success' : 'bg-danger' ?>">
+                            <?= htmlspecialchars(ucfirst(strtolower($venta['venta_estado']))) ?>
+                        </span>
+                    </td>
+                    <td><?= htmlspecialchars($venta['venta_costo']) ?></td>
+                    <td><?= htmlspecialchars($venta['venta_comprador']) ?></td>
+                    <td><?= htmlspecialchars($venta['venta_encargado']) ?></td>
+                    <td><?= htmlspecialchars(date('Y-m-d', strtotime($venta['venta_fecha_compra']))) ?></td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="actionDropdown<?= $venta['venta_id'] ?>" data-bs-toggle="dropdown" aria-expanded="false">
+                                Acciones
                             </button>
-                            <button class="btn btn-success btn-sm" onclick="renovarVenta(<?= $venta['venta_id'] ?>)">
-                                <i class="bi bi-arrow-clockwise"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
+                            <ul class="dropdown-menu" aria-labelledby="actionDropdown<?= $venta['venta_id'] ?>">
+                                <li>
+                                    <button class="dropdown-item text-danger" onclick="deleteVenta(<?= $venta['venta_id'] ?>)">
+                                        <i class="bi bi-trash me-2"></i>Eliminar
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item text-success" onclick="renovarVenta(<?= $venta['venta_id'] ?>)">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>Renovar
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const dataTable = new simpleDatatables.DataTable("#ventasTable", {
-        searchable: true,
-        fixedHeight: true,
-        labels: {
-            placeholder: "Buscar...",
-            perPage: "Registros por página",
-            noRows: "No hay registros",
-            info: "Mostrando {start} a {end} de {rows} registros",
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const dataTable = new simpleDatatables.DataTable("#ventasTable", {
+            searchable: true,
+            fixedHeight: true,
+            perPage: 10,
+            perPageSelect: [10, 25, 50, 100],
+            labels: {
+                placeholder: "Buscar...",
+                perPage: "{select} registros por página",
+                noRows: "No se encontraron registros",
+                info: "Mostrando {start} a {end} de {rows} registros",
+                loading: "Cargando...",
+                infoFiltered: "(filtrado de {rows} registros totales)"
+            }
+        });
     });
-});
 
-function deleteVenta(id) {
-    Swal.fire({
-        title: '¿Estás seguro?',
-        text: "Esta acción no se puede deshacer",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Implementar lógica de eliminación
-        }
-    });
-}
+    function deleteVenta(id) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede deshacer",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Implementar lógica de eliminación
+            }
+        });
+    }
 
-function renovarVenta(id) {
-    // Implementar lógica de renovación
-}
+    function renovarVenta(id) {
+        // Implementar lógica de renovación
+    }
 </script>
