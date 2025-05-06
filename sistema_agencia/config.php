@@ -19,6 +19,8 @@ define('VER_PERFIL_PATCH', PRIVATE_PATH . 'procesos/perfil/');
 define('GESTION_TIEMPO_PATCH', PRIVATE_PATH . 'procesos/gestion_tiempos/');
 define('GESTION_ASCENSOS_PATCH', PRIVATE_PATH . 'procesos/gestion_ascensos/');
 define('GESTION_TIEMPOS_PATCH', PRIVATE_PATH . 'procesos/gestion_tiempos/');
+define('GESTION_VENTAS_PATCH', PRIVATE_PATH . 'procesos/gestion_ventas/');
+
 
 // Rutas para modales
 define('MODALES_MENU_PATH', PRIVATE_PATH . 'modal/moda_menus_ascender/');
