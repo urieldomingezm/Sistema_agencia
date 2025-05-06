@@ -6,7 +6,6 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
     <thead>
         <tr class="text-white">
             <th>ID</th>
-            <th>Usuario</th>
             <th>Nombre Habbo</th>
             <th>Rango</th>
             <th>Fecha Registro</th>
@@ -18,7 +17,6 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
         <?php foreach ($usuarios as $usuario): ?>
             <tr>
                 <td><?= htmlspecialchars($usuario['id']) ?></td>
-                <td><?= htmlspecialchars($usuario['usuario']) ?></td>
                 <td><?= htmlspecialchars($usuario['nombre_habbo']) ?></td>
                 <td><?= htmlspecialchars($usuario['rango']) ?></td>
                 <td><?= htmlspecialchars(date('Y-m-d', strtotime($usuario['fecha_registro']))) ?></td>
