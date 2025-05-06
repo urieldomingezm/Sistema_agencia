@@ -102,7 +102,6 @@ class UserController
             'GTPS.php' => 'gestion_de_pagas',
             'VTM.php' => 'ventas_membresias',
             'VTR.php' => 'venta_rangos',
-            'GEDV.php' => 'total_ventas',
         ];
 
         $results = [];
@@ -207,10 +206,6 @@ class UserController
             ],
             'gestionar_usuarios' => [
                 'file' => 'GEUS.php',
-                'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
-            ],
-            'total_ventas' => [
-                'file' => 'GEDV.php',
                 'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
             ],
 

@@ -123,7 +123,6 @@ class Navbar
       'Gestion de tiempo' => 'bi bi-clock-fill',
       'Gestion ascenso' => 'bi bi-people-fill',
       'Ventas membresias' => 'bi bi-person-badge-fill',
-      'total ventas' => 'bi bi-graph-up-arrow',
       'Gestion de pagas' => 'bi bi-wallet2',
       'Pagar usuario' => 'bi bi-cash',
       'Grafico total de pagas' => 'bi bi-pie-chart-fill',
@@ -162,8 +161,7 @@ $items = [
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
   ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'divider', 'Dar ascenso', 'Tomar tiempo']],
   ['name' => 'Ventas', 'dropdown' => [
-    'Ventas membresias', 
-    'total ventas', 
+    'Ventas membresias',
     'divider', 
     'Vender membresias'
   ]],
