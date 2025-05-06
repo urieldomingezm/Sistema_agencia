@@ -21,6 +21,8 @@ define('GESTION_ASCENSOS_PATCH', PRIVATE_PATH . 'procesos/gestion_ascensos/');
 define('GESTION_TIEMPOS_PATCH', PRIVATE_PATH . 'procesos/gestion_tiempos/');
 define('GESTION_VENTAS_PATCH', PRIVATE_PATH . 'procesos/gestion_ventas/');
 
+// Rutas para gestion de ventas (renovar y vender membresia)
+define('GESTION_RENOVAR_VENTA_PATCH', PRIVATE_PATH. 'modal/modal_gestion_ventas/');
 
 // Rutas para modales
 define('MODALES_MENU_PATH', PRIVATE_PATH . 'modal/moda_menus_ascender/');

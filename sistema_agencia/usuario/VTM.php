@@ -1,5 +1,14 @@
 <?php
+// PROCESO PARA ELIMINAR, RENOVAR, VENDER Y MOSTRAR LAS VENTAS DEL SITIO
+require_once(GESTION_VENTAS_PATCH.'renovar_eliminar_registrar.php');
 require_once(GESTION_VENTAS_PATCH . 'mostrar_ventas.php');
+
+// MODAL PARA VENTA, RENOVAR Y ELIMINAR
+require_once(GESTION_RENOVAR_VENTA_PATCH.'vender.php');
+require_once(GESTION_RENOVAR_VENTA_PATCH.'renovar.php');
+
+
+
 ?>
 
 <style>
