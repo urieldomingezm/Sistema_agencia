@@ -1,5 +1,6 @@
 <?php
-require_once(CONFIG_PATH . 'bd.php');
+// PROCESO PARA MOSTRAR TODOS LOS USUARIOS REGISTRADOS EN LA BASE DE DATOS Y PODER EDITARLOS O ELIMINARLOS
+require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
 
 if (isset($_GET['id'])) {
     $database = new Database();
@@ -46,7 +47,5 @@ if (isset($_GET['id'])) {
     </div>
 </div>
 
-<?php 
-// PROCESO PARA MOSTRAR TODOS LOS USUARIOS REGISTRADOS EN LA BASE DE DATOS Y PODER EDITARLOS O ELIMINARLOS
-require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
-?>
+
+
