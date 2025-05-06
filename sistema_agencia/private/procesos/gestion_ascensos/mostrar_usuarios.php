@@ -5,12 +5,12 @@ try {
     $database = new Database();
     $conn = $database->getConnection();
 
-    // Consulta para obtener los datos de los ascensos con el nombre de usuario
-    $query = "SELECT a.ascenso_id, a.codigo_time, a.rango_actual, a.mision_actual, 
-                     a.mision_nueva, a.estado_ascenso, a.fecha_disponible_ascenso, 
-                     a.usuario_encargado, r.usuario_registro
-              FROM ascensos a
-              JOIN registro_usuario r ON a.codigo_time = r.codigo_time";
+    // Consulta para obtener los datos de los ascensos
+    $query = "SELECT ascenso_id, codigo_time, rango_actual, mision_actual, 
+                     firma_usuario, firma_encargado, estado_ascenso, 
+                     fecha_ultimo_ascenso, fecha_disponible_ascenso, 
+                     usuario_encargado, es_recluta 
+              FROM ascensos";
     $stmt = $conn->prepare($query);
     $stmt->execute();
 

@@ -16,18 +16,17 @@ require_once(DAR_ASCENSO_PATCH . 'informacion_cliente.php');
             <table id="datatable" class="datatable-table">
                 <thead>
                     <tr>
-                        <th>Usuario</th>
+                        <th>Código</th>
                         <th>Rango Actual</th>
                         <th>Misión Actual</th>
                         <th>Estado</th>
                         <th>Próximo Ascenso</th>
-                        <th>Encargado</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($GLOBALS['ascensos'] as $ascenso): ?>
                     <tr>
-                        <td><?= htmlspecialchars($ascenso['usuario_registro']) ?></td>
+                        <td><?= htmlspecialchars($ascenso['codigo_time']) ?></td>
                         <td><?= htmlspecialchars($ascenso['rango_actual']) ?></td>
                         <td><?= htmlspecialchars($ascenso['mision_actual']) ?></td>
                         <td>
@@ -35,8 +34,9 @@ require_once(DAR_ASCENSO_PATCH . 'informacion_cliente.php');
                                 <?= htmlspecialchars($ascenso['estado_ascenso']) ?>
                             </span>
                         </td>
-                        <td><?= htmlspecialchars($ascenso['fecha_disponible_ascenso'] ? date('h:i A', strtotime($ascenso['fecha_disponible_ascenso'])) : 'No disponible') ?></td>
-                        <td><?= htmlspecialchars($ascenso['usuario_encargado'] ?? 'No disponible') ?></td>
+                        <td data-fecha-ascenso="<?= htmlspecialchars($ascenso['fecha_disponible_ascenso']) ?>">
+                            <?= htmlspecialchars($ascenso['fecha_disponible_ascenso'] ? date('H:i:s', strtotime($ascenso['fecha_disponible_ascenso'])) : 'No disponible') ?>
+                        </td>
                     </tr>
                     <?php endforeach; ?>
                 </tbody>
@@ -60,5 +60,14 @@ require_once(DAR_ASCENSO_PATCH . 'informacion_cliente.php');
             }
         });
     });
+
+    
 </script>
+
+
+
+</div>
+<script src="GSAS.js"></script>
+</body>
+</html>
 

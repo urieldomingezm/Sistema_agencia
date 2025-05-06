@@ -406,15 +406,17 @@ $(document).ready(function() {
         }
         
         // Datos para enviar
+        // En la sección de AJAX donde se realiza el registro
         const datosAscenso = {
             codigo_time: userData.codigo_time,
-            rango_anterior: userData.rango_actual,
+            rango_anterior: '', // Ya no necesitamos el rango anterior
             rango_nuevo: nuevoRango,
-            mision_anterior: userData.mision_actual,
+            mision_anterior: '', // Ya no necesitamos la misión anterior
             mision_nueva: nuevaMision,
             firma_encargado: firmaEncargado,
             usuario_encargado: nombreEncargado,
-            tiempo_espera: tiempoEspera
+            tiempo_espera: tiempoEspera,
+            firma_usuario: userData.firma_usuario // Agregamos la firma del usuario
         };
         
         // Mostrar cargando
