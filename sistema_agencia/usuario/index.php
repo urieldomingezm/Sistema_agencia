@@ -2,15 +2,17 @@
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 require_once(TEMPLATES_PATH . 'header.php');
 
-class UserController {
+class UserController
+{
     private $conn;
     private $userRango;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (!isset($_SESSION)) {
             session_start();
         }
-        
+
         if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
             echo "<script>
             Swal.fire({
@@ -33,7 +35,8 @@ class UserController {
         $this->loadMenu();
     }
 
-    private function loadUserRank() {
+    private function loadUserRank()
+    {
         try {
             $query = "SELECT a.rango_actual 
                  FROM registro_usuario r
@@ -57,7 +60,8 @@ class UserController {
         }
     }
 
-    private function loadMenu() {
+    private function loadMenu()
+    {
         $menuMap = [
             'Agente' => 'menu_rango_bajos.php',
             'Seguridad' => 'menu_rango_bajos.php',
@@ -78,7 +82,8 @@ class UserController {
         require_once(MENU_PATH . $menuFile);
     }
 
-    public function handleSearch() {
+    public function handleSearch()
+    {
         if (!isset($_GET['q']) || empty($_GET['q'])) {
             return;
         }
@@ -122,7 +127,8 @@ class UserController {
         $this->renderSearchResults($query, $results);
     }
 
-    private function renderSearchResults($query, $results) {
+    private function renderSearchResults($query, $results)
+    {
         echo '<div class="search-results-container">';
         echo '<div class="card shadow-lg border-0 rounded-lg">';
         echo '<div class="card-header bg-gradient-primary">';
@@ -139,7 +145,8 @@ class UserController {
         echo '</div></div></div>';
     }
 
-    private function renderResultsList($results) {
+    private function renderResultsList($results)
+    {
         echo '<div class="results-list">';
         foreach ($results as $result) {
             echo '<a href="' . $result['url'] . '" class="result-item">';
@@ -155,7 +162,8 @@ class UserController {
         echo '</div>';
     }
 
-    private function renderNoResults() {
+    private function renderNoResults()
+    {
         echo '<div class="text-center p-4">';
         echo '<i class="bi bi-search-x fa-3x text-muted mb-3"></i>';
         echo '<div class="alert alert-warning mb-0">';
@@ -165,7 +173,8 @@ class UserController {
         echo '</div>';
     }
 
-    public function handlePageLoad() {
+    public function handlePageLoad()
+    {
         if (!isset($_GET['page'])) {
             include 'USR.php';
             return;
@@ -173,18 +182,63 @@ class UserController {
 
         $page = $_GET['page'];
         $validPages = [
-            'gestion_de_tiempo' => ['file' => 'GSTM.php', 'roles' => ['Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'inicio' => ['file' => 'USR.php', 'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'ver_perfil' => ['file' => 'PRUS.php', 'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'cerrar_session' => ['file' => 'CRSS.php', 'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'requisitos_paga' => ['file' => 'RQPG.php', 'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo','Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'gestion_ascenso' => ['file' => 'GSAS.php', 'roles' => ['Logistica', 'Supervisor', 'Operativo','Director', 'Presidente', 'Junta directiva','Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'gestion_de_pagas' => ['file' => 'GTPS.php', 'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'ventas_membresias' => ['file' => 'VTM.php', 'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'venta_rangos' => ['file' => 'VTR.php', 'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'verificar_usuarios' => ['file' => 'VER.php', 'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva','Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'gestionar_usuarios' => ['file' => 'GEUS.php', 'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva','Administrador', 'Manager', 'Dueño', 'Fundador']],
-            'total_ventas' => ['file' => 'GEDV.php', 'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva','Administrador', 'Manager', 'Dueño', 'Fundador']],
+            // Pages accessible by all roles
+            'inicio' => [
+                'file' => 'USR.php',
+                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'ver_perfil' => [
+                'file' => 'PRUS.php',
+                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'cerrar_session' => [
+                'file' => 'CRSS.php',
+                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'requisitos_paga' => [
+                'file' => 'RQPG.php',
+                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+
+            // Pages accessible by technical roles and above
+            'verificar_usuarios' => [
+                'file' => 'VER.php',
+                'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'gestionar_usuarios' => [
+                'file' => 'GEUS.php',
+                'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'total_ventas' => [
+                'file' => 'GEDV.php',
+                'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+
+            // Pages accessible by logistics and above
+            'gestion_ascenso' => [
+                'file' => 'GSAS.php',
+                'roles' => ['Logistica', 'Supervisor', 'Operativo', 'Director', 'Presidente', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+
+            // Pages accessible by director and above
+            'gestion_de_tiempo' => [
+                'file' => 'GSTM.php',
+                'roles' => ['Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+
+            // Pages accessible only by administrators
+            'gestion_de_pagas' => [
+                'file' => 'GTPS.php',
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'ventas_membresias' => [
+                'file' => 'VTM.php',
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'venta_rangos' => [
+                'file' => 'VTR.php',
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
         ];
 
 
@@ -195,7 +249,8 @@ class UserController {
         }
     }
 
-    private function renderAccessDenied() {
+    private function renderAccessDenied()
+    {
         $rango = $this->userRango ?? 'Agente';
         echo '<div class="alert alert-danger text-center mt-5">';
         echo '<h4 class="alert-heading">Acceso Denegado</h4>';
@@ -242,11 +297,11 @@ $controller = new UserController();
             loader.classList.add('fade-out');
             setTimeout(() => {
                 loader.style.display = 'none';
-                
+
                 // Check if welcome message has been shown today
                 const lastShown = localStorage.getItem('welcomeLastShown');
                 const today = new Date().toDateString();
-                
+
                 if (!lastShown || lastShown !== today) {
                     Swal.fire({
                         title: '¡Bienvenido al Sistema!',
@@ -274,7 +329,7 @@ $controller = new UserController();
                 }
             }, 300);
         });
-    
+
         // Show loader when navigating
         document.addEventListener('click', function(e) {
             const link = e.target.closest('a');

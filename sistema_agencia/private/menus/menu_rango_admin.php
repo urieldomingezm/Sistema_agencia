@@ -127,7 +127,6 @@ class Navbar
       'Gestion de pagas' => 'bi bi-wallet2',
       'Pagar usuario' => 'bi bi-cash',
       'Grafico total de pagas' => 'bi bi-pie-chart-fill',
-      'Verificar usuarios' => 'bi bi-shield-check-fill', 
       'Gestionar usuarios' => 'bi bi-gear-fill',
       'Vender membresias' => 'bi bi-tags-fill',
       'Vender rangos' => 'bi bi-award-fill',
@@ -146,6 +145,7 @@ class Navbar
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
       'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#id_tomar_tiempo',
+      'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
     ];
 
     if (isset($modalItems[$item])) {
@@ -161,9 +161,19 @@ $items = [
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
   ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'divider', 'Dar ascenso', 'Tomar tiempo']],
-  ['name' => 'Ventas', 'dropdown' => ['Ventas membresias', 'Ventas rangos', 'total ventas', 'divider', 'Vender membresias','Vender rangos']],
+  ['name' => 'Ventas', 'dropdown' => [
+    'Ventas membresias', 
+    'total ventas', 
+    'divider', 
+    'Vender membresias'
+  ]],
+  ['name' => 'Rangos', 'dropdown' => [
+    'Ventas rangos', 
+    'divider', 
+    'Vender rangos'
+  ]],
   ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Pagar usuario', 'Grafico total de pagas']],
-  ['name' => 'Gestion de usuarios', 'dropdown' => ['Verificar usuarios', 'Gestionar usuarios']],
+  ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios']],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);
@@ -178,3 +188,7 @@ require_once(DAR_ASCENSO_PATCH.'dar_tiempo.php');
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
 require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
 require_once(MODALES_MENU_VENTAS_PATH . 'modal_vender_rangos.php');
+
+
+// MODAL DE VENTAS
+require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');

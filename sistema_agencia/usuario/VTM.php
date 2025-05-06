@@ -1,13 +1,11 @@
 <?php
 // PROCESO PARA ELIMINAR, RENOVAR, VENDER Y MOSTRAR LAS VENTAS DEL SITIO
-require_once(GESTION_VENTAS_PATCH.'renovar_eliminar_registrar.php');
+require_once(GESTION_VENTAS_PATCH . 'renovar_eliminar_registrar.php');
 require_once(GESTION_VENTAS_PATCH . 'mostrar_ventas.php');
 
 // MODAL PARA VENTA, RENOVAR Y ELIMINAR
-require_once(GESTION_RENOVAR_VENTA_PATCH.'vender.php');
-require_once(GESTION_RENOVAR_VENTA_PATCH.'renovar.php');
-
-
+require_once(GESTION_RENOVAR_VENTA_PATCH . 'vender.php');
+require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
 
 ?>
 
@@ -18,7 +16,7 @@ require_once(GESTION_RENOVAR_VENTA_PATCH.'renovar.php');
         border-spacing: 0;
         border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         position: relative;
     }
 
@@ -49,11 +47,11 @@ require_once(GESTION_RENOVAR_VENTA_PATCH.'renovar.php');
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(44,62,80,0.05);
+        background-color: rgba(44, 62, 80, 0.05);
     }
 
     .table-hover tbody tr:hover {
-        background-color: rgba(44,62,80,0.1);
+        background-color: rgba(44, 62, 80, 0.1);
     }
 
     .dropdown-menu {
@@ -102,7 +100,7 @@ require_once(GESTION_RENOVAR_VENTA_PATCH.'renovar.php');
                     <div class="dropdown">
                         <div class="btn-group" role="group">
                             <button class="btn btn-danger btn-sm" onclick="deleteVenta(<?= $venta['venta_id'] ?>)">
-                               Eliminar
+                                Eliminar
                             </button>
                             <button class="btn btn-success btn-sm" onclick="renovarVenta(<?= $venta['venta_id'] ?>)">
                                 Renovar
