@@ -18,7 +18,7 @@ require_once(GESTION_USUARIOS_PACH. 'mostrar_usuarios.php');
             <tr>
                 <td><?= htmlspecialchars($usuario['id']) ?></td>
                 <td><?= htmlspecialchars($usuario['nombre_habbo']) ?></td>
-                <td><?= htmlspecialchars($usuario['password_registro']) ?></td>
+                <td><?= htmlspecialchars(substr($usuario['password_registro'], 0, 10)) ?></td>
                 <td><?= htmlspecialchars(substr(md5($usuario['ip_registro']), 0, 16)) ?></td>
                 <td><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
                 <td>
