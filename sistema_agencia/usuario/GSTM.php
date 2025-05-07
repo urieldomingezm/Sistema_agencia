@@ -1,6 +1,7 @@
 <?php
 // PROCESO PARA MOSTRAR TIEMPOS DE USUARIOS
 require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
+require_once(GESTION_TIEMPO_PATCH . 'proceso_control_tiempos.php');
 
 // MODALES PARA ACCIONES DE TIEMPOS DE USUARIOS
 require_once(MODAL_GESTION_TIEMPO_PATH . 'modal_acciones.php');
