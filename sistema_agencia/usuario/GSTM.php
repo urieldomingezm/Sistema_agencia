@@ -2,7 +2,8 @@
 // PROCESO PARA MOSTRAR TIEMPOS DE USUARIOS
 require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
 
-// MODALES PARA ACCIONES DE TIEMPOS DE USUARIOS 
+// MODALES PARA ACCIONES DE TIEMPOS DE USUARIOS
+require_once(MODAL_GESTION_TIEMPO_PATH . 'modal_acciones.php');
 
 class TimeManagementTable {
     private $tiempos;
