@@ -117,7 +117,8 @@ class Navbar
       'Cerrar session' => 'bi bi-box-arrow-right',
       'Requisitos paga' => 'bi bi-list-check',
       'Calcular rango' => 'bi bi-calculator',
-      'Gestion ascenso' => 'bi bi-people'
+      'Gestion ascenso' => 'bi bi-people',
+      'Dar ascenso' => 'bi bi-arrow-up-square-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle';
   }
@@ -127,7 +128,8 @@ class Navbar
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
-      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos'
+      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso'
     ];
 
     if (isset($modalItems[$item])) {
@@ -142,7 +144,7 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
-  ['name' => 'Ascenso', 'dropdown' => ['Gestion ascenso']]
+  ['name' => 'Ascenso', 'dropdown' => ['Gestion ascenso', 'divider', 'Dar ascenso']]
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);
@@ -152,3 +154,4 @@ $navbar->render();
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
 require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
 require_once(MODALES_MENU_VENTAS_PATH . 'modal_vender_rangos.php');
+require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');
