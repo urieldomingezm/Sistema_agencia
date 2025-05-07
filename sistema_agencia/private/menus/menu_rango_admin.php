@@ -129,7 +129,7 @@ class Navbar
       'Gestionar usuarios' => 'bi bi-gear-fill',
       'Vender membresias' => 'bi bi-tags-fill',
       'Vender rangos' => 'bi bi-award-fill',
-      'Ventas rangos' => 'bi bi-star-fill',
+      'Ventas rangos y traslados' => 'bi bi-star-fill',
       'Dar ascenso' => 'bi bi-arrow-up-square-fill',
       'Tomar tiempo' => 'bi bi-stopwatch-fill'
     ];
@@ -166,7 +166,7 @@ $items = [
     'Vender membresias'
   ]],
   ['name' => 'Rangos', 'dropdown' => [
-    'Ventas rangos', 
+    'Ventas rangos y traslados', 
     'divider', 
     'Vender rangos'
   ]],
