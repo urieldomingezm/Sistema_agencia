@@ -209,7 +209,7 @@ class UserController
             // Pages accessible by technical roles and above
             'gestionar_usuarios' => [
                 'file' => 'GEUS.php',
-                'roles' => ['Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
             ],
 
             // Pages accessible by logistics and above
@@ -233,7 +233,7 @@ class UserController
                 'file' => 'VTM.php',
                 'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
             ],
-            'venta_rangos' => [
+            'ventas_rangos_y_traslados' => [
                 'file' => 'VTR.php',
                 'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
             ],

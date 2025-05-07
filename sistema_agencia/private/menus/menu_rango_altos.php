@@ -119,6 +119,8 @@ class Navbar
       'Calcular rango' => 'bi bi-calculator',
       'Gestion de tiempo' => 'bi bi-clock',
       'Gestion ascenso' => 'bi bi-people',
+      'Dar ascenso' => 'bi bi-arrow-up-square-fill',
+      'Tomar tiempo' => 'bi bi-stopwatch-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle';
   }
@@ -128,7 +130,9 @@ class Navbar
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
-      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos'
+      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
+      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#id_tomar_tiempo'
     ];
 
     if (isset($modalItems[$item])) {
@@ -143,13 +147,17 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
-  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso']],
+  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'divider', 'Dar ascenso', 'Tomar tiempo']],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);
 $navbar->render();
 
+// Modales para dar ascenso y tomar tiempo
+require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
+require_once(DAR_ASCENSO_PATCH.'dar_tiempo.php');
 
+// Modales para calcular rango, pagar usuario y vender rangos
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
 require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
 require_once(MODALES_MENU_VENTAS_PATH . 'modal_vender_rangos.php');
