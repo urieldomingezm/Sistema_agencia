@@ -101,7 +101,7 @@ class UserController
             'USR.php' => 'inicio',
             'PRUS.php' => 'ver_perfil',
             'CRSS.php' => 'cerrar_session',
-            'RQPG.php' => 'Requisitos_paga',
+            'RQPG.php' => 'requisitos_paga',
             'GSAS.php' => 'gestion_ascenso',
             'GVE.php' => 'Pendiente',
             'GVP.php' => 'Pendiente',
