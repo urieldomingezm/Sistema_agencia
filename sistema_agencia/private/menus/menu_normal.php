@@ -4,15 +4,11 @@ class Navbar
 {
   private $brand;
   private $items;
-  private $searchPlaceholder;
-  private $searchButtonText;
 
-  public function __construct($brand, $items, $searchPlaceholder = "Buscar", $searchButtonText = "Buscar")
+  public function __construct($brand, $items)
   {
     $this->brand = $brand;
     $this->items = $items;
-    $this->searchPlaceholder = $searchPlaceholder;
-    $this->searchButtonText = $searchButtonText;
   }
 
   public function render()
@@ -90,16 +86,6 @@ class Navbar
                 </div>
               <?php endforeach; ?>
             </div>
-
-            <form class="search-form mt-3" role="search" method="GET" action="/usuario/index.php">
-              <div class="input-group">
-                <input type="search" class="form-control" name="q" 
-                       placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
-                <button class="btn btn-outline-primary" type="submit">
-                  <i class="bi bi-search"></i>
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       </div>
