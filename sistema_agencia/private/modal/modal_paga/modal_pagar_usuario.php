@@ -82,17 +82,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
 <div class="modal fade" id="modalpagar" tabindex="-1" aria-labelledby="modalpagarLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header text-white">
                 <h5 class="modal-title" id="modalpagarLabel">
                     Registrar Pago
                 </h5>
             </div>
             <div class="modal-body">
-                <form method="POST" class="was-validated payment-form">
+                <form method="POST" class="was-validated payment-form" id="pagoForm">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" name="pagas_usuario" maxlength="16" class="form-control" id="userInput" placeholder="Usuario" required>
+                                <select class="form-select" name="pagas_usuario" id="userInput" required>
+                                    <option value="" selected disabled>Seleccionar usuario</option>
+                                    <?php
+                                    $database = new Database();
+                                    $db = $database->getConnection();
+                                    $query = "SELECT usuario_registro FROM registro_usuario ORDER BY usuario_registro ASC";
+                                    $stmt = $db->prepare($query);
+                                    $stmt->execute();
+                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo '<option value="' . htmlspecialchars($row['usuario_registro']) . '">' . htmlspecialchars($row['usuario_registro']) . '</option>';
+                                    }
+                                    ?>
+                                </select>
                                 <label for="userInput">Usuario</label>
                             </div>
                         </div>
@@ -129,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" name="pagas_descripcion" placeholder="Descripción" id="descriptionInput">
-                                        <label for="descriptionInput">(Opcional)</label>
+                                        <label for="descriptionInput">Descripcion (Opcional)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -154,7 +166,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
                         <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
                             <i class="bi bi-x-lg me-2"></i>Cancelar
                         </button>
-                        <button type="submit" name="guardarPago" class="btn btn-primary">
+                        <button type="submit" name="guardarPago" class="btn btn-outline-primary">
                             <i class="bi bi-save me-2"></i>Registrar Pago
                         </button>
                     </div>
@@ -163,3 +175,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const validation = new JustValidate('#pagoForm', {
+            validateBeforeSubmitting: true,
+            errorFieldCssClass: 'is-invalid',
+            errorLabelCssClass: 'invalid-feedback'
+        });
+
+        validation
+            .addField('#userInput', [{
+                    rule: 'required',
+                    errorMessage: 'El usuario es requerido'
+                },
+                {
+                    rule: 'maxLength',
+                    value: 16,
+                    errorMessage: 'Máximo 16 caracteres'
+                }
+            ])
+            .addField('#amountInput', [{
+                    rule: 'required',
+                    errorMessage: 'El monto es requerido'
+                },
+                {
+                    rule: 'number',
+                    errorMessage: 'Debe ser un número válido'
+                },
+                {
+                    rule: 'minNumber',
+                    value: 1,
+                    errorMessage: 'El monto debe ser mayor a 0'
+                }
+            ])
+            .addField('#pagas_motivo', [{
+                rule: 'required',
+                errorMessage: 'Seleccione una membresía'
+            }])
+            .addField('#pagas_completo', [{
+                rule: 'required',
+                errorMessage: 'Seleccione un tipo de pago'
+            }])
+            .addField('#pagas_rango', [{
+                rule: 'required',
+                errorMessage: 'Seleccione un rango'
+            }])
+            .onSuccess((event) => {
+                event.target.submit();
+            });
+    });
+</script>
