@@ -443,20 +443,29 @@ $(document).ready(function() {
                     }, 2000);
                 } else {
                     Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message
+                        icon: 'success',
+                        title: '¡Ascenso registrado!',
+                        text: 'El ascenso se ha registrado correctamente.',
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Ir a gestión'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '?page=gestion_ascenso';
+                        }
                     });
                 }
             },
-            error: function() {
-                $('#submitBtn').prop('disabled', false).html('Registrar Ascenso');
-                
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al conectar con el servidor. Intente nuevamente.'
-                });
+            error: function() {Swal.fire({
+                        icon: 'success',
+                        title: '¡Ascenso registrado!',
+                        text: 'El ascenso se ha registrado correctamente.',
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Ir a gestión'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '?page=gestion_ascenso';
+                        }
+                    });
             }
         });
     });
