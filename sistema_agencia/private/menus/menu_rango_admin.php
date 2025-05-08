@@ -170,7 +170,7 @@ $items = [
     'divider', 
     'Vender rangos'
   ]],
-  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Pagar usuario', 'Grafico total de pagas']],
+  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Pagar usuario']],
   ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios']],
 ];
 

@@ -43,9 +43,6 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
 
     <!-- Tabla de Pagas -->
     <div class="card mb-4 shadow-sm">
-        <div class="card-header bg-white">
-            <h5 class="mb-0"><i class="bi bi-table"></i> Registro de Pagas</h5>
-        </div>
         <div class="card-body p-0">
             <div class="table-responsive">
                 <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
