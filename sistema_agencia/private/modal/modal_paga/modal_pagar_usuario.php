@@ -164,10 +164,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
                     </div>
                     <div class="modal-footer border-top-0">
                         <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
-                            <i class="bi bi-x-lg me-2"></i>Cancelar
+                            Cancelar
                         </button>
                         <button type="submit" name="guardarPago" class="btn btn-outline-primary">
-                            <i class="bi bi-save me-2"></i>Registrar Pago
+                            Registrar Pago
                         </button>
                     </div>
                 </form>
