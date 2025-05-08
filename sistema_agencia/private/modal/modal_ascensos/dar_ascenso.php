@@ -300,14 +300,19 @@ $(document).ready(function() {
                             .html('<i class="bi bi-check-circle-fill me-2"></i> El usuario está disponible para ascender.');
                         $('#nextBtn').prop('disabled', false);
                     } else {
-                        // Calcular tiempo restante en minutos
+                        // Calcular tiempo restante en horas, minutos y segundos
                         const tiempoRestanteMs = fechaDisponible.getTime() - fechaActual.getTime();
                         const totalSegundos = Math.max(0, Math.floor(tiempoRestanteMs / 1000));
-                        const minutos = Math.floor(totalSegundos / 60);
+                        const horas = Math.floor(totalSegundos / 3600);
+                        const minutos = Math.floor((totalSegundos % 3600) / 60);
                         const segundos = totalSegundos % 60;
-                        
+                    
                         let mensajeTiempo = '';
+                        if (horas > 0) {
+                            mensajeTiempo += `${horas} hora${horas !== 1 ? 's' : ''}`;
+                        }
                         if (minutos > 0) {
+                            if (mensajeTiempo) mensajeTiempo += ', ';
                             mensajeTiempo += `${minutos} minuto${minutos !== 1 ? 's' : ''}`;
                         }
                         if (segundos > 0) {
@@ -315,13 +320,12 @@ $(document).ready(function() {
                             mensajeTiempo += `${segundos} segundo${segundos !== 1 ? 's' : ''}`;
                         }
                         if (!mensajeTiempo) mensajeTiempo = 'menos de un segundo';
-                        
+                    
                         mensajeDiv.removeClass('d-none alert-success').addClass('alert-danger')
                             .html(`<i class="bi bi-exclamation-triangle-fill me-2"></i> El usuario no está disponible para ascender. Debe esperar ${mensajeTiempo} más.`);
                         $('#nextBtn').prop('disabled', true);
                     }
-                    
-                    // Ir al siguiente paso
+
                     showStep(2);
                 } else {
                     $('#resultadoBusqueda').html(`
@@ -343,28 +347,24 @@ $(document).ready(function() {
         });
     });
     
-    // Botón Anterior
     $('#prevBtn').click(function() {
         if (currentStep > 1) {
             showStep(currentStep - 1);
         }
     });
     
-    // Botón Siguiente
     $('#nextBtn').click(function() {
         if (currentStep < totalSteps) {
             showStep(currentStep + 1);
         }
     });
     
-    // Registrar ascenso
     $('#submitBtn').click(function() {
         const nuevoRango = $('#nuevoRango').val();
         const nuevaMision = $('#nuevaMision').val();
         const firmaEncargado = $('#firmaEncargado').val();
         const nombreEncargado = $('#nombreEncargado').val();
         
-        // Validar campos
         if (!nuevoRango || !nuevaMision || !firmaEncargado) {
             Swal.fire({
                 icon: 'error',
@@ -373,7 +373,7 @@ $(document).ready(function() {
             });
             return;
         }
-        
+
         if (firmaEncargado.length !== 3) {
             Swal.fire({
                 icon: 'error',
@@ -384,7 +384,7 @@ $(document).ready(function() {
         }
         
         // Calcular tiempo de espera según el rango
-        let tiempoEspera = 30; // Por defecto 30 minutos
+        let tiempoEspera = 30;
         
         switch (nuevoRango) {
             case 'Agente':
@@ -407,24 +407,20 @@ $(document).ready(function() {
                 break;
         }
         
-        // Datos para enviar
-        // En la sección de AJAX donde se realiza el registro
         const datosAscenso = {
             codigo_time: userData.codigo_time,
-            rango_anterior: '', // Ya no necesitamos el rango anterior
+            rango_anterior: '',
             rango_nuevo: nuevoRango,
-            mision_anterior: '', // Ya no necesitamos la misión anterior
+            mision_anterior: '', 
             mision_nueva: nuevaMision,
             firma_encargado: firmaEncargado,
             usuario_encargado: nombreEncargado,
             tiempo_espera: tiempoEspera,
-            firma_usuario: userData.firma_usuario // Agregamos la firma del usuario
+            firma_usuario: userData.firma_usuario 
         };
         
-        // Mostrar cargando
         $('#submitBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...');
         
-        // Realizar petición AJAX
         $.ajax({
             url: '/private/procesos/gestion_ascensos/registrar.php',
             type: 'POST',
@@ -434,10 +430,9 @@ $(document).ready(function() {
                 $('#submitBtn').prop('disabled', false).html('Registrar Ascenso');
                 
                 if (response.success) {
-                    // Ir al paso de confirmación
+
                     showStep(4);
                     
-                    // Recargar la tabla después de 2 segundos
                     setTimeout(function() {
                         location.reload();
                     }, 2000);
@@ -470,7 +465,6 @@ $(document).ready(function() {
         });
     });
     
-    // Reiniciar el formulario al cerrar el modal
     $('#dar_ascenso').on('hidden.bs.modal', function() {
         $('#ascensoForm')[0].reset();
         $('#resultadoBusqueda').html('');
@@ -478,7 +472,6 @@ $(document).ready(function() {
         showStep(1);
     });
     
-    // Inicializar
     showStep(1);
 });
 </script>
