@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="ventas_rangos_traslados" tabindex="-1" role="dialog" aria-labelledby="ventasRangosModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="ventas_rangos_traslados" tabindex="-1" role="dialog" aria-labelledby="ventasRangosModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header text-white">
                 <h5 class="modal-title" id="ventasRangosModalLabel">Ventas Rangos Traslados</h5>
@@ -9,7 +9,9 @@
                 <!-- Modal content goes here -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
             </div>
         </div>
     </div>
