@@ -21,6 +21,7 @@ define('GESTION_ASCENSOS_PATCH', PRIVATE_PATH . 'procesos/gestion_ascensos/');
 define('GESTION_TIEMPO_PATCH', PRIVATE_PATH . 'procesos/gestion_tiempos/');
 define('GESTION_TIEMPOS_PATCH', PRIVATE_PATH . 'procesos/gestion_tiempos/');
 define('GESTION_VENTAS_PATCH', PRIVATE_PATH . 'procesos/gestion_ventas/');
+define('GESTION_PAGAS_PATCH', PRIVATE_PATH . 'procesos/gestion_pagas/');
 define('PROCESO_CAMBIAR_PACTH', PRIVATE_PATH . 'procesos/gestion_usuarios/');
 
 // Modal Paths
