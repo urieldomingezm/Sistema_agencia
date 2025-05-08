@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header text-white">
-                <h5 class="modal-title" id="ventasRangosModalLabel">Ventas Rangos Traslados</h5>
+                <h5 class="modal-title" id="ventasRangosModalLabel">Ventas Rangos y Traslados</h5>
             </div>
             <div class="modal-body">
                 <!-- Modal content goes here -->
