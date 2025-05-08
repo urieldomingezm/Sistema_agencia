@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 // Verificar campos requeridos
 $camposRequeridos = [
-    'codigo_time', 'rango_anterior', 'rango_nuevo', 
-    'mision_anterior', 'mision_nueva', 'firma_encargado', 
+    'codigo_time', 'rango_nuevo', 
+    'mision_nueva', 'firma_encargado', 
     'usuario_encargado', 'tiempo_espera'
 ];
 
@@ -32,9 +32,7 @@ foreach ($camposRequeridos as $campo) {
 
 // Obtener datos del formulario
 $codigoTime = trim($_POST['codigo_time']);
-$rangoAnterior = trim($_POST['rango_anterior']);
 $rangoNuevo = trim($_POST['rango_nuevo']);
-$misionAnterior = trim($_POST['mision_anterior']);
 $misionNueva = trim($_POST['mision_nueva']);
 $firmaEncargado = trim($_POST['firma_encargado']);
 $usuarioEncargado = trim($_POST['usuario_encargado']);
@@ -104,33 +102,6 @@ try {
     // Verificar si se actualizó algún registro
     if ($stmt->rowCount() === 0) {
         throw new Exception("No se encontró ningún registro para actualizar con el código proporcionado");
-    }
-    
-    // Registrar el historial de ascensos (si existe la tabla)
-    try {
-        $query = "INSERT INTO historial_ascensos (
-                    codigo_time, rango_anterior, rango_nuevo, 
-                    mision_anterior, mision_nueva, firma_encargado,
-                    fecha_ascenso, usuario_encargado
-                  ) VALUES (
-                    :codigo_time, :rango_anterior, :rango_nuevo,
-                    :mision_anterior, :mision_nueva, :firma_encargado,
-                    :fecha_ascenso, :usuario_encargado
-                  )";
-        
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':codigo_time', $codigoTime);
-        $stmt->bindParam(':rango_anterior', $rangoAnterior);
-        $stmt->bindParam(':rango_nuevo', $rangoNuevo);
-        $stmt->bindParam(':mision_anterior', $misionAnterior);
-        $stmt->bindParam(':mision_nueva', $misionNueva);
-        $stmt->bindParam(':firma_encargado', $firmaEncargado);
-        $stmt->bindParam(':fecha_ascenso', $fechaActual->format('Y-m-d H:i:s'));
-        $stmt->bindParam(':usuario_encargado', $usuarioEncargado);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        // Si la tabla no existe, simplemente continuamos sin registrar el historial
-        error_log("Aviso: No se pudo registrar el historial de ascensos: " . $e->getMessage());
     }
     
     // Confirmar transacción

@@ -279,15 +279,16 @@ $(document).ready(function() {
                     const fechaActual = new Date();
                     let fechaDisponible;
                     
-                    // Verificar si la fecha es válida
-                    try {
+                    // Si el campo es tipo TIME (ejemplo: "00:14:50"), lo sumamos a la hora actual
+                    if (/^\d{2}:\d{2}:\d{2}$/.test(userData.fecha_disponible_ascenso)) {
+                        const partes = userData.fecha_disponible_ascenso.split(':');
+                        fechaDisponible = new Date(fechaActual.getTime());
+                        fechaDisponible.setHours(fechaActual.getHours() + parseInt(partes[0]));
+                        fechaDisponible.setMinutes(fechaActual.getMinutes() + parseInt(partes[1]));
+                        fechaDisponible.setSeconds(fechaActual.getSeconds() + parseInt(partes[2]));
+                    } else {
+                        // Si es un datetime válido
                         fechaDisponible = new Date(userData.fecha_disponible_ascenso);
-                        if (isNaN(fechaDisponible.getTime())) {
-                            throw new Error("Fecha inválida");
-                        }
-                    } catch (e) {
-                        console.error("Error al procesar la fecha:", e);
-                        fechaDisponible = new Date(fechaActual.getTime() + 30 * 60000); // Por defecto 30 minutos
                     }
                     
                     const mensajeDiv = $('#mensajeDisponibilidad');
@@ -298,21 +299,19 @@ $(document).ready(function() {
                     } else {
                         // Calcular tiempo restante en minutos
                         const tiempoRestanteMs = fechaDisponible.getTime() - fechaActual.getTime();
-                        const tiempoRestante = Math.ceil(tiempoRestanteMs / (1000 * 60));
+                        const totalSegundos = Math.max(0, Math.floor(tiempoRestanteMs / 1000));
+                        const minutos = Math.floor(totalSegundos / 60);
+                        const segundos = totalSegundos % 60;
                         
-                        // Formatear el tiempo para mejor legibilidad
-                        let mensajeTiempo;
-                        if (tiempoRestante < 60) {
-                            mensajeTiempo = `${tiempoRestante} minutos`;
-                        } else if (tiempoRestante < 1440) {
-                            const horas = Math.floor(tiempoRestante / 60);
-                            const minutos = tiempoRestante % 60;
-                            mensajeTiempo = `${horas} hora${horas !== 1 ? 's' : ''} y ${minutos} minuto${minutos !== 1 ? 's' : ''}`;
-                        } else {
-                            const dias = Math.floor(tiempoRestante / 1440);
-                            const horasRestantes = Math.floor((tiempoRestante % 1440) / 60);
-                            mensajeTiempo = `${dias} día${dias !== 1 ? 's' : ''} y ${horasRestantes} hora${horasRestantes !== 1 ? 's' : ''}`;
+                        let mensajeTiempo = '';
+                        if (minutos > 0) {
+                            mensajeTiempo += `${minutos} minuto${minutos !== 1 ? 's' : ''}`;
                         }
+                        if (segundos > 0) {
+                            if (mensajeTiempo) mensajeTiempo += ' y ';
+                            mensajeTiempo += `${segundos} segundo${segundos !== 1 ? 's' : ''}`;
+                        }
+                        if (!mensajeTiempo) mensajeTiempo = 'menos de un segundo';
                         
                         mensajeDiv.removeClass('d-none alert-success').addClass('alert-danger')
                             .html(`<i class="bi bi-exclamation-triangle-fill me-2"></i> El usuario no está disponible para ascender. Debe esperar ${mensajeTiempo} más.`);
