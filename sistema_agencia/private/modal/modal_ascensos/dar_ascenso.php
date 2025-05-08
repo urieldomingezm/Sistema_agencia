@@ -261,7 +261,10 @@ $(document).ready(function() {
                     $('#nombreUsuario').text(userData.usuario_registro);
                     $('#rangoActual').text(userData.rango_actual);
                     $('#misionActual').text(userData.mision_actual);
+                    // Cambia esta línea:
                     $('#firmaUsuario').text(userData.firma_usuario);
+                    // Por esta lógica:
+                    $('#firmaUsuario').text(userData.firma_usuario ? userData.firma_usuario : 'No disponible');
                     
                     // Mostrar estado con badge
                     let badgeClass = 'bg-warning';
