@@ -78,30 +78,40 @@ try {
     $fechaDisponible = clone $fechaActual;
     $fechaDisponible->add(new DateInterval("PT{$tiempoEspera}M")); // Añadir minutos
     
-    // Actualizar la tabla de ascensos
-    $query = "UPDATE ascensos SET 
-                rango_actual = :rango_nuevo,
-                mision_actual = :mision_nueva,
-                firma_encargado = :firma_encargado,
-                estado_ascenso = 'ascendido',
-                fecha_ultimo_ascenso = :fecha_actual,
-                fecha_disponible_ascenso = :fecha_disponible,
-                usuario_encargado = :usuario_encargado
-              WHERE codigo_time = :codigo_time";
+    // Insertar un nuevo registro en la tabla de ascensos
+    $query = "INSERT INTO ascensos (
+                codigo_time,
+                rango_actual,
+                mision_actual,
+                firma_encargado,
+                estado_ascenso,
+                fecha_ultimo_ascenso,
+                fecha_disponible_ascenso,
+                usuario_encargado
+              ) VALUES (
+                :codigo_time,
+                :rango_nuevo,
+                :mision_nueva,
+                :firma_encargado,
+                'ascendido',
+                :fecha_actual,
+                :fecha_disponible,
+                :usuario_encargado
+              )";
     
     $stmt = $conn->prepare($query);
+    $stmt->bindParam(':codigo_time', $codigoTime);
     $stmt->bindParam(':rango_nuevo', $rangoNuevo);
     $stmt->bindParam(':mision_nueva', $misionNueva);
     $stmt->bindParam(':firma_encargado', $firmaEncargado);
     $stmt->bindParam(':fecha_actual', $fechaActual->format('Y-m-d H:i:s'));
     $stmt->bindParam(':fecha_disponible', $fechaDisponible->format('Y-m-d H:i:s'));
     $stmt->bindParam(':usuario_encargado', $usuarioEncargado);
-    $stmt->bindParam(':codigo_time', $codigoTime);
     $stmt->execute();
-    
-    // Verificar si se actualizó algún registro
+
+    // Verificar si se insertó algún registro
     if ($stmt->rowCount() === 0) {
-        throw new Exception("No se encontró ningún registro para actualizar con el código proporcionado");
+        throw new Exception("No se pudo insertar el registro de ascenso");
     }
     
     // Confirmar transacción
