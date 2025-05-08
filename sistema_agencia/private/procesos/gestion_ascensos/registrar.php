@@ -34,6 +34,7 @@ foreach ($camposRequeridos as $campo) {
 $codigoTime = trim($_POST['codigo_time']);
 $rangoNuevo = trim($_POST['rango_nuevo']);
 $misionNueva = trim($_POST['mision_nueva']);
+$firmaUsuario = trim($_POST['firma_usuario']); // <-- NUEVO
 $firmaEncargado = trim($_POST['firma_encargado']);
 $usuarioEncargado = trim($_POST['usuario_encargado']);
 $tiempoEspera = intval($_POST['tiempo_espera']);
@@ -72,17 +73,24 @@ try {
     
     // Iniciar transacción
     $conn->beginTransaction();
-    
+
+    // Eliminar el registro anterior del usuario (si existe)
+    $deleteQuery = "DELETE FROM ascensos WHERE codigo_time = :codigo_time";
+    $deleteStmt = $conn->prepare($deleteQuery);
+    $deleteStmt->bindParam(':codigo_time', $codigoTime);
+    $deleteStmt->execute();
+
     // Calcular la fecha disponible para el próximo ascenso
     $fechaActual = new DateTime();
     $fechaDisponible = clone $fechaActual;
     $fechaDisponible->add(new DateInterval("PT{$tiempoEspera}M")); // Añadir minutos
-    
+
     // Insertar un nuevo registro en la tabla de ascensos
     $query = "INSERT INTO ascensos (
                 codigo_time,
                 rango_actual,
                 mision_actual,
+                firma_usuario,         -- NUEVO
                 firma_encargado,
                 estado_ascenso,
                 fecha_ultimo_ascenso,
@@ -92,17 +100,18 @@ try {
                 :codigo_time,
                 :rango_nuevo,
                 :mision_nueva,
+                :firma_usuario,        -- NUEVO
                 :firma_encargado,
                 'ascendido',
                 :fecha_actual,
                 :fecha_disponible,
                 :usuario_encargado
               )";
-    
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':codigo_time', $codigoTime);
     $stmt->bindParam(':rango_nuevo', $rangoNuevo);
     $stmt->bindParam(':mision_nueva', $misionNueva);
+    $stmt->bindParam(':firma_usuario', $firmaUsuario); // <-- NUEVO
     $stmt->bindParam(':firma_encargado', $firmaEncargado);
     $stmt->bindParam(':fecha_actual', $fechaActual->format('Y-m-d H:i:s'));
     $stmt->bindParam(':fecha_disponible', $fechaDisponible->format('Y-m-d H:i:s'));
