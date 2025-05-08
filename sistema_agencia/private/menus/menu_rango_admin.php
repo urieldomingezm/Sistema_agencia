@@ -145,6 +145,7 @@ class Navbar
       'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#id_tomar_tiempo',
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
+      'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#ventas_rangos_traslados',
     ];
 
     if (isset($modalItems[$item])) {
@@ -181,12 +182,10 @@ $navbar->render();
 require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
 require_once(DAR_ASCENSO_PATCH.'dar_tiempo.php');
 
-
 // Modales para calcular rango, pagar usuario y vender rangos
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
 require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
-require_once(MODALES_MENU_VENTAS_PATH . 'modal_vender_rangos.php');
-
+require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
 
 // MODAL DE VENTAS
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
