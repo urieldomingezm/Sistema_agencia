@@ -12,7 +12,6 @@ class Database {
         $this->username = getenv('MYSQL_USER') ?: 'root';
         $this->password = getenv('MYSQL_PASSWORD') ?: '';
 
-        // Esto es útil para depuración si las variables no se cargan correctamente
         if (!$this->host || !$this->db_name || !$this->username || !$this->password) {
             error_log("Error: Algunas variables de entorno no están definidas.");
         }
