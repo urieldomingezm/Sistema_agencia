@@ -175,6 +175,8 @@
     </div>
 </div>
 
+<!-- Incluye JustValidate desde CDN antes de tu script principal -->
+<script src="https://cdn.jsdelivr.net/npm/just-validate@4.2.0/dist/just-validate.production.min.js"></script>
 <script>
 $(document).ready(function() {
     let currentStep = 1;
@@ -324,8 +326,16 @@ $(document).ready(function() {
         }
     });
     
+    // Modifica el evento del botón "Siguiente"
     $('#nextBtn').click(function() {
-        if (currentStep < totalSteps) {
+        if (currentStep === 1) {
+            validator.revalidate().then(isValid => {
+                if (isValid) {
+                    // Si es válido, ejecuta la búsqueda como antes
+                    $('#buscarUsuario').trigger('click');
+                }
+            });
+        } else if (currentStep < totalSteps) {
             showStep(currentStep + 1);
         }
     });
