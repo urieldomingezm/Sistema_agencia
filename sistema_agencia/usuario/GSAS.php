@@ -87,7 +87,7 @@ require_once(GESTION_ASCENSOS_PATCH . 'mostrar_usuarios.php');
 <script>
 $(document).ready(function() {
     // Para cada fila de la tabla
-    $('#datatable tbody tr').each(function() {
+    $('#tabladeusuariosascensos tbody tr').each(function() {
         var $row = $(this);
         var $tdFecha = $row.find('td[data-fecha-ascenso]');
         var $tdEstado = $row.find('td').eq(3); // Estado está en la cuarta columna
