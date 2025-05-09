@@ -30,11 +30,12 @@ try {
     }
 
     // Consulta normal para mostrar los ascensos
-    $query = "SELECT ascenso_id, codigo_time, rango_actual, mision_actual, 
-                     firma_usuario, firma_encargado, estado_ascenso, 
-                     fecha_ultimo_ascenso, fecha_disponible_ascenso, 
-                     usuario_encargado, es_recluta 
-              FROM ascensos";
+    $query = "SELECT a.ascenso_id, a.codigo_time, r.nombre_habbo, a.rango_actual, a.mision_actual, 
+                     a.firma_usuario, a.firma_encargado, a.estado_ascenso, 
+                     a.fecha_ultimo_ascenso, a.fecha_disponible_ascenso, 
+                     a.usuario_encargado, a.es_recluta 
+              FROM ascensos a
+              JOIN registro_usuario r ON a.codigo_time = r.codigo_time";
     $stmt = $conn->prepare($query);
     $stmt->execute();
 
