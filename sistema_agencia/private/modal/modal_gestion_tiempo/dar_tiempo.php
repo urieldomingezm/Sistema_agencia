@@ -295,12 +295,4 @@ $(document).ready(function() {
     // Inicializa en el primer paso
     showStep(1);
 
-    // Reinicia el wizard cada vez que se abre el modal
-    $('#id_tomar_tiempo').on('show.bs.modal', function () {
-        $('#tiempoForm')[0].reset();
-        $('#resultadoBusquedaTiempo').html('');
-        $('#mensajeDisponibilidadTiempo').addClass('d-none').removeClass('alert-danger alert-success').html('');
-        tiempoData = {};
-        showStep(1);
-    });
 </script>
