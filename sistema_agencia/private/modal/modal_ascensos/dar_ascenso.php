@@ -1,20 +1,18 @@
 <div class="modal fade" id="dar_ascenso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="dar_ascensoLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
-        <div class="modal-content border-0 shadow">
-            <!-- Encabezado del Modal con gradiente -->
-            <div class="modal-header bg-primary  text-white rounded-top">
+        <div class="modal-content">
+            <!-- Encabezado del Modal -->
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title fw-bold" id="dar_ascensoLabel">
-                    <i class="bi bi-arrow-up-square-fill me-2"></i>
                     Dar Ascenso
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             
             <!-- Cuerpo del Modal -->
-            <div class="modal-body p-4">
+            <div class="modal-body">
                 <!-- Indicador de pasos -->
-                <div class="progress mb-4 bg-light" style="height: 10px;">
-                    <div class="progress-bar bg-primary bg-gradient progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress mb-4" style="height: 10px;">
+                    <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
                 
                 <!-- Formulario de múltiples pasos -->
@@ -22,21 +20,21 @@
                     <!-- Paso 1: Búsqueda de Usuario -->
                     <div class="step" id="step1">
                         <h4 class="text-center mb-4 fw-bold text-primary">Buscar Usuario</h4>
-                        <div class="card border-0 shadow-sm mb-3 p-2">
+                        <div class="card mb-3">
                             <div class="card-body">
                                 <label for="codigoTime" class="form-label fw-bold">
                                     <i class="bi bi-person-badge me-1"></i> Código de Usuario (5 caracteres)
                                 </label>
                                 <div class="input-group input-group-lg mb-3">
-                                    <span class="input-group-text bg-light">
+                                    <span class="input-group-text">
                                         <i class="bi bi-hash"></i>
                                     </span>
-                                    <input type="text" class="form-control form-control-lg" id="codigoTime" name="codigoTime" maxlength="5" placeholder="Ingrese el código" autocomplete="off">
+                                    <input type="text" class="form-control" id="codigoTime" name="codigoTime" maxlength="5" placeholder="Ingrese el código" autocomplete="off">
                                     <button class="btn btn-primary" type="button" id="buscarUsuario">
                                         <i class="bi bi-search me-1"></i> Buscar
                                     </button>
                                 </div>
-                                <div class="form-text text-muted">
+                                <div class="form-text">
                                     <i class="bi bi-info-circle me-1"></i> Ingrese el código de 5 caracteres del usuario a ascender.
                                 </div>
                             </div>
@@ -47,76 +45,46 @@
                     <!-- Paso 2: Información del Usuario -->
                     <div class="step d-none" id="step2">
                         <h4 class="text-center mb-4 fw-bold text-primary">Información del Usuario</h4>
-                        <div class="card border-0 shadow-sm mb-3">
-                            <div class="card-header bg-light py-3">
+                        <div class="card mb-3">
+                            <div class="card-header bg-light">
                                 <h5 class="mb-0 fw-bold">
                                     <i class="bi bi-person-badge-fill me-2 text-primary"></i>Datos del Usuario
                                 </h5>
                             </div>
-                            <div class="card-body p-4">
+                            <div class="card-body">
                                 <div class="row g-4">
                                     <div class="col-md-6">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <div class="bg-light rounded-circle p-2 me-3">
-                                                <i class="bi bi-person-fill text-primary"></i>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted d-block">Usuario</small>
-                                                <span class="fw-bold" id="nombreUsuario"></span>
-                                            </div>
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Usuario</small>
+                                            <span class="fw-bold" id="nombreUsuario"></span>
                                         </div>
-                                        <div class="d-flex align-items-center mb-3">
-                                            <div class="bg-light rounded-circle p-2 me-3">
-                                                <i class="bi bi-award-fill text-primary"></i>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted d-block">Rango Actual</small>
-                                                <span class="fw-bold" id="rangoActual"></span>
-                                            </div>
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Rango Actual</small>
+                                            <span class="fw-bold" id="rangoActual"></span>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-light rounded-circle p-2 me-3">
-                                                <i class="bi bi-briefcase-fill text-primary"></i>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted d-block">Misión Actual</small>
-                                                <span class="fw-bold" id="misionActual"></span>
-                                            </div>
+                                        <div>
+                                            <small class="text-muted d-block">Misión Actual</small>
+                                            <span class="fw-bold" id="misionActual"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="d-flex align-items-center mb-3">
-                                            <div class="bg-light rounded-circle p-2 me-3">
-                                                <i class="bi bi-pen-fill text-primary"></i>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted d-block">Firma</small>
-                                                <span class="fw-bold" id="firmaUsuario"></span>
-                                            </div>
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Firma</small>
+                                            <span class="fw-bold" id="firmaUsuario"></span>
                                         </div>
-                                        <div class="d-flex align-items-center mb-3">
-                                            <div class="bg-light rounded-circle p-2 me-3">
-                                                <i class="bi bi-info-circle-fill text-primary"></i>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted d-block">Estado</small>
-                                                <span id="estadoAscenso"></span>
-                                            </div>
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Estado</small>
+                                            <span id="estadoAscenso"></span>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="bg-light rounded-circle p-2 me-3">
-                                                <i class="bi bi-calendar-event-fill text-primary"></i>
-                                            </div>
-                                            <div>
-                                                <small class="text-muted d-block">Próximo Ascenso</small>
-                                                <span class="fw-bold" id="fechaDisponible"></span>
-                                            </div>
+                                        <div>
+                                            <small class="text-muted d-block">Próximo Ascenso</small>
+                                            <span class="fw-bold" id="fechaDisponible"></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="mensajeDisponibilidad" class="alert d-none rounded-3 shadow-sm"></div>
+                        <div id="mensajeDisponibilidad" class="alert d-none"></div>
                     </div>
                     
                     <!-- Paso 3: Formulario de Ascenso -->
@@ -124,14 +92,14 @@
                         <h4 class="text-center mb-4 fw-bold text-primary">
                             <i class="bi bi-arrow-up-circle-fill me-2"></i>Registrar Ascenso
                         </h4>
-                        <div class="card border-0 shadow-sm mb-4">
-                            <div class="card-body p-4">
+                        <div class="card mb-4">
+                            <div class="card-body">
                                 <div class="row g-4">
                                     <div class="col-md-6 mb-3">
                                         <label for="nuevoRango" class="form-label fw-bold">
                                             <i class="bi bi-award-fill me-1 text-primary"></i> Nuevo Rango
                                         </label>
-                                        <select class="form-select form-select-lg" id="nuevoRango" name="nuevoRango" required>
+                                        <select class="form-select" id="nuevoRango" name="nuevoRango" required>
                                             <option value="">Seleccione un rango</option>
                                             <option value="Agente">Agente</option>
                                             <option value="Seguridad">Seguridad</option>
@@ -148,7 +116,7 @@
                                         <label for="nuevaMision" class="form-label fw-bold">
                                             <i class="bi bi-briefcase-fill me-1 text-primary"></i> Nueva Misión
                                         </label>
-                                        <input type="text" class="form-control form-control-lg" id="nuevaMision" name="nuevaMision" required>
+                                        <input type="text" class="form-control" id="nuevaMision" name="nuevaMision" required>
                                     </div>
                                 </div>
                                 <div class="row g-4">
@@ -156,13 +124,13 @@
                                         <label for="firmaEncargado" class="form-label fw-bold">
                                             <i class="bi bi-pen-fill me-1 text-primary"></i> Firma Encargado (3 dígitos)
                                         </label>
-                                        <input type="text" class="form-control form-control-lg" id="firmaEncargado" name="firmaEncargado" maxlength="3" required>
+                                        <input type="text" class="form-control" id="firmaEncargado" name="firmaEncargado" maxlength="3" required>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="nombreEncargado" class="form-label fw-bold">
                                             <i class="bi bi-person-fill me-1 text-primary"></i> Nombre Encargado
                                         </label>
-                                        <input type="text" class="form-control form-control-lg bg-light" id="nombreEncargado" name="nombreEncargado" value="<?php echo $_SESSION['username']; ?>" readonly>
+                                        <input type="text" class="form-control bg-light" id="nombreEncargado" name="nombreEncargado" value="<?php echo $_SESSION['username']; ?>" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -190,14 +158,17 @@
             
             <!-- Pie del Modal -->
             <div class="modal-footer bg-light">
+                <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">
+                    Cerrar
+                </button>
                 <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtn" disabled>
-                    <i class="bi bi-arrow-left me-1"></i> Anterior
+                     Anterior
                 </button>
-                <button type="button" class="btn btn-primary btn-lg" id="nextBtn">
-                    Siguiente <i class="bi bi-arrow-right ms-1"></i>
+                <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtn">
+                    Siguiente 
                 </button>
-                <button type="button" class="btn btn-success btn-lg d-none" id="submitBtn">
-                    <i class="bi bi-check-circle me-1"></i> Registrar Ascenso
+                <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtn">
+                     Registrar Ascenso
                 </button>
             </div>
         </div>
