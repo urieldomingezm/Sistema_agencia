@@ -23,6 +23,7 @@ define('GESTION_TIEMPOS_PATCH', PRIVATE_PATH . 'procesos/gestion_tiempos/');
 define('GESTION_VENTAS_PATCH', PRIVATE_PATH . 'procesos/gestion_ventas/');
 define('GESTION_PAGAS_PATCH', PRIVATE_PATH . 'procesos/gestion_pagas/');
 define('PROCESO_CAMBIAR_PACTH', PRIVATE_PATH . 'procesos/gestion_usuarios/');
+define('PROCESO_VENTAS_RANGOS_PACTH', PRIVATE_PATH . 'procesos/gestion_venta_rangos/');
 
 // Modal Paths
 define('MODAL_PATH', PRIVATE_PATH . 'modals/');
@@ -35,7 +36,7 @@ define('DAR_TIEMPO_PATCH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/');
 define('MODAL_GESTION_ASCENSO_PATH', PRIVATE_PATH . 'modal/modal_gestion_ascenso/');
 define('MODAL_GESTION_TIEMPO_PATH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/');
 define('MODAL_GESTION_USUARIOS_PACH', PRIVATE_PATH . 'modal/modal_gestion_usuarios/');
-
+define('MODAL_GESTION_VENTAS_RANGOS_PACH', PRIVATE_PATH . 'modal/modal_venta_rangos/');
 
 // Menu and User Rank Paths
 define('MENU_PATH', PRIVATE_PATH . 'menus/');
