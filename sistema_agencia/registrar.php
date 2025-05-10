@@ -13,7 +13,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background: #ffffff;
+        background: #f8f5ff;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -23,12 +23,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     .card {
         background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
-        border: 2px solid #4a6bff;
-        box-shadow: 0 10px 20px rgba(74, 107, 255, 0.2);
+        border: 2px solid #7b3ed1;
+        box-shadow: 0 10px 20px rgba(123, 62, 209, 0.2);
     }
 
     .card-header {
-        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
+        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
         color: white;
         border-radius: 20px 20px 0 0 !important;
         border-bottom: 2px solid #ffffff;
@@ -42,12 +42,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     }
 
     .form-control:focus {
-        border-color: #4a6bff;
-        box-shadow: 0 0 0 0.25rem rgba(74, 107, 255, 0.25);
+        border-color: #7b3ed1;
+        box-shadow: 0 0 0 0.25rem rgba(123, 62, 209, 0.25);
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
+        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
         border: none;
         border-radius: 10px;
         padding: 12px 30px;
@@ -57,9 +57,9 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     }
 
     .btn-primary:hover {
-        background: linear-gradient(135deg, #2541b2 0%, #4a6bff 100%);
+        background: linear-gradient(135deg, #5e2ca5 0%, #7b3ed1 100%);
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(37, 65, 178, 0.3);
+        box-shadow: 0 5px 15px rgba(94, 44, 165, 0.3);
     }
 
     /* Add validation styles */
@@ -134,11 +134,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                     <div class="card-body p-4">
                         <form id="registrationForm" method="post">
                             <div class="mb-3">
-                                <label class="form-label"><i class="bi bi-person-fill"></i> Usuario</label>
+                                <label class="form-label"><i class="bi bi-person-fill"></i> Nombre de habbo</label>
                                 <input type="text" class="form-control" name="username" required>
+                                <small class="form-text text-muted"><i class="bi bi-info-circle"></i> Ingresa tu nombre exacto de Habbo</small>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label"><i class="bi bi-person-badge-fill"></i> Nombre en Habbo</label>
+                                <label class="form-label"><i class="bi bi-person-badge-fill"></i> Confirmar nombre</label>
                                 <input type="text" class="form-control" name="habboName" required>
                                 <small class="form-text text-muted"><i class="bi bi-info-circle"></i> Ingresa tu nombre exacto de Habbo</small>
                             </div>
