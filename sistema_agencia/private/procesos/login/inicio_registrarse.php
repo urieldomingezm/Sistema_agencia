@@ -96,13 +96,11 @@ class UserRegistration
                 throw new Exception("Error al guardar el registro de usuario");
             }
 
-            // Insertar en tabla ascensos
+            // Insertar en tabla ascensos (NUEVA ESTRUCTURA)
             $queryAscenso = "INSERT INTO ascensos 
-                            (codigo_time, rango_actual, mision_actual, mision_nueva, 
-                             estado_ascenso, fecha_disponible_ascenso, es_recluta) 
+                            (codigo_time, rango_actual, mision_actual, firma_usuario, firma_encargado, estado_ascenso, fecha_ultimo_ascenso, fecha_disponible_ascenso, usuario_encargado, es_recluta) 
                             VALUES 
-                            (:codigo_time, 'Agente', 'AGE- Iniciado I', NULL, 
-                             'en_espera', DATE_ADD(NOW(), INTERVAL 30 MINUTE), TRUE)";
+                            (:codigo_time, 'Agente', 'AGE- Iniciado I', NULL, NULL, 'en_espera', NOW(), DATE_ADD(NOW(), INTERVAL 30 MINUTE), NULL, TRUE)";
 
             $stmtAscenso = $this->conn->prepare($queryAscenso);
             $stmtAscenso->bindParam(':codigo_time', $codigo_time);
