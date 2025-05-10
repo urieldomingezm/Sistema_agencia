@@ -34,7 +34,7 @@ class Navbar
             <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown"> 
               <li><a class="dropdown-item" href="index.php?page=ver_perfil"><i class="bi bi-person"></i> Ver perfil</a></li> 
               <li><hr class="dropdown-divider"></li> 
-              <li><a class="dropdown-item" href="/logout.php"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li> 
+              <li><a class="dropdown-item" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li> 
             </ul> 
           </div>
 

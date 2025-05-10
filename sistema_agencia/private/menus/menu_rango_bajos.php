@@ -24,9 +24,25 @@ class Navbar
         <?= $this->brand ?>
         </a>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-          <i class="bi bi-list text-white"></i>
-        </button>
+        <div class="d-flex align-items-center">
+          <!-- Dropdown de perfil -->
+          <div class="dropdown me-3">
+            <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"> 
+              <i class="bi bi-person-circle"></i> 
+              <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown"> 
+              <li><a class="dropdown-item" href="index.php?page=ver_perfil"><i class="bi bi-person"></i> Ver perfil</a></li> 
+              <li><hr class="dropdown-divider"></li> 
+              <li><a class="dropdown-item" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li> 
+            </ul> 
+          </div>
+
+          <!-- Botón del menú -->
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <i class="bi bi-list text-white"></i>
+          </button>
+        </div>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
           <div class="offcanvas-header text-white">
