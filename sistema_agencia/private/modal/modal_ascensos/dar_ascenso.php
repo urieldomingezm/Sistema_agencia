@@ -176,12 +176,28 @@
 </div>
 
 <!-- Incluye JustValidate desde CDN antes de tu script principal -->
-<script src="https://cdn.jsdelivr.net/npm/just-validate@4.2.0/dist/just-validate.production.min.js"></script>
 <script>
 $(document).ready(function() {
     let currentStep = 1;
     const totalSteps = 4;
     let userData = {};
+    let userRangoActual = '';
+    
+    // Definir las reglas de ascenso según el rango del encargado
+    const reglasAscenso = {
+        'Logistica': ['Agente'],
+        'Supervisor': ['Agente', 'Seguridad'],
+        'Director': ['Agente', 'Seguridad', 'Tecnico'],
+        'Presidente': ['Agente', 'Seguridad', 'Tecnico', 'Logistica'],
+        'Operativo': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor'],
+        'Junta directiva': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director'],
+        'Administrador': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva'],
+        'Manager': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva'],
+        'Dueño': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva']
+    };
+    
+    // Obtener el rango del usuario actual (encargado)
+    const rangoEncargado = '<?php echo isset($_SESSION["rango"]) ? $_SESSION["rango"] : ""; ?>';
     
     // Actualizar la barra de progreso
     function updateProgressBar() {
@@ -229,14 +245,12 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     userData = response.data;
+                    userRangoActual = userData.rango_actual;
                     
                     // Mostrar información del usuario
                     $('#nombreUsuario').text(userData.usuario_registro);
                     $('#rangoActual').text(userData.rango_actual);
                     $('#misionActual').text(userData.mision_actual);
-                    // Cambia esta línea:
-                    $('#firmaUsuario').text(userData.firma_usuario);
-                    // Por esta lógica:
                     $('#firmaUsuario').text(userData.firma_usuario ? userData.firma_usuario : 'No disponible');
                     
                     // Mostrar estado con badge
@@ -292,146 +306,216 @@ $(document).ready(function() {
                             if (mensajeTiempo) mensajeTiempo += ' y ';
                             mensajeTiempo += `${segundos} segundo${segundos !== 1 ? 's' : ''}`;
                         }
-                        if (!mensajeTiempo) mensajeTiempo = 'menos de un segundo';
-                    
+                        
                         mensajeDiv.removeClass('d-none alert-success').addClass('alert-danger')
-                            .html(`<i class="bi bi-exclamation-triangle-fill me-2"></i> El usuario no está disponible para ascender. Debe esperar ${mensajeTiempo} más.`);
+                            .html(`<i class="bi bi-exclamation-triangle-fill me-2"></i> El usuario no está disponible para ascender. Tiempo restante: ${mensajeTiempo}.`);
                         $('#nextBtn').prop('disabled', true);
                     }
-
-                    showStep(2);
-                } else {
+                    
+                    // Mostrar el resultado
                     $('#resultadoBusqueda').html(`
-                        <div class="alert alert-danger">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                            ${response.message}
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${userData.usuario_registro}</strong>
                         </div>
                     `);
+                    
+                    // Habilitar el botón siguiente
+                    $('#nextBtn').prop('disabled', false);
+                } else {
+                    // Mostrar mensaje de error
+                    $('#resultadoBusqueda').html(`
+                        <div class="alert alert-danger">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> ${response.message}
+                        </div>
+                    `);
+                    
+                    // Deshabilitar el botón siguiente
+                    $('#nextBtn').prop('disabled', true);
                 }
             },
             error: function() {
+                // Mostrar mensaje de error
                 $('#resultadoBusqueda').html(`
                     <div class="alert alert-danger">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                        Error al conectar con el servidor. Intente nuevamente.
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Error de conexión. Inténtelo de nuevo.
                     </div>
                 `);
+                
+                // Deshabilitar el botón siguiente
+                $('#nextBtn').prop('disabled', true);
             }
         });
     });
     
+    // Actualizar opciones de rango según el rango del encargado
+    function actualizarOpcionesRango() {
+        const nuevoRangoSelect = $('#nuevoRango');
+        nuevoRangoSelect.empty();
+        nuevoRangoSelect.append('<option value="">Seleccione un rango</option>');
+        
+        // Si el encargado no tiene un rango válido o el usuario no tiene un rango actual, no mostrar opciones
+        if (!rangoEncargado || !reglasAscenso[rangoEncargado] || !userRangoActual) {
+            return;
+        }
+        
+        // Filtrar rangos permitidos según el rango actual del usuario
+        const rangosPermitidos = reglasAscenso[rangoEncargado];
+        
+        // Agregar opciones de rangos permitidos
+        if (rangosPermitidos.includes('Agente')) {
+            nuevoRangoSelect.append('<option value="Agente">Agente</option>');
+        }
+        if (rangosPermitidos.includes('Seguridad')) {
+            nuevoRangoSelect.append('<option value="Seguridad">Seguridad</option>');
+        }
+        if (rangosPermitidos.includes('Tecnico')) {
+            nuevoRangoSelect.append('<option value="Tecnico">Técnico</option>');
+        }
+        if (rangosPermitidos.includes('Logistica')) {
+            nuevoRangoSelect.append('<option value="Logistica">Logística</option>');
+        }
+        if (rangosPermitidos.includes('Supervisor')) {
+            nuevoRangoSelect.append('<option value="Supervisor">Supervisor</option>');
+        }
+        if (rangosPermitidos.includes('Director')) {
+            nuevoRangoSelect.append('<option value="Director">Director</option>');
+        }
+        if (rangosPermitidos.includes('Presidente')) {
+            nuevoRangoSelect.append('<option value="Presidente">Presidente</option>');
+        }
+        if (rangosPermitidos.includes('Operativo')) {
+            nuevoRangoSelect.append('<option value="Operativo">Operativo</option>');
+        }
+        if (rangosPermitidos.includes('Junta directiva')) {
+            nuevoRangoSelect.append('<option value="Junta directiva">Junta directiva</option>');
+        }
+    }
+    
+    // Botón siguiente
+    $('#nextBtn').click(function() {
+        if (currentStep < totalSteps) {
+            if (currentStep === 2) {
+                // Actualizar opciones de rango antes de mostrar el paso 3
+                actualizarOpcionesRango();
+            }
+            showStep(currentStep + 1);
+        }
+    });
+    
+    // Botón anterior
     $('#prevBtn').click(function() {
         if (currentStep > 1) {
             showStep(currentStep - 1);
         }
     });
     
-    // Modifica el evento del botón "Siguiente"
-    $('#nextBtn').click(function() {
-        if (currentStep === 1) {
-            validator.revalidate().then(isValid => {
-                if (isValid) {
-                    // Si es válido, ejecuta la búsqueda como antes
-                    $('#buscarUsuario').trigger('click');
-                }
-            });
-        } else if (currentStep < totalSteps) {
-            showStep(currentStep + 1);
-        }
+    // Validación del formulario
+    const validator = new JustValidate('#ascensoForm', {
+        validateBeforeSubmitting: true,
+        lockForm: true,
+        focusInvalidField: true,
+        errorFieldCssClass: 'is-invalid',
+        successFieldCssClass: 'is-valid',
+        errorLabelCssClass: ['invalid-feedback'],
+        successLabelCssClass: ['valid-feedback']
     });
     
-    $('#submitBtn').click(function() {
-        const nuevoRango = $('#nuevoRango').val();
-        const nuevaMision = $('#nuevaMision').val();
-        const firmaEncargado = $('#firmaEncargado').val();
-        const nombreEncargado = $('#nombreEncargado').val();
-        
-        if (!nuevoRango || !nuevaMision || !firmaEncargado) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Todos los campos son obligatorios'
-            });
-            return;
-        }
-
-        if (firmaEncargado.length !== 3) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La firma del encargado debe tener 3 dígitos'
-            });
-            return;
-        }
-        
-        // Calcular tiempo de espera según el rango
-        let tiempoEspera = 30;
-        
-        switch (nuevoRango) {
-            case 'Agente':
-                tiempoEspera = 30;
-                break;
-            case 'Seguridad':
-                tiempoEspera = 45;
-                break;
-            case 'Tecnico':
-                tiempoEspera = 60;
-                break;
-            case 'Logistica':
-                tiempoEspera = 90;
-                break;
-            case 'Supervisor':
-                tiempoEspera = 120;
-                break;
-            default:
-                tiempoEspera = 180;
-                break;
-        }
-        
-        const datosAscenso = {
-            codigo_time: userData.codigo_time,
-            rango_anterior: '',
-            rango_nuevo: nuevoRango,
-            mision_anterior: '', 
-            mision_nueva: nuevaMision,
-            firma_encargado: firmaEncargado,
-            usuario_encargado: nombreEncargado,
-            tiempo_espera: tiempoEspera,
-            firma_usuario: userData.firma_usuario 
-        };
-        
-        $('#submitBtn').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...');
-        
-        $.ajax({
-            url: '/private/procesos/gestion_ascensos/registrar.php',
-            type: 'POST',
-            data: datosAscenso,
-            dataType: 'json',
-            success: function(response) {
-                $('#submitBtn').prop('disabled', false).html('Registrar Ascenso');
-                
-                if (response.success) {
-
-                    showStep(4);
-                    
-                    setTimeout(function() {
-                        location.reload();
-                    }, 2000);
-                } else {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Ascenso registrado!',
-                        text: 'El ascenso se ha registrado correctamente.',
-                        allowOutsideClick: false,
-                        confirmButtonText: 'Ir a gestión'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = '?page=gestion_ascenso';
-                        }
-                    });
-                }
+    validator
+        .addField('#nuevoRango', [
+            {
+                rule: 'required',
+                errorMessage: 'Debe seleccionar un rango'
+            }
+        ])
+        .addField('#nuevaMision', [
+            {
+                rule: 'required',
+                errorMessage: 'Debe ingresar una misión'
+            }
+        ])
+        .addField('#firmaEncargado', [
+            {
+                rule: 'required',
+                errorMessage: 'Debe ingresar su firma'
             },
-            error: function() {Swal.fire({
+            {
+                rule: 'minLength',
+                value: 3,
+                errorMessage: 'La firma debe tener 3 dígitos'
+            },
+            {
+                rule: 'maxLength',
+                value: 3,
+                errorMessage: 'La firma debe tener 3 dígitos'
+            }
+        ]);
+    
+    // Botón de envío
+    $('#submitBtn').click(function() {
+        validator.validate().then(function(isValid) {
+            if (isValid) {
+                // Verificar si el rango seleccionado está permitido
+                const nuevoRango = $('#nuevoRango').val();
+                
+                // Verificar si el encargado tiene permiso para ascender al usuario a este rango
+                if (!rangoEncargado || !reglasAscenso[rangoEncargado] || !reglasAscenso[rangoEncargado].includes(nuevoRango)) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No tienes permiso para ascender a este rango'
+                    });
+                    return;
+                }
+                
+                // Preparar datos para enviar
+                const formData = {
+                    codigo_time: userData.codigo_time,
+                    rango_nuevo: nuevoRango,
+                    mision_nueva: $('#nuevaMision').val(),
+                    firma_usuario: userData.firma_usuario || '',
+                    firma_encargado: $('#firmaEncargado').val(),
+                    usuario_encargado: $('#nombreEncargado').val(),
+                    tiempo_espera: 60 // Tiempo de espera en minutos (ajustar según necesidad)
+                };
+                
+                // Mostrar cargando
+                Swal.fire({
+                    title: 'Procesando',
+                    text: 'Registrando ascenso...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                // Enviar datos al servidor
+                $.ajax({
+                    url: '/private/procesos/gestion_ascensos/registrar.php',
+                    type: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    success: function(response) {
+                        Swal.close();
+                        
+                        if (response.success) {
+                            // Mostrar mensaje de éxito
+                            showStep(4);
+                            
+                            // Redireccionar después de 3 segundos
+                            setTimeout(function() {
+                                $('#dar_ascenso').modal('hide');
+                                location.reload();
+                            }, 3000);
+                        } else {
+                            // Mostrar mensaje de error
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
+                        }
+                    },
+                    error: function() {Swal.fire({
                         icon: 'success',
                         title: '¡Ascenso registrado!',
                         text: 'El ascenso se ha registrado correctamente.',
@@ -443,16 +527,12 @@ $(document).ready(function() {
                         }
                     });
             }
+                });
+            }
         });
     });
     
-    $('#dar_ascenso').on('hidden.bs.modal', function() {
-        $('#ascensoForm')[0].reset();
-        $('#resultadoBusqueda').html('');
-        $('#mensajeDisponibilidad').addClass('d-none');
-        showStep(1);
-    });
-    
+    // Inicializar
     showStep(1);
 });
 </script>
