@@ -15,7 +15,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background: #ffffff;
+        background: #f8f5ff;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -25,12 +25,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
     .card {
         background: rgba(255, 255, 255, 0.95);
         border-radius: 20px;
-        border: 2px solid #4a6bff;
-        box-shadow: 0 10px 20px rgba(74, 107, 255, 0.2);
+        border: 2px solid #7b3ed1;
+        box-shadow: 0 10px 20px rgba(123, 62, 209, 0.2);
     }
 
     .card-header {
-        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
+        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
         color: white;
         border-radius: 20px 20px 0 0 !important;
         border-bottom: 2px solid #ffffff;
@@ -38,31 +38,30 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
     }
 
     .form-control {
-        border-radius: 8px;
+        border-radius: 10px;
         padding: 12px;
-        border: 1px solid #e0e0e0;
-        background-color: #ffffff;
+        border: 2px solid #e0e0e0;
     }
 
     .form-control:focus {
-        border-color: #4a6bff;
-        box-shadow: 0 0 0 0.25rem rgba(74, 107, 255, 0.1);
+        border-color: #7b3ed1;
+        box-shadow: 0 0 0 0.25rem rgba(123, 62, 209, 0.25);
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%);
-        color: white;
+        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         padding: 12px 30px;
         font-weight: 600;
+        color: white;
         transition: all 0.3s ease;
     }
 
     .btn-primary:hover {
-        background: linear-gradient(135deg, #2541b2 0%, #4a6bff 100%);
+        background: linear-gradient(135deg, #5e2ca5 0%, #7b3ed1 100%);
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(37, 65, 178, 0.3);
+        box-shadow: 0 5px 15px rgba(94, 44, 165, 0.3);
     }
 
     .btn-primary:hover {
