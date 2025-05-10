@@ -68,7 +68,9 @@ try {
     $deleteStmt->bindParam(':codigo_time', $codigoTime);
     $deleteStmt->execute();
 
-    $fechaActual = new DateTime();
+    // Crear fechas con zona horaria de México
+    $zonaHorariaMexico = new DateTimeZone('America/Mexico_City');
+    $fechaActual = new DateTime('now', $zonaHorariaMexico);
     $fechaDisponible = clone $fechaActual;
     $fechaDisponible->add(new DateInterval("PT{$tiempoEspera}M"));
 

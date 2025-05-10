@@ -155,7 +155,7 @@ $navbar->render();
 
 // Modales para dar ascenso y tomar tiempo
 require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
-require_once(DAR_ASCENSO_PATCH.'dar_tiempo.php');
+require_once(DAR_TIEMPO_PATCH.'dar_tiempo.php');
 
 // Modales para calcular rango, pagar usuario y vender rangos
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');

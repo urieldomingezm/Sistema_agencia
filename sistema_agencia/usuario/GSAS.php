@@ -1,77 +1,6 @@
 <?php
 // Rutas para gestion de ascensos
 require_once(GESTION_ASCENSOS_PATCH . 'mostrar_usuarios.php');
-
-// --- PROCESO DE TRANSCURRIR TIEMPO DIRECTO ---
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    header('Content-Type: application/json');
-    $input = json_decode(file_get_contents('php://input'), true);
-
-    if (!isset($input['codigo_time'])) {
-        echo json_encode(['success' => false, 'message' => 'Datos incompletos']);
-        exit;
-    }
-
-    $codigo_time = $input['codigo_time'];
-
-    try {
-        $database = new Database();
-        $conn = $database->getConnection();
-
-        // Obtener los datos necesarios del usuario
-        $query = "SELECT fecha_ultimo_ascenso, fecha_disponible_ascenso, estado_ascenso FROM ascensos WHERE codigo_time = :codigo_time";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':codigo_time', $codigo_time);
-        $stmt->execute();
-        $ascenso = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$ascenso) {
-            echo json_encode(['success' => false, 'message' => 'Usuario no encontrado']);
-            exit;
-        }
-
-        // Obtener hora actual de México
-        $dtMexico = new DateTime("now", new DateTimeZone("America/Mexico_City"));
-        $ahora = $dtMexico->format('Y-m-d H:i:s');
-
-        $fechaUltimo = $ascenso['fecha_ultimo_ascenso'];
-        $tiempoRequisito = $ascenso['fecha_disponible_ascenso']; // formato "00:10:00"
-        $estadoActual = $ascenso['estado_ascenso'];
-
-        if ($estadoActual === "ascendido") {
-            echo json_encode(['success' => false, 'message' => 'El usuario ya fue ascendido.']);
-            exit;
-        }
-
-        // Calcular diferencia en segundos
-        $fechaUltimoAscenso = new DateTime($fechaUltimo, new DateTimeZone("America/Mexico_City"));
-        $ahoraDT = new DateTime($ahora, new DateTimeZone("America/Mexico_City"));
-        $diffSegundos = $ahoraDT->getTimestamp() - $fechaUltimoAscenso->getTimestamp();
-
-        // Convertir tiempo requisito a segundos
-        list($h, $m, $s) = explode(':', $tiempoRequisito);
-        $requisitoSegundos = $h * 3600 + $m * 60 + $s;
-
-        $nuevoEstado = "en_espera";
-        if ($diffSegundos >= $requisitoSegundos) {
-            $nuevoEstado = "pendiente";
-        }
-
-        // Actualizar estado solo si cambió
-        if ($nuevoEstado !== $estadoActual) {
-            $query = "UPDATE ascensos SET estado_ascenso = :nuevo_estado WHERE codigo_time = :codigo_time";
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':nuevo_estado', $nuevoEstado);
-            $stmt->bindParam(':codigo_time', $codigo_time);
-            $stmt->execute();
-        }
-
-        echo json_encode(['success' => true, 'message' => 'Estado actualizado correctamente', 'nuevo_estado' => $nuevoEstado]);
-    } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
-    }
-    exit;
-}
 ?>
 
 <div class="container py-4">
@@ -118,84 +47,268 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 
-    <!-- Tabla de Ascensos -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table id="tabladeusuariosascensos" class="table table-bordered table-striped table-hover text-center mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Código</th>
-                            <th>Rango Actual</th>
-                            <th>Misión Actual</th>
-                            <th>Estado</th>
-                            <th>Próximo Ascenso</th>
+<!-- Tabla de Ascensos -->
+<div class="card mb-4 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table id="tabladeusuariosascensos" class="table table-bordered table-striped table-hover text-center mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Código</th>
+                        <th>Rango Actual</th>
+                        <th>Misión Actual</th>
+                        <th>Estado</th>
+                        <th>Fecha de registro</th>
+                        <th>Próximo Ascenso</th>
+                        <th>Transcurrido</th>
+                        <th>Actualizar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($GLOBALS['ascensos'] as $ascenso): 
+                        // Calcular tiempo restante inicial
+                        $tiempoRestante = '00:00:00';
+                        $fechaActual = new DateTime('now', new DateTimeZone('America/Mexico_City'));
+                        
+                        // Calcular tiempo transcurrido desde el último ascenso
+                        $tiempoTranscurrido = '00:00:00';
+                        if (!empty($ascenso['fecha_ultimo_ascenso'])) {
+                            $fechaUltimo = new DateTime($ascenso['fecha_ultimo_ascenso']);
+                            $intervaloTranscurrido = $fechaUltimo->diff($fechaActual);
+                            $tiempoTranscurrido = $intervaloTranscurrido->format('%H:%I:%S');
+                        }
+                        
+                        // Calcular tiempo restante para próximo ascenso
+                        if (!empty($ascenso['fecha_disponible_ascenso'])) {
+                            $fechaDisponible = new DateTime($ascenso['fecha_disponible_ascenso']);
+                            if ($fechaDisponible > $fechaActual) {
+                                $intervalo = $fechaActual->diff($fechaDisponible);
+                                $tiempoRestante = $intervalo->format('%H:%I:%S');
+                            }
+                        }
+                        
+                        // Mostrar el tiempo transcurrido si existe en la BD, o el calculado si es NULL
+                        $tiempoMostrar = (!empty($ascenso['tiempo_ascenso']) && $ascenso['tiempo_ascenso'] != '00:00:00') 
+                            ? $ascenso['tiempo_ascenso'] 
+                            : $tiempoTranscurrido;
+                    ?>
+                        <tr data-codigo-time="<?= htmlspecialchars($ascenso['codigo_time']) ?>">
+                            <td><?= htmlspecialchars($ascenso['nombre_habbo']) ?></td>
+                            <td><?= htmlspecialchars($ascenso['rango_actual']) ?></td>
+                            <td><?= htmlspecialchars($ascenso['mision_actual']) ?></td>
+                            <td>
+                                <span class="badge <?= $ascenso['estado_ascenso'] === 'disponible' ? 'bg-success' : ($ascenso['estado_ascenso'] === 'pendiente' ? 'bg-warning' : ($ascenso['estado_ascenso'] === 'en_espera' ? 'bg-secondary' : 'bg-info')) ?>">
+                                    <?= htmlspecialchars($ascenso['estado_ascenso']) ?>
+                                </span>
+                            </td>
+                            <td><?= htmlspecialchars($ascenso['fecha_ultimo_ascenso']) ?></td>
+                            <td data-fecha-ascenso="<?= htmlspecialchars($ascenso['fecha_disponible_ascenso']) ?>">
+                                <?= htmlspecialchars($ascenso['fecha_disponible_ascenso'] ? date('Y-m-d H:i:s', strtotime($ascenso['fecha_disponible_ascenso'])) : 'No disponible') ?>
+                            </td>
+                            <td data-tiempo-restante="<?= htmlspecialchars($tiempoMostrar) ?>" data-tiempo-transcurrido="<?= htmlspecialchars($tiempoTranscurrido) ?>">
+                                <?= htmlspecialchars($tiempoMostrar) ?>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary"
+                                    data-codigo="<?= htmlspecialchars($ascenso['codigo_time']) ?>">
+                                    Actualizar
+                                </button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($GLOBALS['ascensos'] as $ascenso): ?>
-                            <tr data-codigo-time="<?= htmlspecialchars($ascenso['codigo_time']) ?>">
-                                <td><?= htmlspecialchars($ascenso['nombre_habbo']) ?></td>
-                                <td><?= htmlspecialchars($ascenso['rango_actual']) ?></td>
-                                <td><?= htmlspecialchars($ascenso['mision_actual']) ?></td>
-                                <td>
-                                    <span class="badge <?= $ascenso['estado_ascenso'] === 'disponible' ? 'bg-success' : ($ascenso['estado_ascenso'] === 'pendiente' ? 'bg-warning' : ($ascenso['estado_ascenso'] === 'en_espera' ? 'bg-secondary' : 'bg-info')) ?>">
-                                        <?= htmlspecialchars($ascenso['estado_ascenso']) ?>
-                                    </span>
-                                </td>
-                                <td data-fecha-ascenso="<?= htmlspecialchars($ascenso['fecha_disponible_ascenso']) ?>">
-                                    <?= htmlspecialchars($ascenso['fecha_disponible_ascenso'] ? date('Y-m-d H:i:s', strtotime($ascenso['fecha_disponible_ascenso'])) : 'No disponible') ?>
-                                    <button class="btn btn-sm btn-primary mt-1 actualizar-ascenso"
-                                        data-codigo="<?= htmlspecialchars($ascenso['codigo_time']) ?>"
-                                        data-fecha-ultimo="<?= htmlspecialchars($ascenso['fecha_ultimo_ascenso']) ?>"
-                                        data-tiempo-requisito="<?= htmlspecialchars($ascenso['fecha_disponible_ascenso']) ?>"
-                                        data-estado="<?= htmlspecialchars($ascenso['estado_ascenso']) ?>">
-                                        Actualizar
-                                    </button>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
     </div>
-    <script>
-        document.querySelectorAll('.actualizar-ascenso').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const codigo = this.dataset.codigo;
+</div>
 
-                fetch('', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        codigo_time: codigo
-                    })
-                })
-                .then(res => res.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("Estado actualizado correctamente. Nuevo estado: " + data.nuevo_estado);
-                        location.reload();
-                    } else {
-                        alert(data.message || "Error al actualizar el estado.");
-                    }
-                });
-            });
-        });
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar DataTable
+    const dataTable = new simpleDatatables.DataTable("#tabladeusuariosascensos", {
+        searchable: true,
+        fixedHeight: true,
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "Registros por página",
+            noRows: "No hay registros",
+            info: "Mostrando {start} a {end} de {rows} registros",
+        }
+    });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const dataTable = new simpleDatatables.DataTable("#tabladeusuariosascensos", {
-                searchable: true,
-                fixedHeight: true,
-                labels: {
-                    placeholder: "Buscar...",
-                    perPage: "Registros por página",
-                    noRows: "No hay registros",
-                    info: "Mostrando {start} a {end} de {rows} registros",
-                }
+    // Función para convertir milisegundos a formato HH:MM:SS
+    function msToTime(duration) {
+        if (isNaN(duration)) return "00:00:00";
+        duration = Math.max(0, duration);
+        
+        const seconds = Math.floor((duration / 1000) % 60);
+        const minutes = Math.floor((duration / (1000 * 60)) % 60);
+        const hours = Math.floor((duration / (1000 * 60 * 60)));
+        
+        const pad = (n) => n.toString().padStart(2, '0');
+        return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    // Función para obtener la hora actual en México
+    function getHoraMexico() {
+        try {
+            return new Date(new Date().toLocaleString("en-US", {timeZone: "America/Mexico_City"}));
+        } catch (e) {
+            console.error("Error al obtener hora México:", e);
+            return new Date();
+        }
+    }
+
+    // Función para parsear fecha de la base de datos
+    function parseFechaDB(fechaStr) {
+        if (!fechaStr || fechaStr === 'No disponible') return null;
+        
+        fechaStr = fechaStr.trim();
+        let fecha = new Date(fechaStr);
+        
+        if (!isNaN(fecha.getTime())) return fecha;
+        
+        fecha = new Date(fechaStr.replace(' ', 'T'));
+        if (!isNaN(fecha.getTime())) return fecha;
+        
+        const partes = fechaStr.split(/[\/\-\s:]/);
+        if (partes.length >= 3) {
+            const dia = parseInt(partes[0], 10);
+            const mes = parseInt(partes[1], 10) - 1;
+            const anio = parseInt(partes[2], 10);
+            fecha = new Date(anio, mes, dia);
+            if (!isNaN(fecha.getTime())) return fecha;
+        }
+        
+        console.error("No se pudo parsear fecha:", fechaStr);
+        return null;
+    }
+
+    // Función para calcular tiempo transcurrido entre dos fechas
+    function calcularTiempoTranscurrido(fechaInicio, fechaFin) {
+        const diffMs = Math.abs(fechaFin - fechaInicio);
+        return msToTime(diffMs);
+    }
+
+    // Función para actualizar el estado del ascenso
+    async function actualizarAscenso(codigoTime, button) {
+        const fila = document.querySelector(`tr[data-codigo-time="${codigoTime}"]`);
+        if (!fila) return;
+        
+        const celdaFechaDisponible = fila.querySelector('td:nth-child(6)');
+        const celdaFechaUltimo = fila.querySelector('td:nth-child(5)');
+        const celdaEstado = fila.querySelector('td:nth-child(4) span');
+        const celdaTiempoRestante = fila.querySelector('td:nth-child(7)');
+        
+        const fechaUltimoTexto = celdaFechaUltimo.textContent.trim();
+        const fechaUltimo = parseFechaDB(fechaUltimoTexto);
+        
+        if (!fechaUltimo) {
+            alert("No se pudo obtener la fecha del último ascenso.");
+            return;
+        }
+        
+        try {
+            const horaActual = getHoraMexico();
+            const tiempoCalculado = calcularTiempoTranscurrido(fechaUltimo, horaActual);
+            
+            // Preparar datos para enviar al servidor
+            const formData = new FormData();
+            formData.append('action', 'actualizar_tiempo_ascenso');
+            formData.append('codigo_time', codigoTime);
+            formData.append('tiempo_ascenso', tiempoCalculado);
+            formData.append('estado_ascenso', 'pendiente');
+            formData.append('tiempo_transcurrido', tiempoCalculado);
+            
+            button.disabled = true;
+            button.innerHTML = '<i class="bi bi-hourglass-split"></i> Actualizando...';
+            
+            // Enviar la actualización al servidor
+            const response = await fetch('procesar_ascenso.php', {
+                method: 'POST',
+                body: formData
             });
+            
+            const data = await response.json();
+            
+            if (!data.success) {
+                throw new Error(data.error || 'Error en la actualización');
+            }
+            
+            // Actualizar la UI con la respuesta del servidor
+            celdaEstado.textContent = data.nuevo_estado;
+            celdaEstado.className = data.nuevo_estado === 'disponible' ? 'badge bg-success' : 'badge bg-warning';
+            
+            celdaTiempoRestante.textContent = data.tiempo_transcurrido;
+            celdaTiempoRestante.setAttribute('data-tiempo-transcurrido', data.tiempo_transcurrido);
+            
+            // Mostrar la nueva fecha disponible
+            const fechaMostrar = data.nueva_fecha === '0000-00-00 00:00:00' ? '00:00:00' : 
+                new Date(data.nueva_fecha).toLocaleString('es-MX', {timeZone: 'America/Mexico_City'});
+            celdaFechaDisponible.textContent = fechaMostrar;
+            celdaFechaDisponible.setAttribute('data-fecha-ascenso', data.nueva_fecha);
+            
+            // Feedback visual
+            button.innerHTML = '<i class="bi bi-check-circle-fill"></i> Actualizado';
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-success');
+            
+            setTimeout(() => {
+                button.innerHTML = 'Actualizar';
+                button.classList.remove('btn-success');
+                button.classList.add('btn-primary');
+                button.disabled = false;
+            }, 2000);
+            
+        } catch (error) {
+            console.error("Error al actualizar ascenso:", error);
+            button.innerHTML = 'Error';
+            button.classList.remove('btn-primary');
+            button.classList.add('btn-danger');
+            
+            setTimeout(() => {
+                button.innerHTML = 'Actualizar';
+                button.classList.remove('btn-danger');
+                button.classList.add('btn-primary');
+                button.disabled = false;
+            }, 2000);
+            
+            alert("Error al actualizar: " + error.message);
+        }
+    }
+
+    // Manejador de eventos para los botones de actualizar
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.matches('button[data-codigo]')) {
+            const codigoTime = e.target.getAttribute('data-codigo');
+            actualizarAscenso(codigoTime, e.target);
+        }
+    });
+
+    // Actualizar automáticamente los tiempos cada minuto
+    function actualizarTiempos() {
+        const ahora = getHoraMexico();
+        const filas = document.querySelectorAll('tr[data-codigo-time]');
+        
+        filas.forEach(fila => {
+            const fechaUltimoTexto = fila.querySelector('td:nth-child(5)').textContent.trim();
+            const fechaUltimo = parseFechaDB(fechaUltimoTexto);
+            
+            if (!fechaUltimo) return;
+            
+            try {
+                const tiempoTranscurrido = calcularTiempoTranscurrido(fechaUltimo, ahora);
+                const celdaTiempo = fila.querySelector('td:nth-child(7)');
+                celdaTiempo.textContent = tiempoTranscurrido;
+                celdaTiempo.setAttribute('data-tiempo-transcurrido', tiempoTranscurrido);
+            } catch (error) {
+                console.error("Error en actualización automática:", error);
+            }
         });
-    </script>
+    }
+    
+    // Ejecutar al cargar y cada minuto
+    actualizarTiempos();
+    setInterval(actualizarTiempos, 60000);
+});
+</script>
