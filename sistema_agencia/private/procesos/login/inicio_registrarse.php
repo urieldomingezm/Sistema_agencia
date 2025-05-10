@@ -96,14 +96,21 @@ class UserRegistration
                 throw new Exception("Error al guardar el registro de usuario");
             }
 
+            // Obtener fecha y hora de México en formato datetime
+            $dtMexico = new DateTime('now', new DateTimeZone('America/Mexico_City'));
+            $fecha_registro = $dtMexico->format('Y-m-d H:i:s');
+
             // Insertar en tabla ascensos (NUEVA ESTRUCTURA)
             $queryAscenso = "INSERT INTO ascensos 
                             (codigo_time, rango_actual, mision_actual, firma_usuario, firma_encargado, estado_ascenso, fecha_ultimo_ascenso, fecha_disponible_ascenso, usuario_encargado, es_recluta) 
                             VALUES 
-                            (:codigo_time, 'Agente', 'AGE- Iniciado I', NULL, NULL, 'en_espera', NOW(), DATE_ADD(NOW(), INTERVAL 30 MINUTE), NULL, TRUE)";
+                            (:codigo_time, 'Agente', 'AGE- Iniciado I', NULL, NULL, 'en_espera', :fecha_ultimo_ascenso, :fecha_disponible_ascenso, NULL, TRUE)";
 
+            $fecha_disponible_ascenso = "00:10:00";
             $stmtAscenso = $this->conn->prepare($queryAscenso);
             $stmtAscenso->bindParam(':codigo_time', $codigo_time);
+            $stmtAscenso->bindParam(':fecha_ultimo_ascenso', $fecha_registro);
+            $stmtAscenso->bindParam(':fecha_disponible_ascenso', $fecha_disponible_ascenso);
 
             if (!$stmtAscenso->execute()) {
                 throw new Exception("Error al guardar el registro de ascenso");
