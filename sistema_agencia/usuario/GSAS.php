@@ -75,7 +75,7 @@ require_once(GESTION_ASCENSOS_PATCH . 'transcurrir_tiempo.php');
                                 </span>
                             </td>
                             <td data-fecha-ascenso="<?= htmlspecialchars($ascenso['fecha_disponible_ascenso']) ?>">
-                                <?= htmlspecialchars($ascenso['fecha_disponible_ascenso'] ? date('H:i:s', strtotime($ascenso['fecha_disponible_ascenso'])) : 'No disponible') ?>
+                                <?= htmlspecialchars($ascenso['fecha_disponible_ascenso'] ? date('Y-m-d H:i:s', strtotime($ascenso['fecha_disponible_ascenso'])) : 'No disponible') ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -85,7 +85,6 @@ require_once(GESTION_ASCENSOS_PATCH . 'transcurrir_tiempo.php');
         </div>
     </div>
 </div>
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const dataTable = new simpleDatatables.DataTable("#tabladeusuariosascensos", {
@@ -99,72 +98,4 @@ require_once(GESTION_ASCENSOS_PATCH . 'transcurrir_tiempo.php');
             }
         });
     });
-
-    // Función para actualizar el contador y estados
-    function actualizarContadores() {
-        const filas = document.querySelectorAll('#tabladeusuariosascensos tbody tr');
-        
-        filas.forEach(fila => {
-            const fechaAscensoElement = fila.querySelector('td[data-fecha-ascenso]');
-            const tiempoAscenso = fechaAscensoElement.dataset.fechaAscenso;
-            const estadoTd = fila.querySelector('td:nth-child(4)');
-            
-            if (!tiempoAscenso || tiempoAscenso === 'No disponible') {
-                fechaAscensoElement.textContent = 'No disponible';
-                return;
-            }
-
-            try {
-                // Parsear el tiempo HH:MM:SS
-                const [horasObj, minutosObj, segundosObj] = tiempoAscenso.split(':');
-                let horas = parseInt(horasObj);
-                let minutos = parseInt(minutosObj);
-                let segundos = parseInt(segundosObj);
-
-                // Reducir el tiempo en 1 segundo
-                segundos--;
-                if (segundos < 0) {
-                    segundos = 59;
-                    minutos--;
-                    if (minutos < 0) {
-                        minutos = 59;
-                        horas--;
-                        if (horas < 0) {
-                            // Tiempo cumplido
-                            estadoTd.innerHTML = `
-                                <span class="badge bg-secondary">
-                                    En espera
-                                </span>
-                            `;
-                            fechaAscensoElement.textContent = '00:00:00';
-                            return;
-                        }
-                    }
-                }
-
-                // Formatear el nuevo tiempo
-                const tiempoFormateado = 
-                    `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-                
-                // Actualizar display
-                fechaAscensoElement.textContent = tiempoFormateado;
-                fechaAscensoElement.dataset.fechaAscenso = tiempoFormateado;
-
-                // Actualizar estado
-                estadoTd.innerHTML = `
-                    <span class="badge bg-warning">
-                        Pendiente
-                    </span>
-                `;
-
-            } catch (e) {
-                console.error('Error procesando tiempo:', e);
-                fechaAscensoElement.textContent = 'Formato inválido';
-            }
-        });
-    }
-
-    // Ejecutar cada segundo
-    setInterval(actualizarContadores, 1000);
-    actualizarContadores(); // Ejecutar inmediatamente al cargar
 </script>
