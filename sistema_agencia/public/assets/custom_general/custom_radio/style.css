@@ -1,35 +1,32 @@
-/* Contenedor del reproductor */
 .radio-container {
-    position: fixed; /* Fija el reproductor en la pantalla */
-    bottom: 20px; /* Lo posiciona en la parte inferior */
-    left: 20px; /* Lo pone en la esquina izquierda */
-    background: #f0f8ff; /* Fondo semi-transparente */
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: #f5f0ff;
     border-radius: 15px;
     padding: 15px;
-    width: 224.5px; /* Tamaño un poco más grande */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra más suave */
-    z-index: 9999; /* Asegura que esté al frente */
-    backdrop-filter: blur(10px); /* Efecto de desenfoque */
-    border: 1px solid rgba(255, 255, 255, 0.2); /* Borde sutil */
+    width: 224.5px;
+    box-shadow: 0 4px 15px rgba(94, 44, 165, 0.2);
+    z-index: 9999;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(123, 62, 209, 0.2);
+    transition: all 0.3s ease;
 }
 
-/* Imagen del DJ */
 .radio-cover {
-    width: 70px; /* Tamaño un poco más grande */
-    height: 70px; /* Hacerla cuadrada */
-    border-radius: 50%; /* Forma circular */
-    object-fit: cover; /* Asegura que la imagen cubra el espacio */
-    margin-bottom: 10px; /* Espacio entre la imagen y el texto */
-    border: 2px solid #ff00bf; /* Borde naranja */
-    transition: transform 0.3s ease; /* Suaviza la transición del giro */
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 2px solid #7b3ed1;
+    transition: transform 0.3s ease;
 }
 
-/* Animación de rotación cuando la radio está reproduciéndose */
 .radio-container.playing .radio-cover {
-    animation: spin 2s linear infinite; /* Gira de manera infinita con 2 segundos por vuelta */
+    animation: spin 2s linear infinite;
 }
 
-/* Definir la animación de giro */
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -39,9 +36,8 @@
     }
 }
 
-/* Información del DJ */
 .radio-info {
-    background: linear-gradient(45deg, #d91960, #e0487c, #f07fa2, #d91960); /* Fondo naranja */
+    background: linear-gradient(45deg, #5e2ca5, #7b3ed1, #9d6fe7, #5e2ca5);
     color: white;
     padding: 8px;
     border-radius: 8px;
@@ -59,48 +55,45 @@
     font-weight: normal;
 }
 
-/* Controles del reproductor */
 .radio-controls {
     display: flex;
-    justify-content: space-around; /* Espacio uniforme entre botones */
+    justify-content: space-around;
     align-items: center;
 }
 
 .radio-controls .btn {
-    font-size: 20px; /* Tamaño de los íconos */
+    font-size: 20px;
     margin: 0;
     border-radius: 50%;
-    background-color: linear-gradient(45deg, #d91960, #e0487c, #f07fa2, #d91960); /* Verde brillante */
+    background: linear-gradient(45deg, #5e2ca5, #7b3ed1, #9d6fe7, #5e2ca5);
     border: none;
     padding: 10px;
-    width: 40px; /* Tamaño fijo */
-    height: 40px; /* Tamaño fijo */
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease; /* Transición suave */
+    transition: all 0.3s ease;
 }
 
 .radio-controls .btn:hover {
-    background-color: #228B22; /* Verde más oscuro al pasar el mouse */
-    transform: scale(1.1); /* Efecto de escala al hacer hover */
+    background: #4a2c91;
+    transform: scale(1.1);
 }
 
 .radio-controls .btn i {
-    color: white; /* Color de los íconos */
+    color: white;
 }
 
-/* Efecto de hover en el contenedor */
 .radio-container:hover {
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
-    transform: translateY(-5px); /* Levantar ligeramente */
+    box-shadow: 0 6px 20px rgba(94, 44, 165, 0.3);
+    transform: translateY(-5px);
 }
 
-/* Responsive para pantallas pequeñas */
 @media (max-width: 400px) {
     .radio-container {
-        width: 90%; /* Ocupar casi todo el ancho */
-        left: 5%; /* Centrar horizontalmente */
+        width: 90%;
+        left: 5%;
         bottom: 10px;
         padding: 10px;
     }
