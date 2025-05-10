@@ -94,10 +94,6 @@ $userData = $userProfile->getUserData();
                             <?php echo ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'Disponible' : 'Pendiente'; ?>
                         </span>
                     </div>
-                    <div class="info-item d-flex align-items-center">
-                        <span class="info-label me-2">Estado</span>
-                        <span class="status-pill glow"><?php echo $userData['status']; ?></span>
-                    </div>
                 </div>
             </div>
         </div>
