@@ -24,9 +24,25 @@ class Navbar
         <?= $this->brand ?>
         </a>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
-          <i class="bi bi-list text-white"></i>
-        </button>
+        <div class="d-flex align-items-center">
+          <!-- Dropdown de perfil -->
+          <div class="dropdown me-3">
+            <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"> 
+              <i class="bi bi-person-circle"></i> 
+              <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown"> 
+              <li><a class="dropdown-item" href="index.php?page=ver_perfil"><i class="bi bi-person"></i> Ver perfil</a></li> 
+              <li><hr class="dropdown-divider"></li> 
+              <li><a class="dropdown-item" href="/logout.php"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li> 
+            </ul> 
+          </div>
+
+          <!-- Botón del menú -->
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
+            <i class="bi bi-list text-white"></i>
+          </button>
+        </div>
 
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
           <div class="offcanvas-header text-white">
@@ -39,6 +55,7 @@ class Navbar
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
               <?php foreach ($this->items as $index => $item): ?>
+                <?php if ($item['name'] !== 'Perfil'): ?> <!-- Excluir el ítem de Perfil -->
                 <div class="accordion-item">
                   <?php if (isset($item['dropdown'])): ?>
                     <h2 class="accordion-header">
@@ -79,6 +96,7 @@ class Navbar
                     </h2>
                 <?php endif; ?>
                 </div>
+                <?php endif; ?>
               <?php endforeach; ?>
             </div>
 
@@ -108,7 +126,8 @@ class Navbar
       'Ascenso' => 'bi bi-arrow-up-circle-fill',
       'Ventas' => 'bi bi-cart-fill',
       'Paga' => 'bi bi-wallet-fill',
-      'Gestion de usuarios' => 'bi bi-people-fill'
+      'Gestion de usuarios' => 'bi bi-people-fill',
+      'Rangos' => 'bi bi-award-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
