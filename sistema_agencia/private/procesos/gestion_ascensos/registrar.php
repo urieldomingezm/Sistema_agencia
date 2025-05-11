@@ -14,9 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $camposRequeridos = [
-    'codigo_time', 'rango_nuevo', 
-    'mision_nueva', 'firma_encargado', 
-    'usuario_encargado', 'tiempo_espera'
+    'codigoTimeAscenso', 'nuevoRangoAscenso', 
+    'nuevaMisionAscenso', 'firmaEncargadoAscenso', 
+    'nombreEncargadoAscenso', 'tiempoEsperaAscenso'
 ];
 
 foreach ($camposRequeridos as $campo) {
@@ -26,13 +26,13 @@ foreach ($camposRequeridos as $campo) {
     }
 }
 
-$codigoTime = trim($_POST['codigo_time']);
-$rangoNuevo = trim($_POST['rango_nuevo']);
-$misionNueva = trim($_POST['mision_nueva']);
-$firmaUsuario = trim($_POST['firma_usuario']);
-$firmaEncargado = trim($_POST['firma_encargado']);
-$usuarioEncargado = trim($_POST['usuario_encargado']);
-$tiempoEspera = intval($_POST['tiempo_espera']);
+$codigoTime = trim($_POST['codigoTimeAscenso']);
+$rangoNuevo = trim($_POST['nuevoRangoAscenso']);
+$misionNueva = trim($_POST['nuevaMisionAscenso']);
+$firmaUsuario = trim($_POST['firmaUsuario'] ?? '');
+$firmaEncargado = trim($_POST['firmaEncargadoAscenso']);
+$usuarioEncargado = trim($_POST['nombreEncargadoAscenso']);
+$tiempoEspera = intval($_POST['tiempoEsperaAscenso']);
 
 if (strlen($firmaEncargado) !== 3) {
     echo json_encode(['success' => false, 'message' => 'La firma del encargado debe tener 3 dígitos']);

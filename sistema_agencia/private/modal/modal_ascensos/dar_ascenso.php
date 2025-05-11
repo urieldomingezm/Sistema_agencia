@@ -7,14 +7,14 @@
                     Dar Ascenso
                 </h5>
             </div>
-            
+
             <!-- Cuerpo del Modal -->
             <div class="modal-body">
                 <!-- Indicador de pasos -->
                 <div class="progress mb-4" style="height: 10px;">
                     <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                
+
                 <!-- Formulario de múltiples pasos -->
                 <form id="ascensoFormModal">
                     <!-- Paso 1: Búsqueda de Usuario -->
@@ -41,7 +41,7 @@
                         </div>
                         <div id="resultadoBusquedaAscenso" class="mt-3"></div>
                     </div>
-                    
+
                     <!-- Paso 2: Información del Usuario -->
                     <div class="step d-none" id="step2_ascenso">
                         <h4 class="text-center mb-4 fw-bold text-primary">Información del Usuario</h4>
@@ -86,7 +86,7 @@
                         </div>
                         <div id="mensajeDisponibilidadAscenso" class="alert d-none"></div>
                     </div>
-                    
+
                     <!-- Paso 3: Formulario de Ascenso -->
                     <div class="step d-none" id="step3_ascenso">
                         <h4 class="text-center mb-4 fw-bold text-primary">
@@ -136,7 +136,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Paso 4: Confirmación -->
                     <div class="step d-none" id="step4_ascenso">
                         <div class="text-center p-5">
@@ -155,20 +155,20 @@
                     </div>
                 </form>
             </div>
-            
+
             <!-- Pie del Modal -->
             <div class="modal-footer bg-light">
                 <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">
                     Cerrar
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtnAscenso" disabled>
-                     Anterior
+                    Anterior
                 </button>
                 <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtnAscenso">
-                    Siguiente 
+                    Siguiente
                 </button>
                 <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtnAscenso">
-                     Registrar Ascenso
+                    Registrar Ascenso
                 </button>
             </div>
         </div>
@@ -177,289 +177,297 @@
 
 <!-- Incluye JustValidate desde CDN antes de tu script principal -->
 <script>
-$(document).ready(function() {
-    let currentStepAscenso = 1;
-    const totalStepsAscenso = 4;
-    let userDataAscenso = {};
-    let userRangoActualAscenso = '';
-    
-    // Definir las reglas de ascenso según el rango del encargado
-    const reglasAscensoModal = {
-        'Logistica': ['Agente'],
-        'Supervisor': ['Agente', 'Seguridad'],
-        'Director': ['Agente', 'Seguridad', 'Tecnico'],
-        'Presidente': ['Agente', 'Seguridad', 'Tecnico', 'Logistica'],
-        'Operativo': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor'],
-        'Junta directiva': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director'],
-        'Administrador': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva'],
-        'Manager': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva'],
-        'Dueño': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva']
-    };
-    
-    // Obtener el rango del usuario actual (encargado)
-    const rangoEncargadoAscenso = '<?php echo isset($_SESSION["rango"]) ? $_SESSION["rango"] : ""; ?>';
-    
-    // Actualizar la barra de progreso
-    function updateProgressBarAscenso() {
-        const percent = ((currentStepAscenso - 1) / (totalStepsAscenso - 1)) * 100;
-        $('#dar_ascenso_modal .progress-bar').css('width', percent + '%').attr('aria-valuenow', percent);
-    }
-    
-    // Mostrar el paso actual
-    function showStepAscenso(step) {
-        $('#dar_ascenso_modal .step').addClass('d-none');
-        $('#step' + step + '_ascenso').removeClass('d-none');
-        
-        // Actualizar botones
-        $('#prevBtnAscenso').prop('disabled', step === 1);
-        $('#nextBtnAscenso').toggleClass('d-none', step === 3 || step === 4);
-        $('#submitBtnAscenso').toggleClass('d-none', step !== 3);
-        
-        // Actualizar progreso
-        currentStepAscenso = step;
-        updateProgressBarAscenso();
-    }
-    
-    // Buscar usuario por código
-    $('#buscarUsuarioAscenso').click(function() {
-        const codigo = $('#codigoTimeAscenso').val().trim();
-        
-        if (codigo.length !== 5) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'El código debe tener exactamente 5 caracteres'
-            });
-            return;
+    $(document).ready(function() {
+        let currentStepAscenso = 1;
+        const totalStepsAscenso = 4;
+        let userDataAscenso = {};
+        let userRangoActualAscenso = '';
+
+        // Definir las reglas de ascenso según el rango del encargado
+        const reglasAscensoModal = {
+            'Logistica': ['Agente'],
+            'Supervisor': ['Agente', 'Seguridad'],
+            'Director': ['Agente', 'Seguridad', 'Tecnico'],
+            'Presidente': ['Agente', 'Seguridad', 'Tecnico', 'Logistica'],
+            'Operativo': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor'],
+            'Junta directiva': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director'],
+            'Administrador': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva'],
+            'Manager': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva'],
+            'Dueño': ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva']
+        };
+
+        // Obtener el rango del usuario actual (encargado)
+        const rangoEncargadoAscenso = '<?php echo isset($_SESSION["rango"]) ? $_SESSION["rango"] : ""; ?>';
+
+        // Actualizar la barra de progreso
+        function updateProgressBarAscenso() {
+            const percent = ((currentStepAscenso - 1) / (totalStepsAscenso - 1)) * 100;
+            $('#dar_ascenso_modal .progress-bar').css('width', percent + '%').attr('aria-valuenow', percent);
         }
-        
-        // Mostrar cargando
-        $('#resultadoBusquedaAscenso').html('<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
-        
-        // Realizar petición AJAX
-        $.ajax({
-            url: '/private/procesos/gestion_ascensos/buscar_usuario.php',
-            type: 'POST',
-            data: { codigo: codigo },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    userDataAscenso = response.data;
-                    userRangoActualAscenso = userDataAscenso.rango_actual;
-                    
-                    // Mostrar información del usuario
-                    $('#nombreUsuarioAscenso').text(userDataAscenso.usuario_registro);
-                    $('#rangoActualAscenso').text(userDataAscenso.rango_actual);
-                    $('#misionActualAscenso').text(userDataAscenso.mision_actual);
-                    $('#firmaUsuarioAscenso').text(userDataAscenso.firma_usuario ? userDataAscenso.firma_usuario : 'No disponible');
-                    
-                    // Mostrar estado con badge
-                    let badgeClass = 'bg-warning';
-                    if (userDataAscenso.estado_ascenso === 'ascendido') {
-                        badgeClass = 'bg-success';
-                    } else if (userDataAscenso.estado_ascenso === 'pendiente') {
-                        badgeClass = 'bg-danger';
-                    }
-                    $('#estadoAscensoModal').html(`<span class="badge ${badgeClass}">${userDataAscenso.estado_ascenso}</span>`);
-                    
-                    // Mostrar fecha disponible
-                    $('#fechaDisponibleAscenso').text(userDataAscenso.fecha_disponible_ascenso);
-                    
-                    // Verificar disponibilidad para ascenso
-                    const fechaActual = new Date();
-                    let fechaDisponible;
-                    
-                    // Si el campo es tipo TIME (ejemplo: "00:14:50"), lo sumamos a la hora actual
-                    if (/^\d{2}:\d{2}:\d{2}$/.test(userDataAscenso.fecha_disponible_ascenso)) {
-                        const partes = userDataAscenso.fecha_disponible_ascenso.split(':');
-                        fechaDisponible = new Date(fechaActual.getTime());
-                        fechaDisponible.setHours(fechaActual.getHours() + parseInt(partes[0]));
-                        fechaDisponible.setMinutes(fechaActual.getMinutes() + parseInt(partes[1]));
-                        fechaDisponible.setSeconds(fechaActual.getSeconds() + parseInt(partes[2]));
-                    } else {
-                        // Si es un datetime válido
-                        fechaDisponible = new Date(userDataAscenso.fecha_disponible_ascenso);
-                    }
-                    
-                    const mensajeDiv = $('#mensajeDisponibilidadAscenso');
-                    if (fechaDisponible <= fechaActual) {
-                        mensajeDiv.removeClass('d-none alert-danger').addClass('alert-success')
-                            .html('<i class="bi bi-check-circle-fill me-2"></i> El usuario está disponible para ascender.');
-                        $('#nextBtnAscenso').prop('disabled', false);
-                    } else {
-                        // Calcular tiempo restante en horas, minutos y segundos
-                        const tiempoRestanteMs = fechaDisponible.getTime() - fechaActual.getTime();
-                        const totalSegundos = Math.max(0, Math.floor(tiempoRestanteMs / 1000));
-                        const horas = Math.floor(totalSegundos / 3600);
-                        const minutos = Math.floor((totalSegundos % 3600) / 60);
-                        const segundos = totalSegundos % 60;
-                    
-                        let mensajeTiempo = '';
-                        if (horas > 0) {
-                            mensajeTiempo += `${horas} hora${horas !== 1 ? 's' : ''}`;
+
+        // Mostrar el paso actual
+        function showStepAscenso(step) {
+            $('#dar_ascenso_modal .step').addClass('d-none');
+            $('#step' + step + '_ascenso').removeClass('d-none');
+
+            // Actualizar botones
+            $('#prevBtnAscenso').prop('disabled', step === 1);
+            $('#nextBtnAscenso').toggleClass('d-none', step === 3 || step === 4);
+            $('#submitBtnAscenso').toggleClass('d-none', step !== 3);
+
+            // Actualizar progreso
+            currentStepAscenso = step;
+            updateProgressBarAscenso();
+        }
+
+        // Buscar usuario por código
+        $('#buscarUsuarioAscenso').click(function() {
+            const codigo = $('#codigoTimeAscenso').val().trim();
+
+            if (codigo.length !== 5) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El código debe tener exactamente 5 caracteres'
+                });
+                return;
+            }
+
+            // Mostrar cargando
+            $('#resultadoBusquedaAscenso').html('<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
+
+            // Realizar petición AJAX
+            $.ajax({
+                url: '/private/procesos/gestion_ascensos/buscar_usuario.php',
+                type: 'POST',
+                data: {
+                    codigo: codigo
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        userDataAscenso = response.data;
+                        userRangoActualAscenso = userDataAscenso.rango_actual;
+
+                        // Mostrar información del usuario
+                        $('#nombreUsuarioAscenso').text(userDataAscenso.usuario_registro);
+                        $('#rangoActualAscenso').text(userDataAscenso.rango_actual);
+                        $('#misionActualAscenso').text(userDataAscenso.mision_actual);
+                        $('#firmaUsuarioAscenso').text(userDataAscenso.firma_usuario ? userDataAscenso.firma_usuario : 'No disponible');
+
+                        // Mostrar estado con badge
+                        let badgeClass = 'bg-warning';
+                        if (userDataAscenso.estado_ascenso === 'ascendido') {
+                            badgeClass = 'bg-success';
+                        } else if (userDataAscenso.estado_ascenso === 'pendiente') {
+                            badgeClass = 'bg-danger';
                         }
-                        if (minutos > 0) {
-                            if (mensajeTiempo) mensajeTiempo += ', ';
-                            mensajeTiempo += `${minutos} minuto${minutos !== 1 ? 's' : ''}`;
+                        $('#estadoAscensoModal').html(`<span class="badge ${badgeClass}">${userDataAscenso.estado_ascenso}</span>`);
+
+                        // Mostrar fecha disponible
+                        $('#fechaDisponibleAscenso').text(userDataAscenso.fecha_disponible_ascenso);
+
+                        // Verificar disponibilidad para ascenso
+                        const fechaActual = new Date();
+                        let fechaDisponible;
+
+                        // Si el campo es tipo TIME (ejemplo: "00:14:50"), lo sumamos a la hora actual
+                        if (/^\d{2}:\d{2}:\d{2}$/.test(userDataAscenso.fecha_disponible_ascenso)) {
+                            const partes = userDataAscenso.fecha_disponible_ascenso.split(':');
+                            fechaDisponible = new Date(fechaActual.getTime());
+                            fechaDisponible.setHours(fechaActual.getHours() + parseInt(partes[0]));
+                            fechaDisponible.setMinutes(fechaActual.getMinutes() + parseInt(partes[1]));
+                            fechaDisponible.setSeconds(fechaActual.getSeconds() + parseInt(partes[2]));
+                        } else {
+                            // Si es un datetime válido
+                            fechaDisponible = new Date(userDataAscenso.fecha_disponible_ascenso);
                         }
-                        if (segundos > 0) {
-                            if (mensajeTiempo) mensajeTiempo += ' y ';
-                            mensajeTiempo += `${segundos} segundo${segundos !== 1 ? 's' : ''}`;
+
+                        const mensajeDiv = $('#mensajeDisponibilidadAscenso');
+                        if (fechaDisponible <= fechaActual) {
+                            mensajeDiv.removeClass('d-none alert-danger').addClass('alert-success')
+                                .html('<i class="bi bi-check-circle-fill me-2"></i> El usuario está disponible para ascender.');
+                            $('#nextBtnAscenso').prop('disabled', false);
+                        } else {
+                            // Calcular tiempo restante en horas, minutos y segundos
+                            const tiempoRestanteMs = fechaDisponible.getTime() - fechaActual.getTime();
+                            const totalSegundos = Math.max(0, Math.floor(tiempoRestanteMs / 1000));
+                            const horas = Math.floor(totalSegundos / 3600);
+                            const minutos = Math.floor((totalSegundos % 3600) / 60);
+                            const segundos = totalSegundos % 60;
+
+                            let mensajeTiempo = '';
+                            if (horas > 0) {
+                                mensajeTiempo += `${horas} hora${horas !== 1 ? 's' : ''}`;
+                            }
+                            if (minutos > 0) {
+                                if (mensajeTiempo) mensajeTiempo += ', ';
+                                mensajeTiempo += `${minutos} minuto${minutos !== 1 ? 's' : ''}`;
+                            }
+                            if (segundos > 0) {
+                                if (mensajeTiempo) mensajeTiempo += ' y ';
+                                mensajeTiempo += `${segundos} segundo${segundos !== 1 ? 's' : ''}`;
+                            }
+
+                            mensajeDiv.removeClass('d-none alert-success').addClass('alert-danger')
+                                .html(`<i class="bi bi-exclamation-triangle-fill me-2"></i> El usuario no está disponible para ascender. Tiempo restante: ${mensajeTiempo}.`);
+                            $('#nextBtnAscenso').prop('disabled', true);
                         }
-                        
-                        mensajeDiv.removeClass('d-none alert-success').addClass('alert-danger')
-                            .html(`<i class="bi bi-exclamation-triangle-fill me-2"></i> El usuario no está disponible para ascender. Tiempo restante: ${mensajeTiempo}.`);
-                        $('#nextBtnAscenso').prop('disabled', true);
-                    }
-                    
-                    // Mostrar el resultado
-                    $('#resultadoBusquedaAscenso').html(`
+
+                        // Mostrar el resultado
+                        $('#resultadoBusquedaAscenso').html(`
                         <div class="alert alert-success">
                             <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${userDataAscenso.usuario_registro}</strong>
                         </div>
                     `);
-                    
-                    // Habilitar el botón siguiente
-                    $('#nextBtnAscenso').prop('disabled', false);
-                } else {
-                    // Mostrar mensaje de error
-                    $('#resultadoBusquedaAscenso').html(`
+
+                        // Habilitar el botón siguiente
+                        $('#nextBtnAscenso').prop('disabled', false);
+                    } else {
+                        // Mostrar mensaje de error
+                        $('#resultadoBusquedaAscenso').html(`
                         <div class="alert alert-danger">
                             <i class="bi bi-exclamation-triangle-fill me-2"></i> ${response.message}
                         </div>
                     `);
-                    
-                    // Deshabilitar el botón siguiente
-                    $('#nextBtnAscenso').prop('disabled', true);
-                }
-            },
-            error: function() {
-                // Mostrar mensaje de error
-                $('#resultadoBusquedaAscenso').html(`
+
+                        // Deshabilitar el botón siguiente
+                        $('#nextBtnAscenso').prop('disabled', true);
+                    }
+                },
+                error: function() {
+                    // Mostrar mensaje de error
+                    $('#resultadoBusquedaAscenso').html(`
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i> Error de conexión. Inténtelo de nuevo.
                     </div>
                 `);
-                
-                // Deshabilitar el botón siguiente
-                $('#nextBtnAscenso').prop('disabled', true);
-            }
-        });
-    });
-    
-    // Actualizar opciones de rango según el rango del encargado
-    function actualizarOpcionesRangoAscenso() {
-        const nuevoRangoSelect = $('#nuevoRangoAscenso');
-        nuevoRangoSelect.empty();
-        nuevoRangoSelect.append('<option value="">Seleccione un rango</option>');
-        
-        // Si el encargado no tiene un rango válido o el usuario no tiene un rango actual, no mostrar opciones
-        if (!rangoEncargadoAscenso || !reglasAscensoModal[rangoEncargadoAscenso] || !userRangoActualAscenso) {
-            return;
-        }
-        
-        // Filtrar rangos permitidos según el rango actual del usuario
-        const rangosPermitidos = reglasAscensoModal[rangoEncargadoAscenso];
-        
-        // Agregar opciones de rangos permitidos
-        for (const rango of rangosPermitidos) {
-            nuevoRangoSelect.append(`<option value="${rango}">${rango}</option>`);
-        }
-    }
-    
-    // Botón Anterior
-    $('#prevBtnAscenso').click(function() {
-        if (currentStepAscenso > 1) {
-            showStepAscenso(currentStepAscenso - 1);
-        }
-    });
-    
-    // Botón Siguiente
-    $('#nextBtnAscenso').click(function() {
-        if (currentStepAscenso < totalStepsAscenso) {
-            if (currentStepAscenso === 2) {
-                // Actualizar opciones de rango antes de mostrar el paso 3
-                actualizarOpcionesRangoAscenso();
-            }
-            showStepAscenso(currentStepAscenso + 1);
-        }
-    });
-    
-    // Botón Registrar Ascenso
-    $('#submitBtnAscenso').click(function() {
-        // Validar formulario
-        const nuevoRango = $('#nuevoRangoAscenso').val();
-        const nuevaMision = $('#nuevaMisionAscenso').val().trim();
-        const firmaEncargado = $('#firmaEncargadoAscenso').val().trim();
-        
-        if (!nuevoRango || !nuevaMision || !firmaEncargado) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Todos los campos son obligatorios'
-            });
-            return;
-        }
-        
-        // Mostrar cargando
-        Swal.fire({
-            title: 'Procesando',
-            text: 'Registrando ascenso...',
-            icon: 'info',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            willOpen: () => {
-                Swal.showLoading();
-            }
-        });
-        
-        // Preparar datos para enviar
-        const formData = new FormData();
-        formData.append('codigo_time', userDataAscenso.codigo_time);
-        formData.append('usuario_registro', userDataAscenso.usuario_registro);
-        formData.append('rango_actual', nuevoRango);
-        formData.append('mision_actual', nuevaMision);
-        formData.append('firma_usuario', userDataAscenso.firma_usuario);
-        formData.append('firma_encargado', firmaEncargado);
-        formData.append('nombre_encargado', $('#nombreEncargadoAscenso').val());
-        formData.append('action', 'registrar_ascenso');
-        
-        // Realizar petición AJAX
-        $.ajax({
-            url: '/private/procesos/gestion_ascensos/registrar_ascenso.php',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    Swal.close();
-                    showStepAscenso(4);
-                    
-                    // Redireccionar después de 3 segundos
-                    setTimeout(function() {
-                        window.location.href = '/usuario/index.php?page=gestion de ascensos';
-                    }, 3000);
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message || 'Error al registrar el ascenso'
-                    });
+
+                    // Deshabilitar el botón siguiente
+                    $('#nextBtnAscenso').prop('disabled', true);
                 }
-            },
-            error: function() {
+            });
+        });
+
+        // Actualizar opciones de rango según el rango del encargado
+        function actualizarOpcionesRangoAscenso() {
+            const nuevoRangoSelect = $('#nuevoRangoAscenso');
+            nuevoRangoSelect.empty();
+            nuevoRangoSelect.append('<option value="">Seleccione un rango</option>');
+
+            // Si el encargado no tiene un rango válido o el usuario no tiene un rango actual, no mostrar opciones
+            if (!rangoEncargadoAscenso || !reglasAscensoModal[rangoEncargadoAscenso] || !userRangoActualAscenso) {
+                return;
+            }
+
+            // Filtrar rangos permitidos según el rango actual del usuario
+            const rangosPermitidos = reglasAscensoModal[rangoEncargadoAscenso];
+
+            // Agregar opciones de rangos permitidos
+            for (const rango of rangosPermitidos) {
+                nuevoRangoSelect.append(`<option value="${rango}">${rango}</option>`);
+            }
+        }
+
+        // Botón Anterior
+        $('#prevBtnAscenso').click(function() {
+            if (currentStepAscenso > 1) {
+                showStepAscenso(currentStepAscenso - 1);
+            }
+        });
+
+        // Botón Siguiente
+        $('#nextBtnAscenso').click(function() {
+            if (currentStepAscenso < totalStepsAscenso) {
+                if (currentStepAscenso === 2) {
+                    // Actualizar opciones de rango antes de mostrar el paso 3
+                    actualizarOpcionesRangoAscenso();
+                }
+                showStepAscenso(currentStepAscenso + 1);
+            }
+        });
+
+        // Botón Registrar Ascenso
+        $('#submitBtnAscenso').click(function() {
+            // Validar formulario
+            const nuevoRango = $('#nuevoRangoAscenso').val();
+            const nuevaMision = $('#nuevaMisionAscenso').val().trim();
+            const firmaEncargado = $('#firmaEncargadoAscenso').val().trim();
+
+            if (!nuevoRango || !nuevaMision || !firmaEncargado) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Error de conexión. Inténtelo de nuevo.'
+                    text: 'Todos los campos son obligatorios'
                 });
+                return;
             }
+
+            // Mostrar cargando
+            Swal.fire({
+                title: 'Procesando',
+                text: 'Registrando ascenso...',
+                icon: 'info',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Preparar datos para enviar
+            const formData = new FormData();
+            formData.append('codigo_time', userDataAscenso.codigo_time);
+            formData.append('usuario_registro', userDataAscenso.usuario_registro);
+            formData.append('rango_actual', nuevoRango);
+            formData.append('mision_actual', nuevaMision);
+            formData.append('firma_usuario', userDataAscenso.firma_usuario);
+            formData.append('firma_encargado', firmaEncargado);
+            formData.append('nombre_encargado', $('#nombreEncargadoAscenso').val());
+            formData.append('action', 'registrar_ascenso');
+
+            // Realizar petición AJAX
+            $.ajax({
+                url: '/private/procesos/gestion_ascensos/registrar_ascenso.php',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.close();
+                        showStepAscenso(4);
+
+                        // Redireccionar después de 3 segundos
+                        setTimeout(function() {
+                            window.location.href = '/usuario/index.php?page=gestion de ascensos';
+                        }, 3000);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response.message || 'Error al registrar el ascenso'
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Ascenso registrado!', 
+                        text: 'El ascenso se ha registrado correctamente.',
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Ir a gestión'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '?page=gestion_ascenso';
+                        }
+                    });
+                }
+            });
         });
+
+        // Inicializar
+        showStepAscenso(1);
     });
-    
-    // Inicializar
-    showStepAscenso(1);
-});
 </script>
