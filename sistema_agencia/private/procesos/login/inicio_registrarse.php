@@ -116,6 +116,19 @@ class UserRegistration
                 throw new Exception("Error al guardar el registro de ascenso");
             }
 
+            // Insertar en tabla gestion_tiempo
+            $queryTiempo = "INSERT INTO gestion_tiempo 
+                          (codigo_time, tiempo_status, tiempo_restado, tiempo_acumulado, tiempo_transcurrido, tiempo_encargado_usuario, tiempo_fecha_registro) 
+                          VALUES 
+                          (:codigo_time, 'pausa', '00:00:00', '00:00:00', '00:00:00', NULL, NOW())";
+
+            $stmtTiempo = $this->conn->prepare($queryTiempo);
+            $stmtTiempo->bindParam(':codigo_time', $codigo_time);
+
+            if (!$stmtTiempo->execute()) {
+                throw new Exception("Error al guardar el registro de tiempo");
+            }
+
             $this->conn->commit();
             return ['success' => true, 'message' => '¡Registro exitoso! Por favor, inicia sesión para continuar.'];
 

@@ -30,6 +30,30 @@ class UserProfile {
                 throw new Exception('Usuario no encontrado');
             }
 
+            // Obtener datos de gestión de tiempo
+            $timeQuery = "SELECT tiempo_status, tiempo_restado, tiempo_acumulado, 
+                                 tiempo_transcurrido, tiempo_encargado_usuario,
+                                 tiempo_fecha_registro
+                          FROM gestion_tiempo
+                          WHERE codigo_time = :codigo_time
+                          ORDER BY tiempo_fecha_registro DESC
+                          LIMIT 1";
+            
+            $timeStmt = $conn->prepare($timeQuery);
+            $timeStmt->bindParam(':codigo_time', $userData['codigo_time']);
+            $timeStmt->execute();
+            $timeData = [
+                'tiempo_status' => 'No disponible',
+                'tiempo_restado' => '0:00',
+                'tiempo_acumulado' => '0:00',
+                'tiempo_transcurrido' => '0:00',
+                'tiempo_encargado_usuario' => 'No asignado'
+            ];
+
+            if ($timeStmt->rowCount() > 0) {
+                $timeData = array_merge($timeData, $timeStmt->fetch(PDO::FETCH_ASSOC));
+            }
+
             $this->userData = [
                 'username' => htmlspecialchars($userData['usuario_registro']),
                 'role' => htmlspecialchars($userData['rango_actual'] ?? 'Agente'),
@@ -38,11 +62,16 @@ class UserProfile {
                 'avatar' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($userData['usuario_registro']) . '&action=none&direction=2&head_direction=2&gesture=&size=sl&headonly=1r',
                 'paymentTime' => '14:00',
                 'paymentDate' => '15',
-                'totalHours' => '0:00',
+                'totalHours' => $timeData['tiempo_acumulado'] ?? '0:00',
                 'estimatedTime' => $userData['fecha_disponible_ascenso'] ? date('d/m/Y H:i', strtotime($userData['fecha_disponible_ascenso'])) : 'No disponible',
                 'status' => $this->formatStatus($userData['estado_ascenso'] ?? null),
                 'encargado' => $userData['usuario_encargado'] ?? 'No asignado',
-                'estado_disponibilidad' => $userData['fecha_disponible_ascenso'] && strtotime($userData['fecha_disponible_ascenso']) <= time() ? 'disponible' : 'pendiente'
+                'estado_disponibilidad' => $userData['fecha_disponible_ascenso'] && strtotime($userData['fecha_disponible_ascenso']) <= time() ? 'disponible' : 'pendiente',
+                'tiempo_status' => $timeData['tiempo_status'],
+                'tiempo_restado' => $timeData['tiempo_restado'],
+                'tiempo_acumulado' => $timeData['tiempo_acumulado'],
+                'tiempo_transcurrido' => $timeData['tiempo_transcurrido'],
+                'tiempo_encargado' => $timeData['tiempo_encargado_usuario']
             ];
         } catch (Exception $e) {
             error_log("Error al obtener datos del usuario: " . $e->getMessage());

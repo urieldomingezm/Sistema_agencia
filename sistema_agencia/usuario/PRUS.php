@@ -51,20 +51,37 @@ $userData = $userProfile->getUserData();
         <div class="col-md-4">
             <div class="profile-card glass-effect h-100">
                 <div class="card-header bg-gradient-success py-2">
-                    <h3 class="h5 mb-0">Time de Paga</h3>
+                    <h3 class="h5 mb-0">Gestión de Tiempo</h3>
                 </div>
                 <div class="stats-card p-2">
                     <div class="info-item d-flex align-items-center">
-                        <span class="info-label me-2">Día de paga</span>
-                        <span class="info-value"><?php echo $userData['paymentDate']; ?> de cada mes</span>
+                        <span class="info-label me-2">Tiempo Acumulado</span>
+                        <span class="info-value"><?php echo $userData['tiempo_acumulado']; ?></span>
                     </div>
                     <div class="info-item d-flex align-items-center">
-                        <span class="info-label me-2">Hora</span>
-                        <span class="info-value"><?php echo $userData['paymentTime']; ?> hrs</span>
+                        <span class="info-label me-2">Tiempo Restado</span>
+                        <span class="info-value"><?php echo $userData['tiempo_restado']; ?></span>
                     </div>
                     <div class="info-item d-flex align-items-center">
-                        <span class="info-label me-2">Total de horas</span>
-                        <span class="info-value highlight pulse-text"><?php echo $userData['totalHours']; ?></span>
+                        <span class="info-label me-2">Encargado</span>
+                        <span class="info-value"><?php echo $userData['tiempo_encargado'] ?? 'No disponible'; ?></span>
+                    </div>
+                    <div class="info-item d-flex align-items-center">
+                        <span class="info-label me-2">Estado</span>
+                        <span class="info-value badge text-white 
+                            <?php 
+                            switch($userData['tiempo_status']) {
+                                case 'pausa': echo 'bg-secondary'; break;
+                                case 'disponible': echo 'bg-success'; break;
+                                case 'ocupado': echo 'bg-warning'; break;
+                                case 'ausente': echo 'bg-info'; break;
+                                case 'terminado': echo 'bg-danger'; break;
+                                case 'completado': echo 'bg-primary'; break;
+                                default: echo 'bg-secondary';
+                            }
+                            ?>">
+                            <?php echo ucfirst($userData['tiempo_status'] ?? 'No disponible'); ?>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -86,7 +103,22 @@ $userData = $userProfile->getUserData();
                     </div>
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Próxima hora</span>
-                        <span class="info-value"><?php echo $userData['estimatedTime']; ?></span>
+                        <span class="info-value">
+                            <?php 
+                            $time = new DateTime($userData['estimatedTime']);
+                            $minutes = $time->format('i');
+                            $seconds = $time->format('s');
+                            
+                            if ($minutes > 0) {
+                                echo $minutes . ' minuto' . ($minutes > 1 ? 's' : '');
+                                if ($seconds > 0) {
+                                    echo ' con ' . $seconds . ' segundo' . ($seconds > 1 ? 's' : '');
+                                }
+                            } else {
+                                echo $seconds . ' segundo' . ($seconds > 1 ? 's' : '');
+                            }
+                            ?>
+                        </span>
                     </div>
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Estado ascenso</span>
