@@ -12,7 +12,7 @@
 
 .accordion-button {
     background: transparent;
-    color: #fff;
+    color: #000; /* Cambiado a negro */
     font-weight: 500;
     border-radius: 8px;
     padding: 1rem;
@@ -22,7 +22,7 @@
 
 .accordion-button:not(.collapsed) {
     background: rgba(94, 44, 165, 0.25);
-    color: #fff;
+    color: #000; /* Cambiado a negro */
     box-shadow: none;
 }
 
@@ -31,13 +31,13 @@
 }
 
 .accordion-button::after {
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
 }
 
 .menu-link {
     display: block;
     padding: 0.75rem 1.5rem;
-    color: #fff;
+    color: #000; /* Cambiado a negro */
     text-decoration: none;
     transition: all 0.3s ease;
 }
