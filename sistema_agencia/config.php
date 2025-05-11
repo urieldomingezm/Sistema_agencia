@@ -24,6 +24,7 @@ define('GESTION_VENTAS_PATCH', PRIVATE_PATH . 'procesos/gestion_ventas/');
 define('GESTION_PAGAS_PATCH', PRIVATE_PATH . 'procesos/gestion_pagas/');
 define('PROCESO_CAMBIAR_PACTH', PRIVATE_PATH . 'procesos/gestion_usuarios/');
 define('PROCESO_VENTAS_RANGOS_PACTH', PRIVATE_PATH . 'procesos/gestion_venta_rangos/');
+define('PROCESO_VENTAS_MEMBRESIAS_PACTH', PRIVATE_PATH . 'procesos/gestion_ventas/');
 
 // Modal Paths
 define('MODAL_PATH', PRIVATE_PATH . 'modals/');

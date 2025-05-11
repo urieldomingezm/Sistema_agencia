@@ -1,20 +1,27 @@
+<?php
+$rutaRegistrar = '/private/modal/modal_gestion_ventas/registrar.php';
+?>
+
 <div class="modal fade" id="registrarVentaModal" tabindex="-1" aria-labelledby="registrarVentaModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header text-white bg-primary">
-                <h5 class="modal-title" id="registrarVentaModalLabel">
-Registrar Nueva Venta
+                <h5 class="modal-title text-center" id="registrarVentaModalLabel">
+                    Registrar Nueva Venta
                 </h5>
             </div>
             <div class="modal-body">
-                <form id="registrarVentaForm" class="was-validated">
+                <form id="registrarVentaForm" method="post" class="was-validated">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <select class="form-select" id="ventaTitulo" name="ventaTitulo" required>
                                     <option value="" selected disabled>Seleccione una opción</option>
-                                    <option value="Membresía Básica">Membresía Básica</option>
-                                    <option value="Membresía Premium">Membresía Premium</option>
+                                    <option value="Membresía Gold">Membresía Gold</option>
+                                    <option value="Membresía Bronce">Membresía Bronce</option>
+                                    <option value="Membresía regla libre">Membresía regla libre</option>
+                                    <option value="Membresía save">Membresía save</option>
+                                    <option value="Membresía silver">Membresía silver</option>
                                     <option value="Membresía VIP">Membresía VIP</option>
                                 </select>
                                 <label for="ventaTitulo">Título de la Venta</label>
@@ -40,7 +47,7 @@ Registrar Nueva Venta
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control" id="nombreEncargado" name="nombreEncargado" placeholder="Nombre del Encargado" required>
+                                <input type="text" class="form-control" id="nombreEncargado" name="nombreEncargado" placeholder="Nombre del Encargado" value="<?= $_SESSION['username'] ?? '' ?>" readonly required>
                                 <label for="nombreEncargado">Nombre del Encargado</label>
                             </div>
                         </div>
@@ -49,7 +56,7 @@ Registrar Nueva Venta
                         <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
                             Cancelar
                         </button>
-                        <button type="button" class="btn btn-outline-primary" onclick="guardarVenta()">
+                        <button type="button" class="btn btn-outline-primary" id="btnGuardarVenta">
                             Guardar Venta
                         </button>
                     </div>
@@ -59,87 +66,143 @@ Registrar Nueva Venta
     </div>
 </div>
 
-<!-- Incluye JustValidate desde CDN si no lo tienes ya -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Establecer fecha actual
-    const fechaActual = new Date().toISOString().split('T')[0];
-    document.getElementById('fechaCompra').value = fechaActual;
-    
-    // Calcular fecha de caducidad (1 mes después)
-    const fechaCaducidad = new Date();
-    fechaCaducidad.setMonth(fechaCaducidad.getMonth() + 1);
-    document.getElementById('fechaCaducidad').value = fechaCaducidad.toISOString().split('T')[0];
+    document.addEventListener('DOMContentLoaded', function() {
+        const rutaRegistrar = '<?php echo $rutaRegistrar; ?>';
+        
+        const obtenerFechaMexico = () => {
+            const fechaActual = new Date();
+            return new Date(fechaActual.toLocaleString('en-US', {
+                timeZone: 'America/Mexico_City'
+            }));
+        };
 
-    // JustValidate
-    const validator = new window.JustValidate('#registrarVentaForm', {
-        errorFieldCssClass: 'is-invalid',
-        errorLabelStyle: {
-            color: '#dc3545',
-            marginTop: '0.25rem',
-            fontSize: '0.875em'
+        const fechaActualMexico = obtenerFechaMexico();
+        const fechaCompraFormateada = fechaActualMexico.toISOString().split('T')[0];
+        document.getElementById('fechaCompra').value = fechaCompraFormateada;
+
+        actualizarFechaCaducidad();
+
+        document.getElementById('ventaTitulo').addEventListener('change', function() {
+            actualizarFechaCaducidad();
+        });
+
+        function actualizarFechaCaducidad() {
+            const tipoMembresia = document.getElementById('ventaTitulo').value;
+            const fechaActualMexico = obtenerFechaMexico();
+            let fechaCaducidad;
+
+            if (tipoMembresia === "Membresía VIP") {
+                fechaCaducidad = new Date(2030, 11, 31);
+            } else {
+                fechaCaducidad = new Date(fechaActualMexico);
+                fechaCaducidad.setMonth(fechaCaducidad.getMonth() + 1);
+
+                const ultimoDiaMesSiguiente = new Date(fechaCaducidad.getFullYear(), fechaCaducidad.getMonth() + 1, 0).getDate();
+                if (fechaCaducidad.getDate() > ultimoDiaMesSiguiente) {
+                    fechaCaducidad.setDate(ultimoDiaMesSiguiente);
+                }
+            }
+
+            document.getElementById('fechaCaducidad').value = fechaCaducidad.toISOString().split('T')[0];
         }
+
+        const validator = new window.JustValidate('#registrarVentaForm', {
+            errorFieldCssClass: 'is-invalid',
+            errorLabelStyle: {
+                color: '#dc3545',
+                marginTop: '0.25rem',
+                fontSize: '0.875em'
+            }
+        });
+
+        validator
+            .addField('#ventaTitulo', [{
+                rule: 'required',
+                errorMessage: 'Seleccione un título de venta'
+            }])
+            .addField('#fechaCompra', [{
+                rule: 'required',
+                errorMessage: 'La fecha de compra es obligatoria'
+            }])
+            .addField('#fechaCaducidad', [{
+                rule: 'required',
+                errorMessage: 'La fecha de caducidad es obligatoria'
+            }])
+            .addField('#nombreComprador', [{
+                rule: 'required',
+                errorMessage: 'El nombre del comprador es obligatorio'
+            }])
+            .addField('#nombreEncargado', [{
+                rule: 'required',
+                errorMessage: 'El nombre del encargado es obligatorio'
+            }])
+            .onSuccess(function(event) {
+                event.preventDefault();
+                guardarVenta();
+            });
+            
+        document.getElementById('btnGuardarVenta').addEventListener('click', function() {
+            guardarVenta();
+        });
     });
-
-    validator
-      .addField('#ventaTitulo', [
-        {
-          rule: 'required',
-          errorMessage: 'Seleccione un título de venta'
-        }
-      ])
-      .addField('#fechaCompra', [
-        {
-          rule: 'required',
-          errorMessage: 'La fecha de compra es obligatoria'
-        }
-      ])
-      .addField('#fechaCaducidad', [
-        {
-          rule: 'required',
-          errorMessage: 'La fecha de caducidad es obligatoria'
-        }
-      ])
-      .addField('#nombreComprador', [
-        {
-          rule: 'required',
-          errorMessage: 'El nombre del comprador es obligatorio'
-        }
-      ])
-      .addField('#nombreEncargado', [
-        {
-          rule: 'required',
-          errorMessage: 'El nombre del encargado es obligatorio'
-        }
-      ])
-      .onSuccess(function(event) {
-        event.preventDefault();
-        guardarVenta();
-      });
-});
 
 function guardarVenta() {
     const form = document.getElementById('registrarVentaForm');
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+    }
+    
+    const rutaRegistrar = '<?php echo $rutaRegistrar; ?>';
+    
+    Swal.fire({
+        title: 'Procesando',
+        text: 'Registrando venta...',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
+    
     const formData = new FormData(form);
-    fetch('/private/procesos/gestion_ventas/registrar.php', {
+    
+    fetch(rutaRegistrar, {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor: ' + response.status);
+        }
+        return response.json();
+    })
     .then(data => {
-        if(data.success) {
+        if (data.success) {
             Swal.fire({
                 icon: 'success',
                 title: '¡Éxito!',
-                text: 'Venta registrada exitosamente'
-            }).then(() => location.reload());
+                text: data.message
+            }).then(() => {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('registrarVentaModal'));
+                modal.hide();
+                location.reload();
+            });
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Error al guardar la venta'
+                text: data.message || 'Error al guardar la venta'
             });
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Ocurrió un error al procesar la solicitud: ' + error.message
+        });
     });
 }
 </script>
