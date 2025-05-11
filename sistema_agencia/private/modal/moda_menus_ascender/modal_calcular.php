@@ -1,12 +1,10 @@
-<!-- CALCULAR RANGO EN VENTA -->
-
 <!-- Modal para Dar Ascenso -->
 <div class="modal fade" id="modalCalcular" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">
-                    <i class="fas fa-calculator"></i> Calculadora de Rangos
+                     Calculadora de Rangos
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
@@ -29,69 +27,34 @@
     </div>
 </div>
 
-<style>
-.modal-content {
-    border-radius: 10px;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-}
-.modal-header {
-    background: linear-gradient(45deg, #4e73df, #224abe);
-    border: none;
-    padding: 1rem;
-}
-.modal-body {
-    padding: 1rem;
-}
-.form-select, .form-control {
-    font-size: 0.9rem;
-    padding: 0.5rem;
-    border: 1px solid #e3e6f0;
-}
-.form-select:focus, .form-control:focus {
-    border-color: #4e73df;
-    box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
-}
-#campos_dinamicos .col-md-6 {
-    margin-bottom: 0.5rem;
-}
-.form-control[readonly] {
-    background-color: #f8f9fc;
-}
-</style>
-
 <!-- Mantener todos los scripts existentes sin cambios -->
 <script>
     $(document).ready(function() {
         // Definir las misiones por rango
         const misionesPorRango = {
-            agente: ['SNY- Aspirante', 'SNY- Agente -I', 'SNY- Agente -II', 'SNY- Agente -III'],
-            seguridad: ['SNY - Seguridad -VIII', 'SNY - Seguridad -VII', 'SNY - Seguridad -VI', 'SNY - Seguridad -V',
-                'SNY - Seguridad -IV', 'SNY - Seguridad -III', 'SNY - Seguridad -II', 'SNY - Seguridad -I',
-                'SNY - JEFE DE Seguridad'
+            agente: ['AGE- Iniciado I', 'AGE- Novato H', 'AGE- Auxiliar G', 'AGE- Ayudante F',
+                'AGE- Junior E', 'AGE- Intermedio D', 'AGE- Avanzado C', 'AGE- Experto B', 'AGE- Jefe A'
             ],
-            tecnico: ['SNY - Tecnico VIII', 'SNY - Tecnico VII', 'SNY - Tecnico VI', 'SNY - Tecnico V',
-                'SNY - Tecnico IV', 'SNY - Tecnico III', 'SNY - Tecnico II', 'SNY - Tecnico I',
-                'SNY - INSPECTOR DE TECNICO'
+            seguridad: ['SEG- Iniciado I', 'SEG- Novato H', 'SEG- Auxiliar G', 'SEG- Ayudante F',
+                'SEG- Junior E', 'SEG- Intermedio D', 'SEG- Avanzado C', 'SEG- Experto B', 'SEG- Jefe A'
             ],
-            logistica: ['SNY - Logistica VIII', 'SNY - Logistica VII', 'SNY - Logistica VI', 'SNY - Logistica V',
-                'SNY - Logistica IV', 'SNY - Logistica III', 'SNY - Logistica II', 'SNY - Logistica I',
-                'SNY - ING. Logistico'
+            tecnico: ['TEC- Iniciado I', 'TEC- Novato H', 'TEC- Auxiliar G', 'TEC- Ayudante F',
+                'TEC- Junior E', 'TEC- Intermedio D', 'TEC- Avanzado C', 'TEC- Experto B', 'TEC- Jefe A'
             ],
-            supervisor: ['SNY - Supervisor VIII', 'SNY - Supervisor VII', 'SNY - Supervisor VI', 'SNY - Supervisor V',
-                'SNY - Supervisor IV', 'SNY - Supervisor III', 'SNY - Supervisor II', 'SNY - Supervisor I',
-                'SNY - SUP. EJECUTIVO'
+            logistica: ['LOG- Iniciado I', 'LOG- Novato H', 'LOG- Auxiliar G', 'LOG- Ayudante F',
+                'LOG- Junior E', 'LOG- Intermedio D', 'LOG- Avanzado C', 'LOG- Experto B', 'LOG- Jefe A'
             ],
-            director: ['SNY - Director VIII', 'SNY - Director VII', 'SNY - Director VI', 'SNY - Director V',
-                'SNY - Director IV', 'SNY - Director III', 'SNY - Director II', 'SNY - Director I',
-                'SNY - Director SUPREMO'
+            supervisor: ['SUP- Iniciado I', 'SUP- Novato H', 'SUP- Auxiliar G', 'SUP- Ayudante F',
+                'SUP- Junior E', 'SUP- Intermedio D', 'SUP- Avanzado C', 'SUP- Experto B', 'SUP- Jefe A'
             ],
-            presidente: ['SNY - Presidente VIII', 'SNY - Presidente VII', 'SNY - Presidente VI', 'SNY - Presidente V',
-                'SNY - Presidente IV', 'SNY - Presidente III', 'SNY - Presidente II', 'SNY - Presidente I',
-                'SNY - Presidente MAYOR'
+            director: ['DIR- Iniciado I', 'DIR- Novato H', 'DIR- Auxiliar G', 'DIR- Ayudante F',
+                'DIR- Junior E', 'DIR- Intermedio D', 'DIR- Avanzado C', 'DIR- Experto B', 'DIR- Jefe A'
             ],
-            operativo: ['SNY - Operativo VIII', 'SNY - Operativo VII', 'SNY - Operativo VI', 'SNY - Operativo V',
-                'SNY - Operativo IV', 'SNY - Operativo III', 'SNY - Operativo II', 'SNY - Operativo I',
-                'SNY - JEFE DPTO. OP'
+            presidente: ['PRES- Iniciado I', 'PRES- Novato H', 'PRES- Auxiliar G', 'PRES- Ayudante F',
+                'PRES- Junior E', 'PRES- Intermedio D', 'PRES- Avanzado C', 'PRES- Experto B', 'PRES- Jefe A'
+            ],
+            operativo: ['OPE- Iniciado I', 'OPE- Novato H', 'OPE- Auxiliar G', 'OPE- Ayudante F',
+                'OPE- Junior E', 'OPE- Intermedio D', 'OPE- Avanzado C', 'OPE- Experto B', 'OPE- Jefe A'
             ]
         };
 
@@ -112,97 +75,102 @@
             agente: 0,
             seguridad: 0,
             tecnico: 0,
-            logistica: 40,
-            supervisor: 100,
-            director: 295,
-            presidente: 540,
-            operativo: 1200
+            logistica: 0,
+            supervisor: 0,
+            director: 0,
+            presidente: 0,
+            operativo: 0
         };
 
         // Agregar costos por misión
         const costosPorMision = {
             agente: {
-                'SNY- Aspirante': 0,
-                'SNY- Agente -I': 0,
-                'SNY- Agente -II': 0,
-                'SNY- Agente -III': 0
+                'AGE- Iniciado I': 0,
+                'AGE- Novato H': 0,
+                'AGE- Auxiliar G': 0,
+                'AGE- Ayudante F': 0,
+                'AGE- Junior E': 0,
+                'AGE- Intermedio D': 0,
+                'AGE- Avanzado C': 0,
+                'AGE- Experto B': 0,
+                'AGE- Jefe A': 0
             },
             seguridad: {
-                'SNY - Seguridad -VIII': 0,
-                'SNY - Seguridad -VII': 0,
-                'SNY - Seguridad -VI': 0,
-                'SNY - Seguridad -V': 0,
-                'SNY - Seguridad -IV': 0,
-                'SNY - Seguridad -III': 0,
-                'SNY - Seguridad -II': 0,
-                'SNY - Seguridad -I': 0,
-                'SNY - JEFE DE Seguridad': 0
+                'SEG- Iniciado I': 8,
+                'SEG- Novato H': 10,
+                'SEG- Auxiliar G': 12,
+                'SEG- Ayudante F': 14,
+                'SEG- Junior E': 16,
+                'SEG- Intermedio D': 18,
+                'SEG- Avanzado C': 20,
+                'SEG- Experto B': 22,
+                'SEG- Jefe A': 24
             },
             tecnico: {
-                'SNY - Tecnico VIII': 0,
-                'SNY - Tecnico VII': 0,
-                'SNY - Tecnico VI': 0,
-                'SNY - Tecnico V': 0,
-                'SNY - Tecnico IV': 0,
-                'SNY - Tecnico III': 0,
-                'SNY - Tecnico II': 0,
-                'SNY - Tecnico I': 0,
-                'SNY - INSPECTOR DE TECNICO': 0
+                'TEC- Iniciado I': 32,
+                'TEC- Novato H': 40,
+                'TEC- Auxiliar G': 44,
+                'TEC- Ayudante F': 48,
+                'TEC- Junior E': 52,
+                'TEC- Intermedio D': 60,
+                'TEC- Avanzado C': 62,
+                'TEC- Experto B': 64,
+                'TEC- Jefe A': 68
             },
             logistica: {
-                'SNY - Logistica VIII': 40,
-                'SNY - Logistica VII': 47,
-                'SNY - Logistica VI': 54,
-                'SNY - Logistica V': 61,
-                'SNY - Logistica IV': 68,
-                'SNY - Logistica III': 75,
-                'SNY - Logistica II': 82,
-                'SNY - Logistica I': 89,
-                'SNY - ING. Logistico': 95
+                'LOG- Iniciado I': 74,
+                'LOG- Novato H': 80,
+                'LOG- Auxiliar G': 86,
+                'LOG- Ayudante F': 92,
+                'LOG- Junior E': 98,
+                'LOG- Intermedio D': 104,
+                'LOG- Avanzado C': 110,
+                'LOG- Experto B': 116,
+                'LOG- Jefe A': 122
             },
             supervisor: {
-                'SNY - Supervisor VIII': 100,
-                'SNY - Supervisor VII': 110,
-                'SNY - Supervisor VI': 120,
-                'SNY - Supervisor V': 130,
-                'SNY - Supervisor IV': 145,
-                'SNY - Supervisor III': 160,
-                'SNY - Supervisor II': 175,
-                'SNY - Supervisor I': 190,
-                'SNY - SUP. EJECUTIVO': 205
+                'SUP- Iniciado I': 130,
+                'SUP- Novato H': 138,
+                'SUP- Auxiliar G': 146,
+                'SUP- Ayudante F': 154,
+                'SUP- Junior E': 162,
+                'SUP- Intermedio D': 170,
+                'SUP- Avanzado C': 178,
+                'SUP- Experto B': 186,
+                'SUP- Jefe A': 194
             },
             director: {
-                'SNY - Director VIII': 295,
-                'SNY - Director VII': 310,
-                'SNY - Director VI': 325,
-                'SNY - Director V': 340,
-                'SNY - Director IV': 360,
-                'SNY - Director III': 380,
-                'SNY - Director II': 400,
-                'SNY - Director I': 420,
-                'SNY - Director SUPREMO': 440
+                'DIR- Iniciado I': 204,
+                'DIR- Novato H': 214,
+                'DIR- Auxiliar G': 223,
+                'DIR- Ayudante F': 232,
+                'DIR- Junior E': 246,
+                'DIR- Intermedio D': 256,
+                'DIR- Avanzado C': 266,
+                'DIR- Experto B': 276,
+                'DIR- Jefe A': 288
             },
             presidente: {
-                'SNY - Presidente VIII': 540,
-                'SNY - Presidente VII': 580,
-                'SNY - Presidente VI': 620,
-                'SNY - Presidente V': 660,
-                'SNY - Presidente IV': 700,
-                'SNY - Presidente III': 740,
-                'SNY - Presidente II': 780,
-                'SNY - Presidente I': 820,
-                'SNY - Presidente MAYOR': 860
+                'PRES- Iniciado I': 298,
+                'PRES- Novato H': 301,
+                'PRES- Auxiliar G': 312,
+                'PRES- Ayudante F': 322,
+                'PRES- Junior E': 328,
+                'PRES- Intermedio D': 333,
+                'PRES- Avanzado C': 340,
+                'PRES- Experto B': 351,
+                'PRES- Jefe A': 363
             },
             operativo: {
-                'SNY - Operativo VIII': 1200,
-                'SNY - Operativo VII': 1300,
-                'SNY - Operativo VI': 1400,
-                'SNY - Operativo V': 1500,
-                'SNY - Operativo IV': 1600,
-                'SNY - Operativo III': 1700,
-                'SNY - Operativo II': 1800,
-                'SNY - Operativo I': 2000,
-                'SNY - JEFE DPTO. OP': 2200
+                'OPE- Iniciado I': 409,
+                'OPE- Novato H': 429,
+                'OPE- Auxiliar G': 449,
+                'OPE- Ayudante F': 469,
+                'OPE- Junior E': 489,
+                'OPE- Intermedio D': 509,
+                'OPE- Avanzado C': 529,
+                'OPE- Experto B': 549,
+                'OPE- Jefe A': 569
             }
         };
 
