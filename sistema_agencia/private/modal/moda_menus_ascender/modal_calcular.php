@@ -81,6 +81,18 @@
             presidente: 0,
             operativo: 0
         };
+        
+        // Costos de traslado por rango
+        const costosTrasladoPorRango = {
+            agente: 0,
+            seguridad: 6,
+            tecnico: 10,
+            logistica: 18,
+            supervisor: 50,
+            director: 70,
+            presidente: 80,
+            operativo: 140
+        };
 
         // Agregar costos por misión
         const costosPorMision = {
@@ -227,6 +239,10 @@
                         </select>
                     </div>
                     <div class="col-md-6 mb-2">
+                        <label class="form-label">Costo de traslado por rango</label>
+                        <input type="number" class="form-control" id="costo_traslado" readonly required>
+                    </div>
+                    <div class="col-md-6 mb-2">
                         <label class="form-label">Costo total</label>
                         <input type="number" class="form-control" id="costo" readonly required>
                     </div>
@@ -262,6 +278,17 @@
                     $('#rango_deseado').html(generarOpcionesRango(rangosDisponibles[rangoActual]));
                 });
 
+                $('#rango_deseado').change(function() {
+                    const rangoDeseado = $(this).val();
+                    $('#mision_deseada').html(generarOpcionesMision(rangoDeseado));
+                    
+                    // Mostrar el costo de traslado por rango
+                    if (rangoDeseado) {
+                        const costoTraslado = costosTrasladoPorRango[rangoDeseado];
+                        $('#costo_traslado').val(costoTraslado);
+                    }
+                });
+
                 $('#rango_deseado, #mision_deseada').change(function() {
                     const rangoDeseado = $('#rango_deseado').val();
                     const misionDeseada = $('#mision_deseada').val();
@@ -269,14 +296,10 @@
                     if (rangoDeseado && misionDeseada) {
                         const costoRango = costosPorRango[rangoDeseado];
                         const costoMision = costosPorMision[rangoDeseado][misionDeseada];
-                        const costoTotal = costoRango + costoMision;
+                        const costoTraslado = costosTrasladoPorRango[rangoDeseado];
+                        const costoTotal = costoRango + costoMision + costoTraslado;
                         $('#costo').val(costoTotal);
                     }
-                });
-
-                $('#rango_deseado').change(function() {
-                    const rangoDeseado = $(this).val();
-                    $('#mision_deseada').html(generarOpcionesMision(rangoDeseado));
                 });
             }
 
