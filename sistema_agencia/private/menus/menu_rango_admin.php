@@ -49,7 +49,7 @@ class Navbar
             <h5 class="offcanvas-title">
               Menú Principal
             </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
           </div>
 
           <div class="offcanvas-body">
@@ -105,7 +105,7 @@ class Navbar
                 <input type="search" class="form-control" name="q" 
                        placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">
-                  <i class="fas fa-search"></i>
+                  <i class="bi bi-search"></i>
                 </button>
               </div>
             </form>
