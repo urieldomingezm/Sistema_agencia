@@ -26,14 +26,26 @@ class Navbar
 
         <div class="d-flex align-items-center">
           <div class="dropdown me-3">
-            <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"> 
-              <i class="bi bi-person-circle"></i> 
-              <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
+            <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"> 
+              <i class="bi bi-person-circle me-1"></i> 
+              <span class="d-none d-sm-inline">
+                <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
+              </span>
+              <span class="d-inline d-sm-none">
+                <?php 
+                  if(isset($_SESSION["usuario"])) {
+                    $nombre = $_SESSION["usuario"];
+                    echo strlen($nombre) > 8 ? substr($nombre, 0, 8)."..." : $nombre;
+                  } else {
+                    echo "Usuario";
+                  }
+                ?>
+              </span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown"> 
-              <li><a class="dropdown-item" href="index.php?page=ver_perfil"><i class="bi bi-person"></i> Ver perfil</a></li> 
-              <li><hr class="dropdown-divider"></li> 
-              <li><a class="dropdown-item" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li> 
+            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu shadow-sm" aria-labelledby="userDropdown"> 
+              <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> Ver perfil</a></li> 
+              <li><hr class="dropdown-divider my-1"></li> 
+              <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión</a></li> 
             </ul> 
           </div>
 
@@ -161,7 +173,7 @@ class Navbar
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
       'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso_modal',
-      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#id_tomar_tiempo',
+      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal',
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#ventas_rangos_traslados',
       'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#editar_usuario',
