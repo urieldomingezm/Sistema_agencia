@@ -14,9 +14,9 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="misionesPRE" role="tabpanel" aria-labelledby="misionesPRE-tab" tabindex="0">
-                        <h4>Ascienden cada 10 dias</h4>
+                        <h4>Ascienden cada 9 dias</h4>
                         <h4>Misiones: 9</h4>
-                        <h4>Costo de traslado: </h4>
+                        <h4>Costo de traslado: 80 creditos</h4>
                         <div class="table-responsive">
                             <table class="table table-striped text-center table-bordered table-borderless">
                                 <thead>
@@ -29,50 +29,48 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>SNY - PRESIDENTE VIII</td>
-                                        <td>540</td>
+                                        <td>PRES- Iniciado I</td>
+                                        <td>298</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
-                                        <td>SNY - PRESIDENTE VII
-                                        </td>
-                                        <td>580</td>
+                                        <td>PRES- Novato H</td>
+                                        <td>301</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
-                                        <td>SNY - PRESIDENTE VI
-                                        </td>
-                                        <td>620</td>
+                                        <td>PRES- Auxiliar G</td>
+                                        <td>312</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">4</th>
-                                        <td>SNY - PRESIDENTE V </td>
-                                        <td>660</td>
+                                        <td>PRES- Ayudante F</td>
+                                        <td>322</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">5</th>
-                                        <td>SNY - PRESIDENTE IV </td>
-                                        <td>700</td>
+                                        <td>PRES- Junior E</td>
+                                        <td>328</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">6</th>
-                                        <td>SNY - PRESIDENTE III </td>
-                                        <td>740</td>
+                                        <td>PRES- Intermedio D</td>
+                                        <td>333</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">7</th>
-                                        <td>SNY - PRESIDENTE II </td>
-                                        <td>780</td>
+                                        <td>PRES- Avanzado C</td>
+                                        <td>340</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">8</th>
-                                        <td>SNY - PRESIDENTE I </td>
-                                        <td>820</td>
+                                        <td>PRES- Experto B</td>
+                                        <td>351</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">9</th>
-                                        <td>SNY - PRESIDENTE MAYOR </td>
-                                        <td>860</td>
+                                        <td>PRES- Jefe A</td>
+                                        <td>363</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -93,13 +91,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>5 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
+                                            <h4>5 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
                                         </td>
                                         <td>
-                                            <h4>5 acesnsos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>8 Acesnsos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>10 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>5 Asistencias y 8 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -120,13 +118,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>15 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>3 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>10 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>4 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>35 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>3 Asistencias y 4 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -148,13 +146,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>10 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>10 Creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>20 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>16 Creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>30 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>26 Creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>

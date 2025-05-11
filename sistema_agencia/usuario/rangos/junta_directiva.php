@@ -15,64 +15,52 @@
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="misionesJTD" role="tabpanel" aria-labelledby="misionesJTD-tab" tabindex="0">
                         <h4>Misiones: 9</h4>
-                        <h4>Costo de traslado: </h4>
+                        <h4>Costo de traslado: 380 creditos</h4>
                         <div class="table-responsive">
                             <table class="table table-striped text-center table-bordered table-borderless">
                                 <thead>
                                     <tr>
                                         <th scope="col">Numero de misiones</th>
                                         <th scope="col">Nombre de Misión</th>
-                                        <th scope="col">Costo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>SNY - JDT VIII</td>
-                                        <td>3500</td>
-                                    </tr>
+                                        <td>JDT- Iniciado I</td>
+                                                                            </tr>
                                     <tr>
                                         <th scope="row">2</th>
-                                        <td>SNY - JDT VII
-                                        </td>
-                                        <td>3700</td>
-                                    </tr>
+                                        <td>JDT- Novato H</td>
+                                                                            </tr>
                                     <tr>
                                         <th scope="row">3</th>
-                                        <td>SNY - JDT VI
-                                        </td>
-                                        <td>3900</td>
-                                    </tr>
+                                        <td>JDT- Auxiliar G</td>
+                                                                            </tr>
                                     <tr>
                                         <th scope="row">4</th>
-                                        <td>SNY - JDT V </td>
-                                        <td>4100</td>
-                                    </tr>
+                                        <td>JDT- Ayudante F</td>
+                                                                            </tr>
                                     <tr>
                                         <th scope="row">5</th>
-                                        <td>SNY - JDT IV </td>
-                                        <td>4300</td>
-                                    </tr>
+                                        <td>JDT- Junior E</td>
+                                                                            </tr>
                                     <tr>
                                         <th scope="row">6</th>
-                                        <td>SNY - JDT III </td>
-                                        <td>4500</td>
-                                    </tr>
+                                        <td>JDT- Intermedio D</td>
+                                                                            </tr>
                                     <tr>
                                         <th scope="row">7</th>
-                                        <td>SNY - JDT II </td>
-                                        <td>4900</td>
-                                    </tr>
+                                        <td>JDT- Avanzado C</td>
+                                                                            </tr>
                                     <tr>
                                         <th scope="row">8</th>
-                                        <td>SNY - JDT I </td>
-                                        <td>4900</td>
-                                    </tr>
+                                        <td>JDT- Experto B</td>
+                                                                            </tr>
                                     <tr>
                                         <th scope="row">9</th>
-                                        <td>SNY - GERENTE JDT </td>
-                                        <td>5100</td>
-                                    </tr>
+                                        <td>JDT- Jefe A</td>
+                                                                            </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -91,10 +79,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
+                                            12 Tiempos<img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
                                         </td>
                                         <td>
-                                            <img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"> 4 horas
+                                            16 Tiempos<img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"> 4 horas
                                         </td>
                                     </tr>
                                 </tbody>
@@ -113,8 +101,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">4 horas</td>
-                                        <td><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">2 horas</td>
+                                        <td>6 Tiempos<img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">4 horas</td>
+                                        <td>8 Tiempos<img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">2 horas</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -129,12 +117,14 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
+                                        <th scope="col">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>6 horas</td>
-                                        <td>4 horas</td>
+                                        <td>12 Creditos</td>
+                                        <td>20 Creditos</td>
+                                        <td>32 Creditos</td>
                                     </tr>
                                 </tbody>
                             </table>

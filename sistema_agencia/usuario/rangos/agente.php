@@ -8,7 +8,7 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="misiones" role="tabpanel" aria-labelledby="misiones-tab" tabindex="0">
-                        <h4>Ascienden cada 30 minutos</h4>
+                        <h4>Ascienden cada 10 minutos</h4>
                         <p>Misiones: 9</p>
                         <div class="table-responsive">
                             <table class="table table-striped text-center table-bordered table-borderless">

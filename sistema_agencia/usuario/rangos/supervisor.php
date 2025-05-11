@@ -14,9 +14,9 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="misionesSUP" role="tabpanel" aria-labelledby="misionesSUP-tab" tabindex="0">
-                        <h4>Ascienden cada 48 horas</h4>
+                        <h4>Ascienden cada 4 dias</h4>
                         <h4>Misiones: 9</h4>
-                        <h4>Costo de traslado: </h4>
+                        <h4>Costo de traslado: 50 creditos </h4>
                         <div class="table-responsive">
                             <table class="table table-striped text-center table-bordered table-borderless">
                                 <thead>
@@ -29,50 +29,50 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>SNY - SUPERVISOR VIII</td>
-                                        <td>100</td>
+                                        <td>SUP- Iniciado I -</td>
+                                        <td>130c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
-                                        <td>SNY - SUPERVISOR VII
+                                        <td>SUP- Novato H - 
                                         </td>
-                                        <td>110</td>
+                                        <td>138c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
-                                        <td>SNY - SUPERVISOR VI
+                                        <td>SUP- Auxiliar G -
                                         </td>
-                                        <td>120</td>
+                                        <td>146c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">4</th>
-                                        <td>SNY - SUPERVISOR V </td>
-                                        <td>130</td>
+                                        <td>SUP- Ayudante F - </td>
+                                        <td>154c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">5</th>
-                                        <td>SNY - SUPERVISOR IV </td>
-                                        <td>145</td>
+                                        <td>SUP- Junior E - </td>
+                                        <td>162c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">6</th>
-                                        <td>SNY - SUPERVISOR III </td>
-                                        <td>160</td>
+                                        <td>SUP- Intermedio D - </td>
+                                        <td>170c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">7</th>
-                                        <td>SNY - SUPERVISOR II </td>
-                                        <td>175</td>
+                                        <td>SUP- Avanzado C -  </td>
+                                        <td>178c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">8</th>
-                                        <td>SNY - SUPERVISOR I </td>
-                                        <td>190</td>
+                                        <td>SUP- Experto B - </td>
+                                        <td>186c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">9</th>
-                                        <td>SNY - SUP. EJECUTIVO </td>
-                                        <td>205</td>
+                                        <td>SUP- Jefe A -</td>
+                                        <td>194c</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -93,13 +93,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>4 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>4 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>4 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>+ 6 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>8 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>4 Asistencias y 6 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -120,13 +120,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>4 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>2 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>2 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>+3 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>7 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>2 Asistencias y 3 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>

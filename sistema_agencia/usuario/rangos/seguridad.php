@@ -18,9 +18,9 @@
 
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="misionesSEG" role="tabpanel" aria-labelledby="misionesSEG-tab" tabindex="0">
-                <h4>Ascienden cada 2 horas</h4>
+                <h4>Ascienden cada 4 horas</h4>
                 <h4>Misiones: 9</h4>
-                <h4>Costo de traslado: Gratis</h4>
+                <h4>Costo de traslado: 6</h4>
                 <div class="table-responsive">
                     <table class="table table-striped text-center table-bordered table-borderless">
                         <thead>
@@ -32,41 +32,41 @@
                         <tbody>
                             <tr>
                                 <th scope="row">1</th>
-                                <td>SNY - SEGURIDAD VIII</td>
+                                <td>SEG- Iniciado I 8c </td>
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
-                                <td>SNY - SEGURIDAD VII
+                                <td>SEG- Novato H 10c
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
-                                <td>SNY - SEGURIDAD VI
+                                <td>SEG- Auxiliar G 12c 
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">4</th>
-                                <td>SNY - SEGURIDAD V </td>
+                                <td>SEG- Ayudante F 14c </td>
                             </tr>
                             <tr>
                                 <th scope="row">5</th>
-                                <td>SNY - SEGURIDAD IV </td>
+                                <td>SEG- Junior E 16c </td>
                             </tr>
                             <tr>
                                 <th scope="row">6</th>
-                                <td>SNY - SEGURIDAD III </td>
+                                <td>SEG- Intermedio D 18c </td>
                             </tr>
                             <tr>
                                 <th scope="row">7</th>
-                                <td>SNY - SEGURIDAD II </td>
+                                <td>SSEG- Avanzado C 20c </td>
                             </tr>
                             <tr>
                                 <th scope="row">8</th>
-                                <td>SNY - SEGURIDAD I </td>
+                                <td>SEG- Experto B 22c </td>
                             </tr>
                             <tr>
                                 <th scope="row">9</th>
-                                <td>SNY - JEFE DE SEGURIDAD </td>
+                                <td>SEG- Jefe A - 24c </td>
                             </tr>
                         </tbody>
                     </table>
@@ -86,10 +86,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>4 horas</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>3 Asistencias</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>2 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>4 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>
@@ -109,10 +109,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>2 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>2 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>1 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>2 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>
@@ -135,13 +135,13 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>15 c</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>9 creditos</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>5</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>9 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>20</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>18 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>

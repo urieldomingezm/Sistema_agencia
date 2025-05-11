@@ -150,7 +150,8 @@ class Navbar
       'Vender rangos' => 'bi bi-award-fill',
       'Ventas rangos y traslados' => 'bi bi-star-fill',
       'Dar ascenso' => 'bi bi-arrow-up-square-fill',
-      'Tomar tiempo' => 'bi bi-stopwatch-fill'
+      'Tomar tiempo' => 'bi bi-stopwatch-fill',
+      'Modificar usuario' => 'bi bi-pencil-square'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -165,6 +166,7 @@ class Navbar
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#id_tomar_tiempo',
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#ventas_rangos_traslados',
+      'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modificarUsuarioModal',
     ];
 
     if (isset($modalItems[$item])) {
@@ -179,7 +181,7 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
-  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'divider', 'Dar ascenso', 'Tomar tiempo']],
+  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'divider', 'Dar ascenso', 'Tomar tiempo', 'Modificar usuario']],
   ['name' => 'Ventas', 'dropdown' => [
     'Ventas membresias',
     'divider', 
@@ -208,3 +210,7 @@ require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
 
 // MODAL DE VENTAS
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
+
+// MODAL DE MODIFICAR USUARIO
+require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
+

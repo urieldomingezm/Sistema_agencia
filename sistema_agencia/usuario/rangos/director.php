@@ -14,9 +14,9 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="misionesDIR" role="tabpanel" aria-labelledby="misionesDIR-tab" tabindex="0">
-                        <h4>Ascienden cada 5 dias</h4>
+                        <h4>Ascienden cada 9 dias</h4>
                         <h4>Misiones: 9</h4>
-                        <h4>Costo de traslado: Gratis</h4>
+                        <h4>Costo de traslado: 70 creditos</h4>
                         <div class="table-responsive">
                             <table class="table table-striped text-center table-bordered table-borderless">
                                 <thead>
@@ -29,50 +29,50 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>SNY - DIRECTOR VIII</td>
-                                        <td>295</td>
+                                        <td>DIR- Iniciado I -</td>
+                                        <td>204c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
-                                        <td>SNY - DIRECTOR VII
+                                        <td>DIR- Novato H -
                                         </td>
-                                        <td>310</td>
+                                        <td>214c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
-                                        <td>SNY - DIRECTOR VI
+                                        <td>DIR- Auxiliar G -
                                         </td>
-                                        <td>325</td>
+                                        <td>223c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">4</th>
-                                        <td>SNY - DIRECTOR V </td>
-                                        <td>340</td>
+                                        <td>DIR- Ayudante F - </td>
+                                        <td>232</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">5</th>
-                                        <td>SNY - DIRECTOR IV </td>
-                                        <td>360</td>
+                                        <td>DIR- Junior E -</td>
+                                        <td>246c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">6</th>
-                                        <td>SNY - DIRECTOR III </td>
-                                        <td>380</td>
+                                        <td>DIR- Intermedio D -</td>
+                                        <td>256c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">8</th>
-                                        <td>SNY - DIRECTOR II </td>
-                                        <td>400</td>
+                                        <td>DIR- Avanzado C -</td>
+                                        <td>266c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">9</th>
-                                        <td>SNY - DIRECTOR I </td>
-                                        <td>420</td>
+                                        <td>DIR- Experto B -</td>
+                                        <td>276c</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">10</th>
-                                        <td>SNY - DIRECTOR SUPREMO </td>
-                                        <td>440</td>
+                                        <td>DIR- Jefe A -</td>
+                                        <td>288c</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -93,13 +93,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>10 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>6 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>5 acensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>7 Acensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>15 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>6 Asistencias y 7 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -120,13 +120,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>15 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>3 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>10 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>4 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>35 ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>3 Asistencias y 4 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -151,10 +151,10 @@
                                             <h4>10 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>20 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>25 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>30 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>25 creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>

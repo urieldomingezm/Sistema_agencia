@@ -14,9 +14,9 @@
                 </ul>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="misionesOP" role="tabpanel" aria-labelledby="misionesOP-tab" tabindex="0">
-                        <h4>Ascienden cada 30 dias</h4>
+                        <h4>Ascienden cada 24 dias</h4>
                         <h4>Misiones: 9</h4>
-                        <h4>Costo de traslado: </h4>
+                        <h4>Costo de traslado: 140 Creditos</h4>
                         <div class="table-responsive">
                             <table class="table table-striped text-center table-bordered table-borderless">
                                 <thead>
@@ -29,50 +29,48 @@
                                 <tbody>
                                     <tr>
                                         <th scope="row">1</th>
-                                        <td>SNY - OPERATIVO VIII</td>
-                                        <td>1200</td>
+                                        <td>OPE- Iniciado I</td>
+                                        <td>409</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">2</th>
-                                        <td>SNY - OPERATIVO VII
-                                        </td>
-                                        <td>1300</td>
+                                        <td>OPE- Novato H</td>
+                                        <td>429</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">3</th>
-                                        <td>SNY - OPERATIVO VI
-                                        </td>
-                                        <td>1400</td>
+                                        <td>OPE- Auxiliar G</td>
+                                        <td>449</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">4</th>
-                                        <td>SNY - OPERATIVO V </td>
-                                        <td>1500</td>
+                                        <td>OPE- Ayudante F</td>
+                                        <td>469</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">5</th>
-                                        <td>SNY - OPERATIVO IV </td>
-                                        <td>1600</td>
+                                        <td>OPE- Junior E</td>
+                                        <td>489</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">6</th>
-                                        <td>SNY - OPERATIVO III </td>
-                                        <td>1700</td>
+                                        <td>OPE- Intermedio D</td>
+                                        <td>509</td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">7</th>
+                                        <td>OPE- Avanzado C</td>
+                                        <td>529</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">8</th>
-                                        <td>SNY - OPERATIVO II </td>
-                                        <td>1800</td>
+                                        <td>OPE- Experto B</td>
+                                        <td>549</td>
                                     </tr>
                                     <tr>
                                         <th scope="row">9</th>
-                                        <td>SNY - OPERATIVO I </td>
-                                        <td>2000</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">10</th>
-                                        <td>SNY - JEFE DPTO. OP </td>
-                                        <td>2200</td>
+                                        <td>OPE- Jefe A</td>
+                                        <td>569</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -92,10 +90,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
+                                            6 Asistencias<img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
                                         </td>
                                         <td>
-                                            <img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"> 4 horas
+                                            8 Ascensos<img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"> 4 horas
                                         </td>
                                     </tr>
                                 </tbody>
@@ -114,8 +112,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">4 horas</td>
-                                        <td><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">2 horas</td>
+                                        <td>3 Asistencias<img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">4 horas</td>
+                                        <td>4 Ascensos<img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">2 horas</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -130,12 +128,14 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
+                                        <th scope="col">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>6 horas</td>
-                                        <td>4 horas</td>
+                                        <td>13 creditos</td>
+                                        <td>15 creditos/td>
+                                        <td>28 creditos</td>
                                     </tr>
                                 </tbody>
                             </table>

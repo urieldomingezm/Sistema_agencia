@@ -14,9 +14,9 @@
         </ul>
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="misionesTEC" role="tabpanel" aria-labelledby="misionesTEC-tab" tabindex="0">
-                <h4>Ascienden cada 12 horas</h4>
+                <h4>Ascienden cada 18 horas</h4>
                 <h4>Misiones: 9</h4>
-                <h4>Costo de traslado: gratis</h4>
+                <h4>Costo de traslado: 10 creditos</h4>
                 <div class="table-responsive">
                     <table class="table table-striped text-center table-bordered table-borderless">
                         <thead>
@@ -28,41 +28,41 @@
                         <tbody>
                             <tr>
                                 <th scope="row">1</th>
-                                <td>SNY - TECNICO VIII</td>
+                                <td>TEC- Iniciado I - 32c</td>
                             </tr>
                             <tr>
                                 <th scope="row">2</th>
-                                <td>SNY - TECNICO VII
+                                <td>TEC- Novato H - 40c
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">3</th>
-                                <td>SNY - TECNICO VI
+                                <td>TEC- Auxiliar G - 44c
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">4</th>
-                                <td>SNY - TECNICO V </td>
+                                <td>TEC- Ayudante F - 48c </td>
                             </tr>
                             <tr>
                                 <th scope="row">5</th>
-                                <td>SNY - TECNICO IV </td>
+                                <td>TEC- Junior E - 52c </td>
                             </tr>
                             <tr>
                                 <th scope="row">6</th>
-                                <td>SNY - TECNICO III </td>
+                                <td>TEC- Intermedio D - 60c </td>
                             </tr>
                             <tr>
                                 <th scope="row">7</th>
-                                <td>SNY - TECNICO II </td>
+                                <td>TEC- Avanzado C - 62c </td>
                             </tr>
                             <tr>
                                 <th scope="row">8</th>
-                                <td>SNY - TECNICO I </td>
+                                <td>TEC- Experto B - 64c </td>
                             </tr>
                             <tr>
                                 <th scope="row">9</th>
-                                <td>SNY - INSPECTOR DE TECNICO </td>
+                                <td>TEC- Jefe A - 68c </td>
                             </tr>
                         </tbody>
                     </table>
@@ -85,13 +85,13 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4> 6 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>3 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>2 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>5 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>7 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>8 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>
@@ -112,13 +112,13 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>3 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40">
+                                    <h4>2 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>1 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                    <h4>3 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>4 horas</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                    <h4>5 Asistencia</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>
@@ -143,13 +143,13 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>17 creditos</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>8 creditos</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>8 creditos</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>12 creditos</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>25 creditos</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>20 creditos</h4> <img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>
