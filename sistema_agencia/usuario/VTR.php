@@ -12,11 +12,13 @@ require_once(PROCESO_VENTAS_RANGOS_PACTH.'mostrar_informacion.php'); // MOSTRAR 
         </h1>
     </div>
 
-    <!-- Tabla de Pagas -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
+    <div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">RANGOS Y TRASLADOS</h5>
+        </div>
+        <div class="card-body">
+        <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>ID</th>
@@ -52,9 +54,10 @@ require_once(PROCESO_VENTAS_RANGOS_PACTH.'mostrar_informacion.php'); // MOSTRAR 
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
+</div>
+
 
 </div>
 

@@ -41,11 +41,13 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
         </div>
     </div>
 
-    <!-- Tabla de Pagas -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
+    <div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Gestión de pagos</h5>
+        </div>
+        <div class="card-body">
+        <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>Usuario</th>
@@ -75,9 +77,9 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-            </div>
         </div>
     </div>
+</div>
 
 </div>
 

@@ -9,63 +9,13 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
 
 ?>
 
-<style>
-    .table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        position: relative;
-    }
-
-    .dropdown {
-        position: static;
-    }
-
-    .dropdown-menu {
-        z-index: 9999;
-        position: fixed;
-        transform: translate3d(0, 0, 0);
-    }
-
-    .table th {
-        background-color: #2c3e50;
-        color: white;
-        font-weight: 600;
-        padding: 15px;
-        position: sticky;
-        top: 0;
-        z-index: 1;
-    }
-
-    .table td {
-        vertical-align: middle;
-        padding: 12px;
-        white-space: nowrap;
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-        background-color: rgba(44, 62, 80, 0.05);
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: rgba(44, 62, 80, 0.1);
-    }
-
-    .dropdown-menu {
-        z-index: 1000;
-        position: absolute;
-        min-width: 160px;
-    }
-
-    .dropdown {
-        position: relative;
-    }
-</style>
-
-<table id="ventasTable" class="table table-striped table-hover">
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Gestion de ventas membresias</h5>
+        </div>
+        <div class="card-body">
+        <table id="ventasTable" class="table table-striped table-hover">
     <thead>
         <tr class="text-white">
             <th>ID</th>
@@ -112,6 +62,11 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
         <?php endforeach; ?>
     </tbody>
 </table>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
     document.addEventListener('click', function(e) {
