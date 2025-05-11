@@ -25,20 +25,30 @@ class Navbar
         </a>
 
         <div class="d-flex align-items-center">
-          <!-- Dropdown de perfil -->
           <div class="dropdown me-3">
-            <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"> 
-              <i class="bi bi-person-circle"></i> 
-              <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
+            <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"> 
+              <i class="bi bi-person-circle me-1"></i> 
+              <span class="d-none d-sm-inline">
+                <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
+              </span>
+              <span class="d-inline d-sm-none">
+                <?php 
+                  if(isset($_SESSION["usuario"])) {
+                    $nombre = $_SESSION["usuario"];
+                    echo strlen($nombre) > 8 ? substr($nombre, 0, 8)."..." : $nombre;
+                  } else {
+                    echo "Usuario";
+                  }
+                ?>
+              </span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown"> 
-              <li><a class="dropdown-item" href="index.php?page=ver_perfil"><i class="bi bi-person"></i> Ver perfil</a></li> 
-              <li><hr class="dropdown-divider"></li> 
-              <li><a class="dropdown-item" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li> 
+            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu shadow-sm" aria-labelledby="userDropdown"> 
+              <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> Ver perfil</a></li> 
+              <li><hr class="dropdown-divider my-1"></li> 
+              <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión</a></li> 
             </ul> 
           </div>
 
-          <!-- Botón del menú -->
           <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
             <i class="bi bi-list text-white"></i>
           </button>
@@ -59,41 +69,41 @@ class Navbar
                   <?php if (isset($item['dropdown'])): ?>
                     <h2 class="accordion-header">
                       <button class="accordion-button collapsed" type="button" 
-                                data-bs-toggle="collapse" 
-                                data-bs-target="#collapse<?= $index ?>" 
-                                aria-expanded="false">
+                              data-bs-toggle="collapse" 
+                              data-bs-target="#collapse<?= $index ?>" 
+                              aria-expanded="false">
                           <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
                           <?= $item['name'] ?>
                       </button>
                     </h2>
                     <div id="collapse<?= $index ?>" class="accordion-collapse collapse" 
                          data-bs-parent="#menuAccordion">
-                      <div class="accordion-body p-0">
-                        <ul class="list-unstyled mb-0">
-                          <?php foreach ($item['dropdown'] as $dropdownItem): ?>
-                            <?php if ($dropdownItem == 'divider'): ?>
-                              <li><hr class="dropdown-divider mx-3"></li>
-                            <?php else: ?>
-                              <li>
-                                <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
-                                  <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
-                                  <?= $dropdownItem ?>
-                                </a>
-                              </li>
-                            <?php endif; ?>
-                          <?php endforeach; ?>
-                        </ul>
-                      </div>
+                        <div class="accordion-body p-0">
+                            <ul class="list-unstyled mb-0">
+                                <?php foreach ($item['dropdown'] as $dropdownItem): ?>
+                                    <?php if ($dropdownItem == 'divider'): ?>
+                                        <li><hr class="dropdown-divider mx-3"></li>
+                                    <?php else: ?>
+                                        <li>
+                                            <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
+                                                <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
+                                                <?= $dropdownItem ?>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
                     </div>
-                  <?php else: ?>
+                <?php else: ?>
                     <h2 class="accordion-header">
-                      <a class="accordion-button" 
-                         href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
-                        <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
-                        <?= $item['name'] ?>
-                      </a>
+                        <a class="accordion-button" 
+                           href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
+                            <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
+                            <?= $item['name'] ?>
+                        </a>
                     </h2>
-                  <?php endif; ?>
+                <?php endif; ?>
                 </div>
               <?php endforeach; ?>
             </div>
@@ -118,12 +128,12 @@ class Navbar
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Inicio' => 'bi bi-house',
-      'Perfil' => 'bi bi-person',
-      'Informacion' => 'bi bi-info-circle',
-      'Ascenso' => 'bi bi-arrow-up'
+      'Inicio' => 'bi bi-house-door-fill',
+      'Perfil' => 'bi bi-person-fill',
+      'Informacion' => 'bi bi-info-circle-fill',
+      'Ascenso' => 'bi bi-arrow-up-circle-fill'
     ];
-    return $icons[$itemName] ?? 'bi bi-circle';
+    return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
 
   private function getDropdownIcon($itemName)
@@ -132,13 +142,13 @@ class Navbar
       'Ver perfil' => 'bi bi-person-circle',
       'Cerrar session' => 'bi bi-box-arrow-right',
       'Requisitos paga' => 'bi bi-list-check',
-      'Calcular rango' => 'bi bi-calculator',
-      'Gestion de tiempo' => 'bi bi-clock',
-      'Gestion ascenso' => 'bi bi-people',
+      'Calcular rango' => 'bi bi-calculator-fill',
+      'Gestion de tiempo' => 'bi bi-clock-fill',
+      'Gestion ascenso' => 'bi bi-people-fill',
       'Dar ascenso' => 'bi bi-arrow-up-square-fill',
       'Tomar tiempo' => 'bi bi-stopwatch-fill'
     ];
-    return $icons[$itemName] ?? 'bi bi-circle';
+    return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
 
   private function getItemUrl($item)
@@ -147,8 +157,8 @@ class Navbar
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
-      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
-      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#id_tomar_tiempo'
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso_modal',
+      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal'
     ];
 
     if (isset($modalItems[$item])) {
@@ -168,12 +178,67 @@ $items = [
 
 $navbar = new Navbar('Agencia Shein', $items);
 $navbar->render();
+?>
 
-// Modales para dar ascenso y tomar tiempo
+<script>
+$(document).ready(function() {
+  $('#modificar_usuario, #dar_ascenso').on('hidden.bs.modal', function () {
+    $(this).find('form').trigger('reset');
+    
+    if ($(this).find('.step').length > 0) {
+      $(this).find('.step').addClass('d-none');
+      $(this).find('.step:first').removeClass('d-none');
+    }
+    
+    $(this).find('.progress-bar').css('width', '0%');
+    $(this).find('button[id$="Btn"]').prop('disabled', false);
+    $(this).find('button[id="submitBtn"]').addClass('d-none');
+    $(this).find('button[id="nextBtn"]').removeClass('d-none');
+    $(this).find('#resultadoBusqueda').html('');
+    
+    if (typeof currentStep !== 'undefined') {
+      currentStep = 1;
+    }
+    
+    setTimeout(function() {
+      $(document).trigger('modal_reset');
+    }, 100);
+  });
+  
+  $('.modal').on('show.bs.modal', function (e) {
+    var currentModalId = $(this).attr('id');
+    
+    $('.modal').not(this).each(function() {
+      if ($(this).hasClass('show')) {
+        var modalInstance = bootstrap.Modal.getInstance(this);
+        if (modalInstance) {
+          modalInstance.hide();
+        }
+      }
+    });
+    
+    window.activeModal = currentModalId;
+  });
+  
+  $('[data-bs-toggle="modal"]').on('click', function(e) {
+    var targetModal = $(this).data('bs-target').replace('#', '');
+    
+    if (window.activeModal && window.activeModal !== targetModal) {
+      var modalElement = document.getElementById(window.activeModal);
+      if (modalElement) {
+        var modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) {
+          modalInstance.hide();
+        }
+      }
+    }
+  });
+});
+</script>
+
+<?php
 require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
 require_once(DAR_TIEMPO_PATCH.'dar_tiempo.php');
-
-// Modales para calcular rango, pagar usuario y vender rangos
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
 require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
 require_once(MODALES_MENU_VENTAS_PATH . 'modal_vender_rangos.php');
