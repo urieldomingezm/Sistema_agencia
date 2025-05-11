@@ -7,7 +7,7 @@ try {
 
     // Consulta para obtener los datos de tiempos
     $query = "SELECT gt.tiempo_id, gt.codigo_time, gt.tiempo_status, gt.tiempo_restado, 
-                     gt.tiempo_acumulado, gt.tiempo_transcurrido, gt.tiempo_encargado_usuario, 
+                     gt.tiempo_acumulado, gt.tiempo_transcurrido, gt.tiempo_iniciado, gt.tiempo_encargado_usuario, 
                      gt.tiempo_fecha_registro, ru.usuario_registro AS habbo_name
               FROM gestion_tiempo gt
               JOIN registro_usuario ru ON gt.codigo_time = ru.codigo_time";
