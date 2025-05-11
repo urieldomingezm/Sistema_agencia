@@ -62,6 +62,28 @@ class RadioPlayer
                 var defaultStreamURL = "' . $this->defaultStreamURL . '";
                 var streamURL = "' . $this->streamURL . '";
                 var mountPoint = "' . $this->mountPoint . '";
+                
+                // Detectar cuando se abre el menú
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Buscar el botón del menú (ajusta el selector según tu HTML)
+                    var menuButton = document.querySelector(".navbar-toggler, .menu-toggle, #menu-button");
+                    
+                    if (menuButton) {
+                        menuButton.addEventListener("click", function() {
+                            document.body.classList.toggle("menu-open");
+                        });
+                    }
+                    
+                    // También detectar clics fuera para cerrar el menú
+                    document.addEventListener("click", function(e) {
+                        var menu = document.querySelector(".navbar-collapse.show, .menu.open");
+                        var menuButton = document.querySelector(".navbar-toggler, .menu-toggle, #menu-button");
+                        
+                        if (menu && menuButton && !menu.contains(e.target) && !menuButton.contains(e.target)) {
+                            document.body.classList.remove("menu-open");
+                        }
+                    });
+                });
 
                 // Función modificada para verificar disponibilidad del stream
                 function checkStreamAvailability(streamURL, callback) {
