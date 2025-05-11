@@ -8,40 +8,6 @@ require_once(MODAL_GESTION_USUARIOS_PACH.'modal_password.php');
 const PROCESO_CAMBIAR_PACTH = '/private/procesos/gestion_usuarios/';
 </script>
 
-<style>
-.table-container {
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    padding: 20px;
-    margin-top: 20px;
-}
-.table thead th {
-    background-color: #2c3e50;
-    color: white;
-    font-weight: 600;
-    padding: 12px;
-}
-.table tbody td {
-    vertical-align: middle;
-    padding: 10px;
-}
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(44,62,80,0.05);
-}
-.table-hover tbody tr:hover {
-    background-color: rgba(44,62,80,0.1);
-}
-.btn-action {
-    min-width: 100px;
-    margin: 2px;
-    transition: all 0.3s ease;
-}
-.btn-action:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-</style>
 
     <div class="container mt-4">
     <div class="card shadow">
