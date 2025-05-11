@@ -48,10 +48,14 @@ require_once(GESTION_ASCENSOS_PATCH . 'mostrar_usuarios.php');
     </div>
 
 <!-- Tabla de Ascensos -->
-<div class="card mb-4 shadow-sm">
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table id="tabladeusuariosascensos" class="table table-bordered table-striped table-hover text-center mb-0">
+
+            <div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Gestión de Tiempos</h5>
+        </div>
+        <div class="card-body">
+        <table id="tabladeusuariosascensos" class="table table-bordered table-striped table-hover text-center mb-0">
                 <thead class="table-light">
                     <tr>
                         <th>Código</th>
@@ -121,6 +125,8 @@ require_once(GESTION_ASCENSOS_PATCH . 'mostrar_usuarios.php');
         </div>
     </div>
 </div>
+
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

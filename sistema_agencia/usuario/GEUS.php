@@ -43,8 +43,13 @@ const PROCESO_CAMBIAR_PACTH = '/private/procesos/gestion_usuarios/';
 }
 </style>
 
-<div class="table-container">
-    <table id="usuariosTable" class="table table-striped table-hover">
+    <div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Gestión de Usuarios</h5>
+        </div>
+        <div class="card-body">
+        <table id="usuariosTable" class="table table-striped table-hover">
         <thead>
             <tr class="text-white">
                 <th>ID</th>
@@ -77,6 +82,8 @@ const PROCESO_CAMBIAR_PACTH = '/private/procesos/gestion_usuarios/';
             <?php endforeach; ?>
         </tbody>
     </table>
+        </div>
+    </div>
 </div>
 
 <script>

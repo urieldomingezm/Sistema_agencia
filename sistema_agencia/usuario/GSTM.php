@@ -10,27 +10,56 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
             <h5 class="mb-0">Gestión de Tiempos</h5>
         </div>
         <div class="card-body">
-            <table id="datatable" class="datatable-table">
+            <table id="datatable_tiempos" class="table table-bordered table-striped table-hover text-center mb-0">
                 <thead>
                     <tr>
-                        <th>Usuario</th>
-                        <th>Status</th>
-                        <th>Tiempo Restado</th>
-                        <th>Tiempo Acumulado</th>
-                        <th>Tiempo Transcurrido</th>
-                        <th>Fecha Registro</th>
+                        <th>Habbo</th>
+                        <th>Estado</th>
+                        <th>Registro</th>
+                        <th>Restado</th>
+                        <th>Acumulado</th>
+                        <th>Transcurrido</th>
                         <th>Encargado</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach($GLOBALS['tiempos'] as $tiempo): ?>
                     <tr>
-                        <td><?= $tiempo['codigo_time'] ?></td>
-                        <td><?= $tiempo['tiempo_status'] ?></td>
+                        <td><?= $tiempo['habbo_name'] ?></td>
+                        <td>
+                            <?php
+                            $status = $tiempo['tiempo_status'];
+                            $badge_class = '';
+                            $status_text = '';
+                            
+                            switch(strtolower($status)) {
+                                case 'pausa':
+                                    $badge_class = 'warning';
+                                    $status_text = 'Pausa';
+                                    break;
+                                case 'completado':
+                                    $badge_class = 'success';
+                                    $status_text = 'Completado';
+                                    break;
+                                case 'ausente':
+                                    $badge_class = 'danger';
+                                    $status_text = 'Ausente';
+                                    break;
+                                case 'terminado':
+                                    $badge_class = 'info';
+                                    $status_text = 'Terminado';
+                                    break;
+                                default:
+                                    $badge_class = 'secondary';
+                                    $status_text = $status;
+                            }
+                            ?>
+                            <span class="badge bg-<?= $badge_class ?>"><?= $status_text ?></span>
+                        </td>
+                        <td><?= date('Y-m-d', strtotime($tiempo['tiempo_fecha_registro'])) ?></td>
                         <td><?= $tiempo['tiempo_restado'] ?></td>
                         <td><?= $tiempo['tiempo_acumulado'] ?></td>
                         <td><?= $tiempo['tiempo_transcurrido'] ?></td>
-                        <td><?= $tiempo['tiempo_fecha_registro'] ?></td>
                         <td><?= $tiempo['tiempo_encargado_usuario'] ?? 'No disponible' ?></td>
                     </tr>
                     <?php endforeach; ?>
@@ -39,3 +68,20 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
         </div>
     </div>
 </div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar DataTable
+    const dataTable = new simpleDatatables.DataTable("#datatable_tiempos", {
+        searchable: true,
+        fixedHeight: true,
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "Registros por página",
+            noRows: "No hay registros",
+            info: "Mostrando {start} a {end} de {rows} registros",
+        }
+    });
+});
+</script>

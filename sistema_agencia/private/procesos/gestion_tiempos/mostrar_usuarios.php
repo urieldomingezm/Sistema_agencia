@@ -6,10 +6,11 @@ try {
     $conn = $database->getConnection();
 
     // Consulta para obtener los datos de tiempos
-    $query = "SELECT tiempo_id, codigo_time, tiempo_status, tiempo_restado, 
-                     tiempo_acumulado, tiempo_transcurrido, tiempo_encargado_usuario, 
-                     tiempo_fecha_registro 
-              FROM gestion_tiempo";
+    $query = "SELECT gt.tiempo_id, gt.codigo_time, gt.tiempo_status, gt.tiempo_restado, 
+                     gt.tiempo_acumulado, gt.tiempo_transcurrido, gt.tiempo_encargado_usuario, 
+                     gt.tiempo_fecha_registro, ru.usuario_registro AS habbo_name
+              FROM gestion_tiempo gt
+              JOIN registro_usuario ru ON gt.codigo_time = ru.codigo_time";
     $stmt = $conn->prepare($query);
     $stmt->execute();
 
