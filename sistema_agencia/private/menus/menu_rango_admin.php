@@ -25,7 +25,6 @@ class Navbar
         </a>
 
         <div class="d-flex align-items-center">
-          <!-- Dropdown de perfil -->
           <div class="dropdown me-3">
             <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"> 
               <i class="bi bi-person-circle"></i> 
@@ -38,7 +37,6 @@ class Navbar
             </ul> 
           </div>
 
-          <!-- Botón del menú -->
           <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
             <i class="bi bi-list text-white"></i>
           </button>
@@ -55,7 +53,7 @@ class Navbar
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
               <?php foreach ($this->items as $index => $item): ?>
-                <?php if ($item['name'] !== 'Perfil'): ?> <!-- Excluir el ítem de Perfil -->
+                <?php if ($item['name'] !== 'Perfil'): ?>
                 <div class="accordion-item">
                   <?php if (isset($item['dropdown'])): ?>
                     <h2 class="accordion-header">
@@ -162,11 +160,11 @@ class Navbar
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
-      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso_modal',
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#id_tomar_tiempo',
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#ventas_rangos_traslados',
-      'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modificarUsuarioModal',
+      'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#editar_usuario',
     ];
 
     if (isset($modalItems[$item])) {
@@ -198,19 +196,72 @@ $items = [
 
 $navbar = new Navbar('Agencia Shein', $items);
 $navbar->render();
+?>
 
-// Modales para dar ascenso y tomar tiempo
+<script>
+$(document).ready(function() {
+  $('#modificar_usuario, #dar_ascenso').on('hidden.bs.modal', function () {
+    $(this).find('form').trigger('reset');
+    
+    if ($(this).find('.step').length > 0) {
+      $(this).find('.step').addClass('d-none');
+      $(this).find('.step:first').removeClass('d-none');
+    }
+    
+    $(this).find('.progress-bar').css('width', '0%');
+    $(this).find('button[id$="Btn"]').prop('disabled', false);
+    $(this).find('button[id="submitBtn"]').addClass('d-none');
+    $(this).find('button[id="nextBtn"]').removeClass('d-none');
+    $(this).find('#resultadoBusqueda').html('');
+    
+    if (typeof currentStep !== 'undefined') {
+      currentStep = 1;
+    }
+    
+    setTimeout(function() {
+      $(document).trigger('modal_reset');
+    }, 100);
+  });
+  
+  $('.modal').on('show.bs.modal', function (e) {
+    var currentModalId = $(this).attr('id');
+    
+    $('.modal').not(this).each(function() {
+      if ($(this).hasClass('show')) {
+        var modalInstance = bootstrap.Modal.getInstance(this);
+        if (modalInstance) {
+          modalInstance.hide();
+        }
+      }
+    });
+    
+    window.activeModal = currentModalId;
+  });
+  
+  $('[data-bs-toggle="modal"]').on('click', function(e) {
+    var targetModal = $(this).data('bs-target').replace('#', '');
+    
+    if (window.activeModal && window.activeModal !== targetModal) {
+      var modalElement = document.getElementById(window.activeModal);
+      if (modalElement) {
+        var modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) {
+          modalInstance.hide();
+        }
+      }
+    }
+  });
+});
+</script>
+
+<?php
+require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
+echo "<!-- Separador -->";
 require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
 require_once(DAR_TIEMPO_PATCH.'dar_tiempo.php');
-
-// Modales para calcular rango, pagar usuario y vender rangos
+echo "<!-- Separador -->";
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
 require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
 require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
-
-// MODAL DE VENTAS
+echo "<!-- Separador -->";
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
-
-// MODAL DE MODIFICAR USUARIO
-require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
-
