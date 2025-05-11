@@ -9,6 +9,17 @@ if (session_status() === PHP_SESSION_NONE) {
 // Configurar cabeceras para respuesta JSON
 header('Content-Type: application/json');
 
+// Función para formatear el tiempo acumulado en formato legible
+function formatearTiempo($segundos) {
+    if (!$segundos) return '00:00:00';
+    
+    $horas = floor($segundos / 3600);
+    $minutos = floor(($segundos % 3600) / 60);
+    $segundos = $segundos % 60;
+    
+    return sprintf("%02d:%02d:%02d", $horas, $minutos, $segundos);
+}
+
 // Obtener el código del usuario desde la solicitud POST
 $codigo = isset($_POST['codigo']) ? trim($_POST['codigo']) : '';
 
@@ -59,7 +70,7 @@ try {
             'mision_actual' => $row['mision_actual'],
             'firma_usuario' => $row['firma_usuario'],
             'estado_tiempo' => $row['estado_tiempo'] ?? 'inactivo',
-            'tiempo_actual' => $this->formatearTiempo($row['tiempo_acumulado'] ?? 0),
+            'tiempo_actual' => formatearTiempo($row['tiempo_acumulado'] ?? 0),
             'tiempo_fecha_registro' => $row['tiempo_fecha_registro']
         ];
         
@@ -78,16 +89,5 @@ try {
         'success' => false,
         'message' => 'Error de base de datos: ' . $e->getMessage()
     ]);
-}
-
-// Función para formatear el tiempo acumulado en formato legible
-private function formatearTiempo($segundos) {
-    if (!$segundos) return '00:00:00';
-    
-    $horas = floor($segundos / 3600);
-    $minutos = floor(($segundos % 3600) / 60);
-    $segundos = $segundos % 60;
-    
-    return sprintf("%02d:%02d:%02d", $horas, $minutos, $segundos);
 }
 ?>

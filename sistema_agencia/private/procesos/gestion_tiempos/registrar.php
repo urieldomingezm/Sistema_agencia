@@ -28,8 +28,8 @@ $datos = [
     'observaciones' => isset($_POST['observaciones']) ? trim($_POST['observaciones']) : ''
 ];
 
-// Validaciones básicas
-if (empty($datos['codigo_time']) {
+// Validaciones básicas - CORREGIDO: Paréntesis faltantes
+if (empty($datos['codigo_time'])) {
     echo json_encode([
         'success' => false,
         'message' => 'Código de usuario requerido'
@@ -37,7 +37,7 @@ if (empty($datos['codigo_time']) {
     exit;
 }
 
-if (empty($datos['tipo_tiempo']) {
+if (empty($datos['tipo_tiempo'])) {
     echo json_encode([
         'success' => false,
         'message' => 'Tipo de tiempo requerido'
