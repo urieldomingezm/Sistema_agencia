@@ -1,90 +1,119 @@
 <?php
 
-// Rutas para gestion de tiempos
-require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
+class GestionTiempos {
+    private $tiempos;
+
+    public function __construct() {
+        require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
+        $this->tiempos = $GLOBALS['tiempos'];
+    }
+
+    public function renderTable() {
+        $html = '<div class="container mt-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Gestión de Tiempos</h5>
+                </div>
+                <div class="card-body">
+                    <table id="datatable_tiempos" class="table table-bordered table-striped table-hover text-center mb-0">
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Estado</th>
+                                <th>Restado</th>
+                                <th>Acumulado</th>
+                                <th>Iniciado</th>
+                                <th>Encargado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>';
+
+        foreach ($this->tiempos as $tiempo) {
+            $html .= $this->renderRow($tiempo);
+        }
+
+        $html .= '</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>';
+
+        return $html;
+    }
+
+    private function renderRow($tiempo) {
+        $status = $this->getStatusBadge($tiempo['tiempo_status']);
+        
+        return '<tr>
+            <td>'.$tiempo['habbo_name'].'</td>
+            <td>'.$status.'</td>
+            <td>'.$tiempo['tiempo_restado'].'</td>
+            <td>'.$tiempo['tiempo_acumulado'].'</td>
+            <td>'.$tiempo['tiempo_iniciado'].'</td>
+            <td>'.($tiempo['tiempo_encargado_usuario'] ?? 'No disponible').'</td>
+            <td>'.$this->renderActions($tiempo).'</td>
+        </tr>';
+    }
+
+    private function getStatusBadge($status) {
+        $status = strtolower($status);
+        $badge_class = '';
+        $status_text = '';
+
+        switch ($status) {
+            case 'pausa':
+                $badge_class = 'warning';
+                $status_text = 'Pausa';
+                break;
+            case 'completado':
+                $badge_class = 'success';
+                $status_text = 'Completado';
+                break;
+            case 'ausente':
+                $badge_class = 'danger';
+                $status_text = 'Ausente';
+                break;
+            case 'terminado':
+                $badge_class = 'info';
+                $status_text = 'Terminado';
+                break;
+            case 'activo':
+                $badge_class = 'success';
+                $status_text = 'Activo';
+                break;
+            default:
+                $badge_class = 'secondary';
+                $status_text = $status;
+        }
+
+        return '<span class="badge bg-'.$badge_class.'">'.$status_text.'</span>';
+    }
+
+    private function renderActions($tiempo) {
+        $status = strtolower($tiempo['tiempo_status']);
+        $actions = '';
+
+        if ($status === 'pausa' && !empty($tiempo['tiempo_encargado_usuario'])) {
+            $actions .= '<button class="btn btn-sm btn-danger liberar-encargado" data-codigo="'.$tiempo['codigo_time'].'">
+                <i class="bi bi-person-x-fill"></i> Liberar Tiempo
+            </button>';
+        } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
+            $actions .= '<button class="btn btn-sm btn-warning pausar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                <i class="bi bi-pause-fill"></i> Pausar
+            </button>
+            <button class="btn btn-sm btn-info ver-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                <i class="bi bi-clock-fill"></i> Ver Tiempo
+            </button>';
+        }
+
+        return $actions;
+    }
+}
+
+$gestionTiempos = new GestionTiempos();
+echo $gestionTiempos->renderTable();
 ?>
-
-<div class="container mt-4">
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Gestión de Tiempos</h5>
-        </div>
-        <div class="card-body">
-            <table id="datatable_tiempos" class="table table-bordered table-striped table-hover text-center mb-0">
-                <thead>
-                    <tr>
-                        <th>Usuario</th>
-                        <th>Estado</th>
-                        <th>Restado</th>
-                        <th>Acumulado</th>
-                        <th>Iniciado</th>
-                        <th>Encargado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($GLOBALS['tiempos'] as $tiempo): ?>
-                        <tr>
-                            <td><?= $tiempo['habbo_name'] ?></td>
-                            <td>
-                                <?php
-                                $status = $tiempo['tiempo_status'];
-                                $badge_class = '';
-                                $status_text = '';
-
-                                switch (strtolower($status)) {
-                                    case 'pausa':
-                                        $badge_class = 'warning';
-                                        $status_text = 'Pausa';
-                                        break;
-                                    case 'completado':
-                                        $badge_class = 'success';
-                                        $status_text = 'Completado';
-                                        break;
-                                    case 'ausente':
-                                        $badge_class = 'danger';
-                                        $status_text = 'Ausente';
-                                        break;
-                                    case 'terminado':
-                                        $badge_class = 'info';
-                                        $status_text = 'Terminado';
-                                        break;
-                                    case 'activo':
-                                        $badge_class = 'success';
-                                        $status_text = 'Activo';
-                                        break;
-                                    default:
-                                        $badge_class = 'secondary';
-                                        $status_text = $status;
-                                }
-                                ?>
-                                <span class="badge bg-<?= $badge_class ?>"><?= $status_text ?></span>
-                            </td>
-                            <td><?= $tiempo['tiempo_restado'] ?></td>
-                            <td><?= $tiempo['tiempo_acumulado'] ?></td>
-                            <td><?= $tiempo['tiempo_iniciado'] ?></td>
-                            <td><?= $tiempo['tiempo_encargado_usuario'] ?? 'No disponible' ?></td>
-                            <td>
-                                <?php if (strtolower($status) === 'pausa' && !empty($tiempo['tiempo_encargado_usuario'])): ?>
-                                    <button class="btn btn-sm btn-danger liberar-encargado" data-codigo="<?= $tiempo['codigo_time'] ?>">
-                                        <i class="bi bi-person-x-fill"></i> Liberar Tiempo
-                                    </button>
-                                <?php elseif (!empty($tiempo['tiempo_encargado_usuario']) && strtolower($status) !== 'pausa'): ?>
-                                    <button class="btn btn-sm btn-warning pausar-tiempo" data-codigo="<?= $tiempo['codigo_time'] ?>">
-                                        <i class="bi bi-pause-fill"></i> Pausar
-                                    </button>
-                                    <button class="btn btn-sm btn-info ver-tiempo" data-codigo="<?= $tiempo['codigo_time'] ?>">
-                                        <i class="bi bi-clock-fill"></i> Ver Tiempo
-                                    </button>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
