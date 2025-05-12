@@ -131,8 +131,8 @@
                             <div class="display-1 text-success mb-4">
                                 <i class="bi bi-check-circle-fill"></i>
                             </div>
-                            <h4 class="mb-3 fw-bold text-success">¡Tiempo Actualizado Correctamente!</h4>
-                            <p class="lead">El tiempo del usuario ha sido actualizado exitosamente.</p>
+                            <h4 class="mb-3 fw-bold text-success">¡Tiempo se activo Correctamente!</h4>
+                            <p class="lead">El tiempo del usuario ha sido activada exitosamente.</p>
                             <div class="mt-4">
                                 <div class="spinner-grow spinner-grow-sm text-success me-1" role="status">
                                     <span class="visually-hidden">Cargando...</span>
@@ -225,6 +225,7 @@
                         $('#tiempoRestado').text(datosUsuarioTiempo.tiempo_restado);
                         $('#tiempoTranscurrido').text(datosUsuarioTiempo.tiempo_transcurrido || 'No disponible');
                         $('#tiempoEncargado').text(datosUsuarioTiempo.tiempo_encargado_usuario || 'No asignado');
+                        
                         // Mostrar estado con badge
                         let claseEstado = 'bg-warning';
                         if (datosUsuarioTiempo.tiempo_status === 'activo') {
@@ -234,15 +235,30 @@
                         }
                         $('#estadoTiempoModal').html(`<span class="badge ${claseEstado}">${datosUsuarioTiempo.tiempo_status}</span>`);
 
-                        // Mostrar el resultado
-                        $('#resultadoBusquedaTiempo').html(`
-                            <div class="alert alert-success">
-                                <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${datosUsuarioTiempo.usuario_registro}</strong>
-                            </div>
-                        `);
-
-                        // Habilitar el botón siguiente
-                        $('#nextBtnTiempo').prop('disabled', false);
+                        // Verificar si ya tiene un encargado asignado
+                        if (datosUsuarioTiempo.tiempo_encargado_usuario && datosUsuarioTiempo.tiempo_encargado_usuario.trim() !== '') {
+                            // Mostrar alerta de que ya tiene encargado
+                            $('#resultadoBusquedaTiempo').html(`
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i> 
+                                    <strong>Atención:</strong> Este usuario ya tiene asignado a <strong>${datosUsuarioTiempo.tiempo_encargado_usuario}</strong> como encargado de su tiempo.
+                                    No se puede proceder con la activación.
+                                </div>
+                            `);
+                            
+                            // Deshabilitar el botón siguiente
+                            $('#nextBtnTiempo').prop('disabled', true);
+                        } else {
+                            // Mostrar el resultado normal
+                            $('#resultadoBusquedaTiempo').html(`
+                                <div class="alert alert-success">
+                                    <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${datosUsuarioTiempo.usuario_registro}</strong>
+                                </div>
+                            `);
+                            
+                            // Habilitar el botón siguiente
+                            $('#nextBtnTiempo').prop('disabled', false);
+                        }
                     } else {
                         // Mostrar mensaje de error
                         $('#resultadoBusquedaTiempo').html(`
