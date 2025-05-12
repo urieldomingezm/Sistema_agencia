@@ -379,7 +379,7 @@ $(document).ready(function() {
                     
                     // Redireccionar después de 3 segundos
                     setTimeout(function() {
-                        window.location.href = '/usuario/index.php?page=gestion de usuarios';
+                        window.location.href = '/usuario/index.php?page=gestion_ascenso';
                     }, 3000);
                 } else {
                     Swal.fire({
