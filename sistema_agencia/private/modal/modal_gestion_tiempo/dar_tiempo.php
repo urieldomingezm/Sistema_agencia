@@ -101,18 +101,18 @@
                                         <input type="text" class="form-control" id="tiempoStatus" name="tiempoStatus" value="activo" placeholder="Activar" readonly required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="tiempoAcumuladoInput" class="form-label fw-bold">
-                                            <i class="bi bi-plus-circle-fill me-1 text-primary"></i> Tiempo a Acumular (HH:MM:SS)
+                                        <label for="tiempoAcumuladoInfo" class="form-label fw-bold">
+                                            <i class="bi bi-plus-circle-fill me-1 text-primary"></i> Tiempo Acumulado (Solo lectura)
                                         </label>
-                                        <input type="text" class="form-control" id="tiempoAcumuladoInput" name="tiempoAcumuladoInput" placeholder="00:00:00" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}" readonly>
+                                        <input type="text" class="form-control bg-light" id="tiempoAcumuladoInfo" name="tiempoAcumuladoInfo" readonly>
                                     </div>
                                 </div>
                                 <div class="row g-4">
                                     <div class="col-md-6 mb-3">
-                                        <label for="tiempoRestadoInput" class="form-label fw-bold">
-                                            <i class="bi bi-dash-circle-fill me-1 text-primary"></i> Tiempo a Restar (HH:MM:SS)
+                                        <label for="tiempoRestadoInfo" class="form-label fw-bold">
+                                            <i class="bi bi-dash-circle-fill me-1 text-primary"></i> Tiempo Restado (Solo lectura)
                                         </label>
-                                        <input type="text" class="form-control" id="tiempoRestadoInput" name="tiempoRestadoInput" placeholder="00:00:00" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}" readonly>
+                                        <input type="text" class="form-control bg-light" id="tiempoRestadoInfo" name="tiempoRestadoInfo" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="nombreEncargadoTiempo" class="form-label fw-bold">
@@ -226,6 +226,10 @@
                         $('#tiempoTranscurrido').text(datosUsuarioTiempo.tiempo_transcurrido || 'No disponible');
                         $('#tiempoEncargado').text(datosUsuarioTiempo.tiempo_encargado_usuario || 'No asignado');
                         
+                        // Mostrar los valores en los campos informativos del paso 3
+                        $('#tiempoAcumuladoInfo').val(datosUsuarioTiempo.tiempo_acumulado);
+                        $('#tiempoRestadoInfo').val(datosUsuarioTiempo.tiempo_restado);
+                        
                         // Mostrar estado con badge
                         let claseEstado = 'bg-warning';
                         if (datosUsuarioTiempo.tiempo_status === 'activo') {
@@ -301,35 +305,12 @@
         $('#submitBtnTiempo').click(function() {
             // Validar campos
             const estadoTiempo = $('#tiempoStatus').val();
-            const horasAcumuladas = $('#tiempoAcumuladoInput').val();
-            const horasRestadas = $('#tiempoRestadoInput').val();
             
             if (!estadoTiempo) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
                     text: 'Debe seleccionar un estado para el tiempo'
-                });
-                return;
-            }
-
-            // Validar formato de tiempo si se ingresó
-            const formatoTiempo = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
-            
-            if (horasAcumuladas && !formatoTiempo.test(horasAcumuladas)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'El formato del tiempo acumulado debe ser HH:MM:SS'
-                });
-                return;
-            }
-
-            if (horasRestadas && !formatoTiempo.test(horasRestadas)) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'El formato del tiempo restado debe ser HH:MM:SS'
                 });
                 return;
             }
@@ -351,8 +332,6 @@
                 data: {
                     codigo_time: datosUsuarioTiempo.codigo_time,
                     tiempo_status: estadoTiempo,
-                    tiempo_acumulado: horasAcumuladas || '00:00:00',
-                    tiempo_restado: horasRestadas || '00:00:00',
                     tiempo_encargado_usuario: $('#nombreEncargadoTiempo').val()
                 },
                 dataType: 'json',

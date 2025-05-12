@@ -28,6 +28,8 @@ foreach ($camposRequeridos as $campo) {
 
 $codigoTime = trim($_POST['codigo_time']);
 $tiempoStatus = trim($_POST['tiempo_status']);
+// Ya no usaremos estos valores para actualizar
+// Solo los recibimos pero no los utilizaremos en la actualización
 $tiempoAcumulado = isset($_POST['tiempo_acumulado']) ? trim($_POST['tiempo_acumulado']) : '00:00:00';
 $tiempoRestado = isset($_POST['tiempo_restado']) ? trim($_POST['tiempo_restado']) : '00:00:00';
 $tiempoEncargadoUsuario = trim($_POST['tiempo_encargado_usuario']);
@@ -62,18 +64,15 @@ try {
     $tiempoIniciado = $fechaActual->format('Y-m-d H:i:s');
 
     // Actualizar el registro en la tabla gestion_tiempo
+    // Modificado para no actualizar tiempo_acumulado, tiempo_restado y tiempo_transcurrido
     $query = "UPDATE gestion_tiempo SET 
                 tiempo_status = :tiempo_status,
-                tiempo_acumulado = :tiempo_acumulado,
-                tiempo_restado = :tiempo_restado,
                 tiempo_encargado_usuario = :tiempo_encargado_usuario,
                 tiempo_iniciado = :tiempo_iniciado
               WHERE codigo_time = :codigo_time";
               
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':tiempo_status', $tiempoStatus);
-    $stmt->bindParam(':tiempo_acumulado', $tiempoAcumulado);
-    $stmt->bindParam(':tiempo_restado', $tiempoRestado);
     $stmt->bindParam(':tiempo_encargado_usuario', $tiempoEncargadoUsuario);
     $stmt->bindParam(':tiempo_iniciado', $tiempoIniciado);
     $stmt->bindParam(':codigo_time', $codigoTime);
