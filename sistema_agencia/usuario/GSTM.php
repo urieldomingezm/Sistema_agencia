@@ -13,7 +13,7 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
             <table id="datatable_tiempos" class="table table-bordered table-striped table-hover text-center mb-0">
                 <thead>
                     <tr>
-                        <th>Habbo</th>
+                        <th>Usuario</th>
                         <th>Estado</th>
                         <th>Restado</th>
                         <th>Acumulado</th>
