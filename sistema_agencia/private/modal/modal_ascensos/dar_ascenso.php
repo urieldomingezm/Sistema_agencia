@@ -115,6 +115,7 @@
                                             <option value="Presidente">Presidente</option>
                                             <option value="Operativo">Operativo</option>
                                             <option value="Junta directiva">Junta directiva</option>
+                                            <option value="Administrador">Administrador</option>
                                         </select>
                                     </div>
                                 </div>
@@ -177,7 +178,6 @@
                 </form>
             </div>
             
-            <!-- Pie del Modal -->
             <div class="modal-footer bg-light">
                 <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">
                     Cerrar
@@ -249,28 +249,28 @@ $(document).ready(function() {
         // Definir tiempos de espera por rango (en minutos)
         switch(rangoSeleccionado) {
             case 'Agente':
-                tiempoEspera = 30;
+                tiempoEspera = 10;
                 break;
             case 'Seguridad':
-                tiempoEspera = 120; // 2 horas
+                tiempoEspera = 240; // 4 horas
                 break;
             case 'Tecnico':
-                tiempoEspera = 1440; // 24 horas
+                tiempoEspera = 1080; // 18 horas
                 break;
             case 'Logistica':
-                tiempoEspera = 2880; // 48 horas
+                tiempoEspera = 1560; // 26 horas
                 break;
             case 'Supervisor':
-                tiempoEspera = 4350; // 72.5 horas
+                tiempoEspera = 5760; // 4 días
                 break;
             case 'Director':
-                tiempoEspera = 7200; // 120 horas
+                tiempoEspera = 12960; // 9 días
                 break;
             case 'Presidente':
-                tiempoEspera = 10080; // 168 horas
+                tiempoEspera = 20160; // 14 días
                 break;
             case 'Operativo':
-                tiempoEspera = 12960; // 216 horas
+                tiempoEspera = 34560; // 24 días
                 break;
             default:
                 tiempoEspera = 0;
