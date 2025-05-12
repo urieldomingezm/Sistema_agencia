@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 // Rutas para gestion de tiempos
 require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
@@ -23,60 +23,61 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($GLOBALS['tiempos'] as $tiempo): ?>
-                    <tr>
-                        <td><?= $tiempo['habbo_name'] ?></td>
-                        <td>
-                            <?php
-                            $status = $tiempo['tiempo_status'];
-                            $badge_class = '';
-                            $status_text = '';
-                            
-                            switch(strtolower($status)) {
-                                case 'pausa':
-                                    $badge_class = 'warning';
-                                    $status_text = 'Pausa';
-                                    break;
-                                case 'completado':
-                                    $badge_class = 'success';
-                                    $status_text = 'Completado';
-                                    break;
-                                case 'ausente':
-                                    $badge_class = 'danger';
-                                    $status_text = 'Ausente';
-                                    break;
-                                case 'terminado':
-                                    $badge_class = 'info';
-                                    $status_text = 'Terminado';
-                                    break;
-                                default:
-                                    $badge_class = 'secondary';
-                                    $status_text = $status;
-                            }
-                            ?>
-                            <span class="badge bg-<?= $badge_class ?>"><?= $status_text ?></span>
-                        </td>
-                        <td><?= $tiempo['tiempo_restado'] ?></td>
-                        <td><?= $tiempo['tiempo_acumulado'] ?></td>
-                        <td><?= $tiempo['tiempo_iniciado'] ?></td>
-                        <td><?= $tiempo['tiempo_encargado_usuario'] ?? 'No disponible' ?></td>
-                        <td>
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="openTiempoModal('<?= $tiempo['codigo_time'] ?>')" title="Dar tiempo">
-                                    <i class="bi bi-clock"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-warning" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'pausa')" title="Pausar">
-                                    <i class="bi bi-pause-fill"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-success" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'completado')" title="Completar">
-                                    <i class="bi bi-check-lg"></i>
-                                </button>
-                                <button type="button" class="btn btn-sm btn-danger" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'ausente')" title="Marcar ausente">
-                                    <i class="bi bi-x-lg"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    <?php foreach ($GLOBALS['tiempos'] as $tiempo): ?>
+                        <tr>
+                            <td><?= $tiempo['habbo_name'] ?></td>
+                            <td>
+                                <?php
+                                $status = $tiempo['tiempo_status'];
+                                $badge_class = '';
+                                $status_text = '';
+
+                                switch (strtolower($status)) {
+                                    case 'pausa':
+                                        $badge_class = 'warning';
+                                        $status_text = 'Pausa';
+                                        break;
+                                    case 'completado':
+                                        $badge_class = 'success';
+                                        $status_text = 'Completado';
+                                        break;
+                                    case 'ausente':
+                                        $badge_class = 'danger';
+                                        $status_text = 'Ausente';
+                                        break;
+                                    case 'terminado':
+                                        $badge_class = 'info';
+                                        $status_text = 'Terminado';
+                                        break;
+                                    case 'activo':
+                                        $badge_class = 'success';
+                                        $status_text = 'Activo';
+                                        break;
+                                    default:
+                                        $badge_class = 'secondary';
+                                        $status_text = $status;
+                                }
+                                ?>
+                                <span class="badge bg-<?= $badge_class ?>"><?= $status_text ?></span>
+                            </td>
+                            <td><?= $tiempo['tiempo_restado'] ?></td>
+                            <td><?= $tiempo['tiempo_acumulado'] ?></td>
+                            <td><?= $tiempo['tiempo_iniciado'] ?></td>
+                            <td><?= $tiempo['tiempo_encargado_usuario'] ?? 'No disponible' ?></td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-sm btn-warning" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'pausa')" title="Pausar">
+                                        <i class="bi bi-pause-fill"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-success" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'completado')" title="Completar">
+                                        <i class="bi bi-check-lg"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'ausente')" title="Marcar ausente">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
@@ -87,16 +88,16 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar DataTable
-    const dataTable = new simpleDatatables.DataTable("#datatable_tiempos", {
-        searchable: true,
-        fixedHeight: true,
-        labels: {
-            placeholder: "Buscar...",
-            perPage: "Registros por página",
-            noRows: "No hay registros",
-            info: "Mostrando {start} a {end} de {rows} registros",
-        }
+        // Inicializar DataTable
+        const dataTable = new simpleDatatables.DataTable("#datatable_tiempos", {
+            searchable: true,
+            fixedHeight: true,
+            labels: {
+                placeholder: "Buscar...",
+                perPage: "Registros por página",
+                noRows: "No hay registros",
+                info: "Mostrando {start} a {end} de {rows} registros",
+            }
+        });
     });
-});
 </script>
