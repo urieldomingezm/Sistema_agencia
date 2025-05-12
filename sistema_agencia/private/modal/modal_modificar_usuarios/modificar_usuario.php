@@ -137,11 +137,8 @@
                                         <label for="nuevoEstadoEdit" class="form-label fw-bold">
                                             <i class="bi bi-toggle-on me-1 text-primary"></i> Estado
                                         </label>
-                                        <select class="form-select" id="nuevoEstadoEdit" name="nuevoEstadoEdit" required>
-                                            <option value="">Seleccione un estado</option>
-                                            <option value="disponible">Disponible</option>
+                                        <select class="form-select" id="nuevoEstadoEdit" name="nuevoEstadoEdit" required >
                                             <option value="pendiente">Pendiente</option>
-                                            <option value="ascendido">Ascendido</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
@@ -223,6 +220,23 @@ $(document).ready(function() {
         updateProgressBarModificarUsuario();
     }
     
+    // Función para mostrar/ocultar el campo de firma según el rango
+    function toggleFirmaField() {
+        const rangoSeleccionado = $('#nuevoRangoEdit').val();
+        const firmaContainer = $('#nuevaFirmaEdit').closest('.col-md-6');
+        
+        if (rangoSeleccionado === 'Agente' || rangoSeleccionado === 'Seguridad') {
+            firmaContainer.hide();
+            $('#nuevaFirmaEdit').val('').removeAttr('required');
+        } else {
+            firmaContainer.show();
+            $('#nuevaFirmaEdit').attr('required', 'required');
+        }
+    }
+    
+    // Ejecutar cuando cambie el rango
+    $('#nuevoRangoEdit').change(toggleFirmaField);
+    
     // Buscar usuario por código
     $('#buscarUsuarioEdit').click(function() {
         const codigo = $('#codigoUsuarioEdit').val().trim();
@@ -274,6 +288,9 @@ $(document).ready(function() {
                     $('#usuarioIdEdit').val(userDataModificarUsuario.ascenso_id);
                     $('#codigoTimeHiddenEdit').val(userDataModificarUsuario.codigo_time);
                     
+                    // Aplicar la lógica de mostrar/ocultar firma según el rango
+                    toggleFirmaField();
+                    
                     // Mostrar el resultado
                     $('#resultadoBusquedaEdit').html(`
                         <div class="alert alert-success">
@@ -296,7 +313,6 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                // Mostrar mensaje de error
                 $('#resultadoBusquedaEdit').html(`
                     <div class="alert alert-danger">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i> Error de conexión. Inténtelo de nuevo.
@@ -309,17 +325,17 @@ $(document).ready(function() {
         });
     });
     
-    // Botón Anterior
-    $('#prevBtnEdit').click(function() {
-        if (currentStepModificarUsuario > 1) {
-            showStepModificarUsuario(currentStepModificarUsuario - 1);
-        }
-    });
-    
     // Botón Siguiente
     $('#nextBtnEdit').click(function() {
         if (currentStepModificarUsuario < totalStepsModificarUsuario) {
             showStepModificarUsuario(currentStepModificarUsuario + 1);
+        }
+    });
+    
+    // Botón Anterior
+    $('#prevBtnEdit').click(function() {
+        if (currentStepModificarUsuario > 1) {
+            showStepModificarUsuario(currentStepModificarUsuario - 1);
         }
     });
     
@@ -332,23 +348,69 @@ $(document).ready(function() {
         const nuevoEstado = $('#nuevoEstadoEdit').val();
         const firmaEncargado = $('#firmaEncargadoEdit').val().trim();
         
-        if (!nuevoRango || !nuevaMision || !nuevaFirma || !nuevoEstado || !firmaEncargado) {
+        // Validación condicional según el rango
+        if (!nuevoRango || !nuevaMision || !nuevoEstado || !firmaEncargado) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Todos los campos son obligatorios'
+                text: 'Todos los campos son obligatorios excepto la firma'
+            });
+            return;
+        }
+        
+        if (firmaEncargado.length !== 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La firma del encargado debe tener 3 dígitos'
+            });
+            return;
+        }
+        
+        // Solo validar la firma si se ha ingresado algo
+        if (nuevaFirma && nuevaFirma.length !== 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La firma del usuario debe tener 3 dígitos si se proporciona'
+            });
+            return;
+        }
+        
+        // Validar firma solo si es requerida (rangos superiores)
+        if (nuevoRango !== 'Agente' && nuevoRango !== 'Seguridad' && !nuevaFirma) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La firma es obligatoria para este rango'
+            });
+            return;
+        }
+        
+        if (firmaEncargado.length !== 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La firma del encargado debe tener 3 dígitos'
+            });
+            return;
+        }
+        
+        if (nuevoRango !== 'Agente' && nuevoRango !== 'Seguridad' && nuevaFirma.length !== 3) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'La firma del usuario debe tener 3 dígitos'
             });
             return;
         }
         
         // Mostrar cargando
         Swal.fire({
-            title: 'Procesando',
-            text: 'Actualizando información del usuario...',
-            icon: 'info',
+            title: 'Guardando cambios',
+            text: 'Por favor espere...',
             allowOutsideClick: false,
-            showConfirmButton: false,
-            willOpen: () => {
+            didOpen: () => {
                 Swal.showLoading();
             }
         });
@@ -359,10 +421,16 @@ $(document).ready(function() {
         formData.append('codigoTimeHiddenEdit', $('#codigoTimeHiddenEdit').val());
         formData.append('nuevoRangoEdit', nuevoRango);
         formData.append('nuevaMisionEdit', nuevaMision);
-        formData.append('nuevaFirmaEdit', nuevaFirma);
+        
+        // Solo enviar firma si es requerida
+        if (nuevoRango !== 'Agente' && nuevoRango !== 'Seguridad') {
+            formData.append('nuevaFirmaEdit', nuevaFirma);
+        } else {
+            formData.append('nuevaFirmaEdit', ''); // Enviar vacío para que se guarde como NULL
+        }
+        
         formData.append('nuevoEstadoEdit', nuevoEstado);
         formData.append('firmaEncargadoEdit', firmaEncargado);
-        formData.append('action', 'modificar_usuario');
         
         // Realizar petición AJAX
         $.ajax({
@@ -374,38 +442,38 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    Swal.close();
+                    // Mostrar paso de confirmación
                     showStepModificarUsuario(4);
                     
-                    // Redireccionar después de 3 segundos
+                    // Redireccionar después de 2 segundos
                     setTimeout(function() {
-                        window.location.href = '/usuario/index.php?page=gestion_ascenso';
-                    }, 3000);
+                        $('#editar_usuario').modal('hide');
+                        location.reload();
+                    }, 2000);
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: response.message || 'Error al modificar el usuario'
+                        text: response.message || 'Ocurrió un error al modificar el usuario'
                     });
                 }
             },
             error: function() {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Ascenso registrado!', 
-                        text: 'El ascenso se ha registrado correctamente.',
-                        allowOutsideClick: false,
-                        confirmButtonText: 'Ir a gestión'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = '?page=gestion_ascenso';
-                        }
-                    });
-                }
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ocurrió un error en la comunicación con el servidor'
+                });
+            }
         });
     });
     
-    // Inicializar
-    showStepModificarUsuario(1);
+    // Reiniciar el formulario cuando se cierra el modal
+    $('#editar_usuario').on('hidden.bs.modal', function() {
+        $('#editarUsuarioForm')[0].reset();
+        $('#resultadoBusquedaEdit').html('');
+        $('#nextBtnEdit').prop('disabled', true);
+        showStepModificarUsuario(1);
+    });
 });
 </script>

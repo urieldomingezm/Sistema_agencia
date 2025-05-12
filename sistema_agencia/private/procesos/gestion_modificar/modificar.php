@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $camposRequeridos = [
     'codigoTimeHiddenEdit', 
     'nuevoRangoEdit', 'nuevaMisionEdit', 
-    'nuevaFirmaEdit', 'nuevoEstadoEdit',
+    'nuevoEstadoEdit',
     'firmaEncargadoEdit'
 ];
 
@@ -30,14 +30,17 @@ foreach ($camposRequeridos as $campo) {
 $codigoTime = trim($_POST['codigoTimeHiddenEdit']);
 $nuevoRango = trim($_POST['nuevoRangoEdit']);
 $nuevaMision = trim($_POST['nuevaMisionEdit']);
-$nuevaFirma = trim($_POST['nuevaFirmaEdit']);
+$nuevaFirma = isset($_POST['nuevaFirmaEdit']) ? trim($_POST['nuevaFirmaEdit']) : '';
 $nuevoEstado = trim($_POST['nuevoEstadoEdit']);
 $firmaEncargado = trim($_POST['firmaEncargadoEdit']);
 $usuarioEncargado = $_SESSION['username'];
 
-if (strlen($nuevaFirma) !== 3) {
-    echo json_encode(['success' => false, 'message' => 'La firma del usuario debe tener 3 dígitos']);
-    exit;
+// Solo validar la firma si no es Agente o Seguridad
+if ($nuevoRango !== 'Agente' && $nuevoRango !== 'Seguridad') {
+    if (strlen($nuevaFirma) !== 3) {
+        echo json_encode(['success' => false, 'message' => 'La firma del usuario debe tener 3 dígitos']);
+        exit;
+    }
 }
 
 if (strlen($firmaEncargado) !== 3) {
@@ -83,7 +86,13 @@ try {
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':nuevo_rango', $nuevoRango);
     $stmt->bindParam(':nueva_mision', $nuevaMision);
-    $stmt->bindParam(':nueva_firma', $nuevaFirma);
+    
+    // Si es Agente o Seguridad, establecer firma como NULL
+    if ($nuevoRango === 'Agente' || $nuevoRango === 'Seguridad') {
+        $stmt->bindValue(':nueva_firma', null, PDO::PARAM_NULL);
+    } else {
+        $stmt->bindParam(':nueva_firma', $nuevaFirma);
+    }
     $stmt->bindParam(':firma_encargado', $firmaEncargado);
     $stmt->bindParam(':nuevo_estado', $nuevoEstado);
     $stmt->bindParam(':usuario_encargado', $usuarioEncargado);
