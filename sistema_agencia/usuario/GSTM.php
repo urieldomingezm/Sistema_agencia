@@ -67,7 +67,7 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                             <td>
                                 <?php if (strtolower($status) === 'pausa' && !empty($tiempo['tiempo_encargado_usuario'])): ?>
                                     <button class="btn btn-sm btn-danger liberar-encargado" data-codigo="<?= $tiempo['codigo_time'] ?>">
-                                        <i class="bi bi-person-x-fill"></i> Liberar encargado
+                                        <i class="bi bi-person-x-fill"></i> Liberar Tiempo
                                     </button>
                                 <?php elseif (!empty($tiempo['tiempo_encargado_usuario']) && strtolower($status) !== 'pausa'): ?>
                                     <button class="btn btn-sm btn-warning pausar-tiempo" data-codigo="<?= $tiempo['codigo_time'] ?>">
@@ -125,7 +125,7 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
             // Confirmar antes de liberar
             Swal.fire({
                 title: '¿Estás seguro?',
-                text: "Se liberará al encargado actual para que otra persona pueda tomar el tiempo",
+                text: "Se liberará el Tiempo actual para que otra persona pueda tomar el tiempo",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
