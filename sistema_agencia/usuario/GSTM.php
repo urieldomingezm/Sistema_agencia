@@ -19,7 +19,6 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                         <th>Acumulado</th>
                         <th>Iniciado</th>
                         <th>Encargado</th>
-                        <th>Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,19 +63,6 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                             <td><?= $tiempo['tiempo_acumulado'] ?></td>
                             <td><?= $tiempo['tiempo_iniciado'] ?></td>
                             <td><?= $tiempo['tiempo_encargado_usuario'] ?? 'No disponible' ?></td>
-                            <td>
-                                <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-sm btn-warning" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'pausa')" title="Pausar">
-                                        <i class="bi bi-pause-fill"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-success" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'completado')" title="Completar">
-                                        <i class="bi bi-check-lg"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-danger" onclick="cambiarEstado('<?= $tiempo['codigo_time'] ?>', 'ausente')" title="Marcar ausente">
-                                        <i class="bi bi-x-lg"></i>
-                                    </button>
-                                </div>
-                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
