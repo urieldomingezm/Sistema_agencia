@@ -109,6 +109,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 break;
                 
+            case 'pausar_tiempo':
+                // Verificar que se proporcionó el código de tiempo
+                if (isset($_POST['codigo_time']) && !empty($_POST['codigo_time'])) {
+                    $codigo_time = $_POST['codigo_time'];
+                    
+                    try {
+                        // Verificar que el usuario tenga un encargado asignado
+                        $query_check = "SELECT tiempo_status, tiempo_encargado_usuario FROM gestion_tiempo WHERE codigo_time = :codigo_time";
+                        $stmt_check = $conn->prepare($query_check);
+                        $stmt_check->bindParam(':codigo_time', $codigo_time);
+                        $stmt_check->execute();
+                        
+                        $tiempo_data = $stmt_check->fetch(PDO::FETCH_ASSOC);
+                        
+                        if ($tiempo_data && !empty($tiempo_data['tiempo_encargado_usuario'])) {
+                            // Actualizar el estado a "pausa"
+                            $query = "UPDATE gestion_tiempo SET 
+                                      tiempo_status = 'pausa'
+                                      WHERE codigo_time = :codigo_time";
+                            $stmt = $conn->prepare($query);
+                            $stmt->bindParam(':codigo_time', $codigo_time);
+                            
+                            if ($stmt->execute()) {
+                                $response['success'] = true;
+                                $response['message'] = 'Tiempo pausado correctamente';
+                            } else {
+                                $response['message'] = 'Error al pausar el tiempo';
+                            }
+                        } else {
+                            $response['message'] = 'El usuario no tiene un encargado asignado';
+                        }
+                    } catch (PDOException $e) {
+                        $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
+                    }
+                } else {
+                    $response['message'] = 'Código de tiempo no proporcionado';
+                }
+                break;
+                
             // Aquí puedes agregar más casos para otras acciones
                 
             default:

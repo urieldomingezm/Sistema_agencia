@@ -69,6 +69,10 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                                     <button class="btn btn-sm btn-danger liberar-encargado" data-codigo="<?= $tiempo['codigo_time'] ?>">
                                         <i class="bi bi-person-x-fill"></i> Liberar encargado
                                     </button>
+                                <?php elseif (!empty($tiempo['tiempo_encargado_usuario']) && strtolower($status) !== 'pausa'): ?>
+                                    <button class="btn btn-sm btn-warning pausar-tiempo" data-codigo="<?= $tiempo['codigo_time'] ?>">
+                                        <i class="bi bi-pause-fill"></i> Pausar
+                                    </button>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -145,6 +149,163 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                                 Swal.fire({
                                     title: 'Error',
                                     text: data.message || 'Ocurrió un error al liberar al encargado',
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Ocurrió un error de conexión',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        });
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar DataTable
+        const dataTable = new simpleDatatables.DataTable("#datatable_tiempos", {
+            searchable: true,
+            fixedHeight: true,
+            labels: {
+                placeholder: "Buscar...",
+                perPage: "Registros por página",
+                noRows: "No hay registros",
+                info: "Mostrando {start} a {end} de {rows} registros",
+            }
+        });
+
+        // Agregar evento para liberar encargado
+        document.querySelectorAll('.liberar-encargado').forEach(button => {
+            button.addEventListener('click', function() {
+                const codigo = this.getAttribute('data-codigo');
+                
+                // Confirmar antes de liberar
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "Se liberará al encargado actual para que otra persona pueda tomar el tiempo",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, liberar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Mostrar cargando
+                        Swal.fire({
+                            title: 'Procesando',
+                            text: 'Liberando encargado...',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        // Enviar solicitud para liberar encargado
+                        fetch('/usuario/procesar_tiempo.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: 'accion=liberar_encargado&codigo_time=' + encodeURIComponent(codigo)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    title: '¡Éxito!',
+                                    text: 'Encargado liberado correctamente',
+                                    icon: 'success',
+                                    confirmButtonText: 'Aceptar'
+                                }).then(() => {
+                                    // Recargar la página para ver los cambios
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: data.message || 'Ocurrió un error al liberar al encargado',
+                                    icon: 'error',
+                                    confirmButtonText: 'Aceptar'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Ocurrió un error de conexión',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        });
+                    }
+                });
+            });
+        });
+
+        // Agregar evento para pausar tiempo
+        document.querySelectorAll('.pausar-tiempo').forEach(button => {
+            button.addEventListener('click', function() {
+                const codigo = this.getAttribute('data-codigo');
+                
+                // Confirmar antes de pausar
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "Se pausará el tiempo actual",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sí, pausar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Mostrar cargando
+                        Swal.fire({
+                            title: 'Procesando',
+                            text: 'Pausando tiempo...',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                            }
+                        });
+
+                        // Enviar solicitud para pausar tiempo
+                        fetch('/usuario/procesar_tiempo.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: 'accion=pausar_tiempo&codigo_time=' + encodeURIComponent(codigo)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    title: '¡Éxito!',
+                                    text: 'Tiempo pausado correctamente',
+                                    icon: 'success',
+                                    confirmButtonText: 'Aceptar'
+                                }).then(() => {
+                                    // Recargar la página para ver los cambios
+                                    window.location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: data.message || 'Ocurrió un error al pausar el tiempo',
                                     icon: 'error',
                                     confirmButtonText: 'Aceptar'
                                 });
