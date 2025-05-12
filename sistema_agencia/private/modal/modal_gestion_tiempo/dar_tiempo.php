@@ -1,51 +1,50 @@
-<!-- Modal Wizard para Tomar Tiempo -->
-<div class="modal fade" id="dar_tiempo_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="darTiempoLabel" aria-hidden="true">
+<div class="modal fade" id="dar_tiempo_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="dar_tiempo_modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
         <div class="modal-content">
             <!-- Encabezado del Modal -->
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold" id="darTiempoLabel">
-                    Dar Tiempo
+                <h5 class="modal-title fw-bold" id="dar_tiempo_modalLabel">
+                    Gestión de Tiempo
                 </h5>
             </div>
-            
+
             <!-- Cuerpo del Modal -->
             <div class="modal-body">
                 <!-- Indicador de pasos -->
                 <div class="progress mb-4" style="height: 10px;">
                     <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                
+
                 <!-- Formulario de múltiples pasos -->
-                <form id="darTiempoForm">
+                <form id="tiempoFormModal">
                     <!-- Paso 1: Búsqueda de Usuario -->
-                    <div class="step" id="step1_darTiempo">
+                    <div class="step" id="step1_tiempo">
                         <h4 class="text-center mb-4 fw-bold text-primary">Buscar Usuario</h4>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <label for="codigoTimeDar" class="form-label fw-bold">
+                                <label for="codigoTimeTiempo" class="form-label fw-bold">
                                     <i class="bi bi-person-badge me-1"></i> Código de Usuario (5 caracteres)
                                 </label>
                                 <div class="input-group input-group-lg mb-3">
                                     <span class="input-group-text">
                                         <i class="bi bi-hash"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="codigoTimeDar" name="codigoTimeDar" maxlength="5" placeholder="Ingrese el código" autocomplete="off">
-                                    <button class="btn btn-primary" type="button" id="buscarUsuarioDarTiempo">
+                                    <input type="text" class="form-control" id="codigoTimeTiempo" name="codigoTimeTiempo" maxlength="5" placeholder="Ingrese el código" autocomplete="off">
+                                    <button class="btn btn-primary" type="button" id="buscarUsuarioTiempo">
                                         <i class="bi bi-search me-1"></i> Buscar
                                     </button>
                                 </div>
                                 <div class="form-text">
-                                    <i class="bi bi-info-circle me-1"></i> Ingrese el código de 5 caracteres del usuario a dar tiempo.
+                                    <i class="bi bi-info-circle me-1"></i> Ingrese el código de 5 caracteres del usuario para gestionar su tiempo.
                                 </div>
                             </div>
                         </div>
-                        <div id="resultadoBusquedaDarTiempo" class="mt-3"></div>
+                        <div id="resultadoBusquedaTiempo" class="mt-3"></div>
                     </div>
-                    
+
                     <!-- Paso 2: Información del Usuario -->
-                    <div class="step d-none" id="step2_darTiempo">
-                        <h4 class="text-center mb-4 fw-bold text-primary">Información del Usuario</h4>
+                    <div class="step d-none" id="step2_tiempo">
+                        <h4 class="text-center mb-4 fw-bold text-primary">Información del Tiempo</h4>
                         <div class="card mb-3">
                             <div class="card-header bg-light">
                                 <h5 class="mb-0 fw-bold">
@@ -57,96 +56,83 @@
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <small class="text-muted d-block">Usuario</small>
-                                            <span class="fw-bold" id="nombreUsuarioDarTiempo"></span>
+                                            <span class="fw-bold" id="nombreUsuarioTiempo"></span>
                                         </div>
                                         <div class="mb-3">
-                                            <small class="text-muted d-block">Rango Actual</small>
-                                            <span class="fw-bold" id="rangoActualDarTiempo"></span>
+                                            <small class="text-muted d-block">Estado</small>
+                                            <span id="estadoTiempoModal"></span>
                                         </div>
-                                        <div>
-                                            <small class="text-muted d-block">Misión Actual</small>
-                                            <span class="fw-bold" id="misionActualDarTiempo"></span>
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Tiempo Transcurrido</small>
+                                            <span class="fw-bold" id="tiempoTranscurrido"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <small class="text-muted d-block">Firma</small>
-                                            <span class="fw-bold" id="firmaUsuarioDarTiempo"></span>
+                                            <small class="text-muted d-block">Tiempo Acumulado</small>
+                                            <span class="fw-bold" id="tiempoAcumulado"></span>
                                         </div>
                                         <div class="mb-3">
-                                            <small class="text-muted d-block">Estado</small>
-                                            <span id="estadoDarTiempo"></span>
+                                            <small class="text-muted d-block">Tiempo Restado</small>
+                                            <span class="fw-bold" id="tiempoRestado"></span>
                                         </div>
-                                        <div>
-                                            <small class="text-muted d-block">Tiempo Actual</small>
-                                            <span class="fw-bold" id="tiempoActualDar"></span>
+                                        <div class="mb-3">
+                                            <small class="text-muted d-block">Encargado</small>
+                                            <span class="fw-bold" id="tiempoEncargado"></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="mensajeDisponibilidadDarTiempo" class="alert d-none"></div>
                     </div>
-                    
-                    <!-- Paso 3: Formulario de Tiempo -->
-                    <div class="step d-none" id="step3_darTiempo">
+
+                    <!-- Paso 3: Formulario de Gestión de Tiempo -->
+                    <div class="step d-none" id="step3_tiempo">
                         <h4 class="text-center mb-4 fw-bold text-primary">
-                            <i class="bi bi-clock-fill me-2"></i>Registrar Tiempo
+                            <i class="bi bi-clock-fill me-2"></i>Gestionar Tiempo
                         </h4>
                         <div class="card mb-4">
                             <div class="card-body">
                                 <div class="row g-4">
                                     <div class="col-md-6 mb-3">
-                                        <label for="tipoDarTiempo" class="form-label fw-bold">
-                                            <i class="bi bi-clock-history me-1 text-primary"></i> Tipo de Tiempo
+                                        <label for="tiempoStatus" class="form-label fw-bold">
+                                            <i class="bi bi-toggle-on me-1 text-primary"></i> Estado del Tiempo
                                         </label>
-                                        <select class="form-select" id="tipoDarTiempo" name="tipoDarTiempo" required>
-                                            <option value="">Seleccione tipo</option>
-                                            <option value="Entrada">Entrada</option>
-                                            <option value="Salida">Salida</option>
-                                            <option value="Pausa">Pausa</option>
-                                            <option value="Reanudar">Reanudar</option>
-                                        </select>
+                                        <input type="text" class="form-control" id="tiempoStatus" name="tiempoStatus" value="activo" placeholder="Activar" readonly required>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="tiempoRegistradoDar" class="form-label fw-bold">
-                                            <i class="bi bi-calendar-check-fill me-1 text-primary"></i> Fecha y Hora
+                                        <label for="tiempoAcumuladoInput" class="form-label fw-bold">
+                                            <i class="bi bi-plus-circle-fill me-1 text-primary"></i> Tiempo a Acumular (HH:MM:SS)
                                         </label>
-                                        <input type="datetime-local" class="form-control" id="tiempoRegistradoDar" name="tiempoRegistradoDar" required>
+                                        <input type="text" class="form-control" id="tiempoAcumuladoInput" name="tiempoAcumuladoInput" placeholder="00:00:00" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}" readonly>
                                     </div>
                                 </div>
                                 <div class="row g-4">
                                     <div class="col-md-6 mb-3">
-                                        <label for="firmaEncargadoDarTiempo" class="form-label fw-bold">
-                                            <i class="bi bi-pen-fill me-1 text-primary"></i> Firma Encargado (3 dígitos)
+                                        <label for="tiempoRestadoInput" class="form-label fw-bold">
+                                            <i class="bi bi-dash-circle-fill me-1 text-primary"></i> Tiempo a Restar (HH:MM:SS)
                                         </label>
-                                        <input type="text" class="form-control" id="firmaEncargadoDarTiempo" name="firmaEncargadoDarTiempo" maxlength="3" required>
+                                        <input type="text" class="form-control" id="tiempoRestadoInput" name="tiempoRestadoInput" placeholder="00:00:00" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <label for="nombreEncargadoDarTiempo" class="form-label fw-bold">
+                                        <label for="nombreEncargadoTiempo" class="form-label fw-bold">
                                             <i class="bi bi-person-fill me-1 text-primary"></i> Nombre Encargado
                                         </label>
-                                        <input type="text" class="form-control bg-light" id="nombreEncargadoDarTiempo" name="nombreEncargadoDarTiempo" value="<?php echo $_SESSION['username']; ?>" readonly>
+                                        <input type="text" class="form-control bg-light" id="nombreEncargadoTiempo" name="nombreEncargadoTiempo" value="<?php echo $_SESSION['username']; ?>" readonly>
                                     </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="observacionesDarTiempo" class="form-label fw-bold">
-                                        <i class="bi bi-chat-left-text-fill me-1 text-primary"></i> Observaciones
-                                    </label>
-                                    <textarea class="form-control" id="observacionesDarTiempo" name="observacionesDarTiempo" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Paso 4: Confirmación -->
-                    <div class="step d-none" id="step4_darTiempo">
+                    <div class="step d-none" id="step4_tiempo">
                         <div class="text-center p-5">
                             <div class="display-1 text-success mb-4">
                                 <i class="bi bi-check-circle-fill"></i>
                             </div>
-                            <h4 class="mb-3 fw-bold text-success">¡Tiempo Registrado Correctamente!</h4>
-                            <p class="lead">El tiempo ha sido registrado exitosamente.</p>
+                            <h4 class="mb-3 fw-bold text-success">¡Tiempo Actualizado Correctamente!</h4>
+                            <p class="lead">El tiempo del usuario ha sido actualizado exitosamente.</p>
                             <div class="mt-4">
                                 <div class="spinner-grow spinner-grow-sm text-success me-1" role="status">
                                     <span class="visually-hidden">Cargando...</span>
@@ -157,256 +143,247 @@
                     </div>
                 </form>
             </div>
-            
+
             <!-- Pie del Modal -->
             <div class="modal-footer bg-light">
                 <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">
                     Cerrar
                 </button>
-                <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtnDarTiempo" disabled>
-                     Anterior
+                <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtnTiempo" disabled>
+                    Anterior
                 </button>
-                <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtnDarTiempo">
-                    Siguiente 
+                <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtnTiempo">
+                    Siguiente
                 </button>
-                <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtnDarTiempo">
-                     Registrar Tiempo
+                <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtnTiempo">
+                    Activar Tiempo
                 </button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Script para el wizard de dar tiempo -->
+<!-- Script para el funcionamiento del modal -->
 <script>
-$(document).ready(function() {
-    let currentStepDarTiempo = 1;
-    const totalStepsDarTiempo = 4;
-    let userDataDarTiempo = {};
-    
-    // Actualizar la barra de progreso
-    function updateProgressBarDarTiempo() {
-        const percent = ((currentStepDarTiempo - 1) / (totalStepsDarTiempo - 1)) * 100;
-        $('.progress-bar', '#dar_tiempo_modal').css('width', percent + '%').attr('aria-valuenow', percent);
-    }
-    
-    // Mostrar el paso actual
-    function showStepDarTiempo(step) {
-        $('.step', '#dar_tiempo_modal').addClass('d-none');
-        $('#step' + step + '_darTiempo', '#dar_tiempo_modal').removeClass('d-none');
-        
-        // Actualizar botones
-        $('#prevBtnDarTiempo').prop('disabled', step === 1);
-        $('#nextBtnDarTiempo').toggleClass('d-none', step === 3 || step === 4);
-        $('#submitBtnDarTiempo').toggleClass('d-none', step !== 3);
-        
-        // Actualizar progreso
-        currentStepDarTiempo = step;
-        updateProgressBarDarTiempo();
-    }
-    
-    // Buscar usuario por código
-    $('#buscarUsuarioDarTiempo').click(function() {
-        const codigo = $('#codigoTimeDar', '#dar_tiempo_modal').val().trim();
-        
-        if (codigo.length !== 5) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'El código debe tener exactamente 5 caracteres'
-            });
-            return;
+    $(document).ready(function() {
+        let pasoActualGestionTiempo = 1;
+        const totalPasosGestionTiempo = 4;
+        let datosUsuarioTiempo = {};
+
+        // Actualizar la barra de progreso
+        function actualizarBarraProgresoTiempo() {
+            const porcentaje = ((pasoActualGestionTiempo - 1) / (totalPasosGestionTiempo - 1)) * 100;
+            $('#dar_tiempo_modal .progress-bar').css('width', porcentaje + '%').attr('aria-valuenow', porcentaje);
         }
-        
-        // Mostrar cargando
-        $('#resultadoBusquedaDarTiempo').html('<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
-        
-        // Realizar petición AJAX (ajusta la URL según tu endpoint)
-        $.ajax({
-            url: '/private/procesos/gestion_tiempos/buscar_usuario.php',
-            type: 'POST',
-            data: { codigo: codigo },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    userDataDarTiempo = response.data;
-                    
-                    // Mostrar información del usuario
-                    $('#nombreUsuarioDarTiempo').text(userDataDarTiempo.usuario_registro);
-                    $('#rangoActualDarTiempo').text(userDataDarTiempo.rango_actual);
-                    $('#misionActualDarTiempo').text(userDataDarTiempo.mision_actual);
-                    $('#firmaUsuarioDarTiempo').text(userDataDarTiempo.firma_usuario ? userDataDarTiempo.firma_usuario : 'No disponible');
-                    $('#tiempoActualDar').text(userDataDarTiempo.tiempo_actual || 'No registrado');
-                    
-                    // Mostrar estado con badge
-                    let badgeClass = 'bg-warning';
-                    if (userDataDarTiempo.estado_tiempo === 'activo') {
-                        badgeClass = 'bg-success';
-                    } else if (userDataDarTiempo.estado_tiempo === 'inactivo') {
-                        badgeClass = 'bg-danger';
+
+        // Mostrar el paso actual
+        function mostrarPasoTiempo(paso) {
+            $('#dar_tiempo_modal .step').addClass('d-none');
+            $('#step' + paso + '_tiempo').removeClass('d-none');
+
+            // Actualizar botones
+            $('#prevBtnTiempo').prop('disabled', paso === 1);
+            $('#nextBtnTiempo').toggleClass('d-none', paso === 3 || paso === 4);
+            $('#submitBtnTiempo').toggleClass('d-none', paso !== 3);
+
+            // Actualizar progreso
+            pasoActualGestionTiempo = paso;
+            actualizarBarraProgresoTiempo();
+        }
+
+        // Buscar usuario por código
+        $('#buscarUsuarioTiempo').click(function() {
+            const codigoUsuario = $('#codigoTimeTiempo').val().trim();
+
+            if (codigoUsuario.length !== 5) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El código debe tener exactamente 5 caracteres'
+                });
+                return;
+            }
+
+            // Mostrar cargando
+            $('#resultadoBusquedaTiempo').html('<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
+
+            // Realizar petición AJAX
+            $.ajax({
+                url: '/private/procesos/gestion_tiempos/buscar_usuario.php',
+                type: 'POST',
+                data: {
+                    codigo: codigoUsuario
+                },
+                dataType: 'json',
+                success: function(respuesta) {
+                    if (respuesta.success) {
+                        datosUsuarioTiempo = respuesta.data;
+
+                        // Mostrar información del usuario
+                        $('#nombreUsuarioTiempo').text(datosUsuarioTiempo.usuario_registro);
+                        $('#tiempoAcumulado').text(datosUsuarioTiempo.tiempo_acumulado);
+                        $('#tiempoRestado').text(datosUsuarioTiempo.tiempo_restado);
+                        $('#tiempoTranscurrido').text(datosUsuarioTiempo.tiempo_transcurrido || 'No disponible');
+                        $('#tiempoEncargado').text(datosUsuarioTiempo.tiempo_encargado_usuario || 'No asignado');
+                        // Mostrar estado con badge
+                        let claseEstado = 'bg-warning';
+                        if (datosUsuarioTiempo.tiempo_status === 'activo') {
+                            claseEstado = 'bg-success';
+                        } else if (datosUsuarioTiempo.tiempo_status === 'finalizado') {
+                            claseEstado = 'bg-danger';
+                        }
+                        $('#estadoTiempoModal').html(`<span class="badge ${claseEstado}">${datosUsuarioTiempo.tiempo_status}</span>`);
+
+                        // Mostrar el resultado
+                        $('#resultadoBusquedaTiempo').html(`
+                            <div class="alert alert-success">
+                                <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${datosUsuarioTiempo.usuario_registro}</strong>
+                            </div>
+                        `);
+
+                        // Habilitar el botón siguiente
+                        $('#nextBtnTiempo').prop('disabled', false);
+                    } else {
+                        // Mostrar mensaje de error
+                        $('#resultadoBusquedaTiempo').html(`
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i> ${respuesta.message}
+                            </div>
+                        `);
+
+                        // Deshabilitar el botón siguiente
+                        $('#nextBtnTiempo').prop('disabled', true);
                     }
-                    $('#estadoDarTiempo').html(`<span class="badge ${badgeClass}">${userDataDarTiempo.estado_tiempo}</span>`);
-                    
-                    // Mostrar el resultado
-                    $('#resultadoBusquedaDarTiempo').html(`
-                        <div class="alert alert-success">
-                            <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${userDataDarTiempo.usuario_registro}</strong>
-                        </div>
-                    `);
-                    
-                    // Habilitar el botón siguiente
-                    $('#nextBtnDarTiempo').prop('disabled', false);
-                } else {
+                },
+                error: function() {
                     // Mostrar mensaje de error
-                    $('#resultadoBusquedaDarTiempo').html(`
+                    $('#resultadoBusquedaTiempo').html(`
                         <div class="alert alert-danger">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i> ${response.message}
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> Error de conexión. Inténtelo de nuevo.
                         </div>
                     `);
-                    
-                    // Deshabilitar el botón siguiente
-                    $('#nextBtnDarTiempo').prop('disabled', true);
+                    $('#nextBtnTiempo').prop('disabled', true);
                 }
-            },
-            error: function() {
-                // Mostrar mensaje de error
-                $('#resultadoBusquedaDarTiempo').html(`
-                    <div class="alert alert-danger">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Error de conexión. Inténtelo de nuevo.
-                    </div>
-                `);
-                
-                // Deshabilitar el botón siguiente
-                $('#nextBtnDarTiempo').prop('disabled', true);
+            });
+        });
+
+        // Botón siguiente
+        $('#nextBtnTiempo').click(function() {
+            if (pasoActualGestionTiempo < totalPasosGestionTiempo) {
+                mostrarPasoTiempo(pasoActualGestionTiempo + 1);
             }
         });
-    });
-    
-    // Botón siguiente
-    $('#nextBtnDarTiempo').click(function() {
-        if (currentStepDarTiempo < totalStepsDarTiempo) {
-            if (currentStepDarTiempo === 2) {
-                // Establecer fecha y hora actual por defecto
-                const now = new Date();
-                const formattedDateTime = now.toISOString().slice(0, 16);
-                $('#tiempoRegistradoDar').val(formattedDateTime);
+
+        // Botón anterior
+        $('#prevBtnTiempo').click(function() {
+            if (pasoActualGestionTiempo > 1) {
+                mostrarPasoTiempo(pasoActualGestionTiempo - 1);
             }
-            showStepDarTiempo(currentStepDarTiempo + 1);
-        }
-    });
-    
-    // Botón anterior
-    $('#prevBtnDarTiempo').click(function() {
-        if (currentStepDarTiempo > 1) {
-            showStepDarTiempo(currentStepDarTiempo - 1);
-        }
-    });
-    
-    // Validación del formulario
-    const validatorDarTiempo = new JustValidate('#darTiempoForm', {
-        validateBeforeSubmitting: true,
-        lockForm: true,
-        focusInvalidField: true,
-        errorFieldCssClass: 'is-invalid',
-        successFieldCssClass: 'is-valid',
-        errorLabelCssClass: ['invalid-feedback'],
-        successLabelCssClass: ['valid-feedback']
-    });
-    
-    validatorDarTiempo
-        .addField('#tipoDarTiempo', [
-            {
-                rule: 'required',
-                errorMessage: 'Debe seleccionar un tipo de tiempo'
-            }
-        ])
-        .addField('#tiempoRegistradoDar', [
-            {
-                rule: 'required',
-                errorMessage: 'Debe ingresar fecha y hora'
-            }
-        ])
-        .addField('#firmaEncargadoDarTiempo', [
-            {
-                rule: 'required',
-                errorMessage: 'Debe ingresar su firma'
-            },
-            {
-                rule: 'minLength',
-                value: 3,
-                errorMessage: 'La firma debe tener 3 dígitos'
-            },
-            {
-                rule: 'maxLength',
-                value: 3,
-                errorMessage: 'La firma debe tener 3 dígitos'
-            }
-        ]);
-    
-    // Botón de envío
-    $('#submitBtnDarTiempo').click(function() {
-        validatorDarTiempo.validate().then(function(isValid) {
-            if (isValid) {
-                // Preparar datos para enviar
-                const formData = {
-                    codigo_time: userDataDarTiempo.codigo_time,
-                    tipo_tiempo: $('#tipoDarTiempo').val(),
-                    fecha_hora: $('#tiempoRegistradoDar').val(),
-                    firma_encargado: $('#firmaEncargadoDarTiempo').val(),
-                    usuario_encargado: $('#nombreEncargadoDarTiempo').val(),
-                    observaciones: $('#observacionesDarTiempo').val()
-                };
-                
-                // Mostrar cargando
+        });
+
+        // Enviar formulario
+        $('#submitBtnTiempo').click(function() {
+            // Validar campos
+            const estadoTiempo = $('#tiempoStatus').val();
+            const horasAcumuladas = $('#tiempoAcumuladoInput').val();
+            const horasRestadas = $('#tiempoRestadoInput').val();
+            
+            if (!estadoTiempo) {
                 Swal.fire({
-                    title: 'Procesando',
-                    text: 'Registrando tiempo...',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Debe seleccionar un estado para el tiempo'
                 });
-                
-                // Enviar datos al servidor (ajusta la URL según tu endpoint)
-                $.ajax({
-                    url: '/private/procesos/gestion_tiempos/registrar.php',
-                    type: 'POST',
-                    data: formData,
-                    dataType: 'json',
-                    success: function(response) {
-                        Swal.close();
+                return;
+            }
+
+            // Validar formato de tiempo si se ingresó
+            const formatoTiempo = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+            
+            if (horasAcumuladas && !formatoTiempo.test(horasAcumuladas)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El formato del tiempo acumulado debe ser HH:MM:SS'
+                });
+                return;
+            }
+
+            if (horasRestadas && !formatoTiempo.test(horasRestadas)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'El formato del tiempo restado debe ser HH:MM:SS'
+                });
+                return;
+            }
+
+            // Mostrar cargando
+            Swal.fire({
+                title: 'Procesando',
+                text: 'Actualizando tiempo...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Realizar petición AJAX
+            $.ajax({
+                url: '/private/procesos/gestion_tiempos/actualizar_tiempo.php',
+                type: 'POST',
+                data: {
+                    codigo_time: datosUsuarioTiempo.codigo_time,
+                    tiempo_status: estadoTiempo,
+                    tiempo_acumulado: horasAcumuladas || '00:00:00',
+                    tiempo_restado: horasRestadas || '00:00:00',
+                    tiempo_encargado_usuario: $('#nombreEncargadoTiempo').val()
+                },
+                dataType: 'json',
+                success: function(respuestaTiempo) {
+                    Swal.close();
+                    
+                    if (respuestaTiempo.success) {
+                        // Mostrar paso de confirmación
+                        mostrarPasoTiempo(4);
                         
-                        if (response.success) {
-                            // Mostrar mensaje de éxito
-                            showStepDarTiempo(4);
-                            
-                            // Redireccionar después de 3 segundos
-                            setTimeout(function() {
-                                $('#dar_tiempo_modal').modal('hide');
-                                location.reload();
-                            }, 3000);
-                        } else {
-                            // Mostrar mensaje de error
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: response.message
-                            });
-                        }
-                    },
-                    error: function() {
+                        // Redireccionar después de 3 segundos
+                        setTimeout(function() {
+                            $('#dar_tiempo_modal').modal('hide');
+                            window.location.reload();
+                        }, 3000);
+                    } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Error',
-                            text: 'Error de conexión con el servidor'
+                            text: respuestaTiempo.message || 'Error al actualizar el tiempo'
                         });
                     }
-                });
-            }
+                },
+                error: function() {
+                    Swal.close();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error de conexión. Inténtelo de nuevo.'
+                    });
+                }
+            });
+        });
+
+        // Inicializar el modal
+        $('#dar_tiempo_modal').on('show.bs.modal', function() {
+            // Resetear el formulario
+            $('#tiempoFormModal')[0].reset();
+            
+            // Mostrar el primer paso
+            mostrarPasoTiempo(1);
+            
+            // Limpiar resultados
+            $('#resultadoBusquedaTiempo').html('');
+            
+            // Deshabilitar botón siguiente
+            $('#nextBtnTiempo').prop('disabled', true);
         });
     });
-    
-    // Inicializar
-    showStepDarTiempo(1);
-});
 </script>
