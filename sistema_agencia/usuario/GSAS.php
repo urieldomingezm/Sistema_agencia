@@ -52,7 +52,7 @@ require_once(GESTION_ASCENSOS_PATCH . 'mostrar_usuarios.php');
             <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Gestión de Tiempos</h5>
+            <h5 class="mb-0">Gestión de Ascensos</h5>
         </div>
         <div class="card-body">
         <table id="tabladeusuariosascensos" class="table table-bordered table-striped table-hover text-center mb-0">
