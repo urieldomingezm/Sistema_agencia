@@ -98,7 +98,7 @@
                                         <label for="nuevoNombreEdit" class="form-label fw-bold">
                                             <i class="bi bi-person-fill me-1 text-primary"></i> Nombre de Usuario
                                         </label>
-                                        <input type="text" class="form-control" id="nuevoNombreEdit" name="nuevoNombreEdit" required>
+                                        <input type="text" class="form-control" id="nuevoNombreEdit" name="nuevoNombreEdit" readonly>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="nuevoRangoEdit" class="form-label fw-bold">
@@ -326,14 +326,13 @@ $(document).ready(function() {
     // Botón Guardar Cambios
     $('#submitBtnEdit').click(function() {
         // Validar formulario
-        const nuevoNombre = $('#nuevoNombreEdit').val().trim();
         const nuevoRango = $('#nuevoRangoEdit').val();
         const nuevaMision = $('#nuevaMisionEdit').val().trim();
         const nuevaFirma = $('#nuevaFirmaEdit').val().trim();
         const nuevoEstado = $('#nuevoEstadoEdit').val();
         const firmaEncargado = $('#firmaEncargadoEdit').val().trim();
         
-        if (!nuevoNombre || !nuevoRango || !nuevaMision || !nuevaFirma || !nuevoEstado || !firmaEncargado) {
+        if (!nuevoRango || !nuevaMision || !nuevaFirma || !nuevoEstado || !firmaEncargado) {
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
@@ -357,18 +356,17 @@ $(document).ready(function() {
         // Preparar datos para enviar
         const formData = new FormData();
         formData.append('ascenso_id', $('#usuarioIdEdit').val());
-        formData.append('codigo_time', $('#codigoTimeHiddenEdit').val());
-        formData.append('usuario_registro', nuevoNombre);
-        formData.append('rango_actual', nuevoRango);
-        formData.append('mision_actual', nuevaMision);
-        formData.append('firma_usuario', nuevaFirma);
-        formData.append('estado_ascenso', nuevoEstado);
-        formData.append('firma_encargado', firmaEncargado);
+        formData.append('codigoTimeHiddenEdit', $('#codigoTimeHiddenEdit').val());
+        formData.append('nuevoRangoEdit', nuevoRango);
+        formData.append('nuevaMisionEdit', nuevaMision);
+        formData.append('nuevaFirmaEdit', nuevaFirma);
+        formData.append('nuevoEstadoEdit', nuevoEstado);
+        formData.append('firmaEncargadoEdit', firmaEncargado);
         formData.append('action', 'modificar_usuario');
         
         // Realizar petición AJAX
         $.ajax({
-            url: '/private/procesos/gestion_usuarios/modificar_usuario.php',
+            url: '/private/procesos/gestion_modificar/modificar.php',
             type: 'POST',
             data: formData,
             processData: false,
@@ -392,12 +390,18 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error de conexión. Inténtelo de nuevo.'
-                });
-            }
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Ascenso registrado!', 
+                        text: 'El ascenso se ha registrado correctamente.',
+                        allowOutsideClick: false,
+                        confirmButtonText: 'Ir a gestión'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = '?page=gestion_ascenso';
+                        }
+                    });
+                }
         });
     });
     
