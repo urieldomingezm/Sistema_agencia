@@ -330,7 +330,7 @@
 
             // Realizar petición AJAX
             $.ajax({
-                url: '/private/procesos/gestion_tiempos/actualizar_tiempo.php',
+                url: '/private/procesos/gestion_tiempos/activar_tiempo.php',
                 type: 'POST',
                 data: {
                     codigo_time: datosUsuarioTiempo.codigo_time,
