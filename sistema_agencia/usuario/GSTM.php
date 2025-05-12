@@ -117,7 +117,7 @@ echo $gestionTiempos->renderTable();
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar DataTable
+
         const dataTable = new simpleDatatables.DataTable("#datatable_tiempos", {
             searchable: true,
             fixedHeight: true,
@@ -129,9 +129,7 @@ echo $gestionTiempos->renderTable();
             }
         });
 
-        // Función para manejar eventos de los botones
         function setupButtonEvents() {
-            // Agregar evento para liberar encargado
             document.querySelectorAll('.liberar-encargado').forEach(button => {
                 button.addEventListener('click', function() {
                     const codigo = this.getAttribute('data-codigo');
@@ -139,7 +137,6 @@ echo $gestionTiempos->renderTable();
                 });
             });
 
-            // Agregar evento para pausar tiempo
             document.querySelectorAll('.pausar-tiempo').forEach(button => {
                 button.addEventListener('click', function() {
                     const codigo = this.getAttribute('data-codigo');
@@ -147,7 +144,6 @@ echo $gestionTiempos->renderTable();
                 });
             });
 
-            // Agregar evento para ver tiempo
             document.querySelectorAll('.ver-tiempo').forEach(button => {
                 button.addEventListener('click', function() {
                     const codigo = this.getAttribute('data-codigo');
@@ -155,9 +151,7 @@ echo $gestionTiempos->renderTable();
                 });
             });
 
-            // Función para manejar la visualización del tiempo
             function handleVerTiempo(codigo) {
-                // Aquí puedes implementar la lógica para mostrar el tiempo
                 Swal.fire({
                     title: 'Tiempo Actual',
                     text: 'Mostrando detalles del tiempo...',
@@ -167,9 +161,8 @@ echo $gestionTiempos->renderTable();
             }
         }
 
-        // Función para manejar la liberación del encargado
         function handleLiberarEncargado(codigo) {
-            // Confirmar antes de liberar
+ 
             Swal.fire({
                 title: '¿Estás seguro?',
                 text: "Se liberará el Tiempo actual para que otra persona pueda tomar el tiempo",
@@ -181,7 +174,7 @@ echo $gestionTiempos->renderTable();
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Mostrar cargando
+   
                     Swal.fire({
                         title: 'Procesando',
                         text: 'Liberando encargado...',
@@ -191,7 +184,6 @@ echo $gestionTiempos->renderTable();
                         }
                     });
 
-                    // Enviar solicitud para liberar encargado
                     fetch('/private/procesos/gestion_tiempos/procesar_tiempo.php', {
                         method: 'POST',
                         headers: {
@@ -208,7 +200,6 @@ echo $gestionTiempos->renderTable();
                                 icon: 'success',
                                 confirmButtonText: 'Aceptar'
                             }).then(() => {
-                                // Recargar la página para ver los cambios
                                 window.location.reload();
                             });
                         } else {
@@ -233,9 +224,8 @@ echo $gestionTiempos->renderTable();
             });
         }
 
-        // Función para manejar la pausa del tiempo
         function handlePausarTiempo(codigo) {
-            // Confirmar antes de pausar
+
             Swal.fire({
                 title: '¿Estás seguro?',
                 text: "Se pausará el tiempo actual",
@@ -247,7 +237,7 @@ echo $gestionTiempos->renderTable();
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Mostrar cargando
+
                     Swal.fire({
                         title: 'Procesando',
                         text: 'Pausando tiempo...',
@@ -257,7 +247,7 @@ echo $gestionTiempos->renderTable();
                         }
                     });
 
-                    // Enviar solicitud para pausar tiempo
+
                     fetch('/private/procesos/gestion_tiempos/procesar_tiempo.php', {
                         method: 'POST',
                         headers: {
@@ -299,10 +289,8 @@ echo $gestionTiempos->renderTable();
             });
         }
 
-        // Configurar eventos iniciales
         setupButtonEvents();
 
-        // Configurar eventos después de cada cambio en la tabla
         dataTable.on('datatable.page', setupButtonEvents);
         dataTable.on('datatable.sort', setupButtonEvents);
         dataTable.on('datatable.search', setupButtonEvents);
