@@ -73,6 +73,9 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                                     <button class="btn btn-sm btn-warning pausar-tiempo" data-codigo="<?= $tiempo['codigo_time'] ?>">
                                         <i class="bi bi-pause-fill"></i> Pausar
                                     </button>
+                                    <button class="btn btn-sm btn-info ver-tiempo" data-codigo="<?= $tiempo['codigo_time'] ?>">
+                                        <i class="bi bi-clock-fill"></i> Ver Tiempo
+                                    </button>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -82,10 +85,6 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
         </div>
     </div>
 </div>
-
-
-<!-- SweetAlert2 CDN -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -118,6 +117,25 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                     handlePausarTiempo(codigo);
                 });
             });
+
+            // Agregar evento para ver tiempo
+            document.querySelectorAll('.ver-tiempo').forEach(button => {
+                button.addEventListener('click', function() {
+                    const codigo = this.getAttribute('data-codigo');
+                    handleVerTiempo(codigo);
+                });
+            });
+
+            // Función para manejar la visualización del tiempo
+            function handleVerTiempo(codigo) {
+                // Aquí puedes implementar la lógica para mostrar el tiempo
+                Swal.fire({
+                    title: 'Tiempo Actual',
+                    text: 'Mostrando detalles del tiempo...',
+                    icon: 'info',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
         }
 
         // Función para manejar la liberación del encargado
@@ -145,7 +163,7 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                     });
 
                     // Enviar solicitud para liberar encargado
-                    fetch('/usuario/procesar_tiempo.php', {
+                    fetch('/private/procesos/gestion_tiempos/procesar_tiempo.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
@@ -211,7 +229,7 @@ require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
                     });
 
                     // Enviar solicitud para pausar tiempo
-                    fetch('/usuario/procesar_tiempo.php', {
+                    fetch('/private/procesos/gestion_tiempos/procesar_tiempo.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
