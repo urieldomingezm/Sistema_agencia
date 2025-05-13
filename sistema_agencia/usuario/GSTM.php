@@ -50,14 +50,8 @@ class GestionTiempos {
     }
 
     private function debeMostrarTiempo($tiempo) {
-        // Si el usuario es admin, manager o fundador, mostrar todos los tiempos
-        if (in_array($this->rangoUsuario, ['administrador', 'manager', 'fundador'])) {
-            return true;
-        }
-        
-        // Mostrar solo los tiempos del usuario actual o donde es encargado
-        return $tiempo['habbo_name'] === $this->usuarioActual || 
-               $tiempo['tiempo_encargado_usuario'] === $this->usuarioActual;
+        // Mostrar todos los tiempos sin restricciones
+        return true;
     }
 
     private function renderRow($tiempo) {
