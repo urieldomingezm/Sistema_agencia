@@ -55,7 +55,7 @@ class GestionTiempos {
             return true;
         }
         
-        // Mostrar solo los tiempos del usuario actual
+        // Mostrar solo los tiempos del usuario actual o donde es encargado
         return $tiempo['habbo_name'] === $this->usuarioActual || 
                $tiempo['tiempo_encargado_usuario'] === $this->usuarioActual;
     }
