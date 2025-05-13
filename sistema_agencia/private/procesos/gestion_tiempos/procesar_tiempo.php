@@ -172,6 +172,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 break;
                 
+            case 'completar_tiempo':
+                if (isset($_POST['codigo_time']) && !empty($_POST['codigo_time'])) {
+                    $codigo_time = $_POST['codigo_time'];
+                    
+                    try {
+                        // Obtener datos actuales del tiempo
+                        $query_check = "SELECT tiempo_status, tiempo_iniciado, tiempo_acumulado 
+                                      FROM gestion_tiempo 
+                                      WHERE codigo_time = :codigo_time";
+                        $stmt_check = $conn->prepare($query_check);
+                        $stmt_check->bindParam(':codigo_time', $codigo_time);
+                        $stmt_check->execute();
+                        
+                        $tiempo_data = $stmt_check->fetch(PDO::FETCH_ASSOC);
+                        
+                        if ($tiempo_data && strtolower($tiempo_data['tiempo_status']) !== 'completado') {
+                            date_default_timezone_set('America/Mexico_City');
+                            
+                            // Calcular tiempo transcurrido si está activo
+                            if (strtolower($tiempo_data['tiempo_status']) === 'activo') {
+                                $hora_actual = new DateTime();
+                                $tiempo_iniciado = new DateTime($tiempo_data['tiempo_iniciado']);
+                                $diferencia = $hora_actual->diff($tiempo_iniciado);
+                                $tiempo_transcurrido = sprintf(
+                                    '%02d:%02d:%02d',
+                                    $diferencia->h + ($diferencia->days * 24),
+                                    $diferencia->i,
+                                    $diferencia->s
+                                );
+                                
+                                // Sumar tiempo transcurrido al acumulado
+                                list($h_acumulado, $m_acumulado, $s_acumulado) = explode(':', $tiempo_data['tiempo_acumulado']);
+                                $tiempo_acumulado_segundos = $h_acumulado * 3600 + $m_acumulado * 60 + $s_acumulado;
+                                
+                                list($h_transcurrido, $m_transcurrido, $s_transcurrido) = explode(':', $tiempo_transcurrido);
+                                $tiempo_transcurrido_segundos = $h_transcurrido * 3600 + $m_transcurrido * 60 + $s_transcurrido;
+                                
+                                $tiempo_total_segundos = $tiempo_acumulado_segundos + $tiempo_transcurrido_segundos;
+                                $horas_total = floor($tiempo_total_segundos / 3600);
+                                $minutos_total = floor(($tiempo_total_segundos % 3600) / 60);
+                                $segundos_total = $tiempo_total_segundos % 60;
+                                $tiempo_acumulado_total = sprintf('%02d:%02d:%02d', $horas_total, $minutos_total, $segundos_total);
+                            } else {
+                                $tiempo_acumulado_total = $tiempo_data['tiempo_acumulado'];
+                            }
+                            
+                            // Actualizar el registro
+                            $query = "UPDATE gestion_tiempo SET 
+                                     tiempo_status = 'completado',
+                                     tiempo_acumulado = :tiempo_acumulado_total,
+                                     tiempo_iniciado = '00:00:00',
+                                     tiempo_encargado_usuario = NULL
+                                     WHERE codigo_time = :codigo_time";
+                            $stmt = $conn->prepare($query);
+                            $stmt->bindParam(':tiempo_acumulado_total', $tiempo_acumulado_total);
+                            $stmt->bindParam(':codigo_time', $codigo_time);
+                            
+                            if ($stmt->execute()) {
+                                $response['success'] = true;
+                                $response['message'] = 'Tiempo completado correctamente';
+                            } else {
+                                $response['message'] = 'Error al completar el tiempo';
+                            }
+                        } else {
+                            $response['message'] = 'El tiempo ya está completado';
+                        }
+                    } catch (PDOException $e) {
+                        $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
+                    }
+                } else {
+                    $response['message'] = 'Código de tiempo no proporcionado';
+                }
+                break;
+                
             default:
                 $response['message'] = 'Acción no reconocida';
                 break;

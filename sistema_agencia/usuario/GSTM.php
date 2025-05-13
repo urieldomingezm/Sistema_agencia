@@ -2,10 +2,14 @@
 
 class GestionTiempos {
     private $tiempos;
+    private $usuarioActual;
+    private $rangoUsuario;
 
     public function __construct() {
         require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
         $this->tiempos = $GLOBALS['tiempos'];
+        $this->usuarioActual = $_SESSION['username'];
+        $this->rangoUsuario = $_SESSION['rango']; // Asumiendo que el rango está en la sesión
     }
 
     public function renderTable() {
@@ -30,7 +34,10 @@ class GestionTiempos {
                         <tbody>';
 
         foreach ($this->tiempos as $tiempo) {
-            $html .= $this->renderRow($tiempo);
+            // Mostrar solo los tiempos del usuario actual o todos si es admin/manager/fundador
+            if ($this->debeMostrarTiempo($tiempo)) {
+                $html .= $this->renderRow($tiempo);
+            }
         }
 
         $html .= '</tbody>
@@ -40,6 +47,17 @@ class GestionTiempos {
         </div>';
 
         return $html;
+    }
+
+    private function debeMostrarTiempo($tiempo) {
+        // Si el usuario es admin, manager o fundador, mostrar todos los tiempos
+        if (in_array($this->rangoUsuario, ['administrador', 'manager', 'fundador'])) {
+            return true;
+        }
+        
+        // Mostrar solo los tiempos del usuario actual
+        return $tiempo['habbo_name'] === $this->usuarioActual || 
+               $tiempo['tiempo_encargado_usuario'] === $this->usuarioActual;
     }
 
     private function renderRow($tiempo) {
@@ -104,9 +122,11 @@ class GestionTiempos {
             </button>
             <button class="btn btn-sm btn-info ver-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
                 <i class="bi bi-clock-fill"></i> Ver Tiempo
+            </button>
+            <button class="btn btn-sm btn-success completar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                <i class="bi bi-check-circle-fill"></i> Completar
             </button>';
         }
-
         return $actions;
     }
 }
@@ -303,6 +323,74 @@ echo $gestionTiempos->renderTable();
                             Swal.fire({
                                 title: 'Error',
                                 text: data.message || 'Ocurrió un error al pausar el tiempo',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Ocurrió un error de conexión',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    });
+                }
+            });
+        }
+
+        document.querySelectorAll('.completar-tiempo').forEach(button => {
+            button.addEventListener('click', function() {
+                const codigo = this.getAttribute('data-codigo');
+                handleCompletarTiempo(codigo);
+            });
+        });
+
+        function handleCompletarTiempo(codigo) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Se marcará el tiempo como completado",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, completar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Procesando',
+                        text: 'Completando tiempo...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    fetch('/private/procesos/gestion_tiempos/procesar_tiempo.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'accion=completar_tiempo&codigo_time=' + encodeURIComponent(codigo)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: '¡Éxito!',
+                                text: 'Tiempo completado correctamente',
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            }).then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: data.message || 'Ocurrió un error al completar el tiempo',
                                 icon: 'error',
                                 confirmButtonText: 'Aceptar'
                             });
