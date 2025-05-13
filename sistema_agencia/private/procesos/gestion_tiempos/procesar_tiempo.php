@@ -121,6 +121,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } else {
                     $response['message'] = 'Código de tiempo no proporcionado';
                 }
+            case 'ver_tiempo':
+                if (isset($_POST['codigo_time']) && !empty($_POST['codigo_time'])) {
+                    $codigo_time = $_POST['codigo_time'];
+                    
+                    try {
+                        $query_check = "SELECT tiempo_status, tiempo_iniciado, tiempo_acumulado FROM gestion_tiempo WHERE codigo_time = :codigo_time";
+                        $stmt_check = $conn->prepare($query_check);
+                        $stmt_check->bindParam(':codigo_time', $codigo_time);
+                        $stmt_check->execute();
+                        
+                        $tiempo_data = $stmt_check->fetch(PDO::FETCH_ASSOC);
+                        
+                        if ($tiempo_data) {
+                            date_default_timezone_set('America/Mexico_City');
+                            $hora_actual = new DateTime();
+                            $tiempo_iniciado = new DateTime($tiempo_data['tiempo_iniciado']);
+                            $diferencia = $hora_actual->diff($tiempo_iniciado);
+                            $tiempo_transcurrido = sprintf(
+                                '%02d:%02d:%02d',
+                                $diferencia->h + ($diferencia->days * 24),
+                                $diferencia->i,
+                                $diferencia->s
+                            );
+                            
+                            list($h_acumulado, $m_acumulado, $s_acumulado) = explode(':', $tiempo_data['tiempo_acumulado']);
+                            $tiempo_acumulado_segundos = $h_acumulado * 3600 + $m_acumulado * 60 + $s_acumulado;
+                            
+                            list($h_transcurrido, $m_transcurrido, $s_transcurrido) = explode(':', $tiempo_transcurrido);
+                            $tiempo_transcurrido_segundos = $h_transcurrido * 3600 + $m_transcurrido * 60 + $s_transcurrido;
+                            
+                            $tiempo_total_segundos = $tiempo_acumulado_segundos + $tiempo_transcurrido_segundos;
+                            $horas_total = floor($tiempo_total_segundos / 3600);
+                            $minutos_total = floor(($tiempo_total_segundos % 3600) / 60);
+                            $segundos_total = $tiempo_total_segundos % 60;
+                            $tiempo_total = sprintf('%02d:%02d:%02d', $horas_total, $minutos_total, $segundos_total);
+                            
+                            $response['tiempo_total'] = $tiempo_total;
+                            $response['success'] = true;
+                            $response['tiempo_acumulado'] = $tiempo_data['tiempo_acumulado'];
+                            $response['tiempo_transcurrido'] = $tiempo_transcurrido;
+                        } else {
+                            $response['message'] = 'No se encontró el tiempo';
+                        }
+                    } catch (PDOException $e) {
+                        $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
+                    }
+                } else {
+                    $response['message'] = 'Código de tiempo no proporcionado';
+                }
                 break;
                 
             default:

@@ -152,11 +152,43 @@ echo $gestionTiempos->renderTable();
             });
 
             function handleVerTiempo(codigo) {
-                Swal.fire({
-                    title: 'Tiempo Actual',
-                    text: 'Mostrando detalles del tiempo...',
-                    icon: 'info',
-                    confirmButtonText: 'Aceptar'
+                fetch('/private/procesos/gestion_tiempos/procesar_tiempo.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'accion=ver_tiempo&codigo_time=' + encodeURIComponent(codigo)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Tiempo Acumulado',
+                            html: '<div style="text-align: center;">' +
+                                  '<b>Tiempo acumulado:</b> ' + data.tiempo_acumulado + '<br>' +
+                                  '<b>Tiempo transcurrido:</b> ' + data.tiempo_transcurrido + '<br>' +
+                                  '<b>Total:</b> ' + data.tiempo_total +
+                                  '</div>',
+                            icon: 'info',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.message || 'Error al obtener el tiempo',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Error de conexión',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
                 });
             }
         }
