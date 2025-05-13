@@ -157,7 +157,7 @@ class Navbar
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
-      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso_modal',
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal'
     ];
 
