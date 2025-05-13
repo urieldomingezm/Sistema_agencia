@@ -113,10 +113,11 @@ class GestionTiempos {
         $actions = '';
 
         if ($status === 'pausa' && !empty($tiempo['tiempo_encargado_usuario'])) {
-            $actions .= '<button class="btn btn-sm btn-danger liberar-encargado" data-codigo="'.$tiempo['codigo_time'].'">
-                <i class="bi bi-person-x-fill"></i> Liberar Tiempo
+            $actions .= '<button class="btn btn-sm btn-danger cerrar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                <i class="bi bi-x-circle-fill"></i> Cerrar Tiempo
             </button>';
-        } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
+        } 
+        elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
             $actions .= '<button class="btn btn-sm btn-warning pausar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
                 <i class="bi bi-pause-fill"></i> Pausar
             </button>
