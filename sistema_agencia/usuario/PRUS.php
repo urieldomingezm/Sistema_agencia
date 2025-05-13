@@ -105,17 +105,25 @@ $userData = $userProfile->getUserData();
                         <span class="info-label me-2">Próxima hora</span>
                         <span class="info-value">
                             <?php 
-                            $time = new DateTime($userData['estimatedTime']);
-                            $minutes = $time->format('i');
-                            $seconds = $time->format('s');
-                            
-                            if ($minutes > 0) {
-                                echo $minutes . ' minuto' . ($minutes > 1 ? 's' : '');
-                                if ($seconds > 0) {
-                                    echo ' con ' . $seconds . ' segundo' . ($seconds > 1 ? 's' : '');
+                            if (!empty($userData['estimatedTime'])) {
+                                $date = DateTime::createFromFormat('d/m/Y H:i', $userData['estimatedTime']);
+                                if ($date) {
+                                    $minutes = $date->format('i');
+                                    $seconds = $date->format('s');
+                                    
+                                    if ($minutes > 0) {
+                                        echo $minutes . ' minuto' . ($minutes > 1 ? 's' : '');
+                                        if ($seconds > 0) {
+                                            echo ' con ' . $seconds . ' segundo' . ($seconds > 1 ? 's' : '');
+                                        }
+                                    } else {
+                                        echo $seconds . ' segundo' . ($seconds > 1 ? 's' : '');
+                                    }
+                                } else {
+                                    echo 'Formato de fecha inválido';
                                 }
                             } else {
-                                echo $seconds . ' segundo' . ($seconds > 1 ? 's' : '');
+                                echo 'No disponible';
                             }
                             ?>
                         </span>

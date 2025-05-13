@@ -194,6 +194,7 @@
         // Buscar usuario por código
         $('#buscarUsuarioTiempo').click(function() {
             const codigoUsuario = $('#codigoTimeTiempo').val().trim();
+            const usuarioActual = '<?php echo $_SESSION['username']; ?>';
 
             if (codigoUsuario.length !== 5) {
                 Swal.fire({
@@ -218,6 +219,18 @@
                 success: function(respuesta) {
                     if (respuesta.success) {
                         datosUsuarioTiempo = respuesta.data;
+
+                        // Validar si el usuario está intentando asignarse tiempo a sí mismo
+                        if (datosUsuarioTiempo.usuario_registro === usuarioActual) {
+                            $('#resultadoBusquedaTiempo').html(`
+                                <div class="alert alert-danger">
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i> 
+                                    No puedes asignarte tiempo a ti mismo.
+                                </div>
+                            `);
+                            $('#nextBtnTiempo').prop('disabled', true);
+                            return;
+                        }
 
                         // Mostrar información del usuario
                         $('#nombreUsuarioTiempo').text(datosUsuarioTiempo.usuario_registro);
