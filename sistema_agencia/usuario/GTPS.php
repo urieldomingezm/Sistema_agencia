@@ -1,8 +1,6 @@
 <?php
-
 // RUTAS DE GESTION DE PAGAS
-require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
-
+require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php'); // MOSTRAR USUARIOS
 ?>
 
 <div class="container py-4">
@@ -42,12 +40,12 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
     </div>
 
     <div class="container mt-4">
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Gestión de pagos</h5>
-        </div>
-        <div class="card-body">
-        <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Gestión de pagos</h5>
+            </div>
+            <div class="card-body">
+                <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>Usuario</th>
@@ -77,23 +75,10 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
         </div>
     </div>
 </div>
 
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dataTable = new simpleDatatables.DataTable("#pagasTable", {
-            searchable: true,
-            fixedHeight: true,
-            labels: {
-                placeholder: "Buscar...",
-                perPage: "Registros por página",
-                noRows: "No hay registros",
-                info: "Mostrando {start} a {end} de {rows} registros",
-            }
-        });
-    });
-</script>
+<!-- JS DE GESTION DE PAGAS -->
+<script src="/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js"></script>

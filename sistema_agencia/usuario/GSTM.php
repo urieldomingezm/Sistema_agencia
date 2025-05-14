@@ -1,14 +1,17 @@
 <?php
 
-class GestionTiempos {
+class GestionTiempos
+{
     private $tiempos;
 
-    public function __construct() {
+    public function __construct()
+    {
         require_once(GESTION_TIEMPO_PATCH . 'mostrar_usuarios.php');
         $this->tiempos = $GLOBALS['tiempos'];
     }
 
-    public function renderTable() {
+    public function renderTable()
+    {
         $html = '<div class="container mt-4">
             <div class="card shadow">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
@@ -125,21 +128,23 @@ class GestionTiempos {
         return $html;
     }
 
-    private function renderRow($tiempo) {
+    private function renderRow($tiempo)
+    {
         $status = $this->getStatusBadge($tiempo['tiempo_status']);
-        
+
         return '<tr>
-            <td>'.$tiempo['habbo_name'].'</td>
-            <td>'.$status.'</td>
-            <td>'.$tiempo['tiempo_restado'].'</td>
-            <td>'.$tiempo['tiempo_acumulado'].'</td>
-            <td>'.$tiempo['tiempo_iniciado'].'</td>
-            <td>'.($tiempo['tiempo_encargado_usuario'] ?? 'No disponible').'</td>
-            <td>'.$this->renderActions($tiempo).'</td>
+            <td>' . $tiempo['habbo_name'] . '</td>
+            <td>' . $status . '</td>
+            <td>' . $tiempo['tiempo_restado'] . '</td>
+            <td>' . $tiempo['tiempo_acumulado'] . '</td>
+            <td>' . $tiempo['tiempo_iniciado'] . '</td>
+            <td>' . ($tiempo['tiempo_encargado_usuario'] ?? 'No disponible') . '</td>
+            <td>' . $this->renderActions($tiempo) . '</td>
         </tr>';
     }
 
-    private function getStatusBadge($status) {
+    private function getStatusBadge($status)
+    {
         $status = strtolower($status);
         $badge_class = '';
         $status_text = '';
@@ -170,33 +175,34 @@ class GestionTiempos {
                 $status_text = $status;
         }
 
-        return '<span class="badge bg-'.$badge_class.'">'.$status_text.'</span>';
+        return '<span class="badge bg-' . $badge_class . '">' . $status_text . '</span>';
     }
 
-    private function renderActions($tiempo) {
+    private function renderActions($tiempo)
+    {
         $status = strtolower($tiempo['tiempo_status']);
         $actions = '';
 
         if ($status === 'pausa' || $status === 'inactivo') {
             $actions .= '
                 <div class="btn-group" role="group">
-                    <button class="btn btn-sm btn-success completar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                    <button class="btn btn-sm btn-success completar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
                         <i class="bi bi-check-circle-fill"></i> Completar
                     </button>
                 </div>';
         } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
             $actions .= '
                 <div class="btn-group" role="group">
-                    <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                    <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
                         <i class="bi bi-pause-fill"></i> Pausar
                     </button>
-                    <button class="btn btn-sm btn-success me-1 designar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                    <button class="btn btn-sm btn-success me-1 designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
                         <i class="bi bi-person-plus-fill"></i> Designar
                     </button>
-                    <button class="btn btn-sm btn-info me-1 ver-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                    <button class="btn btn-sm btn-info me-1 ver-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
                         <i class="bi bi-clock-fill"></i> Ver Tiempo
                     </button>
-                    <button class="btn btn-sm btn-success completar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                    <button class="btn btn-sm btn-success completar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
                         <i class="bi bi-check-circle-fill"></i> Completar
                     </button>
                 </div>';
@@ -210,5 +216,3 @@ $gestionTiempos = new GestionTiempos();
 echo $gestionTiempos->renderTable();
 ?>
 <script src="/public/assets/custom_general/custom_gestion_tiempos/index_gestion.js"></script>
-
-
