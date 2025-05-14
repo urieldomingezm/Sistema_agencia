@@ -35,17 +35,17 @@ class Navbar
                 <?php 
                   if(isset($_SESSION["usuario"])) {
                     $nombre = $_SESSION["usuario"];
-                    echo strlen($nombre) > 8 ? substr($nombre, 0, 8)."..." : $nombre;
+                    echo strlen($nombre) > 6 ? substr($nombre, 0, 6)."..." : $nombre;
                   } else {
-                    echo "Usuario";
+                    echo "Usr";
                   }
                 ?>
               </span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu shadow-sm" aria-labelledby="userDropdown"> 
-              <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> Ver perfil</a></li> 
+              <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> <span class="d-none d-sm-inline">Ver perfil</span><span class="d-inline d-sm-none">Perfil</span></a></li> 
               <li><hr class="dropdown-divider my-1"></li> 
-              <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión</a></li> 
+              <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> <span class="d-none d-sm-inline">Cerrar sesión</span><span class="d-inline d-sm-none">Salir</span></a></li> 
             </ul> 
           </div>
 
