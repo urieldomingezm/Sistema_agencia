@@ -30,7 +30,6 @@ define('PROCESO_VENTAS_MEMBRESIAS_PACTH', PRIVATE_PATH . 'procesos/gestion_venta
 define('MODAL_PATH', PRIVATE_PATH . 'modals/');
 define('MODAL_CALCULAR_RANGOS_PATH', PRIVATE_PATH . 'modal/modal_calcular_rangos/');
 define('MODALES_MENU_PAGA_PATH', PRIVATE_PATH . 'modal/modal_paga/');
-define('MODALES_MENU_VENTAS_PATH', PRIVATE_PATH . 'modal/modal_menu_ventas/');
 define('GESTION_RENOVAR_VENTA_PATCH', PRIVATE_PATH. 'modal/modal_gestion_ventas/');
 define('DAR_ASCENSO_PATCH', PRIVATE_PATH . 'modal/modal_ascensos/');
 define('DAR_TIEMPO_PATCH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/');
