@@ -153,8 +153,6 @@ class Navbar
   {
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
-      'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
-      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
       'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso'
     ];
 

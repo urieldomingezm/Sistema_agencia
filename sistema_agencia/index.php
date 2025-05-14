@@ -17,6 +17,9 @@ if (isset($_SESSION['swal'])) {
 <br>
 <?php
 require_once(MENU_PATH . 'menu_normal.php');
+?>
+
+<?php
 require_once(BODY_HOME_PATH . 'home_inicio.php');
 require_once(TEMPLATES_PATH . 'footer.php');
 ?>
