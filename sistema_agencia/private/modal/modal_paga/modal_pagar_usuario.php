@@ -1,59 +1,80 @@
 <?php
 require_once(CONFIG_PATH . 'bd.php');
 
-class Pago
-{
+// Payment entity class
+class Payment {
+    private $usuario;
+    private $recibio;
+    private $motivo;
+    private $completo;
+    private $descripcion;
+    private $rango;
+
+    public function __construct($usuario, $recibio, $motivo, $completo, $descripcion, $rango) {
+        $this->usuario = $usuario;
+        $this->recibio = $recibio;
+        $this->motivo = $motivo;
+        $this->completo = $completo;
+        $this->descripcion = $descripcion;
+        $this->rango = $rango;
+    }
+
+    public function getValues() {
+        return [
+            'usuario' => $this->usuario,
+            'recibio' => $this->recibio,
+            'motivo' => $this->motivo,
+            'completo' => $this->completo,
+            'descripcion' => $this->descripcion,
+            'rango' => $this->rango
+        ];
+    }
+}
+
+// Payment repository class
+class PaymentRepository {
     private $conn;
 
-    public function __construct($db)
-    {
+    public function __construct($db) {
         $this->conn = $db;
     }
 
-    public function registrarPago($usuario, $recibio, $motivo, $completo, $descripcion, $rango)
-    {
+    public function save(Payment $payment) {
         try {
             $sql = "INSERT INTO gestion_pagas 
                     (pagas_usuario, pagas_recibio, pagas_motivo, pagas_rango, pagas_completo, pagas_descripcion, pagas_fecha_registro) 
                     VALUES (:usuario, :recibio, :motivo, :rango, :completo, :descripcion, NOW())";
 
             $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':usuario', $usuario);
-            $stmt->bindParam(':recibio', $recibio);
-            $stmt->bindParam(':motivo', $motivo);
-            $stmt->bindParam(':completo', $completo);
-            $stmt->bindParam(':descripcion', $descripcion);
-            $stmt->bindParam(':rango', $rango);
+            $values = $payment->getValues();
+            
+            $stmt->bindParam(':usuario', $values['usuario']);
+            $stmt->bindParam(':recibio', $values['recibio']);
+            $stmt->bindParam(':motivo', $values['motivo']);
+            $stmt->bindParam(':completo', $values['completo']);
+            $stmt->bindParam(':descripcion', $values['descripcion']);
+            $stmt->bindParam(':rango', $values['rango']);
 
             return $stmt->execute();
         } catch (PDOException $e) {
-            error_log("Error al registrar pago: " . $e->getMessage());
+            error_log("Error saving payment: " . $e->getMessage());
             return false;
         }
     }
 }
 
-// Procesar formulario si se envía
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
-    $database = new Database();
-    $db = $database->getConnection();
-    $pago = new Pago($db);
-
-    $resultado = $pago->registrarPago(
-        $_POST['pagas_usuario'],
-        $_POST['pagas_recibio'],
-        $_POST['pagas_motivo'],
-        $_POST['pagas_completo'],
-        $_POST['pagas_descripcion'],
-        $_POST['pagas_rango']
-    );
-
-    if ($resultado) {
+// Response handler class
+class ResponseHandler {
+    public static function sendResponse($success) {
+        $title = $success ? '¡Éxito!' : '¡Error!';
+        $text = $success ? 'Pago registrado exitosamente' : 'Error al registrar pago';
+        $icon = $success ? 'success' : 'error';
+        
         echo "<script>
         Swal.fire({
-            title: '¡Éxito!',
-            text: 'Pago registrado exitosamente',
-            icon: 'success',
+            title: '$title',
+            text: '$text',
+            icon: '$icon',
             confirmButtonText: 'OK'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -61,20 +82,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
             }
         });
         </script>";
-    } else {
-        echo "<script>
-        Swal.fire({
-            title: '¡Error!',
-            text: 'Error al registrar pago',
-            icon: 'error',
-            confirmButtonText: 'Intentar de nuevo'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = '/usuario/index.php?page=gestion_de_pagas';
-            }
-        });
-        </script>";
     }
+}
+
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
+    $database = new Database();
+    $db = $database->getConnection();
+    
+    $payment = new Payment(
+        $_POST['pagas_usuario'],
+        $_POST['pagas_recibio'],
+        $_POST['pagas_motivo'],
+        $_POST['pagas_completo'],
+        $_POST['pagas_descripcion'],
+        $_POST['pagas_rango']
+    );
+    
+    $repository = new PaymentRepository($db);
+    $resultado = $repository->save($payment);
+    
+    ResponseHandler::sendResponse($resultado);
 }
 ?>
 
@@ -82,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
 <div class="modal fade" id="modalpagar" tabindex="-1" aria-labelledby="modalpagarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header text-white">
+            <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title" id="modalpagarLabel">
                     Registrar Pago
                 </h5>
@@ -176,53 +204,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const validation = new JustValidate('#pagoForm', {
-            validateBeforeSubmitting: true,
-            errorFieldCssClass: 'is-invalid',
-            errorLabelCssClass: 'invalid-feedback'
-        });
+<!-- archivo de validación -->
+<script src="/public/assets/modal_just_validate/modal_paga_usuario/modal_paga.js"></script>
 
-        validation
-            .addField('#userInput', [{
-                    rule: 'required',
-                    errorMessage: 'El usuario es requerido'
-                },
-                {
-                    rule: 'maxLength',
-                    value: 16,
-                    errorMessage: 'Máximo 16 caracteres'
-                }
-            ])
-            .addField('#amountInput', [{
-                    rule: 'required',
-                    errorMessage: 'El monto es requerido'
-                },
-                {
-                    rule: 'number',
-                    errorMessage: 'Debe ser un número válido'
-                },
-                {
-                    rule: 'minNumber',
-                    value: 1,
-                    errorMessage: 'El monto debe ser mayor a 0'
-                }
-            ])
-            .addField('#pagas_motivo', [{
-                rule: 'required',
-                errorMessage: 'Seleccione una membresía'
-            }])
-            .addField('#pagas_completo', [{
-                rule: 'required',
-                errorMessage: 'Seleccione un tipo de pago'
-            }])
-            .addField('#pagas_rango', [{
-                rule: 'required',
-                errorMessage: 'Seleccione un rango'
-            }])
-            .onSuccess((event) => {
-                event.target.submit();
-            });
-    });
-</script>

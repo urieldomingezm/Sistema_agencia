@@ -12,7 +12,7 @@ require_once(PROCESO_VENTAS_RANGOS_PACTH . 'mostrar_informacion.php');
                 <h5 class="mb-0">RANGOS Y TRASLADOS</h5>
             </div>
             <div class="card-body">
-                <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
+                <table id="VentasRangos" class="table table-bordered table-striped table-hover text-center mb-0">
                     <thead class="table-light">
                         <tr>
                             <th>ID</th>
@@ -39,17 +39,6 @@ require_once(PROCESO_VENTAS_RANGOS_PACTH . 'mostrar_informacion.php');
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const dataTable = new simpleDatatables.DataTable("#pagasTable", {
-            searchable: true,
-            fixedHeight: true,
-            labels: {
-                placeholder: "Buscar...",
-                perPage: "Registros por página",
-                noRows: "No hay registros",
-                info: "Mostrando {start} a {end} de {rows} registros",
-            }
-        });
-    });
-</script>
+
+<!-- CUSTOM JS PARA TABLA RANGOS VENDIDOS -->
+<script src="/public/assets/custom_general/custom_ventas_rangos/venta_rangos.js"></script>
