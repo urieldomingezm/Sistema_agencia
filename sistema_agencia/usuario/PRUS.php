@@ -142,16 +142,33 @@ $userData = $userProfile->getUserData();
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Verificar cada minuto si el ascenso está disponible
-    setInterval(() => {
+    let lastCheck = 0;
+    const checkInterval = 60000; // 1 minuto
+    
+    function checkAscenso() {
+        const now = Date.now();
+        if (now - lastCheck < checkInterval) return;
+        
+        lastCheck = now;
+        
         fetch('<?php echo VER_PERFIL_PATCH; ?>check_ascenso.php')
             .then(response => response.json())
             .then(data => {
                 if(data.disponible) {
-                    document.querySelector('.badge').classList.replace('bg-warning', 'bg-success');
-                    document.querySelector('.badge').textContent = 'Disponible';
+                    const badge = document.querySelector('.badge');
+                    if (badge) {
+                        badge.classList.replace('bg-warning', 'bg-success');
+                        badge.textContent = 'Disponible';
+                    }
                 }
-            });
-    }, 60000);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+    
+    // Verificar al cargar la página
+    checkAscenso();
+    
+    // Verificar cada minuto
+    setInterval(checkAscenso, checkInterval);
 });
 </script>
