@@ -6,7 +6,11 @@ class BodyHome
     {
         echo '<body class="d-flex flex-column h-100" style="background-color: #ffffff; font-family: \'Poppins\', sans-serif;">';
         $this->renderHeader();
+        $this->renderAboutSection();
         $this->renderTeamSection();
+        $this->renderSocialWidgets();
+        $this->renderBlogSection();
+        $this->renderHabboPlatesSection(); // Nueva sección agregada aquí
         $this->renderEventsSection();
         echo '</body>';
     }
@@ -39,12 +43,6 @@ class BodyHome
                 'name' => 'Snotra',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Snotra&headonly=1&head_direction=3&size=sl',
                 'rank' => 'Founder',
-            ],
-            [
-                'id' => '3',
-                'name' => 'xOllStarx',
-                'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=xOllStarx&headonly=1&head_direction=3&size=sl',
-                'rank' => 'Gerente',
             ],
             [
                 'id' => '4',
@@ -135,6 +133,141 @@ class BodyHome
         echo '</div>';
         echo '</section>';
     }
+
+    private function renderAboutSection()
+    {
+        echo '<section style="background: #ffffff; padding: 50px 0;">';
+        echo '<div class="container">';
+        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-info-circle me-2"></i>Sobre Nosotros<i class="bi bi-info-circle ms-2"></i></h2>';
+        echo '<div class="row">';
+        echo '<div class="col-md-6">';
+        echo '<img src="/private/plantilla/home/agencia2.png" style="width: 100%; border-radius: 15px;">';
+        echo '</div>';
+        echo '<div class="col-md-6">';
+        echo '<h3 style="color: #2541b2; font-weight: 600;">Nuestra Historia</h3>';
+        echo '<p style="color: #555;">Agencia Shein es una comunidad vibrante en Habbo Hotel que se dedica a crear experiencias únicas para nuestros usuarios. Desde nuestro inicio en 2025, hemos crecido hasta convertirnos en una de las agencias más reconocidas en el mundo de Habbo.</p>';
+        echo '<h3 style="color: #2541b2; font-weight: 600; margin-top: 30px;">Nuestra Misión</h3>';
+        echo '<p style="color: #555;">Nuestro objetivo es proporcionar un espacio seguro y divertido donde los usuarios puedan interactuar, participar en eventos emocionantes y desarrollar sus habilidades dentro del juego.</p>';
+        echo '</div>';
+        echo '</div>';
+        echo '</div>';
+        echo '</section>';
+    }
+
+    private function renderSocialWidgets()
+    {
+        echo '<section style="background: #ffffff; padding: 50px 0;">';
+        echo '<div class="container">';
+        echo '<div class="row">';
+        
+        // Widget de Twitter
+        echo '<div class="col-md-6 mb-4">';
+        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 20px; text-align: center;"><i class="bi bi-twitter me-2"></i>Últimos Tweets<i class="bi bi-twitter ms-2"></i></h2>';
+        echo '<a class="twitter-timeline" href="https://x.com/AgenciaSheinHB" data-height="400" data-theme="light" data-chrome="nofooter noborders">Tweets by TwitterDev</a>';
+        echo '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+        echo '</div>';
+        
+        // Widget de Discord
+        echo '<div class="col-md-6 mb-4">';
+        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 20px; text-align: center;"><i class="bi bi-discord me-2"></i>Únete a nuestro Discord<i class="bi bi-discord ms-2"></i></h2>';
+        echo '<iframe src="https://discord.com/widget?id=TU_ID_DE_DISCORD&theme=dark" width="100%" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>';
+        echo '</div>';
+        
+        echo '</div>';
+        echo '</div>';
+        echo '</section>';
+    }
+
+    private function renderBlogSection()
+    {
+        echo '<section style="background: #ffffff; padding: 50px 0;">';
+        echo '<div class="container">';
+        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-newspaper me-2"></i>Blog<i class="bi bi-newspaper ms-2"></i></h2>';
+        
+        // Sección de Noticias
+        echo '<div class="mb-5">';
+        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 20px;"><i class="bi bi-megaphone me-2"></i>Noticias</h3>';
+        echo '<div class="row">';
+        
+        $noticias = [
+            [
+                'title' => 'Nuevas Actualizaciones',
+                'description' => 'Descubre las últimas novedades en Habbo Hotel',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20news&aspect=16:9'
+            ],
+            [
+                'title' => 'Nuevo Sistema de Recompensas',
+                'description' => 'Conoce el nuevo sistema de recompensas diarias',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20rewards&aspect=16:9'
+            ],
+            [
+                'title' => 'Mejoras en la Comunidad',
+                'description' => 'Descubre las mejoras implementadas en la comunidad',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20community&aspect=16:9'
+            ]
+        ];
+    
+        foreach ($noticias as $noticia) {
+            echo '<div class="col-md-4 mb-4">';
+            echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
+            echo '<img src="' . $noticia['image'] . '" alt="' . $noticia['title'] . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
+            echo '<h4 style="color: #2541b2; font-weight: 600;">' . $noticia['title'] . '</h4>';
+            echo '<p style="color: #555;">' . $noticia['description'] . '</p>';
+            echo '<a href="#" style="background: linear-gradient(45deg, #4a6bff, #2541b2); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 500; text-decoration: none;">Leer más</a>';
+            echo '</div>';
+            echo '</div>';
+        }
+        
+        echo '</div>';
+        echo '</div>';
+        echo '</section>';
+    }
+
+    private function renderHabboPlatesSection()
+    {
+        echo '<section style="background: #f8f9fa; padding: 50px 0;">';
+        echo '<div class="container">';
+        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-award me-2"></i>Nuevas Placas de Habbo<i class="bi bi-award ms-2"></i></h2>';
+        echo '<div class="row">';
+    
+        $plates = [
+            [
+                'name' => 'Placa de Oro',
+                'description' => 'La nueva placa de oro para los mejores constructores',
+                'release_date' => '10 de Octubre, 2024',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20gold%20plate&aspect=16:9'
+            ],
+            [
+                'name' => 'Placa de Plata',
+                'description' => 'Placa de plata para los usuarios destacados',
+                'release_date' => '15 de Noviembre, 2024',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20silver%20plate&aspect=16:9'
+            ],
+            [
+                'name' => 'Placa de Bronce',
+                'description' => 'Placa de bronce para los usuarios activos',
+                'release_date' => '20 de Diciembre, 2024',
+                'image' => 'https://api.a0.dev/assets/image?text=Habbo%20bronze%20plate&aspect=16:9'
+            ]
+        ];
+    
+        foreach ($plates as $plate) {
+            echo '<div class="col-md-4 mb-4">';
+            echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%; transition: all 0.3s ease;">';
+            echo '<img src="' . $plate['image'] . '" alt="' . $plate['name'] . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
+            echo '<h3 style="color: #2541b2; font-weight: 600;">' . $plate['name'] . '</h3>';
+            echo '<p style="color: #555; margin: 15px 0;">' . $plate['description'] . '</p>';
+            echo '<span style="background: linear-gradient(45deg, #4a6bff, #2541b2); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 500;">📅 ' . $plate['release_date'] . '</span>';
+            echo '</div>';
+            echo '</div>';
+        }
+    
+        echo '</div>';
+        echo '</div>';
+        echo '</section>';
+    }
+
+    // Eliminar la función renderTestimonialsSection()
 }
 
 $bodyHome = new BodyHome();
