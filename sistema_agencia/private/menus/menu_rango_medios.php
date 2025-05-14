@@ -232,7 +232,5 @@ $(document).ready(function() {
 </script>
 
 <?php
-require_once(MODALES_MENU_PATH . 'modal_calcular.php');
-require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
-require_once(MODALES_MENU_VENTAS_PATH . 'modal_vender_rangos.php');
+require_once(MODAL_CALCULAR_RANGOS_PATH . 'modal_calcular.php');
 require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');

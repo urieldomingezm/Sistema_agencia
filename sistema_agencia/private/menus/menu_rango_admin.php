@@ -278,7 +278,7 @@ echo "<!-- Separador -->";
 require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');
 require_once(DAR_TIEMPO_PATCH . 'dar_tiempo.php');
 echo "<!-- Separador -->";
-require_once(MODALES_MENU_PATH . 'modal_calcular.php');
+require_once(MODAL_CALCULAR_RANGOS_PATH . 'modal_calcular.php');
 require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
 require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
 echo "<!-- Separador -->";

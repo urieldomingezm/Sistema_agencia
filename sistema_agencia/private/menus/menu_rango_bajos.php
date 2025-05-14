@@ -227,5 +227,5 @@ $(document).ready(function() {
 </script>
 
 <?php
-require_once(MODALES_MENU_PATH . 'modal_calcular.php');
+require_once(MODAL_CALCULAR_RANGOS_PATH . 'modal_calcular.php');
 ?>
