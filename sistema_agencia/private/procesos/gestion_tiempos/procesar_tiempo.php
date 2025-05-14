@@ -165,8 +165,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $codigo_time = $_POST['codigo_time'];
                     
                     try {
-                        // Verificar si el tiempo está activo
-                        $query_check = "SELECT tiempo_status, tiempo_iniciado, tiempo_acumulado 
+                        // Verificar si el tiempo existe
+                        $query_check = "SELECT tiempo_iniciado, tiempo_acumulado 
                                       FROM gestion_tiempo 
                                       WHERE codigo_time = :codigo_time";
                         $stmt_check = $conn->prepare($query_check);
@@ -175,7 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         
                         $tiempo_data = $stmt_check->fetch(PDO::FETCH_ASSOC);
                         
-                        if ($tiempo_data && $tiempo_data['tiempo_status'] === 'activo') {
+                        if ($tiempo_data) {
                             // Calcular tiempo total
                             date_default_timezone_set('America/Mexico_City');
                             $hora_actual = new DateTime();
@@ -219,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $response['message'] = 'Error al completar el tiempo';
                             }
                         } else {
-                            $response['message'] = 'El tiempo no está activo';
+                            $response['message'] = 'No se encontró el tiempo';
                         }
                     } catch (PDOException $e) {
                         $response['message'] = 'Error en la base de datos: ' . $e->getMessage();

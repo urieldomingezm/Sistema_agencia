@@ -177,11 +177,11 @@ class GestionTiempos {
         $status = strtolower($tiempo['tiempo_status']);
         $actions = '';
 
-        if ($status === 'pausa' && !empty($tiempo['tiempo_encargado_usuario'])) {
+        if ($status === 'pausa' || $status === 'inactivo') {
             $actions .= '
                 <div class="btn-group" role="group">
-                    <button class="btn btn-sm btn-danger liberar-encargado" data-codigo="'.$tiempo['codigo_time'].'">
-                        <i class="bi bi-person-x-fill"></i> Liberar Tiempo
+                    <button class="btn btn-sm btn-success completar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                        <i class="bi bi-check-circle-fill"></i> Completar
                     </button>
                 </div>';
         } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
