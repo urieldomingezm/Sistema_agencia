@@ -103,8 +103,6 @@ class UserController
             'CRSS.php' => 'cerrar_session',
             'RQPG.php' => 'requisitos_paga',
             'GSAS.php' => 'gestion_ascenso',
-            'GVE.php' => 'Pendiente',
-            'GVP.php' => 'Pendiente',
             'MEMS.php' => 'membresias',
             'GTPS.php' => 'gestion_de_pagas',
             'VTM.php' => 'ventas_membresias',
