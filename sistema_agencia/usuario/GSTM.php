@@ -45,27 +45,20 @@ class GestionTiempos
                             <table id="datatable_tiempos" class="table table-bordered table-striped table-hover text-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Usuario</th>
+                                        <th class="text-wrap">Usuario</th>
                                         <th>Estado</th>
                                         <th>Restado</th>
                                         <th>Acumulado</th>
                                         <th>Iniciado</th>
-                                        <th>Encargado</th>
+                                        <th class="text-wrap">Encargado</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>';
 
-        // Array para almacenar los códigos de tiempo ya procesados
-        $processedTimes = [];
-
         foreach ($this->tiempos as $tiempo) {
             if ($tiempo['tiempo_status'] === 'activo') {
-                // Verificar si el tiempo ya fue procesado
-                if (!in_array($tiempo['codigo_time'], $processedTimes)) {
-                    $html .= $this->renderRow($tiempo);
-                    $processedTimes[] = $tiempo['codigo_time'];
-                }
+                $html .= $this->renderRow($tiempo);
             }
         }
 
@@ -76,12 +69,12 @@ class GestionTiempos
                             <table id="datatable_tiempos_inactivos" class="table table-bordered table-striped table-hover text-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Usuario</th>
+                                        <th class="text-wrap">Usuario</th>
                                         <th>Estado</th>
                                         <th>Restado</th>
                                         <th>Acumulado</th>
                                         <th>Iniciado</th>
-                                        <th>Encargado</th>
+                                        <th class="text-wrap">Encargado</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
@@ -100,12 +93,12 @@ class GestionTiempos
                             <table id="datatable_tiempos_completados" class="table table-bordered table-striped table-hover text-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th>Usuario</th>
+                                        <th class="text-wrap">Usuario</th>
                                         <th>Estado</th>
                                         <th>Restado</th>
                                         <th>Acumulado</th>
                                         <th>Iniciado</th>
-                                        <th>Encargado</th>
+                                        <th class="text-wrap">Encargado</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
