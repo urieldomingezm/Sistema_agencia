@@ -44,6 +44,10 @@ $userData = $userProfile->getUserData();
                         <span class="info-label me-2">Rango</span>
                         <span class="info-value badge-custom"><?php echo $userData['role']; ?></span>
                     </div>
+                    <div class="info-item d-flex align-items-center">
+                        <span class="info-label me-2">Membresia</span>
+                        <span class="info-value badge-custom"><?php echo $userData['role']; ?></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -172,3 +176,42 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(checkAscenso, checkInterval);
 });
 </script>
+
+
+<?php if (in_array($userData['role'], ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Fundador'])): ?>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-gradient-primary text-white">
+                <h5 class="card-title mb-0">Tiempos tomados</h5>
+            </div>
+            <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-text"><?php echo $userData['ascensosCompletados'] ?? '0'; ?></h2>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted">en esta semana</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-gradient-success text-white">
+                <h5 class="card-title mb-0">Ascensos Tomados</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-text"><?php echo $userData['ascensosCompletados'] ?? '0'; ?></h2>
+                </div>
+                <div class="progress" style="height: 8px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted">en esta semana</small>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
