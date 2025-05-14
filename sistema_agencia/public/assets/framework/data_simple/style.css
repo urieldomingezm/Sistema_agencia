@@ -111,18 +111,55 @@
     }
 }
 
-/* Keep existing table styles but enhance them */
+.datatable-wrapper {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.datatable-container {
+    padding: 1.5rem;
+}
+
 .datatable-table {
-    border-collapse: collapse;
-    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 8px;
 }
 
 .datatable-table th {
-    background: #f8f9fa;
+    background: linear-gradient(145deg, #0d6efd, #0b5ed7);
+    color: white;
     font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    letter-spacing: 0.025em;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+}
+
+.datatable-table td {
+    background: white;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.datatable-table tbody tr:hover td {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.nav-pills .nav-link {
+    color: rgba(255,255,255,0.8);
+    transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+    font-weight: 500;
+}
+
+.card-header {
+    padding: 1rem 1.5rem;
 }
 
 .datatable-table td,

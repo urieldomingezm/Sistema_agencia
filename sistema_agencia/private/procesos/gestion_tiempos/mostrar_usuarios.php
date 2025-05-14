@@ -16,6 +16,9 @@ try {
 
     // Obtener los resultados como array asociativo
     $tiempos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Debug: Verificar datos obtenidos
+    error_log("Datos obtenidos: " . print_r($tiempos, true));
 
     // Pasar los datos a GSTM.php
     $GLOBALS['tiempos'] = $tiempos;
