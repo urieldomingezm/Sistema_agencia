@@ -8,14 +8,14 @@ $userData = $userProfile->getUserData();
 <div class="profile-header text-center py-3 position-relative overflow-hidden">
     <div class="background-pattern"></div>
     <div class="container position-relative">
-        <div class="d-flex align-items-center justify-content-center">
-            <div class="avatar-container me-3" style="width: 70px; height: 70px;">
+        <div class="d-flex flex-column flex-md-row align-items-center justify-content-center">
+            <div class="avatar-container me-md-3 mb-3 mb-md-0" style="width: 70px; height: 70px;">
                 <img src="<?php echo $userData['avatar']; ?>"
                     class="rounded-circle shadow border border-2 border-white"
                     alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover;">
                 <div class="status-badge pulse" style="width: 12px; height: 12px;"></div>
             </div>
-            <div>
+            <div class="text-center text-md-start">
                 <h1 class="h4 fw-bold text-white text-shadow mb-0"><?php echo $userData['username']; ?></h1>
                 <small class="text-white-50"><?php echo $userData['role']; ?></small>
             </div>
@@ -24,9 +24,9 @@ $userData = $userProfile->getUserData();
 </div>
 
 <div class="container py-3">
-    <div class="row g-3">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <!-- Secciones de información -->
-        <div class="col-md-4">
+        <div class="col">
             <div class="profile-card glass-effect h-100">
                 <div class="card-header bg-gradient-primary py-2">
                     <h3 class="h5 mb-0">Información Personal</h3>
@@ -52,7 +52,7 @@ $userData = $userProfile->getUserData();
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col">
             <div class="profile-card glass-effect h-100">
                 <div class="card-header bg-gradient-success py-2">
                     <h3 class="h5 mb-0">Gestión de Tiempo</h3>
@@ -89,7 +89,7 @@ $userData = $userProfile->getUserData();
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col">
             <div class="profile-card glass-effect h-100">
                 <div class="card-header bg-gradient-info py-2">
                     <h3 class="h5 mb-0">Información de Misión</h3>
@@ -177,9 +177,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <?php if (in_array($userData['role'], ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Fundador'])): ?>
-<div class="row mt-4">
-    <div class="col-md-6">
-        <div class="card">
+<div class="row mt-4 row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+        <div class="card h-100">
             <div class="card-header bg-gradient-primary text-white">
                 <h5 class="card-title mb-0">Tiempos tomados</h5>
             </div>
@@ -195,8 +195,8 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 
-    <div class="col-md-6">
-        <div class="card">
+    <div class="col">
+        <div class="card h-100">
             <div class="card-header bg-gradient-success text-white">
                 <h5 class="card-title mb-0">Ascensos Tomados</h5>
             </div>
