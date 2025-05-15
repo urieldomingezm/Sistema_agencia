@@ -32,11 +32,11 @@ class GestionTiempos
                             <button class="nav-link bg-dark text-white border-light" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" style="opacity: 0.6; transition: opacity 0.3s;">Completados</button>
                         </li>
                         <li class="nav-item mx-1">
-                            <button class="nav-link bg-dark text-white border-light" 
+                            <button class="nav-link bg-success text-white border-light" 
                                     id="Ayuda_gestion_times-tab" 
                                     data-bs-toggle="modal" 
                                     data-bs-target="#Ayuda_gestion_times" 
-                                    type="button" 
+                                    type="button " 
                                     style="opacity: 0.6; transition: opacity 0.3s;">
                                 <i class="bi bi-question-circle-fill me-1"></i>
                             </button>
