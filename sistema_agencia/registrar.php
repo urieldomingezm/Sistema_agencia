@@ -10,12 +10,118 @@ require_once(TEMPLATES_PATH . 'header.php');
 require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 ?>
 
-<!-- estilos css -->
-<link rel="stylesheet" href="/public/assets/custom_general/custom_login/registro/index_registro.css">
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: #f8f5ff;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
-<!-- estilos js -->
-<script src="/public/assets/custom_general/custom_login/registro/index_registro.js"></script>
+    .card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        border: 2px solid #7b3ed1;
+        box-shadow: 0 10px 20px rgba(123, 62, 209, 0.2);
+    }
 
+    .card-header {
+        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
+        color: white;
+        border-radius: 20px 20px 0 0 !important;
+        border-bottom: 2px solid #ffffff;
+        padding: 20px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+    }
+
+    .form-control:focus {
+        border-color: #7b3ed1;
+        box-shadow: 0 0 0 0.25rem rgba(123, 62, 209, 0.25);
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 30px;
+        font-weight: 600;
+        color: white;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #5e2ca5 0%, #7b3ed1 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(94, 44, 165, 0.3);
+    }
+
+    /* Add validation styles */
+    .just-validate-error-label {
+        color: #dc3545;
+        font-size: 0.875em;
+        margin-top: 0.25rem;
+    }
+
+    .just-validate-error-field {
+        border-color: #dc3545 !important;
+    }
+
+    .just-validate-success-field {
+        border-color: #198754 !important;
+    }
+
+    /* Estilos adicionales para responsividad */
+    @media (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+
+        .card {
+            margin: 10px;
+        }
+
+        .form-control {
+            font-size: 16px;
+        }
+    }
+
+    /* Mejoras en la alineación de campos */
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .input-group {
+        position: relative;
+    }
+
+    /* Ajustes para los mensajes de validación */
+    .form-group {
+        margin-bottom: 2rem;  /* Aumentado para dar espacio a los mensajes */
+        position: relative;
+    }
+
+    .just-validate-error-label {
+        position: absolute;
+        left: 0;
+        top: 100%;  /* Cambiado de bottom a top */
+        font-size: 0.75rem;
+        color: #dc3545;
+        margin-top: 0.25rem;
+    }
+
+    /* Ajuste para el grupo de contraseña */
+    .input-group {
+        margin-bottom: 1.5rem;
+    }
+</style>
 
 <body>
     <div class="container">
@@ -59,6 +165,121 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.querySelector('input[name="password"]');
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('bi-eye-fill');
+            this.querySelector('i').classList.toggle('bi-eye-slash-fill');
+        });
+        
+        const validator = new JustValidate('#registrationForm', {
+            validateBeforeSubmitting: true,
+            focusInvalidField: true,
+            lockForm: true,
+            errorFieldCssClass: 'is-invalid',
+            successFieldCssClass: 'is-valid',
+            errorLabelStyle: {
+                fontSize: '12px',
+                color: '#dc3545'
+            }
+        });
+
+        validator
+            .addField('[name="username"]', [
+                {
+                    rule: 'required',
+                    errorMessage: 'El usuario es requerido'
+                },
+                {
+                    rule: 'minLength',
+                    value: 3,
+                    errorMessage: 'El usuario debe tener al menos 3 caracteres'
+                },
+                {
+                    rule: 'maxLength',
+                    value: 16,
+                    errorMessage: 'El usuario no puede tener más de 16 caracteres'
+                }
+            ])
+            .addField('[name="habboName"]', [
+                {
+                    rule: 'required',
+                    errorMessage: 'El nombre de Habbo es requerido'
+                },
+                {
+                    rule: 'minLength',
+                    value: 3,
+                    errorMessage: 'El nombre debe tener al menos 3 caracteres'
+                },
+                {
+                    rule: 'maxLength',
+                    value: 16,
+                    errorMessage: 'El nombre no puede tener más de 16 caracteres'
+                }
+            ])
+            .addField('[name="password"]', [
+                {
+                    rule: 'required',
+                    errorMessage: 'La contraseña es requerida'
+                },
+                {
+                    rule: 'password',
+                    errorMessage: 'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número'
+                },
+                {
+                    rule: 'maxLength',
+                    value: 16,
+                    errorMessage: 'La contraseña no puede tener más de 16 caracteres'
+                }
+            ])
+            .onSuccess((event) => {
+                event.preventDefault();
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
+                        action: 'register'
+                    })
+                    .then(function(token) {
+                        document.getElementById('g-recaptcha-response').value = token;
+                        const form = event.target;
+                        fetch('registrar.php', {
+                            method: 'POST',
+                            body: new FormData(form)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Registro Exitoso!',
+                                    text: data.message,
+                                    confirmButtonColor: '#4a6bff'
+                                }).then(() => {
+                                    window.location.href = 'login.php';
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: data.message,
+                                    confirmButtonColor: '#4a6bff'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Ocurrió un error en el registro',
+                                confirmButtonColor: '#4a6bff'
+                            });
+                        });
+                    });
+                });
+            });
+    </script>
 </body>
 
 <?php
