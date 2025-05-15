@@ -24,23 +24,23 @@ $userData = $userProfile->getUserData();
 </div>
 
 <div class="container py-3">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-        <!-- Secciones de información -->
+    <div class="row row-cols-1 row-cols-md-3 g-3">
+        <!-- Personal Information -->
         <div class="col">
             <div class="profile-card glass-effect h-100">
                 <div class="card-header bg-gradient-primary py-2">
                     <h3 class="h5 mb-0">Información Personal</h3>
                 </div>
-                <div class="stats-card p-2">
-                    <div class="info-item d-flex align-items-center">
+                <div class="stats-card p-3">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Usuario</span>
                         <span class="info-value"><?php echo $userData['username']; ?></span>
                     </div>
-                    <div class="info-item d-flex align-items-center">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Código</span>
                         <span class="info-value"><?php echo $userData['codigo']; ?></span>
                     </div>
-                    <div class="info-item d-flex align-items-center">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Rango</span>
                         <span class="info-value badge-custom"><?php echo $userData['role']; ?></span>
                     </div>
@@ -52,42 +52,22 @@ $userData = $userProfile->getUserData();
             </div>
         </div>
 
-        <!-- Payment and Status Information -->
-        <div class="col">
-            <div class="profile-card glass-effect h-100">
-                <div class="card-header bg-gradient-primary py-2">
-                    <h3 class="h5 mb-0">Información de Pago y Estado</h3>
-                </div>
-                <div class="stats-card p-2">
-                    <div class="info-item d-flex align-items-center">
-                        <span class="info-label me-2">Pago Pendiente (son datos estaticos no reales)</span>
-                        <span class="info-value">30</span>
-                    </div>
-                    <div class="info-item d-flex align-items-center">
-                        <span class="info-label me-2">Estado de Requisitos</span>
-                        <span class="info-value badge-custom text-warning">
-                            Pendiente
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <!-- Time Management -->
         <div class="col">
             <div class="profile-card glass-effect h-100">
                 <div class="card-header bg-gradient-success py-2">
                     <h3 class="h5 mb-0">Gestión de Tiempo</h3>
                 </div>
-                <div class="stats-card p-2">
-                    <div class="info-item d-flex align-items-center">
+                <div class="stats-card p-3">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Tiempo Acumulado</span>
                         <span class="info-value"><?php echo $userData['tiempo_acumulado']; ?></span>
                     </div>
-                    <div class="info-item d-flex align-items-center">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Tiempo Restado</span>
                         <span class="info-value"><?php echo $userData['tiempo_restado']; ?></span>
                     </div>
-                    <div class="info-item d-flex align-items-center">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Encargado</span>
                         <span class="info-value"><?php echo $userData['tiempo_encargado'] ?? 'No disponible'; ?></span>
                     </div>
@@ -110,21 +90,22 @@ $userData = $userProfile->getUserData();
             </div>
         </div>
 
+        <!-- Mission Information -->
         <div class="col">
             <div class="profile-card glass-effect h-100">
                 <div class="card-header bg-gradient-info py-2">
                     <h3 class="h5 mb-0">Información de Misión</h3>
                 </div>
-                <div class="stats-card p-2">
-                    <div class="info-item d-flex align-items-center">
+                <div class="stats-card p-3">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Misión actual</span>
                         <span class="info-value"><?php echo $userData['mission']; ?></span>
                     </div>
-                    <div class="info-item d-flex align-items-center">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Encargado</span>
                         <span class="info-value"><?php echo $userData['encargado']; ?></span>
                     </div>
-                    <div class="info-item d-flex align-items-center">
+                    <div class="info-item d-flex align-items-center mb-2">
                         <span class="info-label me-2">Próxima hora</span>
                         <span class="info-value">
                             <?php 
