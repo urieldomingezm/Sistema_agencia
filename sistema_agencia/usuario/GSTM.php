@@ -39,7 +39,6 @@ class GestionTiempos
                                     type="button" 
                                     style="transition: all 0.3s; font-size: 1.1em; padding: 8px 20px;">
                                 <i class="bi bi-question-circle-fill me-1"></i>
-                                Ayuda
                             </button>
                         </li>
                     </ul>
