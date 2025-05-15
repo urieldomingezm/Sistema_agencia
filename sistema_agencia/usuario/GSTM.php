@@ -1,5 +1,7 @@
 <?php
 
+require_once(MODAL_AYUDA_TIEMPO_PACH.'ayuda_gestion_times.php');
+
 class GestionTiempos
 {
     private $tiempos;

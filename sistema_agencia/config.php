@@ -26,6 +26,7 @@ define('PROCESO_CAMBIAR_PACTH', PRIVATE_PATH . 'procesos/gestion_usuarios/');
 define('PROCESO_VENTAS_RANGOS_PACTH', PRIVATE_PATH . 'procesos/gestion_venta_rangos/');
 define('PROCESO_VENTAS_MEMBRESIAS_PACTH', PRIVATE_PATH . 'procesos/gestion_ventas/');
 
+
 // Modal Paths
 define('MODAL_PATH', PRIVATE_PATH . 'modals/');
 define('MODALES_MENU_PATH', PRIVATE_PATH . 'modal/moda_menus_ascender/');
@@ -39,6 +40,7 @@ define('MODAL_GESTION_TIEMPO_PATH', PRIVATE_PATH . 'modal/modal_gestion_tiempo/'
 define('MODAL_GESTION_USUARIOS_PACH', PRIVATE_PATH . 'modal/modal_gestion_usuarios/');
 define('MODAL_GESTION_VENTAS_RANGOS_PACH', PRIVATE_PATH . 'modal/modal_venta_rangos/');
 define('MODAL_MODIFICAR_USUARIO_PACH', PRIVATE_PATH . 'modal/modal_modificar_usuarios/');
+define('MODAL_AYUDA_TIEMPO_PACH', PRIVATE_PATH . 'modal/modal_ayuda/');
 
 // Menu and User Rank Paths
 define('MENU_PATH', PRIVATE_PATH . 'menus/');
