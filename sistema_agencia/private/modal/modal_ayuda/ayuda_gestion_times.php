@@ -36,18 +36,22 @@
                                 <div class="text-center">
                                     <span class="badge bg-success mb-2"><i class="bi bi-check-circle-fill"></i></span>
                                     <p class="small">Completar</p>
+                                    <small class="text-muted">Marca una tarea como terminada</small>
                                 </div>
                                 <div class="text-center">
                                     <span class="badge bg-warning mb-2"><i class="bi bi-pause-circle-fill"></i></span>
                                     <p class="small">Pausar</p>
+                                    <small class="text-muted">Detiene temporalmente el tiempo</small>
                                 </div>
                                 <div class="text-center">
                                     <span class="badge bg-info mb-2"><i class="bi bi-eye-fill"></i></span>
                                     <p class="small">Ver Detalles</p>
+                                    <small class="text-muted">Muestra información completa</small>
                                 </div>
                                 <div class="text-center">
                                     <span class="badge bg-primary mb-2"><i class="bi bi-person-fill"></i></span>
                                     <p class="small">Asignar</p>
+                                    <small class="text-muted">Asigna tarea a un usuario</small>
                                 </div>
                             </div>
                         </div>
