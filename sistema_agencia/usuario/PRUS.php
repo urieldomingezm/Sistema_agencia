@@ -87,7 +87,7 @@ $userData = $userProfile->getUserData();
 
         <div class="col">
             <div class="profile-card glass-effect h-100">
-                <div class="card-header bg-gradient-success py-2">
+                <div class="card-header bg-gradient-primary py-2">
                     <h3 class="h5 mb-0">Gestión de Tiempo</h3>
                 </div>
                 <div class="stats-card p-2">
@@ -124,7 +124,7 @@ $userData = $userProfile->getUserData();
 
         <div class="col">
             <div class="profile-card glass-effect h-100">
-                <div class="card-header bg-gradient-info py-2">
+                <div class="card-header bg-gradient-primary py-2">
                     <h3 class="h5 mb-0">Información de Misión</h3>
                 </div>
                 <div class="stats-card p-2">
