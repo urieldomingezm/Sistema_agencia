@@ -61,7 +61,7 @@ $userData = $userProfile->getUserData();
                 <div class="stats-card p-2">
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Pago Pendiente</span>
-                        <span class="badge bg-warning text-dark">30</span>
+                        <span class="text-dark">30</span>
                     </div>
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Estado de sus requisitos</span>
