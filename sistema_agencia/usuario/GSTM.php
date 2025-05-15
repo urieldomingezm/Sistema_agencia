@@ -106,7 +106,7 @@ class GestionTiempos
                                         <th>Acumulado</th>
                                         <th>Iniciado</th>
                                         <th>Encargado</th>
-
+                                        <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>';
@@ -187,20 +187,20 @@ class GestionTiempos
             $actions .= '
                 <div class="btn-group" role="group">
                     <button class="btn btn-sm btn-success me-1 completar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                        <i class="bi bi-check-lg"></i>
+                        <i class="bi bi-check-circle-fill"></i> Completar
                     </button>
                 </div>';
         } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
             $actions .= '
                 <div class="btn-group" role="group">
-                    <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Pausar">
-                        <i class="bi bi-pause-fill"></i>
+                    <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
+                        <i class="bi bi-pause-fill"></i> Pausar
                     </button>
-                    <button class="btn btn-sm btn-danger me-1 designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Designar">
-                        <i class="bi bi-person-plus-fill"></i>
+                    <button class="btn btn-sm btn-success me-1 designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
+                        <i class="bi bi-person-plus-fill"></i> Designar
                     </button>
-                    <button class="btn btn-sm btn-info me-1 ver-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Ver Tiempo">
-                        <i class="bi bi-clock-fill"></i>
+                    <button class="btn btn-sm btn-info me-1 ver-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
+                        <i class="bi bi-clock-fill"></i> Ver Tiempo
                     </button>
                 </div>';
         }
