@@ -178,7 +178,7 @@ $items = [
   ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'Ver mis tiempos', 'Ver mis ascensos', 'divider', 'Dar ascenso', 'Tomar tiempo']],
 ];
 
-$navbar = new Navbar('Agencia Shein', $items);
+$navbar = new Navbar('Shein', $items);
 $navbar->render();
 ?>
 

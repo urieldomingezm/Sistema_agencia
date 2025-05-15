@@ -170,7 +170,7 @@ $items = [
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']]
 ];
 
-$navbar = new Navbar('Agencia Shein', $items);
+$navbar = new Navbar('Shein', $items);
 $navbar->render();
 ?>
 
