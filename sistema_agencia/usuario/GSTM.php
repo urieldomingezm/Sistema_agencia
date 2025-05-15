@@ -1,6 +1,6 @@
 <?php
 
-require_once(MODAL_AYUDA_TIEMPO_PACH.'ayuda_gestion_times.php');
+// require_once(MODAL_AYUDA_TIEMPO_PACH.'ayuda_gestion_times.php'); // Eliminado de aquí
 
 class GestionTiempos
 {
@@ -14,6 +14,9 @@ class GestionTiempos
 
     public function renderTable()
     {
+        // Incluir el archivo del modal aquí, dentro del método que lo necesita
+        require_once(MODAL_AYUDA_TIEMPO_PACH.'ayuda_gestion_times.php');
+
         $html = '<div class="container mt-4">
             <div class="card shadow">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
