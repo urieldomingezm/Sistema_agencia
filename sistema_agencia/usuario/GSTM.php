@@ -15,7 +15,7 @@ class GestionTiempos
     public function renderTable()
     {
         // Incluir el archivo del modal aquí, dentro del método que lo necesita
-        require_once(MODAL_AYUDA_TIEMPO_PACH.'ayuda_gestion_times.php');
+        require_once(MODAL_AYUDA_TIEMPO_PACH . 'ayuda_gestion_times.php');
 
         $html = '<div class="container mt-4">
             <div class="card shadow">
@@ -32,8 +32,14 @@ class GestionTiempos
                             <button class="nav-link bg-dark text-white border-light" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" style="opacity: 0.6; transition: opacity 0.3s;">Completados</button>
                         </li>
                         <li class="nav-item mx-1">
-                            <button class="nav-link bg-primary text-white border-light" id="Ayuda_gestion_times-tab" data-bs-toggle="modal" data-bs-target="#Ayuda_gestion_times" type="button" style="transition: opacity 0.3s;">
-                               Ayuda
+                            <button class="nav-link bg-success text-dark border-dark fw-bold" 
+                                    id="Ayuda_gestion_times-tab" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#Ayuda_gestion_times" 
+                                    type="button" 
+                                    style="transition: all 0.3s; font-size: 1.1em; padding: 8px 20px;">
+                                <i class="bi bi-question-circle-fill me-1"></i>
+                                Ayuda
                             </button>
                         </li>
                     </ul>
