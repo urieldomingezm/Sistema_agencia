@@ -42,7 +42,7 @@ class Header
         echo '</script>';
 
         // Google Ads
-        echo '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1683982217981918" crossorigin="anonymous"></script>';
+        echo '<meta name="google-adsense-account" content="ca-pub-1683982217981918">';
 
         // reCAPTCHA v3
         echo '<script src="https://www.google.com/recaptcha/api.js?render=6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0"></script>';
