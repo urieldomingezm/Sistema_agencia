@@ -1,7 +1,7 @@
 <?php
 
 // RUTAS DE GESTION DE PAGAS
-require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
+require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php'); // MOSTRAR USUARIOS
 
 ?>
 
@@ -42,13 +42,13 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
     </div>
 
     <div class="container mt-4">
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Lista de pagas</h5>
-        </div>
-        <div class="card-body">
-        <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
-                    <thead class="table-dark">
+        <div class="card shadow">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">Lista de pagas</h5>
+            </div>
+            <div class="card-body">
+                <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
+                    <thead class="table-primary">
                         <tr>
                             <th>Usuario</th>
                             <th>Rango</th>
@@ -77,9 +77,9 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+            </div>
         </div>
     </div>
-</div>
 
 </div>
 
