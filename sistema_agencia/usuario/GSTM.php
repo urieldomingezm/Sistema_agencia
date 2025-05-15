@@ -19,7 +19,7 @@ class GestionTiempos
 
         $html = '<div class="container mt-4">
             <div class="card shadow">
-                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">Gestión de Tiempos</h5>
                     <ul class="nav nav-tabs card-header-tabs mt-2">
                         <li class="nav-item mx-1">
