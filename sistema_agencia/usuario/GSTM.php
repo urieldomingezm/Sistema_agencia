@@ -187,7 +187,7 @@ class GestionTiempos
             $actions .= '
                 <div class="btn-group" role="group">
                     <button class="btn btn-sm btn-success me-1 completar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                        <i class="bi bi-check-circle-fill"></i> Completar
+                         Completar
                     </button>
                 </div>';
         } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
