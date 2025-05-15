@@ -31,12 +31,12 @@ class BodyHome {
     private function renderHeader() {
         $username = htmlspecialchars($this->userData['username']);
         ?>
-        <header class="welcome-header text-center" style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 40px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+        <header class="welcome-header text-center" style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 20px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
             <div class="container">
-                <h1 class="display-4 text-white mb-3">
+                <h1 class="display-4 text-white mb-2" style="font-size: clamp(1.5rem, 6vw, 2.5rem);">
                     <i class="bi bi-star-fill me-2"></i> Agencia Shein <i class="bi bi-star-fill me-2"></i>
                 </h1>
-                <p class="lead text-white mb-2">
+                <p class="lead text-white mb-1" style="font-size: clamp(0.9rem, 3vw, 1.2rem);">
                     Bienvenido <?= $username ?> 
                 </p>
             </div>
@@ -53,17 +53,16 @@ class BodyHome {
 
         echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
         echo '<div class="container text-center">';
-        echo '<h2 style="color: black; font-weight: bold;"><i class="bi bi-newspaper me-1"></i> Noticias <i class="bi bi-newspaper me-1"></i></h2>';
-        echo '<div class="row">';
+        echo '<h2 style="color: black; font-weight: bold; font-size: clamp(1.2rem, 4vw, 1.8rem);"><i class="bi bi-newspaper me-1"></i> Noticias <i class="bi bi-newspaper me-1"></i></h2>';
+        echo '<div class="row justify-content-center">';
 
         foreach ($events as $event) {
-            echo '<div class="col-md-4" style="margin-top: 20px;">';
-            echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2);">';
-            echo '<img src="' . $event['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover;">';
-            echo '<h3 style="color: #333; margin-top: 10px;">' . $event['title'] . '</h3>';
-            echo '<p style="color: #666;">' . $event['description'] . '</p>';
-            echo '<span style="background: #008080; color: white; padding: 5px 10px; border-radius: 10px;">' . $event['date'] . '</span>';
-            echo '<br><br>';
+            echo '<div class="col-12 col-md-6 col-lg-4 mb-3">';
+            echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2);">';
+            echo '<img src="' . $event['image'] . '" style="width: 100%; height: 120px; border-radius: 10px; object-fit: cover;">';
+            echo '<h3 style="color: #333; margin-top: 10px; font-size: clamp(1rem, 3vw, 1.2rem);">' . $event['title'] . '</h3>';
+            echo '<p style="color: #666; font-size: clamp(0.8rem, 2.5vw, 1rem);">' . $event['description'] . '</p>';
+            echo '<span style="background: #008080; color: white; padding: 5px 10px; border-radius: 10px; font-size: clamp(0.7rem, 2vw, 0.9rem);">' . $event['date'] . '</span>';
             echo '</div>';
             echo '</div>';
         }

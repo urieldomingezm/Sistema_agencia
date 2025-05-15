@@ -20,11 +20,11 @@ class BodyHome
     {
         echo '<br><br>';
         echo '<main class="flex-shrink-0">';
-        echo '<header style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 40px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">';
+        echo '<header style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 20px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">';
         echo '<div class="container text-center">';
-        echo '<h1 style="color: white; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);"><i class="bi bi-stars me-2"></i>Agencia Shein<i class="bi bi-stars ms-2"></i></h1>';
-        echo '<p style="color: #e0e0e0; font-size: 1.2rem;">La mejor comunidad de Habbo Hotel</p>';
-        echo '<a href="/login.php" style="background: #ffffff; color: #2541b2; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(37, 65, 178, 0.2);">¡Únete ahora!</a>';
+        echo '<h1 style="color: white; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); font-size: clamp(1.5rem, 6vw, 2.5rem);"><i class="bi bi-stars me-2"></i>Agencia Shein<i class="bi bi-stars ms-2"></i></h1>';
+        echo '<p style="color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1.2rem);">La mejor comunidad de Habbo Hotel</p>';
+        echo '<a href="/login.php" style="background: #ffffff; color: #2541b2; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(37, 65, 178, 0.2); font-size: clamp(0.8rem, 3vw, 1rem);">¡Únete ahora!</a>';
         echo '</div>';
         echo '</header>';
         echo '</main>';
@@ -83,22 +83,22 @@ class BodyHome
             ],
         ];
 
-            echo '<section class="team-section py-5" style="background: #ffffff;">';
+            echo '<section class="team-section py-3 py-md-5" style="background: #ffffff;">';
             echo '<div class="container">';
-            echo '<h2 class="text-center mb-5" style="color: #2541b2; font-weight: 700; font-size: clamp(1.5rem, 4vw, 2rem);">';
+            echo '<h2 class="text-center mb-3 mb-md-5" style="color: #2541b2; font-weight: 700; font-size: clamp(1.2rem, 4vw, 1.8rem);">';
             echo '<i class="bi bi-people-fill me-2" style="color: #4a6bff;"></i>';
             echo 'Nuestro Equipo';
             echo '<i class="bi bi-people-fill ms-2" style="color: #4a6bff;"></i>';
             echo '</h2>';
-            echo '<div class="row justify-content-center g-3">';
+            echo '<div class="row justify-content-center g-2 g-md-3">';
 
             foreach ($teamMembers as $member) {
-                echo '<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3 text-center">';
-                echo '<div style="display: inline-block; width: 100%; max-width: 120px;">';
-                echo '<img src="' . $member['image'] . '" style="width: 100%; height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 3px solid #4a6bff;">';
-                echo '<div class="mt-2">';
-                echo '<div style="color: #2541b2; font-weight: 600; font-size: clamp(0.7rem, 2vw, 0.9rem); word-break: break-word;">' . $member['name'] . '</div>';
-                echo '<div style="color: #4a6bff; font-size: clamp(0.6rem, 1.8vw, 0.8rem);">' . $member['rank'] . '</div>';
+                echo '<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2 mb-md-3 text-center">';
+                echo '<div style="display: inline-block; width: 100%; max-width: 100px;">';
+                echo '<img src="' . $member['image'] . '" style="width: 100%; height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 2px solid #4a6bff;">';
+                echo '<div class="mt-1 mt-md-2">';
+                echo '<div style="color: #2541b2; font-weight: 600; font-size: clamp(0.6rem, 2vw, 0.8rem); word-break: break-word;">' . $member['name'] . '</div>';
+                echo '<div style="color: #4a6bff; font-size: clamp(0.5rem, 1.8vw, 0.7rem);">' . $member['rank'] . '</div>';
                 echo '</div>';
                 echo '</div>';
                 echo '</div>';
