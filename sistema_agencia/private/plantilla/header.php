@@ -50,7 +50,7 @@ class Header
                 script.onerror = function() {
                     console.warn("No se pudo cargar Google Ads, intentando con proxy local");
                     var fallbackScript = document.createElement("script");
-                    fallbackScript.src = "/public/assets/ads/google-ads-proxy.js";
+                    fallbackScript.src = "google-ads-proxy.js";
                     document.head.appendChild(fallbackScript);
                 };
                 document.head.appendChild(script);
