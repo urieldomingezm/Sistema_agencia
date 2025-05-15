@@ -206,7 +206,7 @@ $items = [
   ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios']],
 ];
 
-$navbar = new Navbar('Agencia Shein', $items);
+$navbar = new Navbar('Shein', $items);
 $navbar->render();
 ?>
 
