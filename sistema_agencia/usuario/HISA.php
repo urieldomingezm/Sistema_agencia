@@ -1,7 +1,4 @@
-<?php
-// Redireccionar al usuario a la página de inicio después de mostrar el mensaje
-header("refresh:5;url=https://agenciasheinhb.site/usuario/?page=inicio");
-?>
+
 
 <div class="container mt-5">
     <div class="row justify-content-center">
