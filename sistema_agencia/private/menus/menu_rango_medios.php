@@ -171,7 +171,7 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
-  ['name' => 'Ascenso', 'dropdown' => ['Gestion ascenso', 'Ver mis tiempos', 'Ver mis ascensos', 'divider', 'Dar ascenso']],
+  ['name' => 'Ascenso', 'dropdown' => ['Gestion ascenso', 'Ver mis ascensos', 'divider', 'Dar ascenso']],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);
