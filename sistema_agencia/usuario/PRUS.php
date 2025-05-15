@@ -60,24 +60,24 @@ $userData = $userProfile->getUserData();
                 </div>
                 <div class="stats-card p-2">
                     <div class="info-item d-flex align-items-center">
-                        <span class="info-label me-2">Pago Pendiente (son datos estaticos no reales)</span>
-                        <span class="info-value">30</span>
+                        <span class="info-label me-2">Pago Pendiente</span>
+                        <span class="badge bg-warning text-dark">30</span>
                     </div>
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Estado de sus requisitos</span>
-                        <span class="info-value badge-custom text-warning">
+                        <span class="badge bg-warning text-dark">
                             Pendiente
                         </span>
                     </div>
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Recibio pago</span>
-                        <span class="info-value badge-custom text-warning">
-                            no
+                        <span class="badge bg-danger text-white">
+                            No
                         </span>
                     </div>
                     <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Estado de Requisitos</span>
-                        <span class="info-value badge-custom text-warning">
+                        <span class="badge bg-warning text-dark">
                             Pendiente
                         </span>
                     </div>
