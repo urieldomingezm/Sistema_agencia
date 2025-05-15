@@ -208,4 +208,3 @@ echo $gestionTiempos->renderTable();
 ?>
 <script src="/public/assets/custom_general/custom_gestion_tiempos/index_gestion.js"></script>
 
-
