@@ -64,6 +64,18 @@ $userData = $userProfile->getUserData();
                         <span class="info-value">30</span>
                     </div>
                     <div class="info-item d-flex align-items-center">
+                        <span class="info-label me-2">Estado de sus requisitos</span>
+                        <span class="info-value badge-custom text-warning">
+                            Pendiente
+                        </span>
+                    </div>
+                    <div class="info-item d-flex align-items-center">
+                        <span class="info-label me-2">Recibio pago</span>
+                        <span class="info-value badge-custom text-warning">
+                            no
+                        </span>
+                    </div>
+                    <div class="info-item d-flex align-items-center">
                         <span class="info-label me-2">Estado de Requisitos</span>
                         <span class="info-value badge-custom text-warning">
                             Pendiente
