@@ -76,11 +76,9 @@ $userData = $userProfile->getUserData();
                             <?php 
                             switch($userData['tiempo_status']) {
                                 case 'pausa': echo 'bg-secondary'; break;
-                                case 'disponible': echo 'bg-success'; break;
-                                case 'ocupado': echo 'bg-warning'; break;
-                                case 'ausente': echo 'bg-info'; break;
-                                case 'terminado': echo 'bg-danger'; break;
-                                case 'completado': echo 'bg-primary'; break;
+                                case 'inactivo': echo 'bg-secondary'; break;
+                                case 'Activo': echo 'bg-primary'; break;
+                                case 'completado': echo 'bg-success'; break;
                                 default: echo 'bg-secondary';
                             }
                             ?>">
@@ -186,8 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h5 class="card-title mb-0">Tiempos tomados</h5>
             </div>
             <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="card-text"><?php echo $userData['ascensosCompletados'] ?? '0'; ?></h2>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="card-text"><?php echo $userProfile->getTotalTiemposTomados(); ?></h2>
                 </div>
                 <div class="progress" style="height: 8px;">
                     <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>

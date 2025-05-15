@@ -4,7 +4,6 @@ require_once(GESTION_VENTAS_PATCH . 'renovar_eliminar_registrar.php');
 require_once(GESTION_VENTAS_PATCH . 'mostrar_ventas.php');
 
 // MODAL PARA VENTA, RENOVAR Y ELIMINAR
-require_once(GESTION_RENOVAR_VENTA_PATCH . 'vender.php');
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
 
 ?>
@@ -20,13 +19,9 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
         <tr class="text-white">
             <th>ID</th>
             <th>Membresia</th>
-            <th>Compra</th>
-            <th>Caducidad</th>
             <th>Estado</th>
-            <th>Costo</th>
             <th>Comprador</th>
             <th>Encargado</th>
-            <th>Fecha Compra</th>
             <th>Acciones</th>
         </tr>
     </thead>
@@ -35,23 +30,16 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
             <tr>
                 <td><?= htmlspecialchars($venta['venta_id']) ?></td>
                 <td><?= htmlspecialchars($venta['venta_titulo']) ?></td>
-                <td><?= htmlspecialchars($venta['venta_compra']) ?></td>
-                <td><?= htmlspecialchars($venta['venta_caducidad']) ?></td>
                 <td>
                     <span class="badge <?= strtolower($venta['venta_estado']) === 'activo' ? 'bg-success' : 'bg-danger' ?>">
                         <?= htmlspecialchars(ucfirst(strtolower($venta['venta_estado']))) ?>
                     </span>
                 </td>
-                <td><?= htmlspecialchars($venta['venta_costo']) ?></td>
                 <td><?= htmlspecialchars($venta['venta_comprador']) ?></td>
                 <td><?= htmlspecialchars($venta['venta_encargado']) ?></td>
-                <td><?= htmlspecialchars(date('Y-m-d', strtotime($venta['venta_fecha_compra']))) ?></td>
                 <td>
                     <div class="dropdown">
                         <div class="btn-group" role="group">
-                            <button class="btn btn-danger btn-sm" onclick="deleteVenta(<?= $venta['venta_id'] ?>)">
-                                Eliminar
-                            </button>
                             <button class="btn btn-success btn-sm" onclick="renovarVenta(<?= $venta['venta_id'] ?>)">
                                 Renovar
                             </button>

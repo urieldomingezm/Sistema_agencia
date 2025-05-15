@@ -108,28 +108,24 @@ class UserProfile {
 
     public function getTotalTiemposTomados() {
         try {
-        // Consulta para obtener los tiempos tomados
-        $queryTiempos = "SELECT COUNT(*) as total_tiempos 
-                        FROM historial_tiempos 
-                        WHERE codigo_time = :codigo_time 
-                        AND tiempo_encargado_usuario = :encargado";
-        
-        require_once(CONFIG_PATH . 'bd.php');
-        $database = new Database();
-        $conn = $database->getConnection();
-        $stmtTiempos = $conn->prepare($queryTiempos);
-        $stmtTiempos->bindParam(':codigo_time', $userData['codigo_time']);
-        $stmtTiempos->bindParam(':encargado', $userData['tiempo_encargado_usuario']);
-        $stmtTiempos->execute();
-        $tiemposData = $stmtTiempos->fetch(PDO::FETCH_ASSOC);
-    
-        // Agregar los datos al array userData
-        $this->userData['total_tiempos_tomados'] = $tiemposData['total_tiempos'] ?? 0;
-    
-    } catch (Exception $e) {
-        error_log("Error al obtener tiempos tomados: " . $e->getMessage());
-        $this->userData['total_tiempos_tomados'] = 0;
-    }
+            require_once(CONFIG_PATH . 'bd.php');
+            $database = new Database();
+            $conn = $database->getConnection();
+
+            $query = "SELECT COUNT(*) as total_tiempos 
+                     FROM historial_tiempos 
+                     WHERE tiempo_encargado_usuario = :encargado";
+            
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':encargado', $this->userData['tiempo_encargado']);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $result['total_tiempos'] ?? 0;
+        } catch (Exception $e) {
+            error_log("Error al obtener tiempos tomados: " . $e->getMessage());
+            return 0;
+        }
     }
 }
 ?>
