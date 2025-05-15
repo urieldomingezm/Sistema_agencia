@@ -3,7 +3,7 @@
         <div class="modal-content">
             <!-- Encabezado del Modal -->
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold" id="dar_tiempo_modalLabel" style="font-size: clamp(1rem, 3vw, 1.5rem);">
+                <h5 class="modal-title fw-bold" id="dar_tiempo_modalLabel">
                     Gestión de Tiempo
                 </h5>
             </div>
@@ -11,7 +11,7 @@
             <!-- Cuerpo del Modal -->
             <div class="modal-body">
                 <!-- Indicador de pasos -->
-                <div class="progress mb-3 mb-md-4" style="height: 8px;">
+                <div class="progress mb-4" style="height: 10px;">
                     <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
@@ -19,22 +19,22 @@
                 <form id="tiempoFormModal">
                     <!-- Paso 1: Búsqueda de Usuario -->
                     <div class="step" id="step1_tiempo">
-                        <h4 class="text-center mb-3 mb-md-4 fw-bold text-primary" style="font-size: clamp(0.9rem, 2.5vw, 1.2rem);">Buscar Usuario</h4>
+                        <h4 class="text-center mb-4 fw-bold text-primary">Buscar Usuario</h4>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <label for="codigoTimeTiempo" class="form-label fw-bold" style="font-size: clamp(0.8rem, 2vw, 1rem);">
+                                <label for="codigoTimeTiempo" class="form-label fw-bold">
                                     <i class="bi bi-person-badge me-1"></i> Código de Usuario (5 caracteres)
                                 </label>
                                 <div class="input-group input-group-lg mb-3">
                                     <span class="input-group-text">
                                         <i class="bi bi-hash"></i>
                                     </span>
-                                    <input type="text" class="form-control" id="codigoTimeTiempo" name="codigoTimeTiempo" maxlength="5" placeholder="Ingrese el código" autocomplete="off" style="font-size: clamp(0.8rem, 2vw, 1rem);">
-                                    <button class="btn btn-primary" type="button" id="buscarUsuarioTiempo" style="font-size: clamp(0.8rem, 2vw, 1rem);">
+                                    <input type="text" class="form-control" id="codigoTimeTiempo" name="codigoTimeTiempo" maxlength="5" placeholder="Ingrese el código" autocomplete="off">
+                                    <button class="btn btn-primary" type="button" id="buscarUsuarioTiempo">
                                         <i class="bi bi-search me-1"></i> Buscar
                                     </button>
                                 </div>
-                                <div class="form-text" style="font-size: clamp(0.7rem, 1.8vw, 0.9rem);">
+                                <div class="form-text">
                                     <i class="bi bi-info-circle me-1"></i> Ingrese el código de 5 caracteres del usuario para gestionar su tiempo.
                                 </div>
                             </div>
@@ -146,16 +146,16 @@
 
             <!-- Pie del Modal -->
             <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal" style="font-size: clamp(0.8rem, 2vw, 1rem);">
+                <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">
                     Cerrar
                 </button>
-                <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtnTiempo" disabled style="font-size: clamp(0.8rem, 2vw, 1rem);">
+                <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtnTiempo" disabled>
                     Anterior
                 </button>
-                <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtnTiempo" style="font-size: clamp(0.8rem, 2vw, 1rem);">
+                <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtnTiempo">
                     Siguiente
                 </button>
-                <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtnTiempo" style="font-size: clamp(0.8rem, 2vw, 1rem);">
+                <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtnTiempo">
                     Activar Tiempo
                 </button>
             </div>
