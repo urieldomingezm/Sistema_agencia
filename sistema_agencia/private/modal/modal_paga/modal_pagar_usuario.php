@@ -150,6 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
                                             <option value="" disabled selected>Seleccionar</option>
                                             <option value="Seguridad">Seguridad</option>
                                             <option value="Tecnico">Tecnico</option>
+                                            <option value="Logistica">Logistica</option>
                                             <option value="Supervisor">Supervisor</option>
                                             <option value="Director">Director</option>
                                             <option value="Presidente">Presidente</option>
