@@ -43,7 +43,7 @@ class GestionTiempos
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab1" role="tabpanel">
                             <table id="datatable_tiempos" class="table table-bordered table-striped table-hover text-center mb-0">
-                                <thead class="table-light">
+                                <thead class="table-dark">
                                     <tr>
                                         <th>Usuario</th>
                                         <th>Estado</th>
