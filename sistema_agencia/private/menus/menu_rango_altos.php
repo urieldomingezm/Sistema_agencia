@@ -143,10 +143,12 @@ class Navbar
       'Cerrar session' => 'bi bi-box-arrow-right',
       'Requisitos paga' => 'bi bi-list-check',
       'Calcular rango' => 'bi bi-calculator-fill',
-      'Gestion de tiempo' => 'bi bi-clock-fill',
+      'Gestion de tiempo' => 'bi bi-clock-history',
       'Gestion ascenso' => 'bi bi-people-fill',
       'Dar ascenso' => 'bi bi-arrow-up-square-fill',
-      'Tomar tiempo' => 'bi bi-stopwatch-fill'
+      'Tomar tiempo' => 'bi bi-stopwatch-fill',
+      'Ver mis tiempos' => 'bi bi-clock-history',
+      'Ver mis ascensos' => 'bi bi-graph-up-arrow',
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -174,6 +176,10 @@ $items = [
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
   ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'divider', 'Dar ascenso', 'Tomar tiempo']],
+  ['name' => 'Mis tiempos', 'dropdown' => [
+    'Ver mis tiempos',
+    'Ver mis ascensos'
+  ]],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);
@@ -240,5 +246,3 @@ $(document).ready(function() {
 require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
 require_once(DAR_TIEMPO_PATCH.'dar_tiempo.php');
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
-require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
-require_once(MODALES_MENU_VENTAS_PATH . 'modal_vender_rangos.php');

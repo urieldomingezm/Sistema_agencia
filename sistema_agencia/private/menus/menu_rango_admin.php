@@ -204,6 +204,10 @@ $items = [
   ]],
   ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Pagar usuario']],
   ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios']],
+  ['name' => 'Mis tiempos', 'dropdown' => [
+    'Ver mis tiempos',
+    'Ver mis ascensos',
+  ]],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);

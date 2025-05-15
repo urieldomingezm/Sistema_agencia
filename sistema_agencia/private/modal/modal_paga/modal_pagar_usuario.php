@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardarPago'])) {
 <div class="modal fade" id="modalpagar" tabindex="-1" aria-labelledby="modalpagarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header text-white">
+            <div class="modal-header  bg-primary text-white">
                 <h5 class="modal-title" id="modalpagarLabel">
                     Registrar Pago
                 </h5>
