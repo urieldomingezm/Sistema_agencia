@@ -155,3 +155,91 @@
     background: linear-gradient(135deg, #5e2ca5 0%, #4a2c91 100%);
     color: #fff;
 }
+
+/* Media queries para diferentes resoluciones */
+@media (max-width: 1920px) {
+    .custom-navbar {
+        padding: 0.8rem;
+    }
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 1536px) {
+    .custom-navbar {
+        padding: 0.7rem;
+    }
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 1366px) {
+    .custom-navbar {
+        padding: 0.6rem;
+    }
+    .navbar-brand {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .custom-navbar {
+        padding: 0.5rem;
+    }
+    .navbar-brand {
+        font-size: 0.9rem;
+    }
+    .accordion-button {
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 844px) {
+    .custom-navbar {
+        padding: 0.4rem;
+    }
+    .navbar-brand {
+        font-size: 0.8rem;
+    }
+    .accordion-button {
+        padding: 0.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .custom-navbar {
+        padding: 0.3rem;
+    }
+    .navbar-brand {
+        font-size: 0.7rem;
+    }
+    .accordion-button {
+        padding: 0.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .custom-navbar {
+        padding: 0.2rem;
+    }
+    .navbar-brand {
+        font-size: 0.6rem;
+    }
+    .accordion-button {
+        padding: 0.4rem;
+    }
+}
+
+@media (max-width: 390px) {
+    .custom-navbar {
+        padding: 0.1rem;
+    }
+    .navbar-brand {
+        font-size: 0.5rem;
+    }
+    .accordion-button {
+        padding: 0.3rem;
+    }
+}
