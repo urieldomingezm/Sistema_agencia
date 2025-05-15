@@ -41,22 +41,8 @@ class Header
         echo 'gtag("config", "G-32NSVX1ZQD");';
         echo '</script>';
 
-        // Google Ads con manejo de CORS
-        echo '<script>
-            function loadGoogleAds() {
-                var script = document.createElement("script");
-                script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1683982217981918";
-                script.crossOrigin = "anonymous";
-                script.onerror = function() {
-                    console.warn("No se pudo cargar Google Ads, intentando con proxy local");
-                    var fallbackScript = document.createElement("script");
-                    fallbackScript.src = "google-ads-proxy.js";
-                    document.head.appendChild(fallbackScript);
-                };
-                document.head.appendChild(script);
-            }
-            window.addEventListener("load", loadGoogleAds);
-        </script>';
+        // Google Ads
+        echo '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1683982217981918" crossorigin="anonymous"></script>';
 
         // reCAPTCHA v3
         echo '<script src="https://www.google.com/recaptcha/api.js?render=6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0"></script>';
