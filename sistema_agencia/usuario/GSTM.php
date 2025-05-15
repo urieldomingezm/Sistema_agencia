@@ -187,20 +187,20 @@ class GestionTiempos
             $actions .= '
                 <div class="btn-group" role="group">
                     <button class="btn btn-sm btn-success me-1 completar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                         Completar
+                        <i class="fas fa-check"></i>
                     </button>
                 </div>';
         } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
             $actions .= '
                 <div class="btn-group" role="group">
-                    <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                        Pausar
+                    <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Pausar">
+                        <i class="fas fa-pause"></i>
                     </button>
-                    <button class="btn btn-sm btn-success me-1 designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                        Designar
+                    <button class="btn btn-sm btn-success me-1 designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Designar">
+                        <i class="fas fa-user-plus"></i>
                     </button>
-                    <button class="btn btn-sm btn-info me-1 ver-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                         Ver Tiempo
+                    <button class="btn btn-sm btn-info me-1 ver-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Ver Tiempo">
+                        <i class="fas fa-clock"></i>
                     </button>
                 </div>';
         }
