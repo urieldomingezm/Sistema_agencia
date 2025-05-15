@@ -1,5 +1,5 @@
 
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
 
         // Configuración para la tabla principal
         const dataTable = new simpleDatatables.DataTable("#datatable_tiempos", {
