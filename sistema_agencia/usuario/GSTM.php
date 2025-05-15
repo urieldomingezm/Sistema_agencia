@@ -106,7 +106,7 @@ class GestionTiempos
                                         <th>Acumulado</th>
                                         <th>Iniciado</th>
                                         <th>Encargado</th>
-                                        <th>Acciones</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>';
