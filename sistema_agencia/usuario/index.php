@@ -103,8 +103,8 @@ class UserController
             'CRSS.php' => 'cerrar_session',
             'RQPG.php' => 'requisitos_paga',
             'GSAS.php' => 'gestion_ascenso',
-            'GVE.php' => 'Pendiente',
-            'GVP.php' => 'Pendiente',
+            'HISA.php' => 'ver_mis_ascensos',
+            'HIST.php' => 'ver_mis_tiempos',
             'MEMS.php' => 'membresias',
             'GTPS.php' => 'gestion_de_pagas',
             'VTM.php' => 'ventas_membresias',
@@ -216,6 +216,16 @@ class UserController
             'gestion_ascenso' => [
                 'file' => 'GSAS.php',
                 'roles' => ['Logistica', 'Supervisor', 'Operativo', 'Director', 'Presidente', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            
+            // Pages for viewing personal time and promotions (accessible by logistics and above)
+            'ver_mis_tiempos' => [
+                'file' => 'HIST.php',
+                'roles' => ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'ver_mis_ascensos' => [
+                'file' => 'HISA.php',
+                'roles' => ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
             ],
 
             // Pages accessible by director and above
