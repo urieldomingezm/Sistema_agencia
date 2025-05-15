@@ -90,10 +90,10 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            6 Asistencias<img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
+                                            6 Asistencias<img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
                                         </td>
                                         <td>
-                                            8 Ascensos<img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"> 4 horas
+                                            8 Ascensos<img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"> 4 horas
                                         </td>
                                     </tr>
                                 </tbody>
@@ -112,8 +112,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>3 Asistencias<img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">4 horas</td>
-                                        <td>4 Ascensos<img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">2 horas</td>
+                                        <td>3 Asistencias<img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">4 horas</td>
+                                        <td>4 Ascensos<img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">2 horas</td>
                                     </tr>
                                 </tbody>
                             </table>

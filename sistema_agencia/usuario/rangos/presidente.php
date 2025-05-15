@@ -91,13 +91,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>5 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
+                                            <h4>5 Asistencias</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
                                         </td>
                                         <td>
-                                            <h4>8 Acesnsos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>8 Acesnsos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>5 Asistencias y 8 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>5 Asistencias y 8 Ascensos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -118,13 +118,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>3 Asistencias</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>3 Asistencias</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/usuario/rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>4 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>4 Ascensos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/usuario/rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>3 Asistencias y 4 Ascensos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/membresias/gold.png" alt="Icono" width="40">
+                                            <h4>3 Asistencias y 4 Ascensos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/membresias/silver.png" alt="Icono" width="40"><img src="/usuario/rangos/image/membresias/gold.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -146,13 +146,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>10 Creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>10 Creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>16 Creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>16 Creditos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>26 Creditos</h4><img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>26 Creditos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
