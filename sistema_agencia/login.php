@@ -141,19 +141,18 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 col-lg-5">
+            <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5">
                 <div class="card">
                     <div class="card-header text-center">
                         <h4 class="mb-0">✨ Iniciar Sesión ✨</h4>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body p-3 p-sm-4">
                         <form id="loginForm" method="post">
                             <div class="form-group mb-3">
                                 <label class="form-label"><i class="bi bi-person-fill"></i> Usuario</label>
                                 <input type="text" class="form-control" name="username" required>
                             </div>
-                            <br>
-                            <div class="form-group mb-4">
+                            <div class="form-group mb-3">
                                 <label class="form-label"><i class="bi bi-lock-fill"></i> Contraseña</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" name="password" required>
@@ -161,6 +160,10 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                                         <i class="bi bi-eye-fill"></i>
                                     </button>
                                 </div>
+                            </div>
+                            <div class="form-group form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                                <label class="form-check-label" for="rememberMe">Recordar mi sesión</label>
                             </div>
                             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
                             <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
@@ -267,6 +270,84 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
                     });
             });
         });
+
+// Función para manejar el "Recordar sesión"
+function handleRememberMe() {
+    const rememberMe = document.getElementById('rememberMe');
+    const usernameInput = document.querySelector('input[name="username"]');
+    
+    if (rememberMe.checked) {
+        // Guardar en localStorage con cifrado básico
+        const encryptedUsername = btoa(usernameInput.value);
+        localStorage.setItem('rememberedUser', encryptedUsername);
+    } else {
+        localStorage.removeItem('rememberedUser');
+    }
+}
+
+// Cargar usuario recordado al cargar la página
+window.addEventListener('load', function() {
+    const rememberedUser = localStorage.getItem('rememberedUser');
+    if (rememberedUser) {
+        const usernameInput = document.querySelector('input[name="username"]');
+        usernameInput.value = atob(rememberedUser);
+        document.getElementById('rememberMe').checked = true;
+    }
+});
+
+// Event listener para el checkbox
+document.getElementById('rememberMe').addEventListener('change', handleRememberMe);
+
+// Modificar el onSuccess del validador para incluir el manejo de "Recordar sesión"
+validator.onSuccess((event) => {
+    handleRememberMe();
+    event.preventDefault();
+    grecaptcha.ready(function() {
+        grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
+                action: 'login'
+            })
+            .then(function(token) {
+                document.getElementById('g-recaptcha-response').value = token;
+                const form = event.target;
+                fetch('login.php', {
+                        method: 'POST',
+                        body: new FormData(form)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Bienvenido!',
+                                text: data.message,
+                                confirmButtonColor: '#4a6bff'
+                            }).then(() => {
+                                if (data.redirect) {
+                                    window.location.href = data.redirect;
+                                } else {
+                                    window.location.href = '/usuario/index.php';
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.message,
+                                confirmButtonColor: '#4a6bff'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al iniciar sesión',
+                            confirmButtonColor: '#4a6bff'
+                        });
+                    });
+            });
+    });
+});
 </script>
 
 <?php
