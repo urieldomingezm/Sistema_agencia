@@ -196,7 +196,7 @@ class GestionTiempos
                     <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Pausar">
                         <i class="bi bi-pause-fill"></i>
                     </button>
-                    <button class="btn btn-sm btn-success me-1 designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Designar">
+                    <button class="btn btn-sm btn-danger me-1 designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Designar">
                         <i class="bi bi-person-plus-fill"></i>
                     </button>
                     <button class="btn btn-sm btn-info me-1 ver-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Ver Tiempo">
