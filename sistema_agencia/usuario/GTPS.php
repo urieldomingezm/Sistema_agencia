@@ -8,7 +8,7 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
 <div class="container py-4">
     <div class="text-center mb-4">
         <h1 class="text-primary">
-            GESTION DE PAGAS DE USUARIOS
+            GESTION DE PAGOS
         </h1>
     </div>
 
@@ -44,7 +44,7 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
     <div class="container mt-4">
     <div class="card shadow">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Gestión de pagos</h5>
+            <h5 class="mb-0">Lista de pagas</h5>
         </div>
         <div class="card-body">
         <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
@@ -71,7 +71,7 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
                                         <?php echo $paga['pagas_completo'] ? 'Completo' : 'Pendiente'; ?>
                                     </span>
                                 </td>
-                                <td><?php echo htmlspecialchars($paga['pagas_descripcion'] ?? 'No disponible'); ?></td>
+                                <td><?php echo htmlspecialchars(empty($paga['pagas_descripcion']) ? 'No disponible' : $paga['pagas_descripcion']); ?></td>
                                 <td><?php echo htmlspecialchars(explode(' ', $paga['pagas_fecha_registro'])[0]); ?></td>
                             </tr>
                         <?php endforeach; ?>
