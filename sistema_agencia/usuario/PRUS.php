@@ -52,6 +52,27 @@ $userData = $userProfile->getUserData();
             </div>
         </div>
 
+        <!-- Payment and Status Information -->
+        <div class="col">
+            <div class="profile-card glass-effect h-100">
+                <div class="card-header bg-gradient-warning py-2">
+                    <h3 class="h5 mb-0">Información de Pago y Estado</h3>
+                </div>
+                <div class="stats-card p-2">
+                    <div class="info-item d-flex align-items-center">
+                        <span class="info-label me-2">Pago Pendiente (son datos estaticos no reales)</span>
+                        <span class="info-value">30</span>
+                    </div>
+                    <div class="info-item d-flex align-items-center">
+                        <span class="info-label me-2">Estado de Requisitos</span>
+                        <span class="info-value badge-custom text-warning">
+                            Pendiente
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="col">
             <div class="profile-card glass-effect h-100">
                 <div class="card-header bg-gradient-success py-2">
