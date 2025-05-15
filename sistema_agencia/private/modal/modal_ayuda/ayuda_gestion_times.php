@@ -22,8 +22,8 @@
                         <div class="carousel-item">
                             <h4 class="text-center mb-4">Navegación por Pestañas</h4>
                             <div class="d-flex justify-content-center gap-2 mb-3">
-                                <span class="badge bg-success">Activos</span>
-                                <span class="badge bg-warning">Pausados</span>
+                                <span class="badge bg-secondary">Activos</span>
+                                <span class="badge bg-secondary">Pausados</span>
                                 <span class="badge bg-secondary">Completados</span>
                             </div>
                             <p class="text-center">Cambia entre diferentes vistas para gestionar los tiempos según su estado.</p>
