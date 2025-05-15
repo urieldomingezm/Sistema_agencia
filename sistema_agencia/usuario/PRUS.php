@@ -55,7 +55,7 @@ $userData = $userProfile->getUserData();
         <!-- Payment and Status Information -->
         <div class="col">
             <div class="profile-card glass-effect h-100">
-                <div class="card-header bg-gradient-warning py-2">
+                <div class="card-header bg-gradient-primary py-2">
                     <h3 class="h5 mb-0">Información de Pago y Estado</h3>
                 </div>
                 <div class="stats-card p-2">
