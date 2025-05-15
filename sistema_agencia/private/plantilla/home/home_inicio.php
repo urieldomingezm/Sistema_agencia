@@ -11,7 +11,7 @@ class BodyHome
         $this->renderTeamSection();
         $this->renderSocialWidgets();
         $this->renderBlogSection();
-        $this->renderHabboPlatesSection(); // Nueva sección agregada aquí
+        $this->renderHabboPlatesSection();
         $this->renderEventsSection();
         echo '</body>';
     }
@@ -27,6 +27,13 @@ class BodyHome
         echo '<a href="/login.php" style="background: #ffffff; color: #2541b2; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(37, 65, 178, 0.2);">¡Únete ahora!</a>';
         echo '</div>';
         echo '</header>';
+        
+        // Agregar anuncios
+        echo '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1683982217981918" crossorigin="anonymous"></script>';
+        echo '<!-- anuncios-agencia -->';
+        echo '<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-1683982217981918" data-ad-slot="4088564998" data-ad-format="auto" data-full-width-responsive="true"></ins>';
+        echo '<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
+        
         echo '</main>';
     }
 
