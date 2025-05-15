@@ -23,8 +23,8 @@ class Footer
                         </div>
                     </div>
                     <div class="col-12 col-sm-4 col-md-6 text-center text-md-end mt-2 mt-sm-0">
-                        <a href="#" class="text-decoration-none small me-3">Política de Privacidad</a>
-                        <a href="#" class="text-decoration-none small">Términos de Servicio</a>
+                        <a href="#" class="text-decoration-none small me-3 text-white">Política de Privacidad</a>
+                        <a href="#" class="text-decoration-none small text-white">Términos de Servicio</a>
                     </div>
                 </div>
             </div>
