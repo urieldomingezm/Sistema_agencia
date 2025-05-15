@@ -194,13 +194,13 @@ class GestionTiempos
             $actions .= '
                 <div class="btn-group" role="group">
                     <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                        <i class="bi bi-pause-fill"></i> Pausar
+                        <i class="bi bi-pause-fill"></i>
                     </button>
                     <button class="btn btn-sm btn-success me-1 designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                        <i class="bi bi-person-plus-fill"></i> Designar
+                        <i class="bi bi-person-plus-fill"></i>
                     </button>
                     <button class="btn btn-sm btn-info me-1 ver-tiempo" data-codigo="' . $tiempo['codigo_time'] . '">
-                        <i class="bi bi-clock-fill"></i> Ver Tiempo
+                        <i class="bi bi-clock-fill"></i>
                     </button>
                 </div>';
         }
