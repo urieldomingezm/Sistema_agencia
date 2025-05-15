@@ -37,7 +37,7 @@ class Navbar
                     $nombre = $_SESSION["usuario"];
                     echo strlen($nombre) > 6 ? substr($nombre, 0, 6)."..." : $nombre;
                   } else {
-                    echo "Usr";
+                    echo "Usuario";
                   }
                 ?>
               </span>
