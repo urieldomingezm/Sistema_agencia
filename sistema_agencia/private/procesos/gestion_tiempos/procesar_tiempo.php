@@ -253,6 +253,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
                 break;
                 
+            case 'completar_tiempo':
+                if (isset($_POST['codigo_time']) && !empty($_POST['codigo_time'])) {
+                    $codigo_time = $_POST['codigo_time'];
+                    
+                    try {
+                        $query = "UPDATE gestion_tiempo SET 
+                                  tiempo_status = 'completado'
+                                  WHERE codigo_time = :codigo_time";
+                        $stmt = $conn->prepare($query);
+                        $stmt->bindParam(':codigo_time', $codigo_time);
+                        
+                        if ($stmt->execute()) {
+                            $response['success'] = true;
+                            $response['message'] = 'Tiempo marcado como completado correctamente';
+                        } else {
+                            $response['message'] = 'Error al completar el tiempo';
+                        }
+                    } catch (PDOException $e) {
+                        $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
+                    }
+                } else {
+                    $response['message'] = 'Código de tiempo no proporcionado';
+                }
+                break;
+                
             default:
                 $response['message'] = 'Acción no reconocida';
                 break;

@@ -180,8 +180,8 @@ class GestionTiempos {
         if ($status === 'pausa' || $status === 'inactivo') {
             $actions .= '
                 <div class="btn-group" role="group">
-                    <button class="btn btn-sm btn-warning me-1 pausar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
-                        <i class="bi bi-pause-fill"></i> Pausar
+                    <button class="btn btn-sm btn-success me-1 completar-tiempo" data-codigo="'.$tiempo['codigo_time'].'">
+                        <i class="bi bi-check-circle-fill"></i> Completar
                     </button>
                 </div>';
         } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
