@@ -48,7 +48,7 @@ require_once(GESTION_PAGAS_PATCH.'mostrar_usuarios.php'); // MOSTRAR USUARIOS
         </div>
         <div class="card-body">
         <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
-                    <thead class="table-light">
+                    <thead class="table-dark">
                         <tr>
                             <th>Usuario</th>
                             <th>Rango</th>
