@@ -35,194 +35,40 @@ if (isset($pagas) && is_array($pagas)) {
     </div>
 </div>
 
-<div class="container py-2">
-    <div class="row g-2">
-        <!-- Información Personal y de Pago -->
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-gradient-primary py-1">
-                    <h3 class="h6 mb-0 text-white">Información Personal</h3>
-                </div>
-                <div class="card-body p-2">
-                    <div class="row">
-                        <div class="col-6">
-                            <small class="text-muted">Usuario:</small>
-                            <p class="mb-1 small"><?php echo $userData['username']; ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Código:</small>
-                            <p class="mb-1 small"><?php echo $userData['codigo']; ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Rango:</small>
-                            <p class="mb-1 small badge-custom"><?php echo $userData['role']; ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Membresia:</small>
-                            <p class="mb-1 small badge-custom"><?php echo $userData['role']; ?></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-gradient-primary py-1">
-                    <h3 class="h6 mb-0 text-white">Información de Pago</h3>
-                </div>
-                <div class="card-body p-2">
-                    <div class="row">
-                        <div class="col-6">
-                            <small class="text-muted">Pago Pendiente:</small>
-                            <p class="mb-1 small text-dark">
-                                <?php 
-                                    if ($pagaUsuario) {
-                                        echo htmlspecialchars($pagaUsuario['pagas_motivo']);
-                                    } else {
-                                        echo "No disponible";
-                                    }
-                                ?>
-                            </p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Estado Requisitos:</small>
-                            <p class="mb-1 small">
-                                <?php if ($pagaUsuario && $pagaUsuario['pagas_completo'] == 1): ?>
-                                    <span class="badge bg-success text-white">Completado</span>
-                                <?php else: ?>
-                                    <span class="badge bg-warning text-dark">Pendiente</span>
-                                <?php endif; ?>
-                            </p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Recibió Pago:</small>
-                            <p class="mb-1 small">
-                                <?php if ($pagaUsuario && $pagaUsuario['pagas_recibio'] == 1): ?>
-                                    <span class="badge bg-success text-white">Sí</span>
-                                <?php else: ?>
-                                    <span class="badge bg-danger text-white">No</span>
-                                <?php endif; ?>
-                            </p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Rango de Pago:</small>
-                            <p class="mb-1 small">
-                                <?php 
-                                    if ($pagaUsuario) {
-                                        echo htmlspecialchars($pagaUsuario['pagas_rango']);
-                                    } else {
-                                        echo "No disponible";
-                                    }
-                                ?>
-                            </p>
-                        </div>
-                        <?php if ($pagaUsuario): ?>
-                        <div class="col-12">
-                            <small class="text-muted">Descripción:</small>
-                            <p class="mb-1 small">
-                                <?php echo htmlspecialchars($pagaUsuario['pagas_descripcion']); ?>
-                            </p>
-                        </div>
-                        <div class="col-12">
-                            <small class="text-muted">Fecha de registro:</small>
-                            <p class="mb-1 small">
-                                <?php echo htmlspecialchars($pagaUsuario['pagas_fecha_registro']); ?>
-                            </p>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Gestión de Tiempo y Misión -->
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-gradient-primary py-1">
-                    <h3 class="h6 mb-0 text-white">Gestión de Tiempo</h3>
-                </div>
-                <div class="card-body p-2">
-                    <div class="row">
-                        <div class="col-6">
-                            <small class="text-muted">Tiempo Acumulado:</small>
-                            <p class="mb-1 small"><?php echo $userData['tiempo_acumulado']; ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Tiempo Restado:</small>
-                            <p class="mb-1 small"><?php echo $userData['tiempo_restado']; ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Encargado:</small>
-                            <p class="mb-1 small"><?php echo $userData['tiempo_encargado'] ?? 'No disponible'; ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Estado:</small>
-                            <p class="mb-1 small"><span class="badge text-white <?php 
-                                switch($userData['tiempo_status']) {
-                                    case 'pausa': echo 'bg-secondary'; break;
-                                    case 'inactivo': echo 'bg-secondary'; break;
-                                    case 'Activo': echo 'bg-primary'; break;
-                                    case 'completado': echo 'bg-success'; break;
-                                    default: echo 'bg-secondary';
-                                }
-                                ?>"><?php echo ucfirst($userData['tiempo_status'] ?? 'No disponible'); ?></span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="col-md-6">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-gradient-primary py-1">
-                    <h3 class="h6 mb-0 text-white">Información de Misión</h3>
-                </div>
-                <div class="card-body p-2">
-                    <div class="row">
-                        <div class="col-6">
-                            <small class="text-muted">Misión actual:</small>
-                            <p class="mb-1 small"><?php echo $userData['mission']; ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Encargado:</small>
-                            <p class="mb-1 small"><?php echo $userData['encargado']; ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Próxima hora:</small>
-                            <p class="mb-1 small"><?php 
-                            if (!empty($userData['estimatedTime'])) {
-                                $date = DateTime::createFromFormat('d/m/Y H:i', $userData['estimatedTime']);
-                                if ($date) {
-                                    $minutes = $date->format('i');
-                                    $seconds = $date->format('s');
-                                    
-                                    if ($minutes > 0) {
-                                        echo $minutes . ' min' . ($minutes > 1 ? 's' : '');
-                                        if ($seconds > 0) {
-                                            echo ' ' . $seconds . ' seg';
-                                        }
-                                    } else {
-                                        echo $seconds . ' seg';
-                                    }
-                                } else {
-                                    echo 'Formato inválido';
-                                }
-                            } else {
-                                echo 'No disponible';
-                            }
-                            ?></p>
-                        </div>
-                        <div class="col-6">
-                            <small class="text-muted">Estado ascenso:</small>
-                            <p class="mb-1 small"><span class="badge text-white <?php echo ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning'; ?>">
-                                <?php echo ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'Disponible' : 'Pendiente'; ?>
-                            </span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="container py-3">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+        <?php
+        $sections = [
+            'Personal' => [
+                ['Usuario', $userData['username']],
+                ['Código', $userData['codigo']],
+                ['Rango', $userData['role'], 'badge-custom'],
+                ['Membresia', $userData['role'], 'badge-custom']
+            ],
+            'Pago' => [
+                ['Pago Pendiente', '30'],
+                ['Estado de sus requisitos', 'Pendiente', 'badge bg-warning text-dark'],
+                ['Recibio pago', 'No', 'badge bg-danger text-white'],
+                ['Estado de Requisitos', 'Pendiente', 'badge bg-warning text-dark']
+            ],
+            'Tiempo' => [
+                ['Tiempo Acumulado', $userData['tiempo_acumulado']],
+                ['Tiempo Restado', $userData['tiempo_restado']],
+                ['Encargado', $userData['tiempo_encargado'] ?? 'No disponible'],
+                ['Estado', ucfirst($userData['tiempo_status'] ?? 'No disponible'), 'badge text-white ' . getStatusColor($userData['tiempo_status'])]
+            ],
+            'Misión' => [
+                ['Misión actual', $userData['mission']],
+                ['Encargado', $userData['encargado']],
+                ['Próxima hora', formatEstimatedTime($userData['estimatedTime'])],
+                ['Estado ascenso', ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'Disponible' : 'Pendiente', 'badge text-white ' . (($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning')]
+            ]
+        ];
+
+        foreach ($sections as $title => $items) {
+            echo renderSection($title, $items);
+        }
+        ?>
     </div>
     
     <?php if (in_array($userData['role'], ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Fundador'])): ?>
@@ -264,8 +110,62 @@ if (isset($pagas) && is_array($pagas)) {
     <?php endif; ?>
 </div>
 
+<?php
+function renderSection($title, $items) {
+    $html = '<div class="col"><div class="profile-card glass-effect h-100">';
+    $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h5 mb-0">'.$title.'</h3></div>';
+    $html .= '<div class="stats-card p-2">';
+    
+    foreach ($items as $item) {
+        $html .= '<div class="info-item d-flex align-items-center">';
+        $html .= '<span class="info-label me-2">'.$item[0].'</span>';
+        $html .= isset($item[2]) ? '<span class="'.$item[2].'">'.$item[1].'</span>' : '<span class="info-value">'.$item[1].'</span>';
+        $html .= '</div>';
+    }
+    
+    $html .= '</div></div></div>';
+    return $html;
+}
+
+function getStatusColor($status) {
+    switch($status) {
+        case 'pausa': case 'inactivo': return 'bg-secondary';
+        case 'Activo': return 'bg-primary';
+        case 'completado': return 'bg-success';
+        default: return 'bg-secondary';
+    }
+}
+
+function formatEstimatedTime($time) {
+    if (empty($time)) return 'No disponible';
+    
+    $date = DateTime::createFromFormat('d/m/Y H:i', $time);
+    if (!$date) return 'Formato de fecha inválido';
+    
+    $minutes = $date->format('i');
+    $seconds = $date->format('s');
+    $output = [];
+    
+    if ($minutes > 0) $output[] = $minutes . ' minuto' . ($minutes > 1 ? 's' : '');
+    if ($seconds > 0) $output[] = $seconds . ' segundo' . ($seconds > 1 ? 's' : '');
+    
+    return implode(' con ', $output);
+}
+?>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    Swal.fire({
+        title: '¡Atención!',
+        text: 'Los datos mostrados no son finales y están sujetos a cambios el dia de hoy se obtendra los datos finales con su respectiva paga.',
+        icon: 'info',
+        confirmButtonText: 'Entendido',
+        customClass: {
+            confirmButton: 'btn btn-primary'
+        }
+    });
+
     let lastCheck = 0;
     const checkInterval = 60000; // 1 minuto
     
