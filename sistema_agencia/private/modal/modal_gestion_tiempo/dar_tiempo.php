@@ -19,7 +19,7 @@
                 <form id="tiempoFormModal">
                     <!-- Paso 1: Búsqueda de Usuario -->
                     <div class="step" id="step1_tiempo">
-                        <h4 class="text-center mb-4 fw-bold text-primary">Buscar Usuario</h4>
+                        <h4 class="text-center mb-4 fw-bold text-primary">Paso 1: Buscar Usuario</h4>
                         <div class="card mb-3">
                             <div class="card-body">
                                 <label for="codigoTimeTiempo" class="form-label fw-bold">
@@ -42,9 +42,9 @@
                         <div id="resultadoBusquedaTiempo" class="mt-3"></div>
                     </div>
 
-                    <!-- Paso 2: Información del Usuario -->
+                    <!-- Paso 2: Información del Tiempo -->
                     <div class="step d-none" id="step2_tiempo">
-                        <h4 class="text-center mb-4 fw-bold text-primary">Información del Tiempo</h4>
+                        <h4 class="text-center mb-4 fw-bold text-primary">Paso 2: Información del Tiempo</h4>
                         <div class="card mb-3">
                             <div class="card-header bg-light">
                                 <h5 class="mb-0 fw-bold">
@@ -84,55 +84,17 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Aquí podrías añadir un resumen o confirmación antes de registrar si fuera necesario -->
                     </div>
 
-                    <!-- Paso 3: Formulario de Gestión de Tiempo -->
+                    <!-- Paso 3: Resultado del Registro -->
                     <div class="step d-none" id="step3_tiempo">
-                        <h4 class="text-center mb-4 fw-bold text-primary">
-                            <i class="bi bi-clock-fill me-2"></i>Gestionar Tiempo
-                        </h4>
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="tiempoStatus" class="form-label fw-bold">
-                                            <i class="bi bi-toggle-on me-1 text-primary"></i> Estado del Tiempo
-                                        </label>
-                                        <input type="text" class="form-control" id="tiempoStatus" name="tiempoStatus" value="activo" placeholder="Activar" readonly required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="tiempoAcumuladoInfo" class="form-label fw-bold">
-                                            <i class="bi bi-plus-circle-fill me-1 text-primary"></i> Tiempo Acumulado (Solo lectura)
-                                        </label>
-                                        <input type="text" class="form-control bg-light" id="tiempoAcumuladoInfo" name="tiempoAcumuladoInfo" readonly>
-                                    </div>
-                                </div>
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="tiempoRestadoInfo" class="form-label fw-bold">
-                                            <i class="bi bi-dash-circle-fill me-1 text-primary"></i> Tiempo Restado (Solo lectura)
-                                        </label>
-                                        <input type="text" class="form-control bg-light" id="tiempoRestadoInfo" name="tiempoRestadoInfo" readonly>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nombreEncargadoTiempo" class="form-label fw-bold">
-                                            <i class="bi bi-person-fill me-1 text-primary"></i> Nombre Encargado
-                                        </label>
-                                        <input type="text" class="form-control bg-light" id="nombreEncargadoTiempo" name="nombreEncargadoTiempo" value="<?php echo $_SESSION['username']; ?>" readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Paso 4: Confirmación -->
-                    <div class="step d-none" id="step4_tiempo">
                         <div class="text-center p-5">
                             <div class="display-1 text-success mb-4">
                                 <i class="bi bi-check-circle-fill"></i>
                             </div>
-                            <h4 class="mb-3 fw-bold text-success">¡Tiempo se activo Correctamente!</h4>
-                            <p class="lead">El tiempo del usuario ha sido activada exitosamente.</p>
+                            <h4 class="mb-3 fw-bold text-success">¡Registro Completado!</h4>
+                            <p class="lead">La gestión del tiempo del usuario ha sido procesada exitosamente.</p>
                             <div class="mt-4">
                                 <div class="spinner-grow spinner-grow-sm text-success me-1" role="status">
                                     <span class="visually-hidden">Cargando...</span>
@@ -156,7 +118,7 @@
                     Siguiente
                 </button>
                 <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtnTiempo">
-                    Activar Tiempo
+                    Registrar Tiempo
                 </button>
             </div>
         </div>
@@ -167,11 +129,12 @@
 <script>
     $(document).ready(function() {
         let pasoActualGestionTiempo = 1;
-        const totalPasosGestionTiempo = 4;
+        const totalPasosGestionTiempo = 3; // Ahora son 3 pasos
         let datosUsuarioTiempo = {};
 
         // Actualizar la barra de progreso
         function actualizarBarraProgresoTiempo() {
+            // La barra de progreso va del paso 1 al 2 (antes del resultado final)
             const porcentaje = ((pasoActualGestionTiempo - 1) / (totalPasosGestionTiempo - 1)) * 100;
             $('#dar_tiempo_modal .progress-bar').css('width', porcentaje + '%').attr('aria-valuenow', porcentaje);
         }
@@ -182,9 +145,9 @@
             $('#step' + paso + '_tiempo').removeClass('d-none');
 
             // Actualizar botones
-            $('#prevBtnTiempo').prop('disabled', paso === 1);
-            $('#nextBtnTiempo').toggleClass('d-none', paso === 3 || paso === 4);
-            $('#submitBtnTiempo').toggleClass('d-none', paso !== 3);
+            $('#prevBtnTiempo').prop('disabled', paso === 1 || paso === totalPasosGestionTiempo); // Deshabilitar Anterior en paso 1 y en el paso final
+            $('#nextBtnTiempo').toggleClass('d-none', paso === totalPasosGestionTiempo - 1 || paso === totalPasosGestionTiempo); // Ocultar Siguiente en el penúltimo paso (Paso 2) y el final (Paso 3)
+            $('#submitBtnTiempo').toggleClass('d-none', paso !== totalPasosGestionTiempo - 1); // Mostrar Submit solo en el penúltimo paso (Paso 2)
 
             // Actualizar progreso
             pasoActualGestionTiempo = paso;
@@ -207,6 +170,8 @@
 
             // Mostrar cargando
             $('#resultadoBusquedaTiempo').html('<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
+             $('#nextBtnTiempo').prop('disabled', true); // Deshabilitar Siguiente mientras busca
+
 
             // Realizar petición AJAX
             $.ajax({
@@ -224,7 +189,7 @@
                         if (datosUsuarioTiempo.usuario_registro === usuarioActual) {
                             $('#resultadoBusquedaTiempo').html(`
                                 <div class="alert alert-danger">
-                                    <i class="bi bi-exclamation-triangle-fill me-2"></i> 
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
                                     No puedes asignarte tiempo a ti mismo.
                                 </div>
                             `);
@@ -232,17 +197,13 @@
                             return;
                         }
 
-                        // Mostrar información del usuario
+                        // Mostrar información del usuario en el Paso 2
                         $('#nombreUsuarioTiempo').text(datosUsuarioTiempo.usuario_registro);
                         $('#tiempoAcumulado').text(datosUsuarioTiempo.tiempo_acumulado);
                         $('#tiempoRestado').text(datosUsuarioTiempo.tiempo_restado);
                         $('#tiempoTranscurrido').text(datosUsuarioTiempo.tiempo_transcurrido || 'No disponible');
                         $('#tiempoEncargado').text(datosUsuarioTiempo.tiempo_encargado_usuario || 'No asignado');
-                        
-                        // Mostrar los valores en los campos informativos del paso 3
-                        $('#tiempoAcumuladoInfo').val(datosUsuarioTiempo.tiempo_acumulado);
-                        $('#tiempoRestadoInfo').val(datosUsuarioTiempo.tiempo_restado);
-                        
+
                         // Mostrar estado con badge
                         let claseEstado = 'bg-warning';
                         if (datosUsuarioTiempo.tiempo_status === 'activo') {
@@ -257,12 +218,12 @@
                             // Mostrar alerta de que ya tiene encargado
                             $('#resultadoBusquedaTiempo').html(`
                                 <div class="alert alert-warning">
-                                    <i class="bi bi-exclamation-triangle-fill me-2"></i> 
+                                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
                                     <strong>Atención:</strong> Este usuario ya tiene asignado a <strong>${datosUsuarioTiempo.tiempo_encargado_usuario}</strong> como encargado de su tiempo.
                                     No se puede proceder con la activación.
                                 </div>
                             `);
-                            
+
                             // Deshabilitar el botón siguiente
                             $('#nextBtnTiempo').prop('disabled', true);
                         } else {
@@ -272,7 +233,7 @@
                                     <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${datosUsuarioTiempo.usuario_registro}</strong>
                                 </div>
                             `);
-                            
+
                             // Habilitar el botón siguiente
                             $('#nextBtnTiempo').prop('disabled', false);
                         }
@@ -302,6 +263,20 @@
 
         // Botón siguiente
         $('#nextBtnTiempo').click(function() {
+             // Validaciones antes de pasar al siguiente paso
+            if (pasoActualGestionTiempo === 1) {
+                // En el paso 1, verificar si se ha encontrado un usuario válido
+                if (!datosUsuarioTiempo || !datosUsuarioTiempo.codigo_time || $('#nextBtnTiempo').prop('disabled')) {
+                     Swal.fire({
+                        icon: 'warning',
+                        title: 'Atención',
+                        text: 'Debes buscar y encontrar un usuario válido antes de continuar.'
+                    });
+                    return; // No avanzar si no hay usuario válido o el botón Siguiente está deshabilitado
+                }
+            }
+             // Puedes añadir más validaciones para otros pasos si es necesario
+
             if (pasoActualGestionTiempo < totalPasosGestionTiempo) {
                 mostrarPasoTiempo(pasoActualGestionTiempo + 1);
             }
@@ -314,24 +289,22 @@
             }
         });
 
-        // Enviar formulario
+        // Enviar formulario (Ahora se llama "Registrar Tiempo" y se activa en el Paso 2)
         $('#submitBtnTiempo').click(function() {
-            // Validar campos
-            const estadoTiempo = $('#tiempoStatus').val();
-            
-            if (!estadoTiempo) {
-                Swal.fire({
+            // Validar que se haya seleccionado un usuario
+            if (!datosUsuarioTiempo || !datosUsuarioTiempo.codigo_time) {
+                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Debe seleccionar un estado para el tiempo'
+                    text: 'No se ha seleccionado ningún usuario para registrar el tiempo.'
                 });
                 return;
             }
 
             // Mostrar cargando
             Swal.fire({
-                title: 'Procesando',
-                text: 'Actualizando tiempo...',
+                title: 'Procesando Registro',
+                text: 'Registrando la gestión del tiempo...',
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
@@ -340,21 +313,21 @@
 
             // Realizar petición AJAX
             $.ajax({
-                url: '/private/procesos/gestion_tiempos/activar_tiempo.php',
+                url: '/private/procesos/gestion_tiempos/activar_tiempo.php', // Mantener la URL si el backend maneja la lógica
                 type: 'POST',
                 data: {
                     codigo_time: datosUsuarioTiempo.codigo_time,
-                    tiempo_status: estadoTiempo,
-                    tiempo_encargado_usuario: $('#nombreEncargadoTiempo').val()
+                    tiempo_status: 'activo', // Hardcodeado a 'activo' ya que no hay input para cambiarlo
+                    tiempo_encargado_usuario: '<?php echo $_SESSION['username']; ?>' // Usar el usuario actual directamente
                 },
                 dataType: 'json',
                 success: function(respuestaTiempo) {
                     Swal.close();
-                    
+
                     if (respuestaTiempo.success) {
-                        // Mostrar paso de confirmación
-                        mostrarPasoTiempo(4);
-                        
+                        // Mostrar paso de confirmación final (Paso 3)
+                        mostrarPasoTiempo(totalPasosGestionTiempo);
+
                         // Redireccionar después de 3 segundos
                         setTimeout(function() {
                             $('#dar_tiempo_modal').modal('hide');
@@ -363,18 +336,23 @@
                     } else {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
-                            text: respuestaTiempo.message || 'Error al actualizar el tiempo'
+                            title: 'Error en Registro',
+                            text: respuestaTiempo.message || 'Error al registrar la gestión del tiempo.'
                         });
+                         // Opcional: Volver al paso anterior o mostrar un mensaje en el paso 2
+                         // mostrarPasoTiempo(totalPasosGestionTiempo - 1);
+                         // $('#resultadoRegistroTiempo').html(`<div class="alert alert-danger mt-3">${respuestaTiempo.message || 'Error desconocido.'}</div>`); // Si añades un div para resultados en paso 2
                     }
                 },
                 error: function() {
                     Swal.close();
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: 'Error de conexión. Inténtelo de nuevo.'
+                        title: 'Error de Conexión',
+                        text: 'Error de conexión con el servidor. Inténtelo de nuevo.'
                     });
+                     // Opcional: Mostrar mensaje de error en el paso 2
+                     // $('#resultadoRegistroTiempo').html('<div class="alert alert-danger mt-3">Error de conexión con el servidor.</div>');
                 }
             });
         });
@@ -383,15 +361,29 @@
         $('#dar_tiempo_modal').on('show.bs.modal', function() {
             // Resetear el formulario
             $('#tiempoFormModal')[0].reset();
-            
+
+            // Limpiar resultados de búsqueda y datos de usuario
+            $('#resultadoBusquedaTiempo').html('');
+            $('#nombreUsuarioTiempo').text('');
+            $('#tiempoAcumulado').text('');
+            $('#tiempoRestado').text('');
+            $('#tiempoTranscurrido').text('');
+            $('#tiempoEncargado').text('');
+            $('#estadoTiempoModal').html('');
+            datosUsuarioTiempo = {}; // Limpiar datos del usuario seleccionado
+
             // Mostrar el primer paso
             mostrarPasoTiempo(1);
-            
-            // Limpiar resultados
-            $('#resultadoBusquedaTiempo').html('');
-            
-            // Deshabilitar botón siguiente
-            $('#nextBtnTiempo').prop('disabled', true);
         });
+
+        // Asegurarse de que los botones Anterior y Siguiente estén habilitados/deshabilitados correctamente al abrir
+         $('#dar_tiempo_modal').on('shown.bs.modal', function() {
+             mostrarPasoTiempo(pasoActualGestionTiempo); // Re-aplicar el estado de los botones
+         });
+
     });
 </script>
+
+<style>
+/* Puedes mantener o ajustar estilos si es necesario */
+</style>

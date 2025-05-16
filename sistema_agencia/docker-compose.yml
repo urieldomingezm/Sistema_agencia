@@ -27,6 +27,7 @@ services:
       MYSQL_PASSWORD: 123456
     volumes:
       - mysql_data:/var/lib/mysql
+    command: --log-bin-trust-function-creators=1 # Añadir esta línea
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin

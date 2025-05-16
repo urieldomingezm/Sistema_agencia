@@ -36,7 +36,7 @@
                                 <div class="text-center">
                                     <span class="badge bg-success mb-2"><i class="bi bi-check-circle-fill"></i></span>
                                     <p class="small">Completar</p>
-                                    <small class="text-muted">Marca una tarea como terminada</small>
+                                    <small class="text-muted">Marca una tarea como terminada (puede ser automático)</small>
                                 </div>
                                 <div class="text-center">
                                     <span class="badge bg-warning mb-2"><i class="bi bi-pause-circle-fill"></i></span>
@@ -63,6 +63,7 @@
                                 <p><i class="bi bi-clock-history"></i> El tiempo se calcula automáticamente</p>
                                 <p><i class="bi bi-calculator"></i> Se acumula el tiempo total trabajado</p>
                                 <p><i class="bi bi-shield-check"></i> Los permisos varían según tu rol</p>
+                                <p><i class="bi bi-award-fill text-warning"></i> El tiempo se marca como "Completado" automáticamente al alcanzar el total requerido para tu rango.</p>
                             </div>
                         </div>
                     </div>

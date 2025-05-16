@@ -135,7 +135,6 @@ class Navbar
       'Informacion' => 'bi bi-info-circle-fill',
       'Ascenso' => 'bi bi-arrow-up-circle-fill',
       'Ventas' => 'bi bi-cart-fill',
-      'Paga' => 'bi bi-wallet-fill',
       'Gestion de usuarios' => 'bi bi-people-fill',
       'Rangos' => 'bi bi-award-fill'
     ];
@@ -153,7 +152,6 @@ class Navbar
       'Gestion ascenso' => 'bi bi-people-fill',
       'Ventas membresias' => 'bi bi-person-badge-fill',
       'Gestion de pagas' => 'bi bi-wallet2',
-      'Pagar usuario' => 'bi bi-cash',
       'Grafico total de pagas' => 'bi bi-pie-chart-fill',
       'Gestionar usuarios' => 'bi bi-gear-fill',
       'Vender membresias' => 'bi bi-tags-fill',
@@ -170,9 +168,8 @@ class Navbar
   {
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
-      'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
-      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#ascensoWizardModal',
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal',
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#ventas_rangos_traslados',
@@ -202,7 +199,7 @@ $items = [
     'divider', 
     'Vender rangos'
   ]],
-  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Pagar usuario']],
+  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas']],
   ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios']],
 ];
 
@@ -273,7 +270,6 @@ require_once(DAR_ASCENSO_PATCH.'dar_ascenso.php');
 require_once(DAR_TIEMPO_PATCH.'dar_tiempo.php');
 echo "<!-- Separador -->";
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
-require_once(MODALES_MENU_PAGA_PATH . 'modal_pagar_usuario.php');
 require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
 echo "<!-- Separador -->";
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');

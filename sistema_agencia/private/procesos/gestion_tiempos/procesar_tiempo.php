@@ -86,19 +86,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $response['message'] = 'Código de tiempo no proporcionado';
                 }
                 break;
-                
+
             case 'pausar_tiempo':
                 if (isset($_POST['codigo_time']) && !empty($_POST['codigo_time'])) {
                     $codigo_time = $_POST['codigo_time'];
                     
                     try {
-                        $query_check = "SELECT tiempo_status, tiempo_encargado_usuario, tiempo_iniciado FROM gestion_tiempo WHERE codigo_time = :codigo_time";
+                        // Modificar la consulta para obtener el rango actual del usuario
+                        $query_check = "SELECT gt.tiempo_status, gt.tiempo_encargado_usuario, gt.tiempo_iniciado, gt.tiempo_acumulado, a.rango_actual
+                                        FROM gestion_tiempo gt
+                                        JOIN ascensos a ON gt.codigo_time = a.codigo_time
+                                        WHERE gt.codigo_time = :codigo_time";
                         $stmt_check = $conn->prepare($query_check);
                         $stmt_check->bindParam(':codigo_time', $codigo_time);
                         $stmt_check->execute();
-                        
+
                         $tiempo_data = $stmt_check->fetch(PDO::FETCH_ASSOC);
-                        
+
                         if ($tiempo_data && !empty($tiempo_data['tiempo_encargado_usuario'])) {
                             // Calcular tiempo acumulado
                             date_default_timezone_set('America/Mexico_City');
@@ -111,48 +115,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $diferencia->i,
                                 $diferencia->s
                             );
-                            
+
                             // Obtener tiempo acumulado actual
-                            $query_acumulado = "SELECT tiempo_acumulado FROM gestion_tiempo WHERE codigo_time = :codigo_time";
-                            $stmt_acumulado = $conn->prepare($query_acumulado);
-                            $stmt_acumulado->bindParam(':codigo_time', $codigo_time);
-                            $stmt_acumulado->execute();
-                            
-                            $tiempo_acumulado_actual = $stmt_acumulado->fetch(PDO::FETCH_ASSOC)['tiempo_acumulado'];
-                            
+                            $tiempo_acumulado_actual = $tiempo_data['tiempo_acumulado'];
+
                             // Calcular nuevo tiempo acumulado
                             list($h_acumulado, $m_acumulado, $s_acumulado) = explode(':', $tiempo_acumulado_actual);
                             $tiempo_acumulado_segundos = $h_acumulado * 3600 + $m_acumulado * 60 + $s_acumulado;
-                            
+
                             list($h_transcurrido, $m_transcurrido, $s_transcurrido) = explode(':', $tiempo_transcurrido);
                             $tiempo_transcurrido_segundos = $h_transcurrido * 3600 + $m_transcurrido * 60 + $s_transcurrido;
-                            
+
                             $tiempo_total_segundos = $tiempo_acumulado_segundos + $tiempo_transcurrido_segundos;
                             $horas_total = floor($tiempo_total_segundos / 3600);
                             $minutos_total = floor(($tiempo_total_segundos % 3600) / 60);
                             $segundos_total = $tiempo_total_segundos % 60;
                             $tiempo_acumulado_total = sprintf('%02d:%02d:%02d', $horas_total, $minutos_total, $segundos_total);
-                            
+
+                            // --- Lógica de completado automático basada en rango ---
+                            $rango_actual = $tiempo_data['rango_actual'];
+                            $tiempo_requerido_segundos = 0;
+
+                            // Definir tiempos requeridos por rango en segundos
+                            $tiempos_requeridos = [
+                                'Agente' => 7 * 3600, // 7 horas
+                                'Tecnico' => 8 * 3600, // 8 horas
+                                'Logistica' => 9 * 3600, // 9 horas
+                                'Supervisor' => 4 * 3600, // 4 horas
+                                'Director' => 6 * 3600, // 6 horas
+                                'Presidente' => 5 * 3600, // 5 horas
+                                'Seguridad' => 7 * 3600 // Asumiendo que Seguridad también requiere 7 horas como Agente
+                                // Añade otros rangos si es necesario
+                            ];
+
+                            // Obtener el tiempo requerido para el rango actual
+                            if (isset($tiempos_requeridos[$rango_actual])) {
+                                $tiempo_requerido_segundos = $tiempos_requeridos[$rango_actual];
+                            } else {
+                                // Si el rango no está definido, puedes establecer un valor por defecto o manejar el error
+                                // Por ahora, si no está definido, no se completará automáticamente por tiempo
+                                $tiempo_requerido_segundos = PHP_INT_MAX; // Un valor muy alto para que nunca se cumpla la condición
+                                // O podrías loggear un error o usar un tiempo por defecto como 9 horas: $tiempo_requerido_segundos = 9 * 3600;
+                            }
+
+                            // Determinar el nuevo estado
+                            $nuevo_status = 'pausa';
+                            if ($tiempo_total_segundos >= $tiempo_requerido_segundos) {
+                                $nuevo_status = 'completado';
+                            }
+                            // --- Fin de la lógica de completado automático ---
+
+
                             // Actualizar registro
-                            $query = "UPDATE gestion_tiempo SET 
-                                      tiempo_encargado_usuario = NULL, 
+                            $query = "UPDATE gestion_tiempo SET
+                                      tiempo_encargado_usuario = NULL,
                                       tiempo_iniciado = '00:00:00',
                                       tiempo_acumulado = :tiempo_acumulado_total,
-                                      tiempo_status = 'pausa'
+                                      tiempo_status = :nuevo_status
                                       WHERE codigo_time = :codigo_time";
                             $stmt = $conn->prepare($query);
                             $stmt->bindParam(':tiempo_acumulado_total', $tiempo_acumulado_total);
+                            $stmt->bindParam(':nuevo_status', $nuevo_status);
                             $stmt->bindParam(':codigo_time', $codigo_time);
-                            
+
                             if ($stmt->execute()) {
                                 $response['success'] = true;
                                 $response['message'] = 'Tiempo pausado y liberado correctamente';
+                                if ($nuevo_status === 'completado') {
+                                    $response['message'] = 'Tiempo completado automáticamente para el rango ' . $rango_actual;
+                                }
                                 $response['tiempo_acumulado'] = $tiempo_acumulado_total;
+                                $response['nuevo_status'] = $nuevo_status; // Añadir el nuevo estado a la respuesta
                             } else {
                                 $response['message'] = 'Error al pausar y liberar el tiempo';
                             }
                         } else {
-                            $response['message'] = 'El usuario no tiene un encargado asignado';
+                            $response['message'] = 'El usuario no tiene un encargado asignado o no se encontró el rango';
                         }
                     } catch (PDOException $e) {
                         $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
@@ -283,7 +321,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 break;
         }
     }
-    
+
     header('Content-Type: application/json');
     echo json_encode($response);
     exit;
