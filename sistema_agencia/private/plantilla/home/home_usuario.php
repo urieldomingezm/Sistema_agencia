@@ -169,37 +169,37 @@ class BodyHome {
             [
                 'title' => 'Membresía Gold',
                 'benefits' => 'Mimsmos beneficios de bronce y silver + fila vip + Guarda paga + Mision libre.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/gold2.png',
+                'image' => '/usuario/rangos/image/membresias/gold.png',
                 'price' => '40 créditos por mes'
             ],
             [
                 'title' => 'Membresía Bronce',
                 'benefits' => 'Incluye ropa libre + Chat libre + Baile + Uso de efectos.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/premim2.png',
+                'image' => '/usuario/rangos/image/membresias/premim.png',
                 'price' => '28 créditos por mes'
             ],
             [
                 'title' => 'Membresía regla libre',
                 'benefits' => 'Chat, Mision y ropa libre',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/regla2.png',
+                'image' => '/usuario/rangos/image/membresias/regla.png',
                 'price' => '25 créditos por mes'
             ],
             [
                 'title' => 'Membresía save',
                 'benefits' => 'Guarda tu paga por 48 Horas.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/save2.png',
+                'image' => '/usuario/rangos/image/membresias/save.png',
                 'price' => '10 créditos por mes'
             ],
             [
                 'title' => 'Membresía Fila Vip',
                 'benefits' => 'Garantiza beneficios frente al resto de usuarios que no tengan fila vip.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/vip2.png',
+                'image' => '/usuario/rangos/image/membresias/vip.png',
                 'price' => '15 créditos por mes'
             ],
             [
                 'title' => 'Membresía silver',
                 'benefits' => 'Mismos beneficios de la Membresia bronce + Reduccion en requisitos.',
-                'image' => '/public/assets/custom_general/custom_requisitos_rangos/image/membresias/silver2.png',
+                'image' => '/usuario/rangos/image/membresias/silver.png',
                 'price' => '34 créditos por mes'
             ],
         ];
