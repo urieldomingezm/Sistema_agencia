@@ -37,8 +37,16 @@ class BodyHome {
                     <i class="bi bi-star-fill me-2"></i> Agencia Shein <i class="bi bi-star-fill me-2"></i>
                 </h1>
                 <p class="lead text-white mb-1" style="font-size: clamp(0.9rem, 3vw, 1.2rem);">
-                    Bienvenido <?= $username ?> 
+                    Bienvenido <?= $username ?>
                 </p>
+                <?php
+                // Anuncio de ejemplo
+                $announcement = "¡Atención! Por el momento la toma de ascenso estara en mantenimiento pueden tomar tiempo de los usuarios por el momento.";
+                ?>
+                <div class="alert alert-warning mt-3 mb-0" role="alert" style="font-size: clamp(0.8rem, 2.5vw, 1rem);">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                    <?= htmlspecialchars($announcement) ?>
+                </div>
             </div>
         </header>
         <?php
