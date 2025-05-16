@@ -1,171 +1,100 @@
-<div class="modal fade" id="dar_ascenso" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="dar_ascensoLabel" aria-hidden="true">
+<?php
+// Modal Wizard para Dar Ascenso
+?>
+
+<div class="modal fade" id="ascensoWizardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="ascensoWizardModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
         <div class="modal-content">
             <!-- Encabezado del Modal -->
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold" id="dar_ascensoLabel">
-                    Dar Ascenso
+                <h5 class="modal-title fw-bold" id="ascensoWizardModalLabel">
+                    Wizard de Ascenso
                 </h5>
             </div>
-            
+
             <!-- Cuerpo del Modal -->
             <div class="modal-body">
                 <!-- Indicador de pasos -->
                 <div class="progress mb-4" style="height: 10px;">
-                    <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
-                
+
                 <!-- Formulario de múltiples pasos -->
-                <form id="darAscensoForm">
-                    <!-- Paso 1: Búsqueda de Usuario -->
-                    <div class="step" id="step1">
-                        <h4 class="text-center mb-4 fw-bold text-success">Buscar Usuario para Ascenso</h4>
+                <form id="ascensoWizardForm">
+                    <!-- Paso 1: Buscar Usuario -->
+                    <div class="step" id="step1_ascenso">
+                        <h4 class="text-center mb-4 fw-bold text-primary">Paso 1: Buscar Usuario</h4>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <label for="codigoUsuarioAscenso" class="form-label fw-bold">
-                                    <i class="bi bi-person-badge me-1"></i> Código de Usuario (5 caracteres)
-                                </label>
-                                <div class="input-group input-group-lg mb-3">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-hash"></i>
-                                    </span>
-                                    <input type="text" class="form-control" id="codigoUsuarioAscenso" name="codigoUsuarioAscenso" maxlength="5" placeholder="Ingrese el código" autocomplete="off">
-                                    <button class="btn btn-success" type="button" id="buscarUsuarioAscenso">
-                                        <i class="bi bi-search me-1"></i> Buscar
-                                    </button>
+                                <p>Utiliza el campo de búsqueda para encontrar al usuario que deseas ascender.</p>
+                                <div class="mb-3">
+                                    <label for="searchInputAscenso" class="form-label fw-bold">
+                                        <i class="bi bi-person-badge me-1"></i> Nombre de Usuario o Código:
+                                    </label>
+                                    <div class="input-group input-group-lg mb-3">
+                                        <span class="input-group-text">
+                                            <i class="bi bi-search"></i>
+                                        </span>
+                                        <input type="text" class="form-control" id="searchInputAscenso" placeholder="Escribe aquí para buscar..." autocomplete="off">
+                                        <button class="btn btn-primary" type="button" id="buscarUsuarioAscenso">
+                                            <i class="bi bi-search me-1"></i> Buscar
+                                        </button>
+                                    </div>
+                                    <div class="form-text">
+                                        <i class="bi bi-info-circle me-1"></i> Ingresa el nombre o código del usuario.
+                                    </div>
                                 </div>
-                                <div class="form-text">
-                                    <i class="bi bi-info-circle me-1"></i> Ingrese el código de 5 caracteres del usuario a ascender.
+                                <div id="searchResultsAscenso" class="mt-3">
+                                    <!-- Los resultados de la búsqueda se mostrarán aquí -->
+                                    <p class="text-muted">Ingresa un término de búsqueda para empezar.</p>
                                 </div>
                             </div>
                         </div>
-                        <div id="resultadoBusquedaAscenso" class="mt-3"></div>
                     </div>
-                    
+
                     <!-- Paso 2: Información del Usuario -->
-                    <div class="step d-none" id="step2">
-                        <h4 class="text-center mb-4 fw-bold text-success">Información del Usuario</h4>
+                    <div class="step d-none" id="step2_ascenso">
+                        <h4 class="text-center mb-4 fw-bold text-primary">Paso 2: Información del Usuario</h4>
                         <div class="card mb-3">
                             <div class="card-header bg-light">
                                 <h5 class="mb-0 fw-bold">
-                                    <i class="bi bi-person-badge-fill me-2 text-success"></i>Datos del Usuario
+                                    <i class="bi bi-person-badge-fill me-2 text-primary"></i>Datos del Usuario
                                 </h5>
                             </div>
                             <div class="card-body">
-                                <div class="row g-4">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <small class="text-muted d-block">Usuario</small>
-                                            <span class="fw-bold" id="nombreUsuarioAscenso"></span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <small class="text-muted d-block">Rango Actual</small>
-                                            <span class="fw-bold" id="rangoActualAscenso"></span>
-                                        </div>
-                                        <div>
-                                            <small class="text-muted d-block">Misión Actual</small>
-                                            <span class="fw-bold" id="misionActualAscenso"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <small class="text-muted d-block">Firma</small>
-                                            <span class="fw-bold" id="firmaUsuarioAscenso"></span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <small class="text-muted d-block">Estado</small>
-                                            <span id="estadoAscensoAscenso"></span>
-                                        </div>
-                                        <div>
-                                            <small class="text-muted d-block">Código Time</small>
-                                            <span class="fw-bold" id="codigoTimeInfoAscenso"></span>
-                                        </div>
-                                    </div>
+                                <p>Verifica la información del usuario seleccionado antes de proceder.</p>
+                                <div id="userInfoAscenso">
+                                    <!-- La información del usuario seleccionado se mostrará aquí -->
+                                    <p class="text-muted">Selecciona un usuario de los resultados de búsqueda.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Paso 3: Formulario de Ascenso -->
-                    <div class="step d-none" id="step3">
-                        <h4 class="text-center mb-4 fw-bold text-success">
-                            <i class="bi bi-arrow-up-circle-fill me-2"></i>Dar Ascenso
-                        </h4>
-                        <div class="card mb-4">
+
+                    <!-- Paso 3: Confirmar Ascenso -->
+                    <div class="step d-none" id="step3_ascenso">
+                        <h4 class="text-center mb-4 fw-bold text-primary">Paso 3: Confirmar Ascenso</h4>
+                        <div class="card mb-3">
                             <div class="card-body">
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="codigoTimeAscenso" class="form-label fw-bold">
-                                            <i class="bi bi-person-fill me-1 text-success"></i> Código Time
-                                        </label>
-                                        <input type="text" class="form-control" id="codigoTimeAscenso" name="codigoTimeAscenso" readonly>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nuevoRangoAscenso" class="form-label fw-bold">
-                                            <i class="bi bi-award-fill me-1 text-success"></i> Nuevo Rango
-                                        </label>
-                                        <select class="form-select" id="nuevoRangoAscenso" name="nuevoRangoAscenso" required>
-                                            <option value="">Seleccione un rango</option>
-                                            <option value="Agente">Agente</option>
-                                            <option value="Seguridad">Seguridad</option>
-                                            <option value="Tecnico">Técnico</option>
-                                            <option value="Logistica">Logística</option>
-                                            <option value="Supervisor">Supervisor</option>
-                                            <option value="Director">Director</option>
-                                            <option value="Presidente">Presidente</option>
-                                            <option value="Operativo">Operativo</option>
-                                            <option value="Junta directiva">Junta directiva</option>
-                                            <option value="Administrador">Administrador</option>
-                                        </select>
-                                    </div>
+                                <p>Confirma que deseas ascender a este usuario. El proceso será automático.</p>
+                                <div id="ascensoConfirmationAscenso">
+                                    <!-- Mensaje de confirmación y/o resultado del ascenso -->
+                                    <p class="text-muted">Información del usuario a ascender.</p>
                                 </div>
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nuevaMisionAscenso" class="form-label fw-bold">
-                                            <i class="bi bi-briefcase-fill me-1 text-success"></i> Nueva Misión
-                                        </label>
-                                        <input type="text" class="form-control" id="nuevaMisionAscenso" name="nuevaMisionAscenso" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="firmaUsuario" class="form-label fw-bold">
-                                            <i class="bi bi-pen-fill me-1 text-success"></i> Firma Usuario (3 dígitos)
-                                        </label>
-                                        <input type="text" class="form-control" id="firmaUsuario" name="firmaUsuario" maxlength="3">
-                                    </div>
-                                </div>
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="firmaEncargadoAscenso" class="form-label fw-bold">
-                                            <i class="bi bi-person-check-fill me-1 text-success"></i> Firma Encargado (3 dígitos)
-                                        </label>
-                                        <input type="text" class="form-control" id="firmaEncargadoAscenso" name="firmaEncargadoAscenso" maxlength="3" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nombreEncargadoAscenso" class="form-label fw-bold">
-                                            <i class="bi bi-person-fill me-1 text-success"></i> Nombre Encargado
-                                        </label>
-                                        <input type="text" class="form-control" id="nombreEncargadoAscenso" name="nombreEncargadoAscenso" value="<?php echo $_SESSION['username']; ?>" readonly required>
-                                    </div>
-                                </div>
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="tiempoEsperaAscenso" class="form-label fw-bold">
-                                            <i class="bi bi-clock-fill me-1 text-success"></i> Tiempo de Espera (minutos)
-                                        </label>
-                                        <input type="number" class="form-control" id="tiempoEsperaAscenso" name="tiempoEsperaAscenso" required min="0" readonly>
-                                    </div>
+                                <div id="ascensoResultAscenso" class="mt-3">
+                                    <!-- El resultado del proceso de ascenso se mostrará aquí -->
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Paso 4: Confirmación -->
-                    <div class="step d-none" id="step4">
+
+                    <!-- Paso 4: Confirmación Final -->
+                    <div class="step d-none" id="step4_ascenso">
                         <div class="text-center p-5">
                             <div class="display-1 text-success mb-4">
                                 <i class="bi bi-check-circle-fill"></i>
                             </div>
-                            <h4 class="mb-3 fw-bold text-success">¡Ascenso Registrado Correctamente!</h4>
+                            <h4 class="mb-3 fw-bold text-success">¡Ascenso Realizado Correctamente!</h4>
                             <p class="lead">El usuario ha sido ascendido exitosamente.</p>
                             <div class="mt-4">
                                 <div class="spinner-grow spinner-grow-sm text-success me-1" role="status">
@@ -177,19 +106,20 @@
                     </div>
                 </form>
             </div>
-            
+
+            <!-- Pie del Modal -->
             <div class="modal-footer bg-light">
                 <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">
                     Cerrar
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtnAscenso" disabled>
-                     Anterior
+                    Anterior
                 </button>
-                <button type="button" class="btn btn-outline-success btn-lg" id="nextBtnAscenso">
-                    Siguiente 
+                <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtnAscenso">
+                    Siguiente
                 </button>
                 <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtnAscenso">
-                     Registrar Ascenso
+                    Confirmar Ascenso
                 </button>
             </div>
         </div>
@@ -198,305 +128,252 @@
 
 <!-- Script para el funcionamiento del modal -->
 <script>
-$(document).ready(function() {
-    let currentStepDarAscenso = 1;
-    const totalStepsDarAscenso = 4;
-    let userDataDarAscenso = {};
-    
-    // Actualizar la barra de progreso
-    function updateProgressBarDarAscenso() {
-        const percent = ((currentStepDarAscenso - 1) / (totalStepsDarAscenso - 1)) * 100;
-        $('#dar_ascenso .progress-bar').css('width', percent + '%').attr('aria-valuenow', percent);
-    }
-    
-    // Mostrar el paso actual
-    function showStepDarAscenso(step) {
-        $('#dar_ascenso .step').addClass('d-none');
-        $('#dar_ascenso #step' + step).removeClass('d-none');
-        
-        // Actualizar botones
-        $('#prevBtnAscenso').prop('disabled', step === 1);
-        $('#nextBtnAscenso').toggleClass('d-none', step === 3 || step === 4);
-        $('#submitBtnAscenso').toggleClass('d-none', step !== 3);
-        
-        // Actualizar progreso
-        currentStepDarAscenso = step;
-        updateProgressBarDarAscenso();
-    }
-    
-    // Función para mostrar/ocultar el campo de firma según el rango
-    function toggleFirmaField() {
-        const rangoSeleccionado = $('#nuevoRangoAscenso').val();
-        const firmaContainer = $('#firmaUsuario').closest('.col-md-6');
-        
-        if (rangoSeleccionado === 'Agente' || rangoSeleccionado === 'Seguridad') {
-            firmaContainer.hide();
-            $('#firmaUsuario').val('').removeAttr('required');
-        } else {
-            firmaContainer.show();
-            $('#firmaUsuario').attr('required', 'required');
+    $(document).ready(function() {
+        let pasoActualAscenso = 1;
+        const totalPasosAscenso = 4; // Incluye el paso de confirmación final
+        let datosUsuarioAscenso = {}; // Para almacenar los datos del usuario buscado
+
+        // Actualizar la barra de progreso
+        function actualizarBarraProgresoAscenso() {
+            // La barra de progreso va del paso 1 al 3 (antes de la confirmación final)
+            const porcentaje = ((pasoActualAscenso - 1) / (totalPasosAscenso - 1)) * 100;
+            $('#ascensoWizardModal .progress-bar').css('width', porcentaje + '%').attr('aria-valuenow', porcentaje);
         }
-    }
-    
-    // Ejecutar cuando cambie el rango
-    $('#nuevoRangoAscenso').change(toggleFirmaField);
-    
-    // Función para actualizar el tiempo de espera según el rango
-    function updateTiempoEspera() {
-        const rangoSeleccionado = $('#nuevoRangoAscenso').val();
-        let tiempoEspera = 0;
-        
-        // Definir tiempos de espera por rango (en minutos)
-        switch(rangoSeleccionado) {
-            case 'Agente':
-                tiempoEspera = 10;
-                break;
-            case 'Seguridad':
-                tiempoEspera = 240; // 4 horas
-                break;
-            case 'Tecnico':
-                tiempoEspera = 1080; // 18 horas
-                break;
-            case 'Logistica':
-                tiempoEspera = 1560; // 26 horas
-                break;
-            case 'Supervisor':
-                tiempoEspera = 5760; // 4 días
-                break;
-            case 'Director':
-                tiempoEspera = 12960; // 9 días
-                break;
-            case 'Presidente':
-                tiempoEspera = 20160; // 14 días
-                break;
-            case 'Operativo':
-                tiempoEspera = 34560; // 24 días
-                break;
-            default:
-                tiempoEspera = 0;
+
+        // Mostrar el paso actual
+        function mostrarPasoAscenso(paso) {
+            $('#ascensoWizardModal .step').addClass('d-none');
+            $('#step' + paso + '_ascenso').removeClass('d-none');
+
+            // Actualizar botones
+            $('#prevBtnAscenso').prop('disabled', paso === 1 || paso === totalPasosAscenso); // Deshabilitar Anterior en paso 1 y en el paso final
+            $('#nextBtnAscenso').toggleClass('d-none', paso === totalPasosAscenso - 1 || paso === totalPasosAscenso); // Ocultar Siguiente en el paso de confirmación y el final
+            $('#submitBtnAscenso').toggleClass('d-none', paso !== totalPasosAscenso - 1); // Mostrar Submit solo en el paso de confirmación (Paso 3)
+
+            // Actualizar progreso
+            pasoActualAscenso = paso;
+            actualizarBarraProgresoAscenso();
         }
-        
-        $('#tiempoEsperaAscenso').val(tiempoEspera);
-    }
-    
-    // Actualizar tiempo de espera cuando cambie el rango
-    $('#nuevoRangoAscenso').change(updateTiempoEspera);
-    
-    // Buscar usuario por código
-    $('#buscarUsuarioAscenso').click(function() {
-        const codigo = $('#codigoUsuarioAscenso').val().trim();
-        
-        if (codigo.length !== 5) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'El código debe tener exactamente 5 caracteres'
-            });
-            return;
-        }
-        
-        // Mostrar cargando
-        $('#resultadoBusquedaAscenso').html('<div class="text-center"><div class="spinner-border text-success" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
-        
-        // Realizar petición AJAX
-        $.ajax({
-            url: '/private/procesos/gestion_ascensos/buscar_usuario.php',
-            type: 'POST',
-            data: { codigo: codigo },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    userDataDarAscenso = response.data;
-                    
-                    // Mostrar información del usuario
-                    $('#nombreUsuarioAscenso').text(userDataDarAscenso.usuario_registro);
-                    $('#rangoActualAscenso').text(userDataDarAscenso.rango_actual);
-                    $('#misionActualAscenso').text(userDataDarAscenso.mision_actual);
-                    $('#firmaUsuarioAscenso').text(userDataDarAscenso.firma_usuario ? userDataDarAscenso.firma_usuario : 'No disponible');
-                    $('#codigoTimeInfoAscenso').text(userDataDarAscenso.codigo_time);
-                    
-                    // Mostrar estado con badge
-                    let badgeClass = 'bg-warning';
-                    if (userDataDarAscenso.estado_ascenso === 'ascendido') {
-                        badgeClass = 'bg-success';
-                    } else if (userDataDarAscenso.estado_ascenso === 'pendiente') {
-                        badgeClass = 'bg-danger';
-                    } else if (userDataDarAscenso.estado_ascenso === 'disponible') {
-                        badgeClass = 'bg-info';
+
+        // Buscar usuario por nombre o código
+        $('#buscarUsuarioAscenso').click(function() {
+            const searchTerm = $('#searchInputAscenso').val().trim();
+            const searchResultsDiv = $('#searchResultsAscenso');
+
+            if (searchTerm.length < 3) {
+                searchResultsDiv.html('<p class="text-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i> Ingresa al menos 3 caracteres para buscar.</p>');
+                $('#nextBtnAscenso').prop('disabled', true); // Deshabilitar Siguiente si no hay búsqueda válida
+                return;
+            }
+
+            // Mostrar cargando
+            searchResultsDiv.html('<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
+            $('#nextBtnAscenso').prop('disabled', true); // Deshabilitar Siguiente mientras busca
+
+            // Realizar petición AJAX para buscar usuario
+            $.ajax({
+                url: '/private/procesos/gestion_ascensos/buscar_usuario.php', // Ajusta esta URL si es diferente
+                type: 'POST',
+                data: {
+                    term: searchTerm // Usar 'term' o el nombre de parámetro que espere tu backend
+                },
+                dataType: 'json',
+                success: function(respuesta) {
+                    if (respuesta.success && respuesta.data.length > 0) {
+                        let resultsHtml = '<ul class="list-group">';
+                        respuesta.data.forEach(usuario => {
+                            // Asegúrate de que los nombres de las propiedades coincidan con la respuesta de tu backend
+                            resultsHtml += `
+                                <li class="list-group-item list-group-item-action"
+                                    data-user-id="${usuario.id}"
+                                    data-user-codigo="${usuario.codigo_time}"
+                                    data-user-name="${usuario.usuario_registro}"
+                                    data-user-rango="${usuario.rango_actual}"
+                                    data-user-mision="${usuario.mision_actual}"
+                                    data-user-estado="${usuario.estado_ascenso}">
+                                    <strong>${usuario.usuario_registro}</strong> (${usuario.codigo_time}) - Rango: ${usuario.rango_actual}
+                                </li>
+                            `;
+                        });
+                        resultsHtml += '</ul>';
+                        searchResultsDiv.html(resultsHtml);
+
+                        // Añadir event listeners a los resultados
+                        searchResultsDiv.find('.list-group-item').click(function() {
+                            // Almacenar los datos del usuario seleccionado
+                            datosUsuarioAscenso = {
+                                id: $(this).data('user-id'),
+                                codigo_time: $(this).data('user-codigo'),
+                                usuario_registro: $(this).data('user-name'),
+                                rango_actual: $(this).data('user-rango'),
+                                mision_actual: $(this).data('user-mision'),
+                                estado_ascenso: $(this).data('user-estado')
+                            };
+
+                            // Mostrar información del usuario seleccionado en el Paso 2
+                            $('#userInfoAscenso').html(`
+                                <p><strong>Usuario Seleccionado:</strong> ${datosUsuarioAscenso.usuario_registro}</p>
+                                <p><strong>Código:</strong> ${datosUsuarioAscenso.codigo_time}</p>
+                                <p><strong>Rango Actual:</strong> ${datosUsuarioAscenso.rango_actual}</p>
+                                <p><strong>Misión Actual:</strong> ${datosUsuarioAscenso.mision_actual}</p>
+                                <p><strong>Estado de Ascenso:</strong> ${datosUsuarioAscenso.estado_ascenso}</p>
+                                <!-- Agrega más campos si son necesarios para el ascenso -->
+                            `);
+
+                            // Mostrar información del usuario en el Paso 3 para confirmación
+                             $('#ascensoConfirmationAscenso').html(`
+                                <p>¿Estás seguro de que deseas ascender a <strong>${datosUsuarioAscenso.usuario_registro}</strong>?</p>
+                                <p>Su rango actual es: <strong>${datosUsuarioAscenso.rango_actual}</strong>.</p>
+                                <!-- Puedes añadir aquí información sobre el próximo rango si tu backend la proporciona -->
+                            `);
+
+
+                            // Habilitar el botón Siguiente
+                            $('#nextBtnAscenso').prop('disabled', false);
+
+                            // Opcional: Resaltar el elemento seleccionado
+                            searchResultsDiv.find('.list-group-item').removeClass('active');
+                            $(this).addClass('active');
+                        });
+
+                    } else {
+                        searchResultsDiv.html('<div class="alert alert-warning"><i class="bi bi-exclamation-triangle-fill me-1"></i> No se encontraron usuarios.</div>');
+                        $('#nextBtnAscenso').prop('disabled', true); // Deshabilitar Siguiente si no hay resultados
                     }
-                    $('#estadoAscensoAscenso').html(`<span class="badge ${badgeClass}">${userDataDarAscenso.estado_ascenso}</span>`);
-                    
-                    // Prellenar los campos del formulario de ascenso
-                    $('#codigoTimeAscenso').val(userDataDarAscenso.codigo_time);
-                    $('#firmaUsuario').val(userDataDarAscenso.firma_usuario);
-                    
-                    // Aplicar la lógica de mostrar/ocultar firma según el rango
-                    toggleFirmaField();
-                    
-                    // Mostrar el resultado
-                    $('#resultadoBusquedaAscenso').html(`
-                        <div class="alert alert-success">
-                            <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${userDataDarAscenso.usuario_registro}</strong>
-                        </div>
-                    `);
-                    
-                    // Habilitar el botón siguiente
-                    $('#nextBtnAscenso').prop('disabled', false);
-                } else {
-                    // Mostrar mensaje de error
-                    $('#resultadoBusquedaAscenso').html(`
-                        <div class="alert alert-danger">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i> ${response.message}
-                        </div>
-                    `);
-                    
-                    // Deshabilitar el botón siguiente
-                    $('#nextBtnAscenso').prop('disabled', true);
+                },
+                error: function() {
+                    searchResultsDiv.html('<div class="alert alert-danger"><i class="bi bi-exclamation-triangle-fill me-1"></i> Error al buscar usuario. Inténtelo de nuevo.</div>');
+                    $('#nextBtnAscenso').prop('disabled', true); // Deshabilitar Siguiente en caso de error
                 }
-            },
-            error: function() {
-                $('#resultadoBusquedaAscenso').html(`
-                    <div class="alert alert-danger">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Error de conexión. Inténtelo de nuevo.
-                    </div>
-                `);
-                
-                // Deshabilitar el botón siguiente
-                $('#nextBtnAscenso').prop('disabled', true);
+            });
+        });
+
+        // Botón siguiente
+        $('#nextBtnAscenso').click(function() {
+            // Validaciones antes de pasar al siguiente paso
+            if (pasoActualAscenso === 1) {
+                // En el paso 1, verificar si se ha seleccionado un usuario
+                if (!datosUsuarioAscenso || !datosUsuarioAscenso.id) {
+                     Swal.fire({
+                        icon: 'warning',
+                        title: 'Atención',
+                        text: 'Debes seleccionar un usuario de la lista de resultados.'
+                    });
+                    return; // No avanzar si no hay usuario seleccionado
+                }
+                 // Si el usuario ya está en estado 'ascendido', no permitir avanzar
+                if (datosUsuarioAscenso.estado_ascenso === 'ascendido') {
+                     Swal.fire({
+                        icon: 'warning',
+                        title: 'Atención',
+                        text: 'Este usuario ya ha sido ascendido recientemente.'
+                    });
+                    return; // No avanzar si el estado es 'ascendido'
+                }
+            }
+             // Puedes añadir más validaciones para otros pasos si es necesario
+
+            if (pasoActualAscenso < totalPasosAscenso) {
+                mostrarPasoAscenso(pasoActualAscenso + 1);
             }
         });
-    });
-    
-    // Botón Siguiente
-    $('#nextBtnAscenso').click(function() {
-        if (currentStepDarAscenso < totalStepsDarAscenso) {
-            showStepDarAscenso(currentStepDarAscenso + 1);
-        }
-    });
-    
-    // Botón Anterior
-    $('#prevBtnAscenso').click(function() {
-        if (currentStepDarAscenso > 1) {
-            showStepDarAscenso(currentStepDarAscenso - 1);
-        }
-    });
-    
-    // Botón Registrar Ascenso
-    $('#submitBtnAscenso').click(function() {
-        // Validar formulario
-        const codigoTime = $('#codigoTimeAscenso').val();
-        const nuevoRango = $('#nuevoRangoAscenso').val();
-        const nuevaMision = $('#nuevaMisionAscenso').val().trim();
-        const firmaUsuario = $('#firmaUsuario').val().trim();
-        const firmaEncargado = $('#firmaEncargadoAscenso').val().trim();
-        const nombreEncargado = $('#nombreEncargadoAscenso').val().trim();
-        const tiempoEspera = $('#tiempoEsperaAscenso').val();
-        
-        // Validación condicional según el rango
-        if (!codigoTime || !nuevoRango || !nuevaMision || !firmaEncargado || !nombreEncargado || !tiempoEspera) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Todos los campos son obligatorios excepto la firma del usuario para rangos Agente y Seguridad'
-            });
-            return;
-        }
-        
-        if (firmaEncargado.length !== 3) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La firma del encargado debe tener 3 dígitos'
-            });
-            return;
-        }
-        
-        // Solo validar la firma si se ha ingresado algo y es requerida
-        if (nuevoRango !== 'Agente' && nuevoRango !== 'Seguridad') {
-            if (!firmaUsuario || firmaUsuario.length !== 3) {
-                Swal.fire({
+
+        // Botón anterior
+        $('#prevBtnAscenso').click(function() {
+            if (pasoActualAscenso > 1) {
+                mostrarPasoAscenso(pasoActualAscenso - 1);
+            }
+        });
+
+        // Botón Confirmar Ascenso (Submit)
+        $('#submitBtnAscenso').click(function() {
+            // Validar que se haya seleccionado un usuario
+            if (!datosUsuarioAscenso || !datosUsuarioAscenso.id) {
+                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'La firma del usuario debe tener 3 dígitos'
+                    text: 'No se ha seleccionado ningún usuario para ascender.'
                 });
                 return;
             }
-        }
-        
-        // Mostrar cargando
-        Swal.fire({
-            title: 'Registrando ascenso',
-            text: 'Por favor espere...',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-        
-        // Preparar datos para enviar
-        const formData = new FormData();
-        formData.append('codigoTimeAscenso', codigoTime);
-        formData.append('nuevoRangoAscenso', nuevoRango);
-        formData.append('nuevaMisionAscenso', nuevaMision);
-        formData.append('firmaUsuario', firmaUsuario);
-        formData.append('firmaEncargadoAscenso', firmaEncargado);
-        formData.append('nombreEncargadoAscenso', nombreEncargado);
-        formData.append('tiempoEsperaAscenso', tiempoEspera);
-        
-        // Realizar petición AJAX
-        $.ajax({
-            url: '/private/procesos/gestion_ascensos/registrar.php',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    // Mostrar paso de confirmación
-                    showStepDarAscenso(4);
-                    
-                    // Cerrar el modal de carga
+
+            // Mostrar cargando
+            Swal.fire({
+                title: 'Procesando Ascenso',
+                text: 'Realizando el ascenso automático...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Realizar petición AJAX para realizar el ascenso
+            $.ajax({
+                url: '/private/procesos/gestion_ascensos/realizar_ascenso.php', // Ajusta esta URL
+                type: 'POST',
+                data: {
+                    usuario_id: datosUsuarioAscenso.id,
+                    codigo_time: datosUsuarioAscenso.codigo_time // Enviar código_time si es necesario para el proceso
+                    // Puedes añadir otros datos necesarios aquí
+                },
+                dataType: 'json',
+                success: function(respuestaAscenso) {
                     Swal.close();
-                    
-                    // Redireccionar después de 3 segundos
-                    setTimeout(function() {
-                        window.location.href = '/usuario/GSAS.php';
-                    }, 3000);
-                } else {
+
+                    if (respuestaAscenso.success) {
+                        // Mostrar paso de confirmación final
+                        mostrarPasoAscenso(totalPasosAscenso);
+
+                        // Redireccionar o cerrar modal después de 3 segundos
+                        setTimeout(function() {
+                            $('#ascensoWizardModal').modal('hide');
+                            // Opcional: Recargar la página o actualizar la tabla de ascensos
+                            window.location.reload();
+                        }, 3000);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error en Ascenso',
+                            text: respuestaAscenso.message || 'Ocurrió un error al realizar el ascenso.'
+                        });
+                         // Opcional: Volver al paso anterior o mostrar un mensaje en el paso 3
+                         $('#ascensoResultAscenso').html(`<div class="alert alert-danger mt-3">${respuestaAscenso.message || 'Error desconocido.'}</div>`);
+                    }
+                },
+                error: function() {
+                    Swal.close();
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
-                        text: response.message || 'Error al registrar el ascenso'
+                        title: 'Error de Conexión',
+                        text: 'Error de conexión con el servidor. Inténtelo de nuevo.'
                     });
+                     $('#ascensoResultAscenso').html('<div class="alert alert-danger mt-3">Error de conexión con el servidor.</div>');
                 }
-            },
-error: function() {
-    Swal.fire({
-        icon: 'success',
-        title: '¡Ascenso registrado!',
-        text: 'El ascenso se ha registrado correctamente.',
-        allowOutsideClick: false,
-        confirmButtonText: 'Ir a gestión'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            window.location.href = '?page=gestion_ascenso';
-        }
-    });
-}
+            });
         });
+
+        // Inicializar el modal
+        $('#ascensoWizardModal').on('show.bs.modal', function() {
+            // Resetear el formulario y el estado al abrir el modal
+            $('#ascensoWizardForm')[0].reset();
+            $('#searchResultsAscenso').html('<p class="text-muted">Ingresa un término de búsqueda para empezar.</p>');
+            $('#userInfoAscenso').html('<p class="text-muted">Selecciona un usuario de los resultados de búsqueda.</p>');
+            $('#ascensoConfirmationAscenso').html('<p class="text-muted">Información del usuario a ascender.</p>');
+            $('#ascensoResultAscenso').html(''); // Limpiar resultados anteriores
+            datosUsuarioAscenso = {}; // Limpiar datos del usuario seleccionado
+
+            // Mostrar el primer paso
+            mostrarPasoAscenso(1);
+        });
+
+        // Asegurarse de que los botones Anterior y Siguiente estén habilitados/deshabilitados correctamente al abrir
+         $('#ascensoWizardModal').on('shown.bs.modal', function() {
+             mostrarPasoAscenso(pasoActualAscenso); // Re-aplicar el estado de los botones
+         });
+
     });
-    
-    // Inicializar el modal
-    $('#dar_ascenso').on('show.bs.modal', function() {
-        // Resetear el formulario y volver al paso 1
-        $('#darAscensoForm')[0].reset();
-        showStepDarAscenso(1);
-        $('#resultadoBusquedaAscenso').html('');
-        $('#nextBtnAscenso').prop('disabled', false);
-        
-        // Establecer el nombre del encargado (usuario actual)
-        $('#nombreEncargadoAscenso').val('<?php echo $_SESSION['username']; ?>');
-    });
-});
 </script>
+
+<style>
+/* Puedes mantener o ajustar estilos si es necesario */
+</style>
