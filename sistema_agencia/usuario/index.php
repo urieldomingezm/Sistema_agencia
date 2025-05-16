@@ -332,6 +332,33 @@ $controller = new UserController();
                             popup: 'animate__animated animate__fadeOutUp'
                         }
                     });
+                    
+                    // Mostrar alerta de mantenimiento
+                    setTimeout(() => {
+                        Swal.fire({
+                            title: 'Mantenimiento en Progreso',
+                            html: `
+                                <div class="text-center">
+                                    <p class="mb-2"><strong>Sección de Ascensos</strong></p>
+                                    <p class="text-muted">Actualmente estamos realizando mantenimiento en la sección de ascensos.<br>
+                                    Esta función estará disponible nuevamente pronto.</p>
+                                    <hr>
+                                    <p class="mb-0"><strong>Funciones Operativas:</strong></p>
+                                    <ul class="text-start">
+                                        <li>Toma de tiempos</li>
+                                        <li>Gestión de usuarios</li>
+                                        <li>Control de pagos</li>
+                                    </ul>
+                                </div>
+                            `,
+                            icon: 'warning',
+                            confirmButtonText: 'Entendido',
+                            confirmButtonColor: '#8A2BE2',
+                            timer: 8000,
+                            timerProgressBar: true
+                        });
+                    }, 6500);
+
                     // Save today's date
                     localStorage.setItem('welcomeLastShown', today);
                 }
