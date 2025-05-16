@@ -26,13 +26,13 @@ class Navbar
 
         <div class="d-flex align-items-center">
           <div class="dropdown me-3">
-            <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false"> 
-              <i class="bi bi-person-circle me-1"></i> 
+            <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle me-1"></i>
               <span class="d-none d-sm-inline">
                 <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
               </span>
               <span class="d-inline d-sm-none">
-                <?php 
+                <?php
                   if(isset($_SESSION["usuario"])) {
                     $nombre = $_SESSION["usuario"];
                     echo strlen($nombre) > 6 ? substr($nombre, 0, 6)."..." : $nombre;
@@ -42,11 +42,11 @@ class Navbar
                 ?>
               </span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu shadow-sm" aria-labelledby="userDropdown"> 
-              <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> <span class="d-none d-sm-inline">Ver perfil</span><span class="d-inline d-sm-none">Perfil</span></a></li> 
-              <li><hr class="dropdown-divider my-1"></li> 
-              <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> <span class="d-none d-sm-inline">Cerrar sesión</span><span class="d-inline d-sm-none">Salir</span></a></li> 
-            </ul> 
+            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu shadow-sm" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> <span class="d-none d-sm-inline">Ver perfil</span><span class="d-inline d-sm-none">Perfil</span></a></li>
+              <li><hr class="dropdown-divider my-1"></li>
+              <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> <span class="d-none d-sm-inline">Cerrar sesión</span><span class="d-inline d-sm-none">Salir</span></a></li>
+            </ul>
           </div>
 
           <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
@@ -64,20 +64,24 @@ class Navbar
 
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
+              <?php
+                // Define los elementos del menú que están en mantenimiento
+                $maintenanceItems = ['Dar ascenso', 'Gestion ascenso'];
+              ?>
               <?php foreach ($this->items as $index => $item): ?>
                 <?php if ($item['name'] !== 'Perfil'): ?>
                 <div class="accordion-item">
                   <?php if (isset($item['dropdown'])): ?>
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed" type="button" 
-                              data-bs-toggle="collapse" 
-                              data-bs-target="#collapse<?= $index ?>" 
+                      <button class="accordion-button collapsed" type="button"
+                              data-bs-toggle="collapse"
+                              data-bs-target="#collapse<?= $index ?>"
                               aria-expanded="false">
                           <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
                           <?= $item['name'] ?>
                       </button>
                     </h2>
-                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse" 
+                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse"
                          data-bs-parent="#menuAccordion">
                         <div class="accordion-body p-0">
                             <ul class="list-unstyled mb-0">
@@ -89,6 +93,12 @@ class Navbar
                                             <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
                                                 <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
                                                 <?= $dropdownItem ?>
+                                                <?php
+                                                  // Añadir badge si el elemento está en mantenimiento
+                                                  if (in_array($dropdownItem, $maintenanceItems)) {
+                                                      echo ' <span class="badge bg-warning text-dark ms-1">Mantenimiento</span>';
+                                                  }
+                                                ?>
                                             </a>
                                         </li>
                                     <?php endif; ?>
@@ -98,7 +108,7 @@ class Navbar
                     </div>
                 <?php else: ?>
                     <h2 class="accordion-header">
-                        <a class="accordion-button" 
+                        <a class="accordion-button"
                            href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
                             <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
                             <?= $item['name'] ?>
@@ -112,7 +122,7 @@ class Navbar
 
             <form class="search-form mt-3" role="search" method="GET" action="/usuario/index.php">
               <div class="input-group">
-                <input type="search" class="form-control" name="q" 
+                <input type="search" class="form-control" name="q"
                        placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">
                   <i class="bi bi-search"></i>
@@ -191,12 +201,12 @@ $items = [
   ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'Ver mis tiempos', 'Ver mis ascensos', 'divider', 'Dar ascenso', 'Tomar tiempo', 'Modificar usuario']],
   ['name' => 'Ventas', 'dropdown' => [
     'Ventas membresias',
-    'divider', 
+    'divider',
     'Vender membresias'
   ]],
   ['name' => 'Rangos', 'dropdown' => [
-    'Ventas rangos y traslados', 
-    'divider', 
+    'Ventas rangos y traslados',
+    'divider',
     'Vender rangos'
   ]],
   ['name' => 'Paga', 'dropdown' => ['Gestion de pagas']],
