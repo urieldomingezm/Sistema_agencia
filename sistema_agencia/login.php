@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Only after handling POST, include the header and other content
 require_once(TEMPLATES_PATH . 'header.php');
-require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
 ?>
 
 <style>

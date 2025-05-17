@@ -8,7 +8,7 @@ class HistorialTiempos
     public function __construct()
     {
         require_once(CONFIG_PATH . 'bd.php');
-        require_once(PRIVATE_PATH . 'procesos/gestion_mis_ascensos/mostrar_tiempos.php');
+        require_once(PRIVATE_PATH . 'procesos/gestion_tiempos/mis_tiempos.php');
 
         // Los datos ya están en formato JSON en la salida del script mostrar_tiempos.php
         // Necesitamos capturar esa salida y decodificarla

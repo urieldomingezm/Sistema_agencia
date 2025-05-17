@@ -32,6 +32,11 @@ class Header
         echo '<title>' . $this->title . '</title>';
         echo '<link rel="icon" type="image/x-icon" href="/public/assets/img/icono.png">';
 
+        // Meta tags para SEO
+        echo '<meta name="description" content="Agencia Shein es una comunidad vibrante en Habbo Hotel que se dedica a crear experiencias únicas para nuestros usuarios. Proporcionamos un espacio seguro y divertido donde los usuarios pueden interactuar, participar en eventos emocionantes y desarrollar sus habilidades dentro del juego.">';
+        echo '<meta name="keywords" content="Agencia Shein, Habbo, comunidad, eventos, Habbo Hotel, juegos, diversión, interacción">';
+        echo '<meta name="author" content="Ing. Medina">';
+
         // Google Analytics
         echo '<script async src="https://www.googletagmanager.com/gtag/js?id=G-32NSVX1ZQD"></script>';
         echo '<script>';

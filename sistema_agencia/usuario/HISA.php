@@ -1,34 +1,146 @@
+<?php
 
+class HistorialAscensos
+{
+    private $totalAscensos;
+    private $ascensosPorRango;
+    private $ascensosPorSemana;
+    private $errorMessage;
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-body text-center p-5">
-                    <i class="bi bi-tools text-warning" style="font-size: 5rem;"></i>
-                    <h1 class="mt-4">Sección en Mantenimiento</h1>
-                    <p class="lead my-4">Estamos trabajando para mejorar esta sección del sistema. Por favor, vuelve más tarde.</p>
-                    <div class="alert alert-info my-4">
-                        Serás redirigido a la página de inicio en <span id="countdown">5</span> segundos.
-                    </div>
-                    <a href="https://agenciasheinhb.site/usuario/?page=inicio" class="btn btn-primary">Volver al Inicio</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // Contador regresivo
-    let seconds = 5;
-    const countdownElement = document.getElementById('countdown');
-    
-    const interval = setInterval(function() {
-        seconds--;
-        countdownElement.textContent = seconds;
-        
-        if (seconds <= 0) {
-            clearInterval(interval);
+    public function __construct()
+    {
+        // Asegúrate de que CONFIG_PATH esté definido antes de incluir bd.php
+        if (!defined('CONFIG_PATH')) {
+             // Define CONFIG_PATH si no está definido (ajusta la ruta si es necesario)
+             define('CONFIG_PATH', __DIR__ . '/../../private/conexion/');
         }
-    }, 1000);
-</script>
+         // Asegúrate de que PRIVATE_PATH esté definido
+        if (!defined('PRIVATE_PATH')) {
+             define('PRIVATE_PATH', __DIR__ . '/../../private/');
+        }
+
+
+        require_once(CONFIG_PATH . 'bd.php');
+        // Incluir el script que obtiene los datos de ascensos
+        ob_start();
+        require_once(PRIVATE_PATH . 'procesos/gestion_ascensos/mis_ascensos.php');
+        $jsonData = json_decode(ob_get_clean(), true);
+
+
+        if (isset($jsonData['success']) && $jsonData['success']) {
+            $this->totalAscensos = $jsonData['totalAscensos'] ?? 0;
+            $this->ascensosPorRango = $jsonData['ascensosPorRango'] ?? [];
+            $this->ascensosPorSemana = $jsonData['ascensosPorSemana'] ?? [];
+            $this->errorMessage = null;
+        } else {
+            $this->totalAscensos = 0;
+            $this->ascensosPorRango = [];
+            $this->ascensosPorSemana = [];
+            $this->errorMessage = $jsonData['message'] ?? 'Error desconocido al cargar los datos del dashboard.';
+        }
+    }
+
+    public function render()
+    {
+        $html = '<div class="container mt-4">
+            <div class="card shadow">
+                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Dashboard de Ascensos Realizados</h5>
+                </div>
+                <div class="card-body">';
+
+        if ($this->errorMessage) {
+            $html .= '<div class="alert alert-danger mb-0">' . htmlspecialchars($this->errorMessage) . '</div>';
+        } else {
+            $html .= '<div class="row">';
+
+            // Tarjeta de Conteo Total
+            // Usamos bg-success para un color verde llamativo
+            $html .= '<div class="col-md-4 mb-3">
+                        <div class="card text-center bg-success text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Total de Ascensos Realizados</h5>
+                                <p class="card-text display-4 fw-bold">' . $this->totalAscensos . '</p>
+                            </div>
+                        </div>
+                    </div>';
+
+            // Tarjeta de Ascensos por Rango
+            // Usamos bg-info para un color celeste
+            $html .= '<div class="col-md-4 mb-3">
+                        <div class="card text-center bg-info text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Ascensos por Rango</h5>
+                                <ul class="list-group list-group-flush">';
+            if (!empty($this->ascensosPorRango)) {
+                foreach ($this->ascensosPorRango as $item) {
+                    // Usar clases de texto oscuro para mejor contraste en fondo claro de la lista
+                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center text-dark">
+                                ' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '
+                                <span class="badge bg-secondary rounded-pill">' . $item['count'] . '</span>
+                              </li>';
+                }
+            } else {
+                 $html .= '<li class="list-group-item text-center text-muted">Sin datos por rango</li>';
+            }
+            $html .= '</ul>
+                            </div>
+                        </div>
+                    </div>';
+
+            // Tarjeta de Ascensos por Semana
+            // Usamos bg-warning para un color amarillo
+            $html .= '<div class="col-md-4 mb-3">
+                        <div class="card text-center bg-warning text-dark">
+                            <div class="card-body">
+                                <h5 class="card-title">Ascensos por Semana (Últimas 10)</h5>
+                                <ul class="list-group list-group-flush">';
+             if (!empty($this->ascensosPorSemana)) {
+                foreach ($this->ascensosPorSemana as $item) {
+                    // Usar clases de texto oscuro para mejor contraste en fondo claro de la lista
+                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center text-dark">
+                                Semana ' . htmlspecialchars($item['week'] ?? 'N/A') . ' (' . htmlspecialchars($item['year'] ?? 'N/A') . ')
+                                <span class="badge bg-secondary rounded-pill">' . $item['count'] . '</span>
+                              </li>';
+                }
+            } else {
+                 $html .= '<li class="list-group-item text-center text-muted">Sin datos por semana</li>';
+            }
+            $html .= '</ul>
+                            </div>
+                        </div>
+                    </div>';
+
+            $html .= '</div>'; // Cierre de row
+        }
+
+        $html .= '</div>
+            </div>
+        </div>';
+
+        return $html;
+    }
+
+    // Mantener renderRowAscenso por si se decide mostrar la tabla en el futuro
+    private function renderRowAscenso($ascenso)
+    {
+         $nombreUsuarioAscendido = isset($ascenso['usuario_registro']) ? $ascenso['usuario_registro'] :
+                                   (isset($ascenso['nombre_habbo']) ? $ascenso['nombre_habbo'] : 'No disponible');
+
+        return '<tr>
+            <td>' . ($ascenso['codigo_time'] ?? 'N/A') . ' (' . $nombreUsuarioAscendido . ')</td>
+            <td>' . ($ascenso['rango_actual'] ?? 'N/A') . '</td>
+            <td>' . ($ascenso['mision_actual'] ?? 'N/A') . '</td>
+            <td>' . ($ascenso['accion'] ?? 'N/A') . '</td>
+            <td>' . ($ascenso['realizado_por'] ?? 'N/A') . '</td>
+            <td>' . ($ascenso['fecha_accion'] ?? 'N/A') . '</td>
+        </tr>';
+    }
+}
+
+// Instanciar la clase y renderizar el dashboard
+$historialAscensos = new HistorialAscensos();
+echo $historialAscensos->render();
+?>
+
+<!-- Eliminamos el script de DataTable y Chart.js ya que no hay tabla ni dashboard complejo -->
