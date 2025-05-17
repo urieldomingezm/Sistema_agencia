@@ -95,7 +95,7 @@ class BodyHome
             foreach ($teamMembers as $member) {
                 echo '<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2 mb-md-3 text-center">';
                 echo '<div style="display: inline-block; width: 100%; max-width: 100px;">';
-                echo '<img src="' . $member['image'] . '" style="width: 100%; height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 2px solid #4a6bff;">';
+                echo '<img src="' . $member['image'] . '" alt="Avatar de Habbo de ' . $member['name'] . '" style="width: 100%; height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 2px solid #4a6bff;">';
                 echo '<div class="mt-1 mt-md-2">';
                 echo '<div style="color: #2541b2; font-weight: 600; font-size: clamp(0.6rem, 2vw, 0.8rem); word-break: break-word;">' . $member['name'] . '</div>';
                 echo '<div style="color: #4a6bff; font-size: clamp(0.5rem, 1.8vw, 0.7rem);">' . $member['rank'] . '</div>';
@@ -123,7 +123,7 @@ class BodyHome
         foreach ($events as $event) {
             echo '<div class="col-md-4 mb-4">';
             echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%; transition: all 0.3s ease;">';
-            echo '<img src="' . $event['image'] . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
+            echo '<img src="' . $event['image'] . '" alt="' . $event['title'] . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
             echo '<h3 style="color: #2541b2; font-weight: 600;">' . $event['title'] . '</h3>';
             echo '<p style="color: #555; margin: 15px 0;">' . $event['description'] . '</p>';
             echo '<span style="background: linear-gradient(45deg, #4a6bff, #2541b2); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 500;">📅 ' . $event['date'] . '</span>';
@@ -142,7 +142,7 @@ class BodyHome
         echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-info-circle me-2"></i>Sobre Nosotros<i class="bi bi-info-circle ms-2"></i></h2>';
         echo '<div class="row">';
         echo '<div class="col-md-6">';
-        echo '<img src="/private/plantilla/home/agencia2.png" style="width: 100%; border-radius: 15px;">';
+        echo '<img src="/private/plantilla/home/agencia2.png" alt="Imagen de la comunidad Agencia Shein en Habbo" style="width: 100%; border-radius: 15px;">';
         echo '</div>';
         echo '<div class="col-md-6">';
         echo '<h3 style="color: #2541b2; font-weight: 600;">Nuestra Historia</h3>';

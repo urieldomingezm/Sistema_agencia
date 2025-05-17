@@ -67,7 +67,8 @@ class BodyHome {
         foreach ($events as $event) {
             echo '<div class="col-12 col-md-6 col-lg-4 mb-3">';
             echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2);">';
-            echo '<img src="' . $event['image'] . '" style="width: 100%; height: 120px; border-radius: 10px; object-fit: cover;">';
+            // Añadido atributo alt descriptivo para la imagen del evento
+            echo '<img src="' . $event['image'] . '" style="width: 100%; height: 120px; border-radius: 10px; object-fit: cover;" alt="' . htmlspecialchars($event['title']) . '">';
             echo '<h3 style="color: #333; margin-top: 10px; font-size: clamp(1rem, 3vw, 1.2rem);">' . $event['title'] . '</h3>';
             echo '<p style="color: #666; font-size: clamp(0.8rem, 2.5vw, 1rem);">' . $event['description'] . '</p>';
             echo '<span style="background: #008080; color: white; padding: 5px 10px; border-radius: 10px; font-size: clamp(0.7rem, 2vw, 0.9rem);">' . $event['date'] . '</span>';
@@ -143,7 +144,8 @@ class BodyHome {
                 $country = $countries[$j];
                 echo '<div class="col-md-3 mb-4">';
                 echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 8px 15px rgba(0,0,0,0.2);">';
-                echo '<img src="' . $country['flag'] . '" style="width: 100%; height: 120px; border-radius: 8px; object-fit: cover;">';
+                // Añadido atributo alt descriptivo para la bandera del país
+                echo '<img src="' . $country['flag'] . '" style="width: 100%; height: 120px; border-radius: 8px; object-fit: cover;" alt="Bandera de ' . htmlspecialchars($country['name']) . '">';
                 echo '<p style="color: #333; margin-top: 15px; font-size: 18px; font-weight: bold;">' . $country['name'] . '</p>';
                 echo '<p style="color: #666; font-size: 16px;">Hora de paga: ' . $country['paytime'] . '</p>';
                 echo '</div>';
@@ -221,7 +223,8 @@ class BodyHome {
         foreach ($memberships as $membership) {
             echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
             echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
-            echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;">';
+            // Añadido atributo alt descriptivo para la imagen de la membresía
+            echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
             echo '<h3 style="color: #333;">' . $membership['title'] . '</h3>';
             echo '<p style="color: #008080; font-weight: bold;">' . $membership['benefits'] . '</p>';
             echo '<div style="background: #FFD700; color: #333; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">';
