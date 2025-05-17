@@ -141,7 +141,8 @@ class Navbar
       'Inicio' => 'bi bi-house-door-fill',
       'Perfil' => 'bi bi-person-fill',
       'Informacion' => 'bi bi-info-circle-fill',
-      'Ascenso' => 'bi bi-arrow-up-circle-fill'
+      'Ascensos' => 'bi bi-arrow-up-circle-fill', // Changed from Ascenso
+      'Tiempos' => 'bi bi-clock-fill', // New item for Tiempos
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -185,7 +186,18 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
-  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'Ver mis tiempos', 'Ver mis ascensos', 'divider', 'Dar ascenso', 'Tomar tiempo']],
+  ['name' => 'Ascensos', 'dropdown' => [ // New main item
+    'Gestion ascenso',
+    'Ver mis ascensos',
+    'divider',
+    'Dar ascenso'
+  ]],
+  ['name' => 'Tiempos', 'dropdown' => [ // New main item
+    'Gestion de tiempo',
+    'Ver mis tiempos',
+    'divider',
+    'Tomar tiempo'
+  ]],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);

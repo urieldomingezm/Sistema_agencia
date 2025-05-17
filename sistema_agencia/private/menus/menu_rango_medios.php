@@ -65,8 +65,7 @@ class Navbar
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
               <?php
-                // Define los elementos del menú que están en mantenimiento
-                $maintenanceItems = ['Gestion ascenso', 'Dar ascenso']; // Elementos en mantenimiento
+                $maintenanceItems = ['Gestion ascenso', 'Dar ascenso'];
               ?>
               <?php foreach ($this->items as $index => $item): ?>
                 <div class="accordion-item">
@@ -90,16 +89,13 @@ class Navbar
                                     <?php else: ?>
                                         <li>
                                             <?php
-                                              // Determinar si el elemento está en mantenimiento
                                               $isMaintenance = in_array($dropdownItem, $maintenanceItems);
-                                              // Construir el enlace o un span si está en mantenimiento
                                               $linkAttributes = $isMaintenance ? 'class="menu-link maintenance-link"' : 'class="menu-link" href="' . $this->getItemUrl($dropdownItem) . '"';
                                             ?>
                                             <a <?= $linkAttributes ?>>
                                                 <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
                                                 <?= $dropdownItem ?>
                                                 <?php
-                                                  // Añadir badge si el elemento está en mantenimiento
                                                   if ($isMaintenance) {
                                                       echo ' <span class="badge bg-warning text-dark ms-1">Mantenimiento</span>';
                                                   }
@@ -146,7 +142,8 @@ class Navbar
       'Inicio' => 'bi bi-house-door-fill',
       'Perfil' => 'bi bi-person-fill',
       'Informacion' => 'bi bi-info-circle-fill',
-      'Ascenso' => 'bi bi-arrow-up-circle-fill',
+      'Ascensos' => 'bi bi-arrow-up-circle-fill', // Changed from Ascenso
+      'Tiempos' => 'bi bi-clock-fill', // New item for Tiempos
       'Ventas' => 'bi bi-cart-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
@@ -161,7 +158,10 @@ class Navbar
       'Calcular rango' => 'bi bi-calculator-fill',
       'Gestion ascenso' => 'bi bi-people-fill',
       'Dar ascenso' => 'bi bi-arrow-up-square-fill',
-      'Ver mis tiempos' => 'bi bi-clock-history'
+      'Ver mis tiempos' => 'bi bi-clock-history',
+      'Ver mis ascensos' => 'bi bi-graph-up-arrow', // Added icon for Ver mis ascensos
+      'Gestion de tiempo' => 'bi bi-clock-fill', // Added icon for Gestion de tiempo
+      'Tomar tiempo' => 'bi bi-stopwatch-fill', // Added icon for Tomar tiempo
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -172,7 +172,8 @@ class Navbar
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
-      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso'
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
+      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal'
     ];
 
     if (isset($modalItems[$item])) {
@@ -187,7 +188,25 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
-  ['name' => 'Ascenso', 'dropdown' => ['Gestion ascenso', 'Ver mis ascensos', 'divider', 'Dar ascenso']],
+  ['name' => 'Ascensos', 'dropdown' => [ // New main item
+    'Gestion ascenso',
+    'Ver mis ascensos',
+    'divider',
+    'Dar ascenso'
+  ]],
+  ['name' => 'Tiempos', 'dropdown' => [ // New main item
+    'Gestion de tiempo',
+    'Ver mis tiempos',
+    'divider',
+    'Tomar tiempo'
+  ]],
+  ['name' => 'Ventas', 'dropdown' => [ // Kept Sales as a main item
+    'Ventas membresias',
+    'Ventas rangos y traslados',
+    'divider',
+    'Vender membresias',
+    'Vender rangos'
+  ]],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);

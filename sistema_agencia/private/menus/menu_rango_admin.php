@@ -147,8 +147,10 @@ class Navbar
       'Inicio' => 'bi bi-house-door-fill',
       'Perfil' => 'bi bi-person-fill',
       'Informacion' => 'bi bi-info-circle-fill',
-      'Ascenso' => 'bi bi-arrow-up-circle-fill',
+      'Ascensos' => 'bi bi-arrow-up-circle-fill', // Changed from Ascenso
+      'Tiempos' => 'bi bi-clock-fill', // New item for Tiempos
       'Ventas' => 'bi bi-cart-fill',
+      'Paga' => 'bi bi-wallet2', // Changed from Paga
       'Gestion de usuarios' => 'bi bi-people-fill',
       'Rangos' => 'bi bi-award-fill'
     ];
@@ -173,7 +175,9 @@ class Navbar
       'Ventas rangos y traslados' => 'bi bi-star-fill',
       'Dar ascenso' => 'bi bi-arrow-up-square-fill',
       'Tomar tiempo' => 'bi bi-stopwatch-fill',
-      'Modificar usuario' => 'bi bi-pencil-square'
+      'Modificar usuario' => 'bi bi-pencil-square',
+      'Ver mis tiempos' => 'bi bi-clock-history', // Added icon for Ver mis tiempos
+      'Ver mis ascensos' => 'bi bi-graph-up', // Added icon for Ver mis ascensos
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -202,17 +206,27 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
-  ['name' => 'Ascenso', 'dropdown' => ['Gestion de tiempo', 'Gestion ascenso', 'Ver mis tiempos', 'Ver mis ascensos', 'divider', 'Dar ascenso', 'Tomar tiempo']],
+  ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios', 'Modificar usuario']], // Moved up
+  ['name' => 'Ascensos', 'dropdown' => [ // Renamed and reorganized
+    'Gestion ascenso',
+    'Ver mis ascensos',
+    'divider',
+    'Dar ascenso'
+  ]],
+  ['name' => 'Tiempos', 'dropdown' => [ // New item for Tiempos
+    'Gestion de tiempo',
+    'Ver mis tiempos',
+    'divider',
+    'Tomar tiempo'
+  ]],
   ['name' => 'Ventas', 'dropdown' => [
     'Ventas membresias',
+    'Ventas rangos y traslados',
     'divider',
     'Vender membresias',
-    'divider',
-    'Ventas rangos y traslados',
     'Vender rangos'
   ]],
-  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas']],
-  ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios', 'Modificar usuario']],
+  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas']], // Kept as is
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);
