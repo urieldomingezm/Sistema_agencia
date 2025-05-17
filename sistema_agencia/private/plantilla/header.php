@@ -134,7 +134,7 @@ class Header
 
 // Corregir las rutas de los archivos locales
 $header = new Header('Agencia Shein Habbo');
-$header->addCssFile('/public/assets/framework/bootstrap/bootstrap.css'); // Archivo local Bootstrap CSS (añadido directamente)
+// $header->addCssFile('/public/assets/framework/bootstrap/bootstrap.css'); // Archivo local Bootstrap CSS (añadido directamente) - Línea comentada/eliminada
 $header->addCssFile('/public/assets/framework/bootstrap/bootstrap.min.css'); // Archivo local Bootstrap minified CSS (añadido directamente)
 $header->addCssFile('/public/assets/framework/bootstrap/icons.css'); // Archivo local Bootstrap Icons CSS (añadido directamente)
 
