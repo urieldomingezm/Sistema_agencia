@@ -15,15 +15,7 @@ class UserController
 
         if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
             echo "<script>
-            Swal.fire({
-                title: 'Acceso no autorizado',
-                text: 'Debes iniciar sesión para acceder a esta sección',
-                icon: 'error',
-                confirmButtonText: 'Entendido',
-                willClose: () => {
-                    window.location.href = '/login.php';
-                }
-            });
+            window.location.href = '/login.php';
             </script>";
             exit;
         }
@@ -305,63 +297,6 @@ $controller = new UserController();
             loader.classList.add('fade-out');
             setTimeout(() => {
                 loader.style.display = 'none';
-
-                // Check if welcome message has been shown today
-                const lastShown = localStorage.getItem('welcomeLastShown');
-                const today = new Date().toDateString();
-
-                if (!lastShown || lastShown !== today) {
-                    Swal.fire({
-                        title: '¡Bienvenido al Sistema!',
-                        html: `
-                            <div class="text-center">
-                                <p class="mb-2"><strong>Sistema en Fase de Pruebas</strong></p>
-                                <p class="text-muted">Estamos trabajando para mejorar tu experiencia.<br>
-                                Algunas funciones podrían estar en desarrollo.</p>
-                            </div>
-                        `,
-                        icon: 'info',
-                        confirmButtonText: 'Entendido',
-                        confirmButtonColor: '#8A2BE2',
-                        timer: 6000,
-                        timerProgressBar: true,
-                        showClass: {
-                            popup: 'animate__animated animate__fadeInDown'
-                        },
-                        hideClass: {
-                            popup: 'animate__animated animate__fadeOutUp'
-                        }
-                    });
-                    
-                    // Mostrar alerta de mantenimiento
-                    setTimeout(() => {
-                        Swal.fire({
-                            title: 'Mantenimiento en Progreso',
-                            html: `
-                                <div class="text-center">
-                                    <p class="mb-2"><strong>Sección de Ascensos</strong></p>
-                                    <p class="text-muted">Actualmente estamos realizando mantenimiento en la sección de ascensos.<br>
-                                    Esta función estará disponible nuevamente pronto.</p>
-                                    <hr>
-                                    <p class="mb-0"><strong>Funciones Operativas:</strong></p>
-                                    <ul class="text-start">
-                                        <li>Toma de tiempos</li>
-                                        <li>Gestión de usuarios</li>
-                                        <li>Control de pagos</li>
-                                    </ul>
-                                </div>
-                            `,
-                            icon: 'warning',
-                            confirmButtonText: 'Entendido',
-                            confirmButtonColor: '#8A2BE2',
-                            timer: 8000,
-                            timerProgressBar: true
-                        });
-                    }, 6500);
-
-                    // Save today's date
-                    localStorage.setItem('welcomeLastShown', today);
-                }
             }, 300);
         });
 

@@ -19,16 +19,16 @@ if (isset($pagas) && is_array($pagas)) {
 }
 ?>
 
-<div class="profile-header py-2 position-relative overflow-hidden">
+<div class="profile-header py-4 position-relative overflow-hidden"> <!-- Increased padding -->
     <div class="background-pattern"></div>
     <div class="container position-relative">
         <div class="d-flex align-items-center">
-            <div class="avatar-container me-2" style="width: 50px; height: 50px;">
-                <img src="<?php echo $userData['avatar']; ?>" class="rounded-circle shadow border border-2 border-white" alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover;">
-                <div class="status-badge pulse" style="width: 10px; height: 10px;"></div>
+            <div class="avatar-container me-3" style="width: 60px; height: 60px;"> <!-- Slightly larger avatar -->
+                <img src="<?php echo $userData['avatar']; ?>" class="rounded-circle shadow border border-3 border-white" alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover;"> <!-- Thicker border -->
+                <div class="status-badge pulse" style="width: 12px; height: 12px;"></div> <!-- Slightly larger badge -->
             </div>
             <div>
-                <h1 class="h5 fw-bold text-white text-shadow mb-0"><?php echo $userData['username']; ?></h1>
+                <h1 class="h4 fw-bold text-white text-shadow mb-0"><?php echo $userData['username']; ?></h1> <!-- Adjusted font size -->
                 <small class="text-white-50"><?php echo $userData['role']; ?></small>
             </div>
         </div>
@@ -43,21 +43,21 @@ if (isset($pagas) && is_array($pagas)) {
                 ['Usuario', $userData['username']],
                 ['Código', $userData['codigo']],
                 ['Rango', $userData['role'], 'badge-custom'],
-                ['Membresia', $userData['role'], 'badge-custom']
+                ['Membresia', $userData['role'], 'badge-custom'] // Assuming role is used for membership status
             ],
-            'Pago' => [
-                ['Pago Pendiente', '30'],
-                ['Estado de sus requisitos', 'Pendiente', 'badge bg-warning text-dark'],
-                ['Recibio pago', 'No', 'badge bg-danger text-white'],
-                ['Estado de Requisitos', 'Pendiente', 'badge bg-warning text-dark']
+            'Requisitos pago' => [
+                ['Pago Pendiente', '30'], // Placeholder value
+                ['Estado de sus requisitos', 'Pendiente', 'badge bg-warning text-dark'], // Placeholder value
+                ['Recibio pago', 'No', 'badge bg-danger text-white'], // Placeholder value
+                ['Estado de Requisitos', 'Pendiente', 'badge bg-warning text-dark'] // Placeholder value
             ],
-            'Tiempo' => [
+            'Tiempo de paga' => [
                 ['Tiempo Acumulado', $userData['tiempo_acumulado']],
                 ['Tiempo Restado', $userData['tiempo_restado']],
                 ['Encargado', $userData['tiempo_encargado'] ?? 'No disponible'],
                 ['Estado', ucfirst($userData['tiempo_status'] ?? 'No disponible'), 'badge text-white ' . getStatusColor($userData['tiempo_status'])]
             ],
-            'Misión' => [
+            'Ascenso' => [
                 ['Misión actual', $userData['mission']],
                 ['Encargado', $userData['encargado']],
                 ['Próxima hora', formatEstimatedTime($userData['estimatedTime'])],
@@ -70,59 +70,21 @@ if (isset($pagas) && is_array($pagas)) {
         }
         ?>
     </div>
-    
-    <?php if (in_array($userData['role'], ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Fundador'])): ?>
-    <div class="row mt-2 g-2">
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-gradient-primary py-1">
-                    <h5 class="h6 mb-0 text-white">Tiempos tomados</h5>
-                </div>
-                <div class="card-body p-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="h4 mb-0"><?php echo $userProfile->getTotalTiemposTomados(); ?></h2>
-                        <small class="text-muted">esta semana</small>
-                    </div>
-                    <div class="progress mt-1" style="height: 6px;">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-gradient-success py-1">
-                    <h5 class="h6 mb-0 text-white">Ascensos Tomados</h5>
-                </div>
-                <div class="card-body p-2">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="h4 mb-0"><?php echo $userData['ascensosCompletados'] ?? '0'; ?></h2>
-                        <small class="text-muted">esta semana</small>
-                    </div>
-                    <div class="progress mt-1" style="height: 6px;">
-                        <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <?php endif; ?>
 </div>
 
 <?php
 function renderSection($title, $items) {
     $html = '<div class="col"><div class="profile-card glass-effect h-100">';
-    $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h5 mb-0">'.$title.'</h3></div>';
+    $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h6 mb-0">'.$title.'</h3></div>'; // Adjusted font size
     $html .= '<div class="stats-card p-2">';
-    
+
     foreach ($items as $item) {
         $html .= '<div class="info-item d-flex align-items-center">';
         $html .= '<span class="info-label me-2">'.$item[0].'</span>';
         $html .= isset($item[2]) ? '<span class="'.$item[2].'">'.$item[1].'</span>' : '<span class="info-value">'.$item[1].'</span>';
         $html .= '</div>';
     }
-    
+
     $html .= '</div></div></div>';
     return $html;
 }
@@ -138,57 +100,66 @@ function getStatusColor($status) {
 
 function formatEstimatedTime($time) {
     if (empty($time)) return 'No disponible';
-    
+
+    // Assuming $time is already in 'd/m/Y H:i' format from the database query
+    // If it's a database timestamp, you might need:
+    // $date = new DateTime($time);
+    // $minutes = $date->format('i');
+    // $seconds = $date->format('s');
+
+    // If it's already 'd/m/Y H:i' string:
     $date = DateTime::createFromFormat('d/m/Y H:i', $time);
-    if (!$date) return 'Formato de fecha inválido';
-    
-    $minutes = $date->format('i');
-    $seconds = $date->format('s');
+    if (!$date) {
+         // Fallback if format is different, try common database timestamp format
+         $date = new DateTime($time);
+         if (!$date) return 'Formato de fecha inválido';
+    }
+
+    $minutes = (int)$date->format('i');
+    $seconds = (int)$date->format('s');
     $output = [];
-    
+
     if ($minutes > 0) $output[] = $minutes . ' minuto' . ($minutes > 1 ? 's' : '');
     if ($seconds > 0) $output[] = $seconds . ' segundo' . ($seconds > 1 ? 's' : '');
-    
-    return implode(' con ', $output);
+
+    return empty($output) ? '0 minutos' : implode(' con ', $output);
 }
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    Swal.fire({
-        title: '¡Atención!',
-        text: 'Los datos mostrados no son finales y están sujetos a cambios el dia de hoy se obtendra los datos finales con su respectiva paga.',
-        icon: 'info',
-        confirmButtonText: 'Entendido',
-        customClass: {
-            confirmButton: 'btn btn-primary'
-        }
-    });
+    // Removed the initial SweetAlert2 message as requested previously
 
     let lastCheck = 0;
     const checkInterval = 60000; // 1 minuto
-    
+
     function checkAscenso() {
         const now = Date.now();
         if (now - lastCheck < checkInterval) return;
-        
+
         lastCheck = now;
-        
+
         fetch('<?php echo VER_PERFIL_PATCH; ?>check_ascenso.php')
             .then(response => response.json())
             .then(data => {
                 if(data.disponible) {
-                    const badge = document.querySelector('.badge');
-                    if (badge) {
-                        badge.classList.replace('bg-warning', 'bg-success');
-                        badge.textContent = 'Disponible';
-                    }
+                    // Find the badge for 'Estado ascenso' specifically
+                    const infoItems = document.querySelectorAll('.info-item');
+                    infoItems.forEach(item => {
+                        if (item.querySelector('.info-label').textContent === 'Estado ascenso') {
+                            const badge = item.querySelector('.badge');
+                            if (badge) {
+                                badge.classList.replace('bg-warning', 'bg-success');
+                                badge.textContent = 'Disponible';
+                            }
+                        }
+                    });
                 }
             })
             .catch(error => console.error('Error:', error));
     }
-    
+
     checkAscenso();
     setInterval(checkAscenso, checkInterval);
 });
