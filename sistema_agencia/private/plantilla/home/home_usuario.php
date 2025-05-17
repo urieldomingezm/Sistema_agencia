@@ -20,6 +20,7 @@ class BodyHome {
         <div class="home-container">
             <?php
             $this->renderHeader();
+            $this->renderTopUsersSection(); // Añadir la nueva sección aquí
             $this->renderEventsSection();
             $this->renderPaydaySection();
             $this->renderMembershipSection();
@@ -49,6 +50,36 @@ class BodyHome {
                 </div>
             </div>
         </header>
+        <?php
+    }
+
+    // Nuevo método para renderizar la sección de Top 3 Usuarios
+    private function renderTopUsersSection() {
+        $topUsers = [
+            ['name' => 'UsuarioEjemplo1', 'rank' => '1er Lugar', 'score' => 1500, 'icon_color' => '#FFD700'], // Gold
+            ['name' => 'UsuarioEjemplo2', 'rank' => '2do Lugar', 'score' => 1200, 'icon_color' => '#C0C0C0'], // Silver
+            ['name' => 'UsuarioEjemplo3', 'rank' => '3er Lugar', 'score' => 1000, 'icon_color' => '#CD7F32'], // Bronze
+        ];
+        ?>
+        <section style="background: #ffffff; padding: 20px 0;">
+            <div class="container text-center">
+                <h2 style="color: #2541b2; font-weight: bold; font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 30px;">
+                    <i class="bi bi-trophy-fill me-2" style="color: #FFD700;"></i> Top 3 Usuarios <i class="bi bi-trophy-fill ms-2" style="color: #FFD700;"></i>
+                </h2>
+                <div class="row justify-content-center">
+                    <?php foreach ($topUsers as $user): ?>
+                        <div class="col-12 col-sm-6 col-md-4 mb-4">
+                            <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.1); height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                <i class="bi bi-trophy-fill" style="font-size: 3rem; color: <?= $user['icon_color'] ?>; margin-bottom: 15px;"></i>
+                                <h3 style="color: #333; font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 5px;"><?= htmlspecialchars($user['name']) ?></h3>
+                                <p style="color: #555; font-size: clamp(0.9rem, 2.5vw, 1.1rem); margin-bottom: 10px;"><?= htmlspecialchars($user['rank']) ?></p>
+                                <span style="background: #2541b2; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: clamp(0.8rem, 2vw, 1rem);"><?= htmlspecialchars($user['score']) ?> Puntos</span>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
         <?php
     }
 
