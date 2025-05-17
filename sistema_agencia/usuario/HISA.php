@@ -9,23 +9,17 @@ class HistorialAscensos
 
     public function __construct()
     {
-        // Asegúrate de que CONFIG_PATH esté definido antes de incluir bd.php
         if (!defined('CONFIG_PATH')) {
-             // Define CONFIG_PATH si no está definido (ajusta la ruta si es necesario)
              define('CONFIG_PATH', __DIR__ . '/../../private/conexion/');
         }
-         // Asegúrate de que PRIVATE_PATH esté definido
         if (!defined('PRIVATE_PATH')) {
              define('PRIVATE_PATH', __DIR__ . '/../../private/');
         }
 
-
         require_once(CONFIG_PATH . 'bd.php');
-        // Incluir el script que obtiene los datos de ascensos
         ob_start();
         require_once(PRIVATE_PATH . 'procesos/gestion_ascensos/mis_ascensos.php');
         $jsonData = json_decode(ob_get_clean(), true);
-
 
         if (isset($jsonData['success']) && $jsonData['success']) {
             $this->totalAscensos = $jsonData['totalAscensos'] ?? 0;
@@ -54,10 +48,9 @@ class HistorialAscensos
         } else {
             $html .= '<div class="row">';
 
-            // Tarjeta de Conteo Total
-            // Usamos bg-success para un color verde llamativo
+            // Tarjeta de Conteo Total (Color primario como en HIST.php)
             $html .= '<div class="col-md-4 mb-3">
-                        <div class="card text-center bg-success text-white">
+                        <div class="card text-center bg-primary text-white">
                             <div class="card-body">
                                 <h5 class="card-title">Total de Ascensos Realizados</h5>
                                 <p class="card-text display-4 fw-bold">' . $this->totalAscensos . '</p>
@@ -65,8 +58,7 @@ class HistorialAscensos
                         </div>
                     </div>';
 
-            // Tarjeta de Ascensos por Rango
-            // Usamos bg-info para un color celeste
+            // Tarjeta de Ascensos por Rango (Color info como en HIST.php)
             $html .= '<div class="col-md-4 mb-3">
                         <div class="card text-center bg-info text-white">
                             <div class="card-body">
@@ -74,7 +66,6 @@ class HistorialAscensos
                                 <ul class="list-group list-group-flush">';
             if (!empty($this->ascensosPorRango)) {
                 foreach ($this->ascensosPorRango as $item) {
-                    // Usar clases de texto oscuro para mejor contraste en fondo claro de la lista
                     $html .= '<li class="list-group-item d-flex justify-content-between align-items-center text-dark">
                                 ' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '
                                 <span class="badge bg-secondary rounded-pill">' . $item['count'] . '</span>
@@ -88,16 +79,14 @@ class HistorialAscensos
                         </div>
                     </div>';
 
-            // Tarjeta de Ascensos por Semana
-            // Usamos bg-warning para un color amarillo
+            // Tarjeta de Ascensos por Semana (Color success como en HIST.php)
             $html .= '<div class="col-md-4 mb-3">
-                        <div class="card text-center bg-warning text-dark">
+                        <div class="card text-center bg-success text-white">
                             <div class="card-body">
                                 <h5 class="card-title">Ascensos por Semana (Últimas 10)</h5>
                                 <ul class="list-group list-group-flush">';
              if (!empty($this->ascensosPorSemana)) {
                 foreach ($this->ascensosPorSemana as $item) {
-                    // Usar clases de texto oscuro para mejor contraste en fondo claro de la lista
                     $html .= '<li class="list-group-item d-flex justify-content-between align-items-center text-dark">
                                 Semana ' . htmlspecialchars($item['week'] ?? 'N/A') . ' (' . htmlspecialchars($item['year'] ?? 'N/A') . ')
                                 <span class="badge bg-secondary rounded-pill">' . $item['count'] . '</span>
@@ -111,7 +100,7 @@ class HistorialAscensos
                         </div>
                     </div>';
 
-            $html .= '</div>'; // Cierre de row
+            $html .= '</div>';
         }
 
         $html .= '</div>
@@ -121,7 +110,6 @@ class HistorialAscensos
         return $html;
     }
 
-    // Mantener renderRowAscenso por si se decide mostrar la tabla en el futuro
     private function renderRowAscenso($ascenso)
     {
          $nombreUsuarioAscendido = isset($ascenso['usuario_registro']) ? $ascenso['usuario_registro'] :
@@ -138,9 +126,6 @@ class HistorialAscensos
     }
 }
 
-// Instanciar la clase y renderizar el dashboard
 $historialAscensos = new HistorialAscensos();
 echo $historialAscensos->render();
 ?>
-
-<!-- Eliminamos el script de DataTable y Chart.js ya que no hay tabla ni dashboard complejo -->

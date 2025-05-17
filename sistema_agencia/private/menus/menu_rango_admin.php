@@ -187,7 +187,7 @@ class Navbar
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
-      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#ascensoWizardModal',
+      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso_modal',
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal',
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#ventas_rangos_traslados',
