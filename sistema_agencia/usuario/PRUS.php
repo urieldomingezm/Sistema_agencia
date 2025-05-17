@@ -5,10 +5,9 @@ require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php'); // MOSTRAR USUARIOS
 $userProfile = new UserProfile();
 $userData = $userProfile->getUserData();
 
-// Inicializar la variable pagaUsuario
+
 $pagaUsuario = null;
 
-// Obtener la paga del usuario actual si existe
 if (isset($pagas) && is_array($pagas)) {
     foreach ($pagas as $paga) {
         if ($paga['pagas_usuario'] === $userData['username']) {
