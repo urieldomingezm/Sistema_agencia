@@ -6,6 +6,7 @@ class Header
     private $title;
     private $cssFiles = [];
     private $jsFiles = [];
+    private $preloadLinks = []; // Añadir propiedad para enlaces de precarga
 
     public function __construct($title)
     {
@@ -20,6 +21,17 @@ class Header
     public function addJsFile($filePath)
     {
         $this->jsFiles[] = $filePath;
+    }
+
+    // Añadir método para agregar enlaces de precarga
+    public function addPreloadLink($href, $as, $type = null)
+    {
+        $link = '<link rel="preload" href="' . $href . '" as="' . $as . '"';
+        if ($type) {
+            $link .= ' type="' . $type . '"';
+        }
+        $link .= '>';
+        $this->preloadLinks[] = $link;
     }
 
     public function render()
@@ -88,10 +100,17 @@ class Header
         // BOOSTRAP ICONS
         echo '<link id="icons-css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">'; // Referencia a Bootstrap Icons CSS CDN
 
+        // Enlaces de precarga (Añadir este bucle)
+        foreach ($this->preloadLinks as $link) {
+            echo $link;
+        }
+
+        // Cargar archivos CSS adicionales
         foreach ($this->cssFiles as $file) {
             echo '<link href="' . $file . '" rel="stylesheet">';
         }
 
+        // Cargar archivos JS adicionales
         foreach ($this->jsFiles as $file) {
             echo '<script src="' . $file . '" type="text/javascript"></script>';
         }
@@ -127,14 +146,18 @@ class Header
 
         echo '</head>';
         echo '<body>';
-        echo '</div>';
+        echo '</div>'; // Nota: Este </div> parece estar fuera de lugar aquí, debería estar después del contenido del body.
         echo '</html>';
     }
 }
 
 // Corregir las rutas de los archivos locales
 $header = new Header('Agencia Shein Habbo');
-// $header->addCssFile('/public/assets/framework/bootstrap/bootstrap.css'); // Archivo local Bootstrap CSS (añadido directamente) - Línea comentada/eliminada
+
+// Añadir la precarga para la imagen LCP (Añadir esta línea)
+$header->addPreloadLink('/private/plantilla/home/agencia2.png', 'image');
+
+// Archivo local Bootstrap CSS (añadido directamente)
 $header->addCssFile('/public/assets/framework/bootstrap/bootstrap.min.css'); // Archivo local Bootstrap minified CSS (añadido directamente)
 $header->addCssFile('/public/assets/framework/bootstrap/icons.css'); // Archivo local Bootstrap Icons CSS (añadido directamente)
 
