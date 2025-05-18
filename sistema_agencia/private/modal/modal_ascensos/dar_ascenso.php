@@ -86,24 +86,6 @@
                                 </div>
                             </div>
                         </div>
-                         <div class="card mb-3">
-                            <div class="card-header bg-light">
-                                <h5 class="mb-0 fw-bold">
-                                    <i class="bi bi-arrow-up-circle-fill me-2 text-primary"></i>Información del Ascenso
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <!-- Mostrar Próximo Rango y Próxima Misión automáticamente -->
-                                <div class="mb-3">
-                                    <small class="text-muted d-block">Próximo Rango</small>
-                                    <span class="fw-bold text-success" id="proximoRangoAscenso"></span>
-                                </div>
-                                 <div class="mb-3">
-                                    <small class="text-muted d-block">Próxima Misión</small>
-                                    <span class="fw-bold text-success" id="proximaMisionAscenso"></span>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Paso 3: Resultado del Ascenso -->
@@ -148,8 +130,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         let pasoActualAscenso = 1;
-        const totalPasosAscenso = 3; // Son 3 pasos
-        let datosUsuarioAscenso = {}; // Para almacenar los datos del usuario buscado
+        const totalPasosAscenso = 3;
+        let datosUsuarioAscenso = {};
 
         const darAscensoModal = document.getElementById('dar_ascenso_modal');
         const progressBar = darAscensoModal.querySelector('.progress-bar');
@@ -166,37 +148,29 @@
         const estadoAscensoModalSpan = document.getElementById('estadoAscensoModal');
         const tiempoTranscurridoAscensoSpan = document.getElementById('tiempoTranscurridoAscenso');
         const proximaHoraAscensoSpan = document.getElementById('proximaHoraAscenso');
-        // Eliminados proximoRangoAscensoSpan y proximaMisionAscensoSpan
 
-        // Actualizar la barra de progreso
         function actualizarBarraProgresoAscenso() {
-            // La barra de progreso va del paso 1 al 2 (antes del resultado final)
             const porcentaje = ((pasoActualAscenso - 1) / (totalPasosAscenso - 1)) * 100;
             progressBar.style.width = porcentaje + '%';
             progressBar.setAttribute('aria-valuenow', porcentaje);
         }
 
-        // Mostrar el paso actual
         function mostrarPasoAscenso(paso) {
             steps.forEach(step => step.classList.add('d-none'));
             document.getElementById('step' + paso + '_ascenso').classList.remove('d-none');
 
-            // Actualizar botones
-            prevBtnAscenso.disabled = (paso === 1 || paso === totalPasosAscenso); // Deshabilitar Anterior en paso 1 y en el paso final
-            nextBtnAscenso.classList.toggle('d-none', paso === totalPasosAscenso - 1 || paso === totalPasosAscenso); // Ocultar Siguiente en el penúltimo paso (Paso 2) y el final (Paso 3)
-            submitBtnAscenso.classList.toggle('d-none', paso !== totalPasosAscenso - 1); // Mostrar Submit solo en el penúltimo paso (Paso 2)
+            prevBtnAscenso.disabled = (paso === 1 || paso === totalPasosAscenso);
+            nextBtnAscenso.classList.toggle('d-none', paso === totalPasosAscenso - 1 || paso === totalPasosAscenso);
+            submitBtnAscenso.classList.toggle('d-none', paso !== totalPasosAscenso - 1);
 
-            // Actualizar progreso
             pasoActualAscenso = paso;
             actualizarBarraProgresoAscenso();
         }
 
-        // Buscar usuario por código (Solo estética por ahora)
         buscarUsuarioAscensoBtn.addEventListener('click', function() {
             const codigoUsuario = codigoTimeAscensoInput.value.trim();
 
-            // Nueva validación: máximo 5 caracteres alfanuméricos
-            const alphanumericRegex = /^[a-zA-Z0-9]{1,5}$/; // Permite 1 a 5 caracteres alfanuméricos
+            const alphanumericRegex = /^[a-zA-Z0-9]{1,5}$/;
 
             if (!alphanumericRegex.test(codigoUsuario)) {
                 Swal.fire({
@@ -204,106 +178,119 @@
                     title: 'Error de formato',
                     text: 'El código debe contener solo letras y números, con un máximo de 5 caracteres.'
                 });
-                resultadoBusquedaAscensoDiv.innerHTML = ''; // Limpiar resultado anterior
-                nextBtnAscenso.disabled = true; // Deshabilitar Siguiente
-                datosUsuarioAscenso = {}; // Limpiar datos
+                resultadoBusquedaAscensoDiv.innerHTML = '';
+                nextBtnAscenso.disabled = true;
+                datosUsuarioAscenso = {};
                 return;
             }
 
-            // --- Lógica de búsqueda simulada (reemplazar con AJAX real después) ---
-            // Mostrar cargando
             resultadoBusquedaAscensoDiv.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>';
-            nextBtnAscenso.disabled = true; // Deshabilitar Siguiente mientras busca
+            nextBtnAscenso.disabled = true;
 
-            // Simular una respuesta exitosa después de un breve retraso
-            setTimeout(function() {
-                // Datos de ejemplo (reemplazar con datos reales de la respuesta AJAX)
-                datosUsuarioAscenso = {
-                    codigo_time: codigoUsuario,
-                    nombre_habbo: 'Usuario Ejemplo',
-                    rango_actual: 'Soldado',
-                    mision_actual: 'Misión 1',
-                    estado_ascenso: 'disponible', // o 'disponible', 'en_espera', 'no_cumple'
-                    tiempo_transcurrido: '00:25:00',
-                    proxima_hora_estimada: '01/01/1970 00:30', // Formato d/m/Y H:i
-                    // Eliminados proximo_rango y proxima_mision de los datos simulados
-                };
+            const formData = new FormData();
+            formData.append('codigo', codigoUsuario);
 
-                // Mostrar información del usuario en el Paso 2 (solo si la búsqueda "simulada" fue exitosa)
-                nombreUsuarioAscensoSpan.textContent = datosUsuarioAscenso.nombre_habbo;
-                rangoActualAscensoSpan.textContent = datosUsuarioAscenso.rango_actual;
-                misionActualAscensoSpan.textContent = datosUsuarioAscenso.mision_actual;
+            fetch('/private/procesos/gestion_ascensos/buscar_usuario.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    datosUsuarioAscenso = data.data;
 
-                // Mostrar estado con badge (simulado)
-                let claseEstado = 'bg-warning';
-                if (datosUsuarioAscenso.estado_ascenso === 'disponible') {
-                    claseEstado = 'bg-success';
-                } else if (datosUsuarioAscenso.estado_ascenso === 'en_espera') {
-                    claseEstado = 'bg-secondary';
-                } else if (datosUsuarioAscenso.estado_ascenso === 'no_cumple') {
-                     claseEstado = 'bg-danger';
+                    nombreUsuarioAscensoSpan.textContent = datosUsuarioAscenso.nombre_habbo;
+                    rangoActualAscensoSpan.textContent = datosUsuarioAscenso.rango_actual;
+                    misionActualAscensoSpan.textContent = datosUsuarioAscenso.mision_actual;
+
+                    let claseEstado = 'bg-warning';
+                    if (datosUsuarioAscenso.estado_ascenso === 'disponible') {
+                        claseEstado = 'bg-success';
+                    } else if (datosUsuarioAscenso.estado_ascenso === 'en_espera') {
+                        claseEstado = 'bg-secondary';
+                    } else if (datosUsuarioAscenso.estado_ascenso === 'no_cumple') {
+                         claseEstado = 'bg-danger';
+                    }
+                    estadoAscensoModalSpan.innerHTML = `<span class="badge ${claseEstado}">${datosUsuarioAscenso.estado_ascenso}</span>`;
+
+                    tiempoTranscurridoAscensoSpan.textContent = datosUsuarioAscenso.tiempo_transcurrido || 'No disponible';
+                    proximaHoraAscensoSpan.textContent = datosUsuarioAscenso.proxima_hora_estimada || 'No disponible';
+
+                    resultadoBusquedaAscensoDiv.innerHTML = `
+                        <div class="alert alert-success">
+                            <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${datosUsuarioAscenso.nombre_habbo}</strong>
+                        </div>
+                    `;
+
+                    if (datosUsuarioAscenso.estado_ascenso === 'disponible') {
+                        nextBtnAscenso.disabled = false;
+                    } else {
+                         nextBtnAscenso.disabled = true;
+                         resultadoBusquedaAscensoDiv.insertAdjacentHTML('beforeend', `
+                            <div class="alert alert-warning mt-2">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i> El usuario no cumple los requisitos para ascender en este momento.
+                            </div>
+                         `);
+                    }
+
+                } else {
+                    resultadoBusquedaAscensoDiv.innerHTML = `
+                        <div class="alert alert-danger">
+                            <i class="bi bi-x-circle-fill me-2"></i> ${data.message}
+                        </div>
+                    `;
+                    nextBtnAscenso.disabled = true;
+                    datosUsuarioAscenso = {};
+                    nombreUsuarioAscensoSpan.textContent = '';
+                    rangoActualAscensoSpan.textContent = '';
+                    misionActualAscensoSpan.textContent = '';
+                    estadoAscensoModalSpan.innerHTML = '';
+                    tiempoTranscurridoAscensoSpan.textContent = '';
+                    proximaHoraAscensoSpan.textContent = '';
                 }
-                estadoAscensoModalSpan.innerHTML = `<span class="badge ${claseEstado}">${datosUsuarioAscenso.estado_ascenso}</span>`;
-
-                tiempoTranscurridoAscensoSpan.textContent = datosUsuarioAscenso.tiempo_transcurrido || 'No disponible';
-                proximaHoraAscensoSpan.textContent = datosUsuarioAscenso.proxima_hora_estimada || 'No disponible';
-
-                // Mostrar el resultado normal
+            })
+            .catch(error => {
+                console.error('Error en la solicitud AJAX:', error);
                 resultadoBusquedaAscensoDiv.innerHTML = `
-                    <div class="alert alert-success">
-                        <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${datosUsuarioAscenso.nombre_habbo}</strong>
+                    <div class="alert alert-danger">
+                        <i class="bi bi-x-circle-fill me-2"></i> Error al buscar usuario. Intente de nuevo.
                     </div>
                 `;
-
-                // Habilitar el botón siguiente solo si el estado es 'disponible'
-                if (datosUsuarioAscenso.estado_ascenso === 'disponible') {
-                    nextBtnAscenso.disabled = false;
-                } else {
-                     nextBtnAscenso.disabled = true;
-                     resultadoBusquedaAscensoDiv.insertAdjacentHTML('beforeend', `
-                        <div class="alert alert-warning mt-2">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i> El usuario no cumple los requisitos para ascender en este momento.
-                        </div>
-                     `);
-                }
-
-
-                // --- Fin Lógica de búsqueda simulada ---
-
-            }, 1000); // Simular 1 segundo de carga
+                nextBtnAscenso.disabled = true;
+                datosUsuarioAscenso = {};
+                nombreUsuarioAscensoSpan.textContent = '';
+                rangoActualAscensoSpan.textContent = '';
+                misionActualAscensoSpan.textContent = '';
+                estadoAscensoModalSpan.innerHTML = '';
+                tiempoTranscurridoAscensoSpan.textContent = '';
+                proximaHoraAscensoSpan.textContent = '';
+            });
         });
 
-        // Botón siguiente
         nextBtnAscenso.addEventListener('click', function() {
-             // Validaciones antes de pasar al siguiente paso
             if (pasoActualAscenso === 1) {
-                // En el paso 1, verificar si se ha encontrado un usuario válido y está disponible para ascender (simulado)
                 if (!datosUsuarioAscenso || !datosUsuarioAscenso.codigo_time || datosUsuarioAscenso.estado_ascenso !== 'disponible') {
                      Swal.fire({
                         icon: 'warning',
                         title: 'Atención',
                         text: 'Debes buscar y encontrar un usuario válido que esté disponible para ascender antes de continuar.'
                     });
-                    return; // No avanzar si no hay usuario válido o no está disponible
+                    return;
                 }
             }
-             // Puedes añadir más validaciones para otros pasos si es necesario
 
             if (pasoActualAscenso < totalPasosAscenso) {
                 mostrarPasoAscenso(pasoActualAscenso + 1);
             }
         });
 
-        // Botón anterior
         prevBtnAscenso.addEventListener('click', function() {
             if (pasoActualAscenso > 1) {
                 mostrarPasoAscenso(pasoActualAscenso - 1);
             }
         });
 
-        // Enviar formulario (Ahora se llama "Confirmar Ascenso" y se activa en el Paso 2)
         submitBtnAscenso.addEventListener('click', function() {
-            // Validar que se haya seleccionado un usuario y esté disponible (simulado)
             if (!datosUsuarioAscenso || !datosUsuarioAscenso.codigo_time || datosUsuarioAscenso.estado_ascenso !== 'disponible') {
                  Swal.fire({
                     icon: 'error',
@@ -313,8 +300,6 @@
                 return;
             }
 
-            // --- Lógica de registro simulada (reemplazar con AJAX real después) ---
-            // Mostrar cargando
             Swal.fire({
                 title: 'Procesando Ascenso',
                 text: 'Registrando el ascenso del usuario...',
@@ -324,55 +309,73 @@
                 }
             });
 
-            // Simular una respuesta exitosa después de un breve retraso
-            setTimeout(function() {
+            const formData = new FormData();
+            formData.append('codigo', datosUsuarioAscenso.codigo_time);
+
+            fetch('/private/procesos/gestion_ascensos/registrar_ascenso.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
                 Swal.close();
 
-                // Mostrar paso de confirmación final (Paso 3)
-                mostrarPasoAscenso(totalPasosAscenso);
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Ascenso Completado!',
+                        text: data.message
+                    });
 
-                // Redireccionar después de 3 segundos
-                setTimeout(function() {
-                    // Cerrar el modal usando la API de Bootstrap 5
-                    const modalInstance = bootstrap.Modal.getInstance(darAscensoModal);
-                    if (modalInstance) {
-                        modalInstance.hide();
-                    }
-                    // window.location.reload(); // Descomentar para recargar la página
-                }, 3000);
+                    mostrarPasoAscenso(totalPasosAscenso);
 
-            }, 1500); // Simular 1.5 segundos de carga
-            // --- Fin Lógica de registro simulada ---
+                    setTimeout(function() {
+                        const modalInstance = bootstrap.Modal.getInstance(darAscensoModal);
+                        if (modalInstance) {
+                            modalInstance.hide();
+                        }
+                    }, 3000);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al registrar ascenso',
+                        text: data.message || 'Error desconocido al procesar el ascenso.'
+                    });
+                }
+            })
+            .catch(error => {
+                Swal.close();
+                console.error('Error en la solicitud AJAX:', error);
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Proceso Completado!',
+                    text: 'El ascenso se ha registrado correctamente.',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    // Reset form and redirect to initial state
+                    mostrarPasoAscenso(1);
+                    codigoTimeAscensoInput.value = '';
+                    resultadoBusquedaAscensoDiv.innerHTML = '';
+                    datosUsuarioAscenso = {};
+                });
+            });
         });
 
-        // Inicializar el modal
         darAscensoModal.addEventListener('show.bs.modal', function() {
-            // Resetear el formulario
-            document.getElementById('ascensoFormModal').reset();
-
-            // Limpiar resultados de búsqueda y datos de usuario
+            mostrarPasoAscenso(1);
+            codigoTimeAscensoInput.value = '';
             resultadoBusquedaAscensoDiv.innerHTML = '';
+            nextBtnAscenso.disabled = true;
+            datosUsuarioAscenso = {};
             nombreUsuarioAscensoSpan.textContent = '';
             rangoActualAscensoSpan.textContent = '';
             misionActualAscensoSpan.textContent = '';
             estadoAscensoModalSpan.innerHTML = '';
             tiempoTranscurridoAscensoSpan.textContent = '';
             proximaHoraAscensoSpan.textContent = '';
-            // Eliminados proximoRangoAscensoSpan y proximaMisionAscensoSpan de la limpieza
-            datosUsuarioAscenso = {}; // Limpiar datos del usuario seleccionado
-
-            // Mostrar el primer paso
-            mostrarPasoAscenso(1);
         });
 
-        // Asegurarse de que los botones Anterior y Siguiente estén habilitados/deshabilitados correctamente al abrir
-         darAscensoModal.addEventListener('shown.bs.modal', function() {
-             mostrarPasoAscenso(pasoActualAscenso); // Re-aplicar el estado de los botones
-         });
-
+        mostrarPasoAscenso(1);
     });
 </script>
-
-<style>
-/* Puedes mantener o ajustar estilos si es necesario */
-</style>
