@@ -33,7 +33,7 @@ require_once(GESTION_PAGAS_PATCH . 'mostrar_requisitos.php'); // MOSTRAR REQUISI
                         <i class="bi bi-currency-dollar fs-3"></i>
                     </div>
                     <div>
-                        <h6 class="mb-1 text-muted">Total Pagado</h6>
+                        <h6 class="mb-1 text-muted">Total</h6>
                         <h4 class="mb-0"><?php echo array_sum(array_column($pagas, 'pagas_recibio')); ?> créditos</h4>
                     </div>
                 </div>
