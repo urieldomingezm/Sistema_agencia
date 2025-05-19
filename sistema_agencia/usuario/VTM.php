@@ -35,7 +35,16 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
                         <?= htmlspecialchars(ucfirst(strtolower($venta['venta_estado']))) ?>
                     </span>
                 </td>
-                <td><?= htmlspecialchars($venta['venta_comprador']) ?></td>
+                <td>
+                    <?php
+                        // Mostrar nombre_habbo_registrado si venta_comprador no es NULL, de lo contrario mostrar comprador_externo
+                        if ($venta['venta_comprador'] !== null) {
+                            echo htmlspecialchars($venta['nombre_habbo_registrado'] ?: 'Usuario no encontrado');
+                        } else {
+                            echo htmlspecialchars($venta['comprador_externo'] ?: 'No disponible');
+                        }
+                    ?>
+                </td>
                 <td><?= htmlspecialchars($venta['venta_encargado']) ?></td>
                 <td>
                     <div class="dropdown">
