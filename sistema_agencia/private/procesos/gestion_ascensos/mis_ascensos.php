@@ -52,20 +52,19 @@ try {
     $stmtPorRango->execute();
     $ascensosPorRango = $stmtPorRango->fetchAll(PDO::FETCH_ASSOC);
 
-    // --- Consulta para el conteo de ascensos por semana ---
-    // Nota: La función WEEK() puede variar ligeramente entre sistemas de base de datos (MySQL, PostgreSQL, etc.)
-    // Esta sintaxis es común en MySQL. Ajusta si usas otro DB.
-    $stmtPorSemana = $conn->prepare("
-        SELECT YEAR(fecha_accion) AS year, WEEK(fecha_accion, 1) AS week, COUNT(*) AS count
+    // --- Consulta para el conteo de ascensos de ESTA semana ---
+    // Usamos YEAR(CURDATE()) y WEEK(CURDATE(), 1) para filtrar por la semana actual.
+    // WEEK(date, 1) significa que la semana comienza en Lunes.
+    $stmtEstaSemana = $conn->prepare("
+        SELECT COUNT(*) AS count
         FROM historial_ascensos
-        WHERE (usuario_encargado = :username OR realizado_por = :username) AND fecha_accion IS NOT NULL
-        GROUP BY YEAR(fecha_accion), WEEK(fecha_accion, 1)
-        ORDER BY year DESC, week DESC
-        LIMIT 10 -- Limitar a las últimas 10 semanas, por ejemplo
+        WHERE (usuario_encargado = :username OR realizado_por = :username)
+        AND YEAR(fecha_accion) = YEAR(CURDATE())
+        AND WEEK(fecha_accion, 1) = WEEK(CURDATE(), 1)
     ");
-     $stmtPorSemana->bindParam(':username', $username);
-     $stmtPorSemana->execute();
-     $ascensosPorSemana = $stmtPorSemana->fetchAll(PDO::FETCH_ASSOC);
+     $stmtEstaSemana->bindParam(':username', $username);
+     $stmtEstaSemana->execute();
+     $ascensosEstaSemana = $stmtEstaSemana->fetch(PDO::FETCH_ASSOC)['count'] ?? 0;
 
 
     echo json_encode([
@@ -73,7 +72,8 @@ try {
         'historialAscensos' => $historialAscensos, // Lista completa (opcional)
         'totalAscensos' => (int)$totalAscensos,
         'ascensosPorRango' => $ascensosPorRango,
-        'ascensosPorSemana' => $ascensosPorSemana
+        // Ahora solo enviamos el conteo de esta semana
+        'ascensosEstaSemana' => (int)$ascensosEstaSemana
     ]);
 
 } catch (PDOException $e) {
