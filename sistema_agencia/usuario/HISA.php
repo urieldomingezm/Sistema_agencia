@@ -6,7 +6,7 @@ class HistorialAscensos
     private $ascensosPorRango;
     private $ascensosPorSemana; // Mantener la variable, aunque ahora solo contendrá un valor
     private $errorMessage;
-    private $ascensosEstaSemana; // Nueva variable para el conteo semanal
+    public $ascensosEstaSemana; // Nueva variable para el conteo semanal - Cambiado a public
 
     public function __construct()
     {
@@ -94,6 +94,13 @@ class HistorialAscensos
                     </div>';
 
             $html .= '</div>';
+
+            // Botón para registrar ascensos semanales
+            $html .= '<div class="text-center mt-4">'; // Añadir margen superior
+            $html .= '<button type="button" class="btn btn-primary" id="btnRegistrarAscensoSemanal">'; // Añadido ID
+            $html .= 'Registrar mis ascensos hechos de esta semana'; // Texto del botón
+            $html .= '</button>';
+            $html .= '</div>';
         }
 
         $html .= '</div>
@@ -119,6 +126,96 @@ class HistorialAscensos
     }
 }
 
+ob_start(); // Iniciar buffer de salida
+
 $historialAscensos = new HistorialAscensos();
+$weeklyAscensosCount = $historialAscensos->ascensosEstaSemana; // Obtener el conteo semanal
 echo $historialAscensos->render();
+
 ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnRegistrarAscenso = document.getElementById('btnRegistrarAscensoSemanal');
+    // Pasar el conteo semanal de PHP a JavaScript
+    const weeklyAscensosCount = <?php echo json_encode($weeklyAscensosCount); ?>;
+
+    if (btnRegistrarAscenso) {
+        btnRegistrarAscenso.addEventListener('click', function() {
+            // Verificar si el conteo semanal es cero
+            if (weeklyAscensosCount === 0) {
+                Swal.fire({
+                    title: 'Sin Ascensos Registrados',
+                    text: 'No tienes ascensos realizados esta semana para registrar.',
+                    icon: 'info',
+                    confirmButtonText: 'Entendido'
+                });
+                return; // Detener el proceso si el conteo es cero
+            }
+
+            Swal.fire({
+                title: 'Confirmar Registro de Ascensos Semanales',
+                text: `¿Deseas registrar tus ${weeklyAscensosCount} ascensos realizados esta semana?`, // Usar el conteo semanal
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Registrar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Construir el nombre del requisito automáticamente
+                    // Añadir un parámetro 'type' para indicar que es un registro de ascensos
+                    const requirementName = `${weeklyAscensosCount} ascensos realizados esta semana`;
+                    const type = 'ascensos'; // Nuevo parámetro para identificar el tipo
+
+                    // Mostrar SweetAlert de carga
+                    Swal.fire({
+                        title: 'Registrando...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // Enviar datos al script PHP usando Fetch
+                    fetch('/private/procesos/gestion_cumplimientos/registrar_requisitos.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        // Incluir el nuevo parámetro 'type'
+                        body: 'requirement_name=' + encodeURIComponent(requirementName) + '&type=' + encodeURIComponent(type)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.close(); // Cerrar SweetAlert de carga
+                        if (data.success) {
+                            Swal.fire(
+                                '¡Registrado!',
+                                data.message,
+                                'success'
+                            );
+                            // Opcional: Recargar la página o actualizar el dashboard si es necesario
+                            // location.reload();
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                data.message,
+                                'error'
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.close(); // Cerrar SweetAlert de carga
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error',
+                            'Ocurrió un error al comunicarse con el servidor.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    }
+});
+</script>

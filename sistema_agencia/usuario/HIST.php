@@ -185,6 +185,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (result.isConfirmed) {
                     // Construir el nombre del requisito automáticamente
                     const requirementName = `${weeklyTiemposCount} tiempos tomados esta semana`;
+                    // Añadir un parámetro 'type' para indicar que es un registro de tiempos
+                    const type = 'tiempos'; // Nuevo parámetro para identificar el tipo
 
                     // Mostrar SweetAlert de carga
                     Swal.fire({
@@ -201,7 +203,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: 'requirement_name=' + encodeURIComponent(requirementName)
+                        // Incluir el nuevo parámetro 'type'
+                        body: 'requirement_name=' + encodeURIComponent(requirementName) + '&type=' + encodeURIComponent(type)
                     })
                     .then(response => response.json())
                     .then(data => {
