@@ -190,7 +190,7 @@ class Navbar
       'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso_modal',
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal',
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
-      'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#ventas_rangos_traslados',
+      'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#venta_rangos',
       'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#editar_usuario',
     ];
 
