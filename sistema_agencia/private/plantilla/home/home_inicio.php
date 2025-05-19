@@ -81,6 +81,12 @@ class BodyHome
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Vanderlind&headonly=1&head_direction=3&size=sl',
                 'rank' => 'Administrador',
             ],
+            [
+                'id' => '10',
+                'name' => 'maria51162',
+                'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=maria51162&headonly=1&head_direction=3&size=sl',
+                'rank' => 'Administradora',
+            ],
         ];
 
             echo '<section class="team-section py-3 py-md-5" style="background: #ffffff;">';
