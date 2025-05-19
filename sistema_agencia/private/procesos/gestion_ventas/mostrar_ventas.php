@@ -8,7 +8,7 @@ $conn = $db->getConnection();
 $query = "SELECT gv.*, ru.nombre_habbo AS nombre_habbo_registrado, ru.codigo_time
           FROM gestion_ventas gv
           LEFT JOIN registro_usuario ru ON gv.venta_comprador = ru.id
-          ORDER BY gv.venta_fecha_compra DESC";
+          ORDER BY gv.venta_compra DESC"; // Corregido de venta_fecha_compra a venta_compra
 
 $stmt = $conn->prepare($query);
 $stmt->execute();

@@ -1,6 +1,5 @@
 <?php
 // PROCESO PARA ELIMINAR, RENOVAR, VENDER Y MOSTRAR LAS VENTAS DEL SITIO
-require_once(GESTION_VENTAS_PATCH . 'renovar_eliminar_registrar.php');
 require_once(GESTION_VENTAS_PATCH . 'mostrar_ventas.php');
 
 // MODAL PARA VENTA, RENOVAR Y ELIMINAR
@@ -20,9 +19,12 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
             <th>ID</th>
             <th>Membresia</th>
             <th>Estado</th>
+            <th>Fecha de Compra</th>
+            <th>Fecha de Caducidad</th>
+            <th>Costo</th>
             <th>Comprador</th>
             <th>Encargado</th>
-            <th>Acciones</th>
+            <th>Acciones</th> <!-- Columna de Acciones re-añadida -->
         </tr>
     </thead>
     <tbody>
@@ -35,6 +37,9 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
                         <?= htmlspecialchars(ucfirst(strtolower($venta['venta_estado']))) ?>
                     </span>
                 </td>
+                <td><?= htmlspecialchars($venta['venta_compra']) ?></td> <!-- Corregido a venta_compra -->
+                <td><?= htmlspecialchars($venta['venta_caducidad']) ?></td>
+                <td><?= htmlspecialchars($venta['venta_costo']) ?></td>
                 <td>
                     <?php
                         // Mostrar nombre_habbo_registrado si venta_comprador no es NULL, de lo contrario mostrar comprador_externo
@@ -46,7 +51,7 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
                     ?>
                 </td>
                 <td><?= htmlspecialchars($venta['venta_encargado']) ?></td>
-                <td>
+                <td> <!-- Celda de Acciones re-añadida -->
                     <div class="dropdown">
                         <div class="btn-group" role="group">
                             <button class="btn btn-success btn-sm" onclick="renovarVenta(<?= $venta['venta_id'] ?>)">
@@ -88,5 +93,112 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
                 infoFiltered: "(filtrado de {rows} registros totales)"
             }
         });
+
+        // Lógica para manejar el envío del formulario de renovación
+        const renovarForm = document.getElementById('renovarVentaForm');
+        if (renovarForm) {
+            renovarForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevenir el envío normal del formulario
+                procesarRenovacion();
+            });
+        }
     });
+
+    // Función para abrir el modal de renovación y pasar el ID de la venta
+    function renovarVenta(ventaId) {
+        const modalElement = document.getElementById('renovarVentaModal');
+        const ventaIdInput = modalElement.querySelector('#renovarVentaId');
+
+        if (ventaIdInput) {
+            ventaIdInput.value = ventaId; // Establecer el ID de la venta en el campo oculto
+        }
+
+        const modal = new bootstrap.Modal(modalElement);
+        modal.show(); // Mostrar el modal
+    }
+
+    // Función para procesar la renovación via AJAX
+    function procesarRenovacion() {
+        const form = document.getElementById('renovarVentaForm');
+        const ventaId = document.getElementById('renovarVentaId').value;
+        const rutaRenovar = '/private/modal/modal_gestion_ventas/renovar.php'; // Asegúrate de que esta ruta sea correcta
+
+        Swal.fire({
+            title: 'Procesando',
+            text: 'Renovando membresía...',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        const formData = new FormData();
+        formData.append('ventaId', ventaId); // Añadir el ID de la venta al FormData
+
+        fetch(rutaRenovar, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Éxito!',
+                    text: data.message
+                }).then(() => {
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('renovarVentaModal'));
+                    modal.hide();
+                    location.reload(); // Recargar la página para ver los cambios
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message || 'Error al renovar la venta'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error al procesar la solicitud: ' + error.message
+            });
+        });
+    }
+
 </script>
+
+<!-- Modal de Renovación -->
+<div class="modal fade" id="renovarVentaModal" tabindex="-1" aria-labelledby="renovarVentaModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-white bg-success">
+                <h5 class="modal-title text-center" id="renovarVentaModalLabel">
+                    Renovar Membresía
+                </h5>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de que desea renovar esta membresía?</p>
+                <form id="renovarVentaForm" method="post">
+                    <input type="hidden" id="renovarVentaId" name="ventaId">
+                    <div class="modal-footer border-top-0 mt-4">
+                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn btn-outline-success">
+                            Confirmar Renovación
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

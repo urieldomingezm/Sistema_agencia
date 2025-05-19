@@ -1,5 +1,6 @@
 <?php
 $rutaRegistrar = '/private/modal/modal_gestion_ventas/registrar.php';
+// $rutaRegistrar = '/private/modal/modal_gestion_ventas/renovar.php';
 ?>
 
 <div class="modal fade" id="registrarVentaModal" tabindex="-1" aria-labelledby="registrarVentaModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">

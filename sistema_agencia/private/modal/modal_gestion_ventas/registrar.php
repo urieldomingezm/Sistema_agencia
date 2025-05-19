@@ -135,12 +135,12 @@ class VentaRegistration
         $query = "INSERT INTO {$this->table}
                 (venta_titulo, venta_compra, venta_caducidad, venta_estado, venta_costo, venta_comprador, comprador_externo, venta_encargado, venta_fecha_compra)
                 VALUES
-                (:venta_titulo, :venta_compra, :venta_caducidad, :venta_estado, :venta_costo, :venta_comprador, :comprador_externo, :venta_encargado, NOW())";
+                (:venta_titulo, :venta_compra, :venta_caducidad, :venta_estado, :venta_costo, :venta_comprador, :comprador_externo, :venta_encargado, :venta_fecha_compra)"; // Cambiado NOW() a :venta_fecha_compra
 
         $stmt = $this->conn->prepare($query);
 
         $stmt->bindParam(':venta_titulo', $ventaTitulo);
-        $stmt->bindParam(':venta_compra', $fechaCompra);
+        $stmt->bindParam(':venta_compra', $fechaCompra); // Usar $fechaCompra del formulario
         $stmt->bindParam(':venta_caducidad', $fechaCaducidad);
         $stmt->bindParam(':venta_estado', $ventaEstado);
         $stmt->bindParam(':venta_costo', $ventaCosto);
@@ -158,6 +158,7 @@ class VentaRegistration
         }
 
         $stmt->bindParam(':venta_encargado', $encargadoUsername); // Ahora bindea el string
+        $stmt->bindParam(':venta_fecha_compra', $fechaCompra); // Bindear $fechaCompra para la columna venta_fecha_compra
 
         return $stmt->execute();
     }
