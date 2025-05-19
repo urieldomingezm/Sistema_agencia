@@ -4,8 +4,9 @@ class HistorialAscensos
 {
     private $totalAscensos;
     private $ascensosPorRango;
-    private $ascensosPorSemana;
+    private $ascensosPorSemana; // Mantener la variable, aunque ahora solo contendrá un valor
     private $errorMessage;
+    private $ascensosEstaSemana; // Nueva variable para el conteo semanal
 
     public function __construct()
     {
@@ -24,12 +25,14 @@ class HistorialAscensos
         if (isset($jsonData['success']) && $jsonData['success']) {
             $this->totalAscensos = $jsonData['totalAscensos'] ?? 0;
             $this->ascensosPorRango = $jsonData['ascensosPorRango'] ?? [];
-            $this->ascensosPorSemana = $jsonData['ascensosPorSemana'] ?? [];
+            // Ahora ascensosPorSemana no se usa para la lista, usamos la nueva variable
+            $this->ascensosEstaSemana = $jsonData['ascensosEstaSemana'] ?? 0;
             $this->errorMessage = null;
         } else {
             $this->totalAscensos = 0;
             $this->ascensosPorRango = [];
-            $this->ascensosPorSemana = [];
+            $this->ascensosPorSemana = []; // Mantener inicializada
+            $this->ascensosEstaSemana = 0; // Inicializar nueva variable
             $this->errorMessage = $jsonData['message'] ?? 'Error desconocido al cargar los datos del dashboard.';
         }
     }
@@ -80,22 +83,12 @@ class HistorialAscensos
                     </div>';
 
             // Tarjeta de Ascensos por Semana (Color success como en HIST.php)
+            // Modificada para mostrar solo el conteo de la semana actual
             $html .= '<div class="col-md-4 mb-3">
                         <div class="card text-center bg-success text-white">
                             <div class="card-body">
-                                <h5 class="card-title">Ascensos por Semana (Últimas 10)</h5>
-                                <ul class="list-group list-group-flush">';
-             if (!empty($this->ascensosPorSemana)) {
-                foreach ($this->ascensosPorSemana as $item) {
-                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center text-dark">
-                                Semana ' . htmlspecialchars($item['week'] ?? 'N/A') . ' (' . htmlspecialchars($item['year'] ?? 'N/A') . ')
-                                <span class="badge bg-secondary rounded-pill">' . $item['count'] . '</span>
-                              </li>';
-                }
-            } else {
-                 $html .= '<li class="list-group-item text-center text-muted">Sin datos por semana</li>';
-            }
-            $html .= '</ul>
+                                <h5 class="card-title">Ascensos Esta Semana</h5>
+                                <p class="card-text display-4 fw-bold">' . $this->ascensosEstaSemana . '</p>
                             </div>
                         </div>
                     </div>';

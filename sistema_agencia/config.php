@@ -26,6 +26,7 @@ define('PROCESO_CAMBIAR_PACTH', PRIVATE_PATH . 'procesos/gestion_usuarios/');
 define('PROCESO_VENTAS_RANGOS_PACTH', PRIVATE_PATH . 'procesos/gestion_venta_rangos/');
 define('PROCESO_VENTAS_MEMBRESIAS_PACTH', PRIVATE_PATH . 'procesos/gestion_ventas/');
 define('PROCESOS_MEJOR_TOP', PRIVATE_PATH . 'procesos/gestion_primeros_lugares/');
+define('PROCESOS_REQUERIMIENTOS_PACTH', PRIVATE_PATH . 'procesos/gestion_cumplimientos/');
 
 
 // Modal Paths

@@ -4,7 +4,7 @@ class HistorialTiempos
 {
     private $tiemposEncargadoData;
     private $totalEncargadoCount;
-    private $weeklyEncargadoCount;
+    public $weeklyEncargadoCount; // Cambiado de private a public
     private $encargadoCountByRange;
     private $errorMessage;
 
@@ -73,7 +73,7 @@ class HistorialTiempos
         $html = '<div class="container mt-4">
             <div class="card shadow">
                 <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Dashboard de Tiempos como Encargado</h5>
+                    <h5 class="mb-0">Dashboard tiempos hechos</h5>
                 </div>
                 <div class="card-body">';
 
@@ -88,7 +88,7 @@ class HistorialTiempos
             $html .= '<div class="col-md-6 mb-3">
                         <div class="card text-center bg-primary text-white">
                             <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-person-check"></i> Total Tiempos como Encargado</h5>
+                                <h5 class="card-title"><i class="bi bi-person-check"></i> Total Tiempos (contando todas semana)</h5>
                                 <p class="card-text display-4 fw-bold">' . htmlspecialchars($this->totalEncargadoCount) . '</p>
                             </div>
                         </div>
@@ -97,12 +97,19 @@ class HistorialTiempos
             $html .= '<div class="col-md-6 mb-3">
                         <div class="card text-center bg-success text-white">
                             <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-calendar-week"></i> Como Encargado Esta Semana</h5>
+                                <h5 class="card-title"><i class="bi bi-calendar-week"></i> Tiempos tomados en esta Semana</h5>
                                 <p class="card-text display-4 fw-bold">' . htmlspecialchars($this->weeklyEncargadoCount) . '</p>
                             </div>
                         </div>
                     </div>';
 
+            $html .= '</div>';
+
+            // Botón para registrar tiempo - Modificado para usar SweetAlert2
+            $html .= '<div class="text-center mb-4">';
+            $html .= '<button type="button" class="btn btn-primary" id="btnRegistrarRequisito">'; // Añadido ID
+            $html .= 'Registrar mis tiempos hechos de esta semana'; // Texto del botón actualizado
+            $html .= '</button>';
             $html .= '</div>';
 
             $html .= '<div class="card shadow-sm mb-4">
@@ -143,6 +150,90 @@ class HistorialTiempos
 ob_start();
 
 $historialTiempos = new HistorialTiempos();
+$weeklyCount = $historialTiempos->weeklyEncargadoCount; // Obtener el conteo semanal
 echo $historialTiempos->render();
 
 ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnRegistrar = document.getElementById('btnRegistrarRequisito');
+    // Pasar el conteo semanal de PHP a JavaScript
+    const weeklyTiemposCount = <?php echo json_encode($weeklyCount); ?>;
+
+    if (btnRegistrar) {
+        btnRegistrar.addEventListener('click', function() {
+            // Verificar si el conteo semanal es cero
+            if (weeklyTiemposCount === 0) {
+                Swal.fire({
+                    title: 'Sin Tiempos Registrados',
+                    text: 'No tienes tiempos tomados como encargado esta semana para registrar.',
+                    icon: 'info',
+                    confirmButtonText: 'Entendido'
+                });
+                return; // Detener el proceso si el conteo es cero
+            }
+
+            Swal.fire({
+                title: 'Confirmar Registro de Tiempos Semanales',
+                text: `¿Deseas registrar tus ${weeklyTiemposCount} tiempos tomados como encargado esta semana?`, // Usar el conteo semanal
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Registrar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Construir el nombre del requisito automáticamente
+                    const requirementName = `${weeklyTiemposCount} tiempos tomados esta semana`;
+
+                    // Mostrar SweetAlert de carga
+                    Swal.fire({
+                        title: 'Registrando...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // Enviar datos al script PHP usando Fetch
+                    fetch('/private/procesos/gestion_cumplimientos/registrar_requisitos.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'requirement_name=' + encodeURIComponent(requirementName)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.close(); // Cerrar SweetAlert de carga
+                        if (data.success) {
+                            Swal.fire(
+                                '¡Registrado!',
+                                data.message,
+                                'success'
+                            );
+                            // Opcional: Recargar la página o actualizar el dashboard si es necesario
+                            // location.reload();
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                data.message,
+                                'error'
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.close(); // Cerrar SweetAlert de carga
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error',
+                            'Ocurrió un error al comunicarse con el servidor.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    }
+});
+</script>
