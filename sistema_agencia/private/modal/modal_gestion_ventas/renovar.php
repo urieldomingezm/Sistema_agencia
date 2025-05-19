@@ -1,5 +1,5 @@
 <?php
-ob_start(); // Iniciar el buffer de salida al principio del script
+ob_start();
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 require_once(CONFIG_PATH . 'bd.php');
 
@@ -27,7 +27,6 @@ class VentaRenovation
         try {
             $this->conn->beginTransaction();
 
-            // 1. Obtener información actual de la venta
             $ventaActual = $this->getVentaById($ventaId);
 
             if (!$ventaActual) {
@@ -35,30 +34,23 @@ class VentaRenovation
                 return ['success' => false, 'message' => 'Venta no encontrada.'];
             }
 
-            // 2. Validar si la membresía es VIP (no renovable)
             if ($ventaActual['venta_titulo'] === "Membresía VIP") {
                 $this->conn->rollBack();
                 return ['success' => false, 'message' => 'La Membresía VIP no es renovable.'];
             }
 
-            // 3. Verificar si la membresía ya ha caducado
             $fechaCaducidadActualObj = new DateTime($ventaActual['venta_caducidad']);
-            $fechaActualObj = new DateTime(); // Fecha y hora actual del servidor
+            $fechaActualObj = new DateTime();
 
             if ($fechaActualObj < $fechaCaducidadActualObj) {
                 $this->conn->rollBack();
                 return ['success' => false, 'message' => 'La membresía aún no ha caducado. Fecha de caducidad actual: ' . $fechaCaducidadActualObj->format('Y-m-d H:i:s')];
             }
 
-            // 4. Calcular la nueva fecha de caducidad
-            // Si la membresía ha caducado (pasó la verificación del paso 3),
-            // la nueva fecha de caducidad se basará en la fecha actual + 1 mes.
+            $baseDateForRenewal = new DateTime($fechaActualObj->format('Y-m-d'));
+            $nuevaFechaCaducidadObj = clone $baseDateForRenewal;
+            $nuevaFechaCaducidadObj->modify('+1 month');
 
-            $baseDateForRenewal = new DateTime($fechaActualObj->format('Y-m-d')); // Usar la fecha actual (fecha de renovación)
-            $nuevaFechaCaducidadObj = clone $baseDateForRenewal; // Clonar para no modificar $baseDateForRenewal
-            $nuevaFechaCaducidadObj->modify('+1 month'); // Añadir un mes
-
-            // Ajustar al último día del mes si el día de la fecha actual es mayor que los días del mes siguiente
             $diaFechaActual = $fechaActualObj->format('d');
             $ultimoDiaMesSiguiente = (new DateTime($nuevaFechaCaducidadObj->format('Y-m-d')))->modify('last day of this month')->format('d');
 
@@ -66,10 +58,9 @@ class VentaRenovation
                  $nuevaFechaCaducidadObj->setDate($nuevaFechaCaducidadObj->format('Y'), $nuevaFechaCaducidadObj->format('m'), $ultimoDiaMesSiguiente);
             }
 
-            $nuevaFechaCaducidad = $nuevaFechaCaducidadObj->format('Y-m-d H:i:s'); // Formato para la base de datos
+            $nuevaFechaCaducidad = $nuevaFechaCaducidadObj->format('Y-m-d H:i:s');
 
-            // 5. Actualizar la venta en la base de datos
-            if (!$this->updateVenta($ventaId, $nuevaFechaCaducidad, 'Activo')) { // Asumimos que la renovación la activa
+            if (!$this->updateVenta($ventaId, $nuevaFechaCaducidad, 'Activo')) {
                 throw new Exception("Error al actualizar el registro de venta.");
             }
 
@@ -137,11 +128,9 @@ class RenovationController
                 }
 
                 $ventaRenovation = new VentaRenovation();
-                // La fecha de renovación podría ser la fecha actual, o podrías pasarla desde el formulario si es necesario.
-                // Aquí usamos la fecha actual del servidor para la lógica de cálculo.
                 $result = $ventaRenovation->renew(
                     $datos['ventaId'],
-                    date('Y-m-d H:i:s') // Fecha actual de renovación
+                    date('Y-m-d H:i:s')
                 );
 
                 echo json_encode($result);
