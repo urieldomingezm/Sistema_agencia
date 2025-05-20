@@ -160,6 +160,7 @@ class Navbar
       'Tomar tiempo' => 'bi bi-stopwatch-fill',
       'Ver mis tiempos' => 'bi bi-clock-history',
       'Ver mis ascensos' => 'bi bi-graph-up-arrow',
+      'Quejas y sugerencias' => 'bi bi-chat-left-text-fill', // Added icon for Quejas y sugerencias
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -185,7 +186,7 @@ class Navbar
 $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
-  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
+  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias']], // Added Quejas y sugerencias
   ['name' => 'Ascensos', 'dropdown' => [ // New main item
     'Gestion ascenso',
     'Ver mis ascensos',
