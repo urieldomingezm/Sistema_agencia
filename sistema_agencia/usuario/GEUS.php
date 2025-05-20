@@ -16,7 +16,7 @@ require_once(MODAL_GESTION_USUARIOS_PACH . 'modal_password.php');
         </div>
         <div class="card-body">
             <div class="justify-content-center">
-                <table id="usuariosTable" class="table table-bordered table-striped table-hover w-100">
+                <table id="usuariosTable" class="table table-bordered table-hover w-100">
                     <thead>
                         <tr class="text-white text-center">
                             <th>ID</th>

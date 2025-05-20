@@ -55,7 +55,7 @@ class GestionTiempos
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab1" role="tabpanel">
-                            <table id="datatable_tiempos" class="table table-bordered table-striped table-hover text-center mb-0">
+                            <table id="datatable_tiempos" class="table table-bordered table-hover text-center mb-0">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Usuario</th>
@@ -110,7 +110,7 @@ class GestionTiempos
                             </table>
                         </div>
                         <div class="tab-pane fade" id="tab3" role="tabpanel">
-                            <table id="datatable_tiempos_completados" class="table table-bordered table-striped table-hover text-center mb-0">
+                            <table id="datatable_tiempos_completados" class="table table-bordered table-hover text-center mb-0">
                                 <thead class="table-light">
                                     <tr>
                                         <th>Usuario</th>
