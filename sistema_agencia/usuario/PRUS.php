@@ -85,15 +85,16 @@ if (isset($pagas) && is_array($pagas)) {
 
 <?php
 function renderSection($title, $items) {
-    $html = '<div class="col"><div class="profile-card glass-effect h-100">';
+    // Añadidas clases 'shadow' y 'border' para hacer las tarjetas más llamativas
+    $html = '<div class="col"><div class="profile-card glass-effect h-100 shadow border">';
     $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h6 mb-0">'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'</h3></div>';
     $html .= '<div class="stats-card p-2">';
 
     foreach ($items as $item) {
         $html .= '<div class="info-item d-flex align-items-center">';
         $html .= '<span class="info-label me-2">'.htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8').'</span>';
-        $html .= isset($item[2]) ? 
-                '<span class="'.htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8').'">'.htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8').'</span>' : 
+        $html .= isset($item[2]) ?
+                '<span class="'.htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8').'">'.htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8').'</span>' :
                 '<span class="info-value">'.htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8').'</span>';
         $html .= '</div>';
     }
