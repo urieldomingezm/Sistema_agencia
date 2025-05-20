@@ -15,36 +15,40 @@ require_once(MODAL_GESTION_USUARIOS_PACH . 'modal_password.php');
             <h5 class="mb-0">Gestión de Usuarios</h5>
         </div>
         <div class="card-body">
-            <table id="usuariosTable" class="table table-striped table-hover">
-                <thead>
-                    <tr class="text-white">
-                        <th>ID</th>
-                        <th>Habbo</th>
-                        <th>Password</th>
-                        <th>Ip</th>
-                        <th>Fecha registro</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($usuarios as $usuario): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($usuario['id']) ?></td>
-                            <td><?= htmlspecialchars($usuario['nombre_habbo']) ?></td>
-                            <td><?= htmlspecialchars(substr($usuario['password_registro'], 0, 10)) ?></td>
-                            <td><?= htmlspecialchars(substr(md5($usuario['ip_registro']), 0, 16)) ?></td>
-                            <td><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
-                            <td>
-                                <div class="d-flex gap-1">
-                                    <button class="btn btn-primary btn-sm rounded-pill" onclick="editarUsuario(<?= $usuario['id'] ?>)">
-                                        Cambiar contraseña
-                                    </button>
-                                </div>
-                            </td>
+            <div class="justify-content-center">
+                <table id="usuariosTable" class="table table-bordered table-striped table-hover w-100">
+                    <thead>
+                        <tr class="text-white text-center">
+                            <th>ID</th>
+                            <th>Habbo</th>
+                            <th>Password</th>
+                            <th>Acciones</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($usuarios as $usuario): ?>
+                            <tr>
+                                <td class="text-center align-middle"><?= htmlspecialchars($usuario['id']) ?></td>
+                                <td class="text-start align-middle">
+                                    <div class="d-flex align-items-center">
+                                        <img loading="lazy" class="me-2" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($usuario['nombre_habbo']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($usuario['nombre_habbo']) ?>" title="<?= htmlspecialchars($usuario['nombre_habbo']) ?>">
+                                        <span><?= htmlspecialchars($usuario['nombre_habbo']) ?></span>
+                                    </div>
+                                </td>
+                                <td class="text-center align-middle"><?= htmlspecialchars(substr($usuario['password_registro'], 0, 20)) ?></td>
+                                <td class="text-center align-middle">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn btn-primary btn-sm rounded-pill" onclick="editarUsuario(<?= $usuario['id'] ?>)">
+                                            Cambiar contraseña
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+                <br>
+            </div>
         </div>
     </div>
 </div>
