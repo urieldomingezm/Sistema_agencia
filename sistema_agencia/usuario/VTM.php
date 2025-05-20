@@ -1,245 +1,121 @@
 <?php
 require_once(GESTION_VENTAS_PATCH . 'mostrar_ventas.php');
-
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'renovar.php');
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'eliminar.php');
+
+// RUTAS DE GESTION DE VENTAS DE RANGOS Y TRASLADOS
+require_once(PROCESO_VENTAS_RANGOS_PACTH . 'mostrar_informacion.php');
+
+
+// Calcular estadísticas de resumen para Ventas de Membresías
+$totalVentas = count($ventas);
+$ventasActivas = 0;
+$ventasCaducadas = 0;
+$totalCreditosMembresias = 0; // Renombrado para claridad
+
+foreach ($ventas as $venta) {
+    if (strtolower($venta['venta_estado']) === 'activo') {
+        $ventasActivas++;
+    } elseif (strtolower($venta['venta_estado']) === 'caducado') {
+        $ventasCaducadas++;
+    }
+    $totalCreditosMembresias += (float) $venta['venta_costo'];
+}
+
+// Calcular estadísticas de resumen para Rangos y Traslados
+$totalRangos = count($rangos);
+$totalCreditosRangos = 0;
+
+foreach ($rangos as $rango) {
+    $totalCreditosRangos += (float) $rango['rangov_costo'];
+}
+
+// Calcular total de créditos general
+$totalCreditosGeneral = $totalCreditosMembresias;
 
 ?>
 
 <div class="container mt-4">
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Gestion de ventas membresias</h5>
-        </div>
-        <div class="card-body">
-        <table id="ventasTable" class="table table-striped table-hover">
-    <thead>
-        <tr class="text-white">
-            <th>ID</th>
-            <th>Membresia</th>
-            <th>Estado</th>
-            <th>Fecha de Compra</th>
-            <th>Fecha de Caducidad</th>
-            <th>Costo</th>
-            <th>Comprador</th>
-            <th>Encargado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($ventas as $venta): ?>
-            <tr>
-                <td><?= htmlspecialchars($venta['venta_id']) ?></td>
-                <td><?= htmlspecialchars($venta['venta_titulo']) ?></td>
-                <td>
-                    <span class="badge <?= strtolower($venta['venta_estado']) === 'activo' ? 'bg-success' : 'bg-danger' ?>">
-                        <?= htmlspecialchars(ucfirst(strtolower($venta['venta_estado']))) ?>
-                    </span>
-                </td>
-                <td><?= htmlspecialchars($venta['venta_compra']) ?></td>
-                <td><?= htmlspecialchars($venta['venta_caducidad']) ?></td>
-                <td><?= htmlspecialchars($venta['venta_costo']) ?></td>
-                <td>
-                    <?php
-                        if ($venta['venta_comprador'] !== null) {
-                            echo htmlspecialchars($venta['nombre_habbo_registrado'] ?: 'Usuario no encontrado');
-                        } else {
-                            echo htmlspecialchars($venta['comprador_externo'] ?: 'No disponible');
-                        }
-                    ?>
-                </td>
-                <td><?= htmlspecialchars($venta['venta_encargado']) ?></td>
-                <td>
-                    <div class="dropdown">
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-success btn-sm" onclick="renovarVenta(<?= $venta['venta_id'] ?>)">
-                                Renovar
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="confirmarEliminarVenta(<?= $venta['venta_id'] ?>)">
-                                Eliminar
-                            </button>
-                        </div>
+    <div class="row g-2">
+        <?php
+        $cards = [
+            ['icon' => 'cart-fill', 'title' => 'Membresías', 'value' => $totalVentas, 'bg' => 'primary'],
+            ['icon' => 'check-circle', 'title' => 'Activas', 'value' => $ventasActivas, 'bg' => 'success'],
+            ['icon' => 'x-circle', 'title' => 'Vencidas', 'value' => $ventasCaducadas, 'bg' => 'danger'],
+            ['icon' => 'currency-dollar', 'title' => 'Créd. Memb.', 'value' => number_format($totalCreditosMembresias, 0, ',', '.'), 'bg' => 'info'],
+        ];
+
+        foreach ($cards as $card): ?>
+            <div class="col-md-3 col-sm-6">
+                <div class="card text-white bg-<?= $card['bg'] ?>">
+                    <div class="card-body p-2">
+                        <i class="bi bi-<?= $card['icon'] ?>"></i>
+                        <span class="h6"><?= $card['title'] ?></span>
+                        <div class="h4 mb-0"><?= $card['value'] ?></div>
                     </div>
-                </td>
-            </tr>
+                </div>
+            </div>
         <?php endforeach; ?>
-    </tbody>
-</table>
+    </div>
+
+    <br>
+
+    <!-- Acordeón para las tablas -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="ventasTable" class="table table-striped table-hover w-100">
+                    <thead>
+                        <tr class="text-white">
+                            <th>Membresia</th>
+                            <th>Estado</th>
+                            <th>Compra</th>
+                            <th>Caducidad</th>
+                            <th>Costo</th>
+                            <th>Comprador</th>
+                            <th>Encargado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($ventas as $venta): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($venta['venta_titulo']) ?></td>
+                                <td>
+                                    <span class="badge <?= strtolower($venta['venta_estado']) === 'activo' ? 'bg-success' : 'bg-danger' ?>">
+                                        <?= htmlspecialchars(ucfirst(strtolower($venta['venta_estado']))) ?>
+                                    </span>
+                                </td>
+                                <td><?= htmlspecialchars($venta['venta_compra']) ?></td>
+                                <td><?= htmlspecialchars($venta['venta_caducidad']) ?></td>
+                                <td><?= htmlspecialchars($venta['venta_costo']) ?></td>
+                                <td>
+                                    <?php
+                                    if ($venta['venta_comprador'] !== null) {
+                                        echo htmlspecialchars($venta['nombre_habbo_registrado'] ?: 'Usuario no encontrado');
+                                    } else {
+                                        echo htmlspecialchars($venta['comprador_externo'] ?: 'No disponible');
+                                    }
+                                    ?>
+                                </td>
+                                <td><?= htmlspecialchars($venta['venta_encargado']) ?></td>
+                                <td>
+                                    <div class="btn-group" role="group">
+                                        <button class="btn btn-success btn-sm" onclick="renovarVenta(<?= $venta['venta_id'] ?>)" title="Renovar">
+                                            <i class="bi bi-arrow-clockwise"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="confirmarEliminarVenta(<?= $venta['venta_id'] ?>)" title="Eliminar">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
-
-
-<script>
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.dropdown')) {
-            document.querySelectorAll('.dropdown-menu.show').forEach(function(menu) {
-                menu.classList.remove('show');
-            });
-        }
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        const dataTable = new simpleDatatables.DataTable("#ventasTable", {
-            searchable: true,
-            fixedHeight: true,
-            perPage: 10,
-            perPageSelect: [10, 25, 50, 100],
-            labels: {
-                placeholder: "Buscar...",
-                perPage: "registros por página",
-                noRows: "No se encontraron registros",
-                info: "Mostrando {start} a {end} de {rows} registros",
-                loading: "Cargando...",
-                infoFiltered: "(filtrado de {rows} registros totales)"
-            }
-        });
-
-        const renovarForm = document.getElementById('renovarVentaForm');
-        if (renovarForm) {
-            renovarForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                procesarRenovacion();
-            });
-        }
-    });
-
-    function renovarVenta(ventaId) {
-        Swal.fire({
-            title: '¿Está seguro?',
-            text: '¿Desea renovar esta membresía?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#28a745',
-            cancelButtonColor: '#dc3545',
-            confirmButtonText: 'Sí, renovar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                procesarRenovacion(ventaId);
-            }
-        });
-    }
-
-    function procesarRenovacion(ventaId) {
-        const rutaRenovar = '/private/modal/modal_gestion_ventas/renovar.php';
-
-        Swal.fire({
-            title: 'Procesando',
-            text: 'Renovando membresía...',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        const formData = new FormData();
-        formData.append('ventaId', ventaId);
-
-        fetch(rutaRenovar, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error en la respuesta del servidor: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Éxito!',
-                    text: data.message
-                }).then(() => {
-                    location.reload();
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message || 'Error al renovar la venta'
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un error al procesar la solicitud: ' + error.message
-            });
-        });
-    }
-
-    function confirmarEliminarVenta(ventaId) {
-        Swal.fire({
-            title: '¿Está seguro?',
-            text: '¡No podrá revertir esto!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#dc3545',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                procesarEliminacion(ventaId);
-            }
-        });
-    }
-
-    function procesarEliminacion(ventaId) {
-        const rutaEliminar = '/private/modal/modal_gestion_ventas/eliminar.php';
-
-        Swal.fire({
-            title: 'Procesando',
-            text: 'Eliminando registro...',
-            allowOutsideClick: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        const formData = new FormData();
-        formData.append('ventaId', ventaId);
-
-        fetch(rutaEliminar, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error en la respuesta del servidor: ' + response.status);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Eliminado!',
-                    text: data.message
-                }).then(() => {
-                    location.reload();
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.message || 'Error al eliminar la venta'
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ocurrió un error al procesar la solicitud: ' + error.message
-            });
-        });
-    }
-
-</script>
+<script src="/public/assets/custom_general/custom_ventas/ventas.js"></script>
