@@ -1,21 +1,18 @@
 <?php
-class Navbar
-{
+class Navbar {
   private $brand;
   private $items;
   private $searchPlaceholder;
   private $searchButtonText;
 
-  public function __construct($brand, $items, $searchPlaceholder = "Buscar", $searchButtonText = "Buscar")
-  {
+  public function __construct($brand, $items, $searchPlaceholder = "Buscar", $searchButtonText = "Buscar") {
     $this->brand = $brand;
     $this->items = $items;
     $this->searchPlaceholder = $searchPlaceholder;
     $this->searchButtonText = $searchButtonText;
   }
 
-  public function render()
-  {
+  public function render() {
 ?>
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
@@ -25,12 +22,11 @@ class Navbar
         </a>
 
         <div class="d-flex align-items-center">
-          <!-- Notification Dropdown -->
           <div class="dropdown me-2">
             <button class="btn btn-outline-light position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-bell-fill"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                3 <!-- Número de notificaciones, esto debería ser dinámico -->
+                3
                 <span class="visually-hidden">unread notifications</span>
               </span>
             </button>
@@ -41,7 +37,6 @@ class Navbar
             </ul>
           </div>
 
-          <!-- User Dropdown -->
           <div class="dropdown me-3">
             <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle me-1"></i>
@@ -84,7 +79,6 @@ class Navbar
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
               <?php
-              // Define los elementos del menú que están en mantenimiento
               $maintenanceItems = ['Dar ascenso', 'Gestion ascenso'];
               ?>
               <?php foreach ($this->items as $index => $item): ?>
@@ -115,7 +109,6 @@ class Navbar
                                     <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
                                     <?= $dropdownItem ?>
                                     <?php
-                                    // Añadir badge si el elemento está en mantenimiento
                                     if (in_array($dropdownItem, $maintenanceItems)) {
                                       echo ' <span class="badge bg-warning text-dark ms-1">Mantenimiento</span>';
                                     }
@@ -158,24 +151,22 @@ class Navbar
 <?php
   }
 
-  private function getMenuIcon($itemName)
-  {
+  private function getMenuIcon($itemName) {
     $icons = [
       'Inicio' => 'bi bi-house-door-fill',
-      'Perfil' => 'bi bi-person-fill',
+      'Perfil' => 'bi bi-person-fill', 
       'Informacion' => 'bi bi-info-circle-fill',
-      'Ascensos' => 'bi bi-arrow-up-circle-fill', // Changed from Ascenso
-      'Tiempos' => 'bi bi-clock-fill', // New item for Tiempos
+      'Ascensos' => 'bi bi-arrow-up-circle-fill',
+      'Tiempos' => 'bi bi-clock-fill',
       'Ventas' => 'bi bi-cart-fill',
-      'Paga' => 'bi bi-wallet2', // Changed from Paga
+      'Paga' => 'bi bi-wallet2',
       'Gestion de usuarios' => 'bi bi-people-fill',
       'Rangos' => 'bi bi-award-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
 
-  private function getDropdownIcon($itemName)
-  {
+  private function getDropdownIcon($itemName) {
     $icons = [
       'Ver perfil' => 'bi bi-person-circle',
       'Cerrar session' => 'bi bi-box-arrow-right',
@@ -186,7 +177,7 @@ class Navbar
       'Ventas membresias' => 'bi bi-person-badge-fill',
       'Gestion de pagas' => 'bi bi-wallet2',
       'Grafico total de pagas' => 'bi bi-pie-chart-fill',
-      'Cumplimiento de pagas' => 'bi bi-check-circle-fill', // Icono para Cumplimiento de pagas
+      'Cumplimiento de pagas' => 'bi bi-check-circle-fill',
       'Gestionar usuarios' => 'bi bi-gear-fill',
       'Vender membresias' => 'bi bi-tags-fill',
       'Vender rangos' => 'bi bi-award-fill',
@@ -194,15 +185,14 @@ class Navbar
       'Dar ascenso' => 'bi bi-arrow-up-square-fill',
       'Tomar tiempo' => 'bi bi-stopwatch-fill',
       'Modificar usuario' => 'bi bi-pencil-square',
-      'Ver mis tiempos' => 'bi bi-clock-history', // Added icon for Ver mis tiempos
-      'Ver mis ascensos' => 'bi bi-graph-up', // Added icon for Ver mis ascensos
-      'Quejas y sugerencias' => 'bi bi-chat-left-text-fill', // Icono para Quejas y sugerencias
+      'Ver mis tiempos' => 'bi bi-clock-history',
+      'Ver mis ascensos' => 'bi bi-graph-up',
+      'Quejas y sugerencias' => 'bi bi-chat-left-text-fill',
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
 
-  private function getItemUrl($item)
-  {
+  private function getItemUrl($item) {
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
@@ -211,7 +201,7 @@ class Navbar
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#venta_rangos',
       'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#editar_usuario',
-      'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias', // Added for modal
+      'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias',
     ];
 
     if (isset($modalItems[$item])) {
@@ -225,15 +215,15 @@ class Navbar
 $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
-  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias']], // Añadido Quejas y sugerencias
-  ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios', 'Modificar usuario']], // Moved up
-  ['name' => 'Ascensos', 'dropdown' => [ // Renamed and reorganized
+  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias']],
+  ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios', 'Modificar usuario']],
+  ['name' => 'Ascensos', 'dropdown' => [
     'Gestion ascenso',
     'Ver mis ascensos',
     'divider',
     'Dar ascenso'
   ]],
-  ['name' => 'Tiempos', 'dropdown' => [ // New item for Tiempos
+  ['name' => 'Tiempos', 'dropdown' => [
     'Gestion de tiempo',
     'Ver mis tiempos',
     'divider',
@@ -246,7 +236,7 @@ $items = [
     'Vender membresias',
     'Vender rangos'
   ]],
-  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Cumplimiento de pagas']], // Añadido Cumplimiento de pagas
+  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Cumplimiento de pagas']],
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);
@@ -376,16 +366,9 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
       }
     });
 
-    // Script para ocultar el badge de notificación al abrir el dropdown
-    $('#notificationDropdown').on('show.bs.dropdown', function () {
-      // Encuentra el badge dentro del botón y lo oculta
+    $('#notificationDropdown').on('click', function () {
       $(this).find('.badge').hide();
-      // Opcional: Aquí podrías añadir lógica para marcar las notificaciones como leídas en el backend
     });
-
-    // Script para mostrar el badge de nuevo si hay nuevas notificaciones (esto requeriría lógica adicional)
-    // Por ahora, simplemente lo ocultamos al abrir. Si necesitas que vuelva a aparecer
-    // con un nuevo número, necesitarás una llamada AJAX o similar para actualizarlo.
 
   });
 </script>
