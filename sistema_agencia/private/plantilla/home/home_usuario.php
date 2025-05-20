@@ -105,7 +105,10 @@ class BodyHome {
                             <div class="col-12 col-sm-6 col-md-4 mb-4">
                                 <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.1); height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                                     <i class="bi bi-trophy-fill" style="font-size: 3rem; color: <?= $user['icon_color'] ?>; margin-bottom: 15px;"></i>
-                                    <h3 style="color: #333; font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 5px;"><?= htmlspecialchars($user['name']) ?></h3>
+                                    <div class="d-flex flex-column align-items-center mb-3">
+                                        <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" title="<?= htmlspecialchars($user['name']) ?>" style="width: 50px; height: 50px; margin-bottom: 5px;">
+                                        <h3 style="color: #333; font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 0;"><?= htmlspecialchars($user['name']) ?></h3>
+                                    </div>
                                     <p style="color: #555; font-size: clamp(0.9rem, 2.5vw, 1.1rem); margin-bottom: 10px;"><?= htmlspecialchars($user['rank']) ?></p>
                                     <span style="background: #2541b2; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: clamp(0.8rem, 2vw, 1rem);"><?= htmlspecialchars($user['score']) ?> Acciones (Ascensos + Tiempos)</span>
                                 </div>
