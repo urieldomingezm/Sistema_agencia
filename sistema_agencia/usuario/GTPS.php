@@ -3,6 +3,7 @@
 // RUTAS DE GESTION DE PAGAS
 require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php'); // MOSTRAR USUARIOS
 require_once(GESTION_PAGAS_PATCH . 'mostrar_requisitos.php'); // MOSTRAR REQUISITOS
+require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
 ?>
 
 <div class="container py-4">
@@ -57,9 +58,11 @@ require_once(GESTION_PAGAS_PATCH . 'mostrar_requisitos.php'); // MOSTRAR REQUISI
                     .nav-link.active {
                         opacity: 1 !important;
                     }
+
                     .nav-link:not(.active) {
                         opacity: 0.6 !important;
                     }
+
                     .nav-link:hover {
                         opacity: 0.8 !important;
                     }
@@ -101,40 +104,53 @@ require_once(GESTION_PAGAS_PATCH . 'mostrar_requisitos.php'); // MOSTRAR REQUISI
 
                     <!-- Tab para Requisitos -->
                     <div class="tab-pane fade" id="requisitos-tab-pane" role="tabpanel" aria-labelledby="requisitos-tab">
-                        <table id="requisitosTable" class="table table-bordered table-striped table-hover text-center mb-0">
-                            <thead class="table-info">
+                        <table id="cumplimientosTable" class="table table-bordered table-striped table-hover text-center mb-0">
+                            <thead>
                                 <tr>
+                                    <th>ID</th>
                                     <th>Usuario</th>
-                                    <th>Requisito</th> <!-- Añadida columna para el nombre del requisito -->
-                                    <th>Estado</th>
-                                    <th>Aprobar</th> <!-- Nombre de columna ajustado a "Aprobar" -->
+                                    <th>Requisitos</th>
+                                    <th>Tiempos</th>
+                                    <th>Ascensos</th>
+                                    <th>Estatus</th>
+                                    <th>Última Actualización</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                if (!empty($requisitos)) {
-                                    foreach ($requisitos as $requisito) {
-                                        // Determinar el texto y la clase del badge basado en is_completed
-                                        $status_text = $requisito['is_completed'] ? 'Completado' : 'Pendiente';
-                                        $status_class = $requisito['is_completed'] ? 'bg-success' : 'bg-danger';
+                                if (!empty($GLOBALS['cumplimientos']) && is_array($GLOBALS['cumplimientos'])):
+                                    foreach ($GLOBALS['cumplimientos'] as $cumplimiento):
                                 ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars($cumplimiento['id']) ?></td>
+                                            <td><?= htmlspecialchars($cumplimiento['user']) ?></td>
+                                            <td><?= !empty($cumplimiento['requirement_name']) ? htmlspecialchars($cumplimiento['requirement_name']) : 'no disponible' ?></td>
+                                            <td><?= htmlspecialchars($cumplimiento['times_as_encargado_count']) ?></td>
+                                            <td><?= htmlspecialchars($cumplimiento['ascensos_as_encargado_count']) ?></td>
+                                            <td>
+                                                <span class="badge <?= $cumplimiento['is_completed'] ? 'bg-success' : 'bg-warning' ?>">
+                                                    <?= $cumplimiento['is_completed'] ? 'Completado' : 'En espera' ?>
+                                                </span>
+                                            </td>
+                                            <td><?= htmlspecialchars($cumplimiento['last_updated']) ?></td>
+                                            <td>
+                                                <button class="btn btn-success btn-sm btn-completo" data-id="<?= htmlspecialchars($cumplimiento['id']) ?>">
+                                                    <i class="fas fa-check"></i> Completo
+                                                </button>
+                                                <button class="btn btn-warning btn-sm btn-no-completo" data-id="<?= htmlspecialchars($cumplimiento['id']) ?>">
+                                                    <i class="fas fa-times"></i> No completo
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    endforeach;
+                                else:
+                                    ?>
                                     <tr>
-                                        <td><?php echo htmlspecialchars($requisito['user_codigo_time']); ?></td>
-                                        <td><?php echo htmlspecialchars($requisito['requirement_name']); ?></td>
-                                        <td>
-                                            <span class="badge <?php echo $status_class; ?>">
-                                                <?php echo $status_text; ?>
-                                            </span>
-                                        </td>
-                                        <td><?php echo htmlspecialchars(explode(' ', $requisito['last_updated'])[0]); ?></td>
-                                        <!-- Añadir más celdas según las columnas -->
+                                        <td colspan="8" class="text-center">No hay datos de cumplimiento disponibles.</td>
                                     </tr>
-                                <?php
-                                    }
-                                } else {
-                                    echo '<tr><td colspan="4" class="text-center">No hay registros de requisitos pendientes disponibles</td></tr>';
-                                }
-                                ?>
+                                <?php endif; ?>
                             </tbody>
                         </table>
                     </div>
@@ -145,45 +161,4 @@ require_once(GESTION_PAGAS_PATCH . 'mostrar_requisitos.php'); // MOSTRAR REQUISI
 
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Inicializar DataTable para la tabla de Pagos
-        const pagasDataTable = new simpleDatatables.DataTable("#pagasTable", {
-            searchable: true,
-            fixedHeight: true,
-            labels: {
-                placeholder: "Buscar...",
-                perPage: "Registros por página",
-                noRows: "No hay registros",
-                info: "Mostrando {start} a {end} de {rows} registros",
-            }
-        });
-
-        // Inicializar DataTable para la tabla de Requisitos
-        // Asegúrate de que esta tabla solo se inicialice cuando su tab esté activo o visible si es necesario,
-        // o simpleDatatables puede manejar elementos ocultos.
-        const requisitosDataTable = new simpleDatatables.DataTable("#requisitosTable", {
-            searchable: true,
-            fixedHeight: true,
-            labels: {
-                placeholder: "Buscar...",
-                perPage: "Registros por página",
-                noRows: "No hay registros",
-                info: "Mostrando {start} a {end} de {rows} registros",
-            }
-        });
-
-        // Opcional: Lógica para re-inicializar o ajustar DataTables al cambiar de pestaña si simpleDatatables tiene problemas con elementos ocultos.
-        // Esto puede no ser necesario dependiendo de la versión de simpleDatatables y Bootstrap.
-        // var myTabs = document.querySelectorAll('#myTab button')
-        // myTabs.forEach(function (tab) {
-        //   tab.addEventListener('shown.bs.tab', function (event) {
-        //     // event.target // newly activated tab
-        //     // event.relatedTarget // previous active tab
-        //     // Si es necesario, puedes llamar a resize() o similar en la instancia de DataTable
-        //     // pagasDataTable.resize();
-        //     // requisitosDataTable.resize();
-        //   })
-        // })
-    });
-</script>
+<script src="/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js"></script>
