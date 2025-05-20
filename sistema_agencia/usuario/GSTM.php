@@ -146,7 +146,10 @@ class GestionTiempos
         $status = $this->getStatusBadge($tiempo['tiempo_status']);
 
         return '<tr>
-            <td>' . $tiempo['habbo_name'] . '</td>
+            <td>
+                <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($tiempo['habbo_name']) . '&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="' . htmlspecialchars($tiempo['habbo_name']) . '" title="' . htmlspecialchars($tiempo['habbo_name']) . '">
+                ' . htmlspecialchars($tiempo['habbo_name']) . '
+            </td>
             <td>' . $status . '</td>
             <td>' . $tiempo['tiempo_restado'] . '</td>
             <td>' . $tiempo['tiempo_acumulado'] . '</td>
