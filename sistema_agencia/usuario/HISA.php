@@ -4,9 +4,9 @@ class HistorialAscensos
 {
     private $totalAscensos;
     private $ascensosPorRango;
-    private $ascensosPorSemana; // Mantener la variable, aunque ahora solo contendrá un valor
+    private $ascensosPorSemana;
     private $errorMessage;
-    public $ascensosEstaSemana; // Nueva variable para el conteo semanal - Cambiado a public
+    public $ascensosEstaSemana;
 
     public function __construct()
     {
@@ -25,14 +25,13 @@ class HistorialAscensos
         if (isset($jsonData['success']) && $jsonData['success']) {
             $this->totalAscensos = $jsonData['totalAscensos'] ?? 0;
             $this->ascensosPorRango = $jsonData['ascensosPorRango'] ?? [];
-            // Ahora ascensosPorSemana no se usa para la lista, usamos la nueva variable
             $this->ascensosEstaSemana = $jsonData['ascensosEstaSemana'] ?? 0;
             $this->errorMessage = null;
         } else {
             $this->totalAscensos = 0;
             $this->ascensosPorRango = [];
-            $this->ascensosPorSemana = []; // Mantener inicializada
-            $this->ascensosEstaSemana = 0; // Inicializar nueva variable
+            $this->ascensosPorSemana = [];
+            $this->ascensosEstaSemana = 0;
             $this->errorMessage = $jsonData['message'] ?? 'Error desconocido al cargar los datos del dashboard.';
         }
     }
@@ -51,7 +50,6 @@ class HistorialAscensos
         } else {
             $html .= '<div class="row">';
 
-            // Tarjeta de Conteo Total (Color primario como en HIST.php)
             $html .= '<div class="col-md-4 mb-3">
                         <div class="card text-center bg-primary text-white">
                             <div class="card-body">
@@ -61,7 +59,6 @@ class HistorialAscensos
                         </div>
                     </div>';
 
-            // Tarjeta de Ascensos por Rango (Color info como en HIST.php)
             $html .= '<div class="col-md-4 mb-3">
                         <div class="card text-center bg-info text-white">
                             <div class="card-body">
@@ -82,8 +79,6 @@ class HistorialAscensos
                         </div>
                     </div>';
 
-            // Tarjeta de Ascensos por Semana (Color success como en HIST.php)
-            // Modificada para mostrar solo el conteo de la semana actual
             $html .= '<div class="col-md-4 mb-3">
                         <div class="card text-center bg-success text-white">
                             <div class="card-body">
@@ -95,10 +90,9 @@ class HistorialAscensos
 
             $html .= '</div>';
 
-            // Botón para registrar ascensos semanales
-            $html .= '<div class="text-center mt-4">'; // Añadir margen superior
-            $html .= '<button type="button" class="btn btn-primary" id="btnRegistrarAscensoSemanal">'; // Añadido ID
-            $html .= 'Registrar mis ascensos hechos de esta semana'; // Texto del botón
+            $html .= '<div class="text-center mt-4">';
+            $html .= '<button type="button" class="btn btn-primary" id="btnRegistrarAscensoSemanal">';
+            $html .= 'Registrar mis ascensos hechos de esta semana';
             $html .= '</button>';
             $html .= '</div>';
         }
@@ -126,10 +120,10 @@ class HistorialAscensos
     }
 }
 
-ob_start(); // Iniciar buffer de salida
+ob_start();
 
 $historialAscensos = new HistorialAscensos();
-$weeklyAscensosCount = $historialAscensos->ascensosEstaSemana; // Obtener el conteo semanal
+$weeklyAscensosCount = $historialAscensos->ascensosEstaSemana;
 echo $historialAscensos->render();
 
 ?>
@@ -137,12 +131,10 @@ echo $historialAscensos->render();
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const btnRegistrarAscenso = document.getElementById('btnRegistrarAscensoSemanal');
-    // Pasar el conteo semanal de PHP a JavaScript
     const weeklyAscensosCount = <?php echo json_encode($weeklyAscensosCount); ?>;
 
     if (btnRegistrarAscenso) {
         btnRegistrarAscenso.addEventListener('click', function() {
-            // Verificar si el conteo semanal es cero
             if (weeklyAscensosCount === 0) {
                 Swal.fire({
                     title: 'Sin Ascensos Registrados',
@@ -150,24 +142,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     icon: 'info',
                     confirmButtonText: 'Entendido'
                 });
-                return; // Detener el proceso si el conteo es cero
+                return;
             }
 
             Swal.fire({
                 title: 'Confirmar Registro de Ascensos Semanales',
-                text: `¿Deseas registrar tus ${weeklyAscensosCount} ascensos realizados esta semana?`, // Usar el conteo semanal
+                text: `¿Deseas registrar tus ${weeklyAscensosCount} ascensos realizados esta semana?`,
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonText: 'Sí, Registrar',
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Construir el nombre del requisito automáticamente
-                    // Añadir un parámetro 'type' para indicar que es un registro de ascensos
                     const requirementName = `${weeklyAscensosCount} ascensos realizados esta semana`;
-                    const type = 'ascensos'; // Nuevo parámetro para identificar el tipo
+                    const type = 'ascensos';
 
-                    // Mostrar SweetAlert de carga
                     Swal.fire({
                         title: 'Registrando...',
                         allowOutsideClick: false,
@@ -176,26 +165,22 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     });
 
-                    // Enviar datos al script PHP usando Fetch
                     fetch('/private/procesos/gestion_cumplimientos/registrar_requisitos.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        // Incluir el nuevo parámetro 'type'
                         body: 'requirement_name=' + encodeURIComponent(requirementName) + '&type=' + encodeURIComponent(type)
                     })
                     .then(response => response.json())
                     .then(data => {
-                        Swal.close(); // Cerrar SweetAlert de carga
+                        Swal.close();
                         if (data.success) {
                             Swal.fire(
                                 '¡Registrado!',
                                 data.message,
                                 'success'
                             );
-                            // Opcional: Recargar la página o actualizar el dashboard si es necesario
-                            // location.reload();
                         } else {
                             Swal.fire(
                                 'Error',
@@ -205,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     })
                     .catch((error) => {
-                        Swal.close(); // Cerrar SweetAlert de carga
+                        Swal.close();
                         console.error('Error:', error);
                         Swal.fire(
                             'Error',
