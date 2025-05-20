@@ -31,7 +31,6 @@ require_once(MODAL_GESTION_USUARIOS_PACH . 'modal_password.php');
                             <td><?= htmlspecialchars($usuario['id']) ?></td>
                             <td class="align-middle">
                                 <div class="d-flex align-items-center">
-                                    <img loading="lazy" class="me-2" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($usuario['nombre_habbo']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($usuario['nombre_habbo']) ?>" title="<?= htmlspecialchars($usuario['nombre_habbo']) ?>">
                                     <span><?= htmlspecialchars($usuario['nombre_habbo']) ?></span>
                                 </div>
                             </td>
