@@ -1,6 +1,6 @@
 ## 🚀 Sistema de Gestión de Agencia
 
-Este proyecto es un **sistema de gestión web** diseñado para una agencia, que permite administrar:
+Este proyecto es un **sistema de gestión web** diseñado para una agencias de habbo, que permite administrar:
 👤 Usuarios | ⏱️ Tiempos | 📈 Ascensos | 💰 Ventas | 📋 Requisitos semanales
 
 ## 🛠️ Tecnologías y Herramientas Utilizadas
