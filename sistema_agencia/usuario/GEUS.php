@@ -32,7 +32,7 @@ require_once(MODAL_GESTION_USUARIOS_PACH . 'modal_password.php');
                                 <td class="text-start align-middle">
                                     <div class="d-flex align-items-center">
                                         <img loading="lazy" class="me-2" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($usuario['nombre_habbo']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($usuario['nombre_habbo']) ?>" title="<?= htmlspecialchars($usuario['nombre_habbo']) ?>">
-                                        <span><?= htmlspecialchars($usuario['nombre_habbo']) ?></span>
+                                        <span style="word-break: break-word;"><?= htmlspecialchars($usuario['nombre_habbo']) ?></span>
                                     </div>
                                 </td>
                                 <td class="text-center align-middle"><?= htmlspecialchars(substr($usuario['password_registro'], 0, 20)) ?></td>
