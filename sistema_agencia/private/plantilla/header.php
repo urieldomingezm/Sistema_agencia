@@ -100,6 +100,9 @@ class Header
         // BOOSTRAP ICONS
         echo '<link id="icons-css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">'; // Referencia a Bootstrap Icons CSS CDN
 
+        // Tailwind CSS CDN (Añadido según solicitud)
+        echo '<script src="https://cdn.tailwindcss.com"></script>';
+
         // Enlaces de precarga (Añadir este bucle)
         foreach ($this->preloadLinks as $link) {
             echo $link;
@@ -121,7 +124,7 @@ class Header
                 if (!element || element.sheet === null) {
                     console.warn("CDN no disponible, cargando desde local:", fallbackUrl);
                     var newElement;
-                    
+
                     if (id.includes("-js")) {
                         newElement = document.createElement("script");
                         newElement.src = fallbackUrl;
