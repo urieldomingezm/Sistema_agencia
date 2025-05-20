@@ -29,7 +29,7 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php'); // Este sc
                             <tr>
                                 <td><?= htmlspecialchars($cumplimiento['id']) ?></td>
                                 <td><?= htmlspecialchars($cumplimiento['user']) ?></td>
-                                <td><?= !empty($cumplimiento['requirement_name']) ? htmlspecialchars($cumplimiento['requirement_name']) : 'Aún no disponible' ?></td>
+                                <td><?= !empty($cumplimiento['requirement_name']) ? htmlspecialchars($cumplimiento['requirement_name']) : 'no disponible' ?></td>
                                 <td><?= htmlspecialchars($cumplimiento['times_as_encargado_count']) ?></td>
                                 <td><?= htmlspecialchars($cumplimiento['ascensos_as_encargado_count']) ?></td>
                                 <td>
