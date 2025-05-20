@@ -44,6 +44,7 @@ define('MODAL_GESTION_VENTAS_RANGOS_PACH', PRIVATE_PATH . 'modal/modal_venta_ran
 define('MODAL_MODIFICAR_USUARIO_PACH', PRIVATE_PATH . 'modal/modal_modificar_usuarios/');
 define('MODAL_AYUDA_TIEMPO_PACH', PRIVATE_PATH . 'modal/modal_ayuda/');
 
+
 // Menu and User Rank Paths
 define('MENU_PATH', PRIVATE_PATH . 'menus/');
 define('RANGOS_PATH', ROOT_PATH . 'usuario/rangos/');

@@ -155,6 +155,7 @@ class Navbar
     {
         $modalItems = [
             'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
+            'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias', // Added for modal
         ];
 
         if (isset($modalItems[$item])) {
@@ -235,4 +236,5 @@ $(document).ready(function() {
 
 <?php
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
+require_once(MODALES_MENU_PATH . 'modal_quejas.php');
 ?>

@@ -174,7 +174,8 @@ class Navbar
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
       'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
-      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal'
+      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal',
+      'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias', // Added for modal
     ];
 
     if (isset($modalItems[$item])) {
@@ -272,4 +273,5 @@ $(document).ready(function() {
 
 <?php
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
+require_once(MODALES_MENU_PATH . 'modal_quejas.php');
 require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');

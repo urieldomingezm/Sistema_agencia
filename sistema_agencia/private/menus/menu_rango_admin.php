@@ -194,6 +194,7 @@ class Navbar
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#venta_rangos',
       'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#editar_usuario',
+      'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias', // Added for modal
     ];
 
     if (isset($modalItems[$item])) {
@@ -298,6 +299,7 @@ require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');
 require_once(DAR_TIEMPO_PATCH . 'dar_tiempo.php');
 echo "<!-- Separador -->";
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
+require_once(MODALES_MENU_PATH . 'modal_quejas.php');
 require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
 echo "<!-- Separador -->";
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
