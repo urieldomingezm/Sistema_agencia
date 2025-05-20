@@ -35,10 +35,13 @@ if (isset($pagas) && is_array($pagas)) {
                      class="rounded-circle shadow border border-3 border-white" 
                      alt="Profile Avatar" 
                      style="width: 100%; height: 100%; object-fit: cover;">
-                <div class="status-badge pulse" style="width: 12px; height: 12px;"></div>
             </div>
             <div>
-                <h1 class="h4 fw-bold text-white text-shadow mb-0"><?php echo htmlspecialchars($userData['username'] ?? '', ENT_QUOTES, 'UTF-8'); ?></h1>
+                <h1 class="h4 fw-bold text-white text-shadow mb-0 d-flex align-items-center">
+                    <?php echo htmlspecialchars($userData['username'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
+                    <span class="badge bg-success ms-2">Activo</span> 
+                    <!-- Para "Inactivo" podrías usar: <span class="badge bg-secondary ms-2">Inactivo</span> -->
+                </h1>
                 <small class="text-white-50"><?php echo htmlspecialchars($userData['role'] ?? '', ENT_QUOTES, 'UTF-8'); ?></small>
             </div>
         </div>
