@@ -25,6 +25,23 @@ class Navbar
         </a>
 
         <div class="d-flex align-items-center">
+          <!-- Notification Dropdown -->
+          <div class="dropdown me-2">
+            <button class="btn btn-outline-light position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-bell-fill"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                3 <!-- Número de notificaciones, esto debería ser dinámico -->
+                <span class="visually-hidden">unread notifications</span>
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="notificationDropdown">
+              <li><a class="dropdown-item" href="#">Notificación 1</a></li>
+              <li><a class="dropdown-item" href="#">Notificación 2</a></li>
+              <li><a class="dropdown-item" href="#">Notificación 3</a></li>
+            </ul>
+          </div>
+
+          <!-- User Dropdown -->
           <div class="dropdown me-3">
             <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle me-1"></i>

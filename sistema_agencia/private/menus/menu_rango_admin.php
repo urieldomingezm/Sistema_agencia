@@ -25,6 +25,23 @@ class Navbar
         </a>
 
         <div class="d-flex align-items-center">
+          <!-- Notification Dropdown -->
+          <div class="dropdown me-2">
+            <button class="btn btn-outline-light position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-bell-fill"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                3 <!-- Número de notificaciones, esto debería ser dinámico -->
+                <span class="visually-hidden">unread notifications</span>
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="notificationDropdown">
+              <li><a class="dropdown-item" href="#">Notificación 1</a></li>
+              <li><a class="dropdown-item" href="#">Notificación 2</a></li>
+              <li><a class="dropdown-item" href="#">Notificación 3</a></li>
+            </ul>
+          </div>
+
+          <!-- User Dropdown -->
           <div class="dropdown me-3">
             <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle me-1"></i>
@@ -303,3 +320,72 @@ require_once(MODALES_MENU_PATH . 'modal_quejas.php');
 require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
 echo "<!-- Separador -->";
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
+?>
+
+<script>
+  $(document).ready(function() {
+    $('#modificar_usuario, #dar_ascenso').on('hidden.bs.modal', function() {
+      $(this).find('form').trigger('reset');
+
+      if ($(this).find('.step').length > 0) {
+        $(this).find('.step').addClass('d-none');
+        $(this).find('.step:first').removeClass('d-none');
+      }
+
+      $(this).find('.progress-bar').css('width', '0%');
+      $(this).find('button[id$="Btn"]').prop('disabled', false);
+      $(this).find('button[id="submitBtn"]').addClass('d-none');
+      $(this).find('button[id="nextBtn"]').removeClass('d-none');
+      $(this).find('#resultadoBusqueda').html('');
+
+      if (typeof currentStep !== 'undefined') {
+        currentStep = 1;
+      }
+
+      setTimeout(function() {
+        $(document).trigger('modal_reset');
+      }, 100);
+    });
+
+    $('.modal').on('show.bs.modal', function(e) {
+      var currentModalId = $(this).attr('id');
+
+      $('.modal').not(this).each(function() {
+        if ($(this).hasClass('show')) {
+          var modalInstance = bootstrap.Modal.getInstance(this);
+          if (modalInstance) {
+            modalInstance.hide();
+          }
+        }
+      });
+
+      window.activeModal = currentModalId;
+    });
+
+    $('[data-bs-toggle="modal"]').on('click', function(e) {
+      var targetModal = $(this).data('bs-target').replace('#', '');
+
+      if (window.activeModal && window.activeModal !== targetModal) {
+        var modalElement = document.getElementById(window.activeModal);
+        if (modalElement) {
+          var modalInstance = bootstrap.Modal.getInstance(modalElement);
+          if (modalInstance) {
+            modalInstance.hide();
+          }
+        }
+      }
+    });
+
+    // Script para ocultar el badge de notificación al abrir el dropdown
+    $('#notificationDropdown').on('show.bs.dropdown', function () {
+      // Encuentra el badge dentro del botón y lo oculta
+      $(this).find('.badge').hide();
+      // Opcional: Aquí podrías añadir lógica para marcar las notificaciones como leídas en el backend
+    });
+
+    // Script para mostrar el badge de nuevo si hay nuevas notificaciones (esto requeriría lógica adicional)
+    // Por ahora, simplemente lo ocultamos al abrir. Si necesitas que vuelva a aparecer
+    // con un nuevo número, necesitarás una llamada AJAX o similar para actualizarlo.
+
+  });
+</script>
