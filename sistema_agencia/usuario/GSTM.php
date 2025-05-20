@@ -149,7 +149,7 @@ class GestionTiempos
             <td class="text-start align-middle">
                 <div class="d-flex align-items-center">
                     <img loading="lazy" class="me-2" src="https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($tiempo['habbo_name']) . '&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="' . htmlspecialchars($tiempo['habbo_name']) . '" title="' . htmlspecialchars($tiempo['habbo_name']) . '">
-                    <span>' . htmlspecialchars($tiempo['habbo_name']) . '</span>
+                    <span style="word-break: break-word;">' . htmlspecialchars($tiempo['habbo_name']) . '</span>
                 </div>
             </td>
             <td class="text-center align-middle">' . $status . '</td>
