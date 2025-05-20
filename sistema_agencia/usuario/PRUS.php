@@ -1,10 +1,8 @@
-<!-- PROCESO DE VER PERFIL -->
 <?php
 require_once(VER_PERFIL_PATCH . 'ver_perfil.php');
-require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php'); // MOSTRAR USUARIOS
+require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php');
 $userProfile = new UserProfile();
 $userData = $userProfile->getUserData();
-
 
 $pagaUsuario = null;
 
@@ -18,16 +16,16 @@ if (isset($pagas) && is_array($pagas)) {
 }
 ?>
 
-<div class="profile-header py-4 position-relative overflow-hidden"> <!-- Increased padding -->
+<div class="profile-header py-4 position-relative overflow-hidden">
     <div class="background-pattern"></div>
     <div class="container position-relative">
         <div class="d-flex align-items-center">
-            <div class="avatar-container me-3" style="width: 60px; height: 60px;"> <!-- Slightly larger avatar -->
-                <img src="<?php echo $userData['avatar']; ?>" class="rounded-circle shadow border border-3 border-white" alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover;"> <!-- Thicker border -->
-                <div class="status-badge pulse" style="width: 12px; height: 12px;"></div> <!-- Slightly larger badge -->
+            <div class="avatar-container me-3" style="width: 60px; height: 60px;">
+                <img src="<?php echo $userData['avatar']; ?>" class="rounded-circle shadow border border-3 border-white" alt="Profile Avatar" style="width: 100%; height: 100%; object-fit: cover;">
+                <div class="status-badge pulse" style="width: 12px; height: 12px;"></div>
             </div>
             <div>
-                <h1 class="h4 fw-bold text-white text-shadow mb-0"><?php echo $userData['username']; ?></h1> <!-- Adjusted font size -->
+                <h1 class="h4 fw-bold text-white text-shadow mb-0"><?php echo $userData['username']; ?></h1>
                 <small class="text-white-50"><?php echo $userData['role']; ?></small>
             </div>
         </div>
@@ -42,13 +40,13 @@ if (isset($pagas) && is_array($pagas)) {
                 ['Usuario', $userData['username']],
                 ['Código', $userData['codigo']],
                 ['Rango', $userData['role'], 'badge-custom'],
-                ['Membresia', $userData['role'], 'badge-custom'] // Assuming role is used for membership status
+                ['Membresia', $userData['role'], 'badge-custom']
             ],
             'Requisitos pago' => [
-                ['Pago Pendiente', '30'], // Placeholder value
-                ['Estado de sus requisitos', 'Pendiente', 'badge bg-warning text-dark'], // Placeholder value
-                ['Recibio pago', 'No', 'badge bg-danger text-white'], // Placeholder value
-                ['Estado de Requisitos', 'Pendiente', 'badge bg-warning text-dark'] // Placeholder value
+                ['Pago Pendiente', '30'],
+                ['Estado de sus requisitos', 'Pendiente', 'badge bg-warning text-dark'],
+                ['Recibio pago', 'No', 'badge bg-danger text-white'],
+                ['Estado de Requisitos', 'Pendiente', 'badge bg-warning text-dark']
             ],
             'Tiempo de paga' => [
                 ['Tiempo Acumulado', $userData['tiempo_acumulado']],
@@ -74,7 +72,7 @@ if (isset($pagas) && is_array($pagas)) {
 <?php
 function renderSection($title, $items) {
     $html = '<div class="col"><div class="profile-card glass-effect h-100">';
-    $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h6 mb-0">'.$title.'</h3></div>'; // Adjusted font size
+    $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h6 mb-0">'.$title.'</h3></div>';
     $html .= '<div class="stats-card p-2">';
 
     foreach ($items as $item) {
@@ -100,16 +98,8 @@ function getStatusColor($status) {
 function formatEstimatedTime($time) {
     if (empty($time)) return 'No disponible';
 
-    // Assuming $time is already in 'd/m/Y H:i' format from the database query
-    // If it's a database timestamp, you might need:
-    // $date = new DateTime($time);
-    // $minutes = $date->format('i');
-    // $seconds = $date->format('s');
-
-    // If it's already 'd/m/Y H:i' string:
     $date = DateTime::createFromFormat('d/m/Y H:i', $time);
     if (!$date) {
-         // Fallback if format is different, try common database timestamp format
          $date = new DateTime($time);
          if (!$date) return 'Formato de fecha inválido';
     }
@@ -128,10 +118,8 @@ function formatEstimatedTime($time) {
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Removed the initial SweetAlert2 message as requested previously
-
     let lastCheck = 0;
-    const checkInterval = 60000; // 1 minuto
+    const checkInterval = 60000;
 
     function checkAscenso() {
         const now = Date.now();
@@ -143,7 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if(data.disponible) {
-                    // Find the badge for 'Estado ascenso' specifically
                     const infoItems = document.querySelectorAll('.info-item');
                     infoItems.forEach(item => {
                         if (item.querySelector('.info-label').textContent === 'Estado ascenso') {
