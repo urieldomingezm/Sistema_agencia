@@ -21,7 +21,6 @@ require_once(MODAL_GESTION_USUARIOS_PACH . 'modal_password.php');
                         <th>ID</th>
                         <th>Habbo</th>
                         <th>Password</th>
-                        <th>Ip</th>
                         <th>Fecha registro</th>
                         <th>Acciones</th>
                     </tr>
@@ -30,12 +29,15 @@ require_once(MODAL_GESTION_USUARIOS_PACH . 'modal_password.php');
                     <?php foreach ($usuarios as $usuario): ?>
                         <tr>
                             <td><?= htmlspecialchars($usuario['id']) ?></td>
-                            <td><?= htmlspecialchars($usuario['nombre_habbo']) ?></td>
-                            <td><?= htmlspecialchars(substr($usuario['password_registro'], 0, 10)) ?></td>
-                            <td><?= htmlspecialchars(substr(md5($usuario['ip_registro']), 0, 16)) ?></td>
-                            <td><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
-                            <td>
-                                <div class="d-flex gap-1">
+                            <td class="align-middle">
+                                <div class="d-flex align-items-center">
+                                    <span><?= htmlspecialchars($usuario['nombre_habbo']) ?></span>
+                                </div>
+                            </td>
+                            <td class="text-center"><?= htmlspecialchars(substr($usuario['password_registro'], 0, 10)) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-1">
                                     <button class="btn btn-primary btn-sm rounded-pill" onclick="editarUsuario(<?= $usuario['id'] ?>)">
                                         Cambiar contraseña
                                     </button>

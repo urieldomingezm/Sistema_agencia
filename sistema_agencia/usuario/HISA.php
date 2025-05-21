@@ -6,6 +6,7 @@ class HistorialAscensos
     private $ascensosPorRango;
     private $ascensosPorSemana;
     private $errorMessage;
+    public $ascensosEstaSemana;
 
     public function __construct()
     {
@@ -24,12 +25,13 @@ class HistorialAscensos
         if (isset($jsonData['success']) && $jsonData['success']) {
             $this->totalAscensos = $jsonData['totalAscensos'] ?? 0;
             $this->ascensosPorRango = $jsonData['ascensosPorRango'] ?? [];
-            $this->ascensosPorSemana = $jsonData['ascensosPorSemana'] ?? [];
+            $this->ascensosEstaSemana = $jsonData['ascensosEstaSemana'] ?? 0;
             $this->errorMessage = null;
         } else {
             $this->totalAscensos = 0;
             $this->ascensosPorRango = [];
             $this->ascensosPorSemana = [];
+            $this->ascensosEstaSemana = 0;
             $this->errorMessage = $jsonData['message'] ?? 'Error desconocido al cargar los datos del dashboard.';
         }
     }
@@ -48,7 +50,6 @@ class HistorialAscensos
         } else {
             $html .= '<div class="row">';
 
-            // Tarjeta de Conteo Total (Color primario como en HIST.php)
             $html .= '<div class="col-md-4 mb-3">
                         <div class="card text-center bg-primary text-white">
                             <div class="card-body">
@@ -58,7 +59,6 @@ class HistorialAscensos
                         </div>
                     </div>';
 
-            // Tarjeta de Ascensos por Rango (Color info como en HIST.php)
             $html .= '<div class="col-md-4 mb-3">
                         <div class="card text-center bg-info text-white">
                             <div class="card-body">
@@ -79,27 +79,21 @@ class HistorialAscensos
                         </div>
                     </div>';
 
-            // Tarjeta de Ascensos por Semana (Color success como en HIST.php)
             $html .= '<div class="col-md-4 mb-3">
                         <div class="card text-center bg-success text-white">
                             <div class="card-body">
-                                <h5 class="card-title">Ascensos por Semana (Últimas 10)</h5>
-                                <ul class="list-group list-group-flush">';
-             if (!empty($this->ascensosPorSemana)) {
-                foreach ($this->ascensosPorSemana as $item) {
-                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center text-dark">
-                                Semana ' . htmlspecialchars($item['week'] ?? 'N/A') . ' (' . htmlspecialchars($item['year'] ?? 'N/A') . ')
-                                <span class="badge bg-secondary rounded-pill">' . $item['count'] . '</span>
-                              </li>';
-                }
-            } else {
-                 $html .= '<li class="list-group-item text-center text-muted">Sin datos por semana</li>';
-            }
-            $html .= '</ul>
+                                <h5 class="card-title">Ascensos Esta Semana</h5>
+                                <p class="card-text display-4 fw-bold">' . $this->ascensosEstaSemana . '</p>
                             </div>
                         </div>
                     </div>';
 
+            $html .= '</div>';
+
+            $html .= '<div class="text-center mt-4">';
+            $html .= '<button type="button" class="btn btn-primary" id="btnRegistrarAscensoSemanal">';
+            $html .= 'Registrar mis ascensos hechos de esta semana';
+            $html .= '</button>';
             $html .= '</div>';
         }
 
@@ -126,6 +120,87 @@ class HistorialAscensos
     }
 }
 
+ob_start();
+
 $historialAscensos = new HistorialAscensos();
+$weeklyAscensosCount = $historialAscensos->ascensosEstaSemana;
 echo $historialAscensos->render();
+
 ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const btnRegistrarAscenso = document.getElementById('btnRegistrarAscensoSemanal');
+    const weeklyAscensosCount = <?php echo json_encode($weeklyAscensosCount); ?>;
+
+    if (btnRegistrarAscenso) {
+        btnRegistrarAscenso.addEventListener('click', function() {
+            if (weeklyAscensosCount === 0) {
+                Swal.fire({
+                    title: 'Sin Ascensos Registrados',
+                    text: 'No tienes ascensos realizados esta semana para registrar.',
+                    icon: 'info',
+                    confirmButtonText: 'Entendido'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Confirmar Registro de Ascensos Semanales',
+                text: `¿Deseas registrar tus ${weeklyAscensosCount} ascensos realizados esta semana?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, Registrar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const requirementName = `${weeklyAscensosCount} ascensos realizados esta semana`;
+                    const type = 'ascensos';
+
+                    Swal.fire({
+                        title: 'Registrando...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    fetch('/private/procesos/gestion_cumplimientos/registrar_requisitos.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'requirement_name=' + encodeURIComponent(requirementName) + '&type=' + encodeURIComponent(type)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        Swal.close();
+                        if (data.success) {
+                            Swal.fire(
+                                '¡Registrado!',
+                                data.message,
+                                'success'
+                            );
+                        } else {
+                            Swal.fire(
+                                'Error',
+                                data.message,
+                                'error'
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        Swal.close();
+                        console.error('Error:', error);
+                        Swal.fire(
+                            'Error',
+                            'Ocurrió un error al comunicarse con el servidor.',
+                            'error'
+                        );
+                    });
+                }
+            });
+        });
+    }
+});
+</script>

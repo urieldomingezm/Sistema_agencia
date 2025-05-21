@@ -20,11 +20,29 @@ class Navbar
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand text-white" href="index.php">
-        <img src="/public/assets/custom_general/custom_menus/icono.png" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;" alt="Icono de Agencia Shein">
+        <img src="/public/assets/custom_general/custom_menus/icono.ico" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;" alt="Icono de Agencia Shein">
         <?= $this->brand ?>
         </a>
 
         <div class="d-flex align-items-center">
+          <!-- Notification Dropdown -->
+          <div class="dropdown me-2">
+            <button class="btn btn-outline-light position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-bell-fill"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                3 <!-- Número de notificaciones, esto debería ser dinámico -->
+                <span class="visually-hidden">unread notifications</span>
+              </span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="notificationDropdown">
+
+              <li><a class="dropdown-item" href="#">Notificación 1</a></li>
+              <li><a class="dropdown-item" href="#">Notificación 2</a></li>
+              <li><a class="dropdown-item" href="#">Notificación 3</a></li>
+            </ul>
+          </div>
+
+          <!-- User Dropdown -->
           <div class="dropdown me-3">
             <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-person-circle me-1"></i>
@@ -162,6 +180,7 @@ class Navbar
       'Ver mis ascensos' => 'bi bi-graph-up-arrow', // Added icon for Ver mis ascensos
       'Gestion de tiempo' => 'bi bi-clock-fill', // Added icon for Gestion de tiempo
       'Tomar tiempo' => 'bi bi-stopwatch-fill', // Added icon for Tomar tiempo
+      'Quejas y sugerencias' => 'bi bi-chat-left-text-fill', // Added icon for Quejas y sugerencias
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -173,7 +192,8 @@ class Navbar
       'Pagar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalpagar',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
       'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso',
-      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal'
+      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal',
+      'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias', // Added for modal
     ];
 
     if (isset($modalItems[$item])) {
@@ -187,7 +207,7 @@ class Navbar
 $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
-  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango']],
+  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias']], // Added Quejas y sugerencias
   ['name' => 'Ascensos', 'dropdown' => [ // New main item
     'Gestion ascenso',
     'Ver mis ascensos',
@@ -271,4 +291,5 @@ $(document).ready(function() {
 
 <?php
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
+require_once(MODALES_MENU_PATH . 'modal_quejas.php');
 require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');

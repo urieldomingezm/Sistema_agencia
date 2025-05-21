@@ -1,13 +1,10 @@
 <?php
-// Incluir el archivo de configuración principal
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
-// Definir la constante para la ruta del top de encargados si no está definida
 if (!defined('PROCESOS_MEJOR_TOP')) {
     define('PROCESOS_MEJOR_TOP', PRIVATE_PATH . 'procesos/gestion_primeros_lugares/');
 }
 
-// Incluir el archivo de la clase TopEncargados
 require_once(PROCESOS_MEJOR_TOP . 'mostrar_top.php');
 
 class BodyHome {
@@ -31,7 +28,7 @@ class BodyHome {
         <div class="home-container">
             <?php
             $this->renderHeader();
-            $this->renderTopUsersSection(); // Añadir la nueva sección aquí
+            $this->renderTopUsersSection();
             $this->renderEventsSection();
             $this->renderPaydaySection();
             $this->renderMembershipSection();
@@ -52,7 +49,6 @@ class BodyHome {
                     Bienvenido <?= $username ?>
                 </p>
                 <?php
-                // Anuncio de ejemplo
                 $announcement = "¡Atención! Por el momento la toma de ascenso estara en mantenimiento pueden tomar tiempo de los usuarios por el momento.";
                 ?>
                 <div class="alert alert-warning mt-3 mb-0" role="alert" style="font-size: clamp(0.8rem, 2.5vw, 1rem);">
@@ -64,32 +60,26 @@ class BodyHome {
         <?php
     }
 
-    // Método para renderizar la sección de Top 3 Usuarios
     private function renderTopUsersSection() {
-        $topUsers = []; // Inicializar con un array vacío
+        $topUsers = [];
 
         try {
-            $topManager = new TopEncargados(); // La clase TopEncargados ya está definida aquí
-            $topUsers = $topManager->getTopEncargados(3); // Obtener el top 3 real
+            $topManager = new TopEncargados();
+            $topUsers = $topManager->getTopEncargados(3);
         } catch (Exception $e) {
-            // Manejar el error, por ejemplo, loggearlo o mostrar un mensaje
             error_log("Error al obtener el top de encargados: " . $e->getMessage());
-            // Puedes dejar $topUsers vacío o mostrar un mensaje de error en la UI
         }
 
-        // Mapear los resultados de la base de datos al formato esperado por la vista
         $formattedTopUsers = [];
-        $rankColors = ['#FFD700', '#C0C0C0', '#CD7F32']; // Gold, Silver, Bronze
+        $rankColors = ['#FFD700', '#C0C0C0', '#CD7F32'];
         $rankNames = ['1er Lugar', '2do Lugar', '3er Lugar'];
 
         foreach ($topUsers as $index => $user) {
-            // La lógica de getTopEncargados ya maneja empates en el 3er lugar
-            // Aquí simplemente mapeamos los resultados obtenidos
             $formattedTopUsers[] = [
                 'name' => $user['usuario'],
-                'rank' => $rankNames[$index] ?? ($index + 1) . ' Lugar', // Usar nombre de rango o número
+                'rank' => $rankNames[$index] ?? ($index + 1) . ' Lugar',
                 'score' => $user['total_acciones'],
-                'icon_color' => $rankColors[$index] ?? '#CD7F32' // Usar color del 3er lugar para empates o un color por defecto
+                'icon_color' => $rankColors[$index] ?? '#CD7F32'
             ];
         }
 
@@ -105,7 +95,10 @@ class BodyHome {
                             <div class="col-12 col-sm-6 col-md-4 mb-4">
                                 <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.1); height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                                     <i class="bi bi-trophy-fill" style="font-size: 3rem; color: <?= $user['icon_color'] ?>; margin-bottom: 15px;"></i>
-                                    <h3 style="color: #333; font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 5px;"><?= htmlspecialchars($user['name']) ?></h3>
+                                    <div class="d-flex flex-column align-items-center mb-3">
+                                        <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" title="<?= htmlspecialchars($user['name']) ?>" style="width: 50px; height: 50px; margin-bottom: 5px;">
+                                        <h3 style="color: #333; font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 0;"><?= htmlspecialchars($user['name']) ?></h3>
+                                    </div>
                                     <p style="color: #555; font-size: clamp(0.9rem, 2.5vw, 1.1rem); margin-bottom: 10px;"><?= htmlspecialchars($user['rank']) ?></p>
                                     <span style="background: #2541b2; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: clamp(0.8rem, 2vw, 1rem);"><?= htmlspecialchars($user['score']) ?> Acciones (Ascensos + Tiempos)</span>
                                 </div>
@@ -137,7 +130,6 @@ class BodyHome {
         foreach ($events as $event) {
             echo '<div class="col-12 col-md-6 col-lg-4 mb-3">';
             echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2);">';
-            // Añadido atributo alt descriptivo para la imagen del evento
             echo '<img src="' . $event['image'] . '" style="width: 100%; height: 120px; border-radius: 10px; object-fit: cover;" alt="' . htmlspecialchars($event['title']) . '">';
             echo '<h3 style="color: #333; margin-top: 10px; font-size: clamp(1rem, 3vw, 1.2rem);">' . $event['title'] . '</h3>';
             echo '<p style="color: #666; font-size: clamp(0.8rem, 2.5vw, 1rem);">' . $event['description'] . '</p>';
@@ -214,7 +206,6 @@ class BodyHome {
                 $country = $countries[$j];
                 echo '<div class="col-md-3 mb-4">';
                 echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 8px 15px rgba(0,0,0,0.2);">';
-                // Añadido atributo alt descriptivo para la bandera del país
                 echo '<img src="' . $country['flag'] . '" style="width: 100%; height: 120px; border-radius: 8px; object-fit: cover;" alt="Bandera de ' . htmlspecialchars($country['name']) . '">';
                 echo '<p style="color: #333; margin-top: 15px; font-size: 18px; font-weight: bold;">' . $country['name'] . '</p>';
                 echo '<p style="color: #666; font-size: 16px;">Hora de paga: ' . $country['paytime'] . '</p>';
@@ -228,7 +219,6 @@ class BodyHome {
         
         echo '</div>';
         
-        // Controles del carrusel (flechas negras)
         echo '<button class="carousel-control-prev" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev" style="width: 5%;">';
         echo '<span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: black; border-radius: 50%; padding: 15px;"></span>';
         echo '<span class="visually-hidden">Anterior</span>';
@@ -238,78 +228,76 @@ class BodyHome {
         echo '<span class="visually-hidden">Siguiente</span>';
         echo '</button>';
         
-        echo '</div>'; // Fin del carrusel
-        echo '</div>'; // Fin del container
+        echo '</div>';
+        echo '</div>';
         echo '</section>';
     }
 
+    private function renderMembershipSection() {
+        $memberships = [
+            [
+                'title' => 'Membresía Gold',
+                'benefits' => 'Mimsmos beneficios de bronce y silver + fila vip + Guarda paga + Mision libre.',
+                'image' => '/usuario/rangos/image/membresias/gold.png',
+                'price' => '40 créditos por mes'
+            ],
+            [
+                'title' => 'Membresía Bronce',
+                'benefits' => 'Incluye ropa libre + Chat libre + Baile + Uso de efectos.',
+                'image' => '/usuario/rangos/image/membresias/premim.png',
+                'price' => '28 créditos por mes'
+            ],
+            [
+                'title' => 'Membresía regla libre',
+                'benefits' => 'Chat, Mision y ropa libre',
+                'image' => '/usuario/rangos/image/membresias/regla.png',
+                'price' => '25 créditos por mes'
+            ],
+            [
+                'title' => 'Membresía save',
+                'benefits' => 'Guarda tu paga por 48 Horas.',
+                'image' => '/usuario/rangos/image/membresias/save.png',
+                'price' => '10 créditos por mes'
+            ],
+            [
+                'title' => 'Membresía Fila Vip',
+                'benefits' => 'Garantiza beneficios frente al resto de usuarios que no tengan fila vip.',
+                'image' => '/usuario/rangos/image/membresias/vip.png',
+                'price' => '15 créditos por mes'
+            ],
+            [
+                'title' => 'Membresía silver',
+                'benefits' => 'Mismos beneficios de la Membresia bronce + Reduccion en requisitos.',
+                'image' => '/usuario/rangos/image/membresias/silver.png',
+                'price' => '34 créditos por mes'
+            ],
+        ];
     
-        private function renderMembershipSection() {
-            $memberships = [
-                [
-                    'title' => 'Membresía Gold',
-                    'benefits' => 'Mimsmos beneficios de bronce y silver + fila vip + Guarda paga + Mision libre.',
-                    'image' => '/usuario/rangos/image/membresias/gold.png',
-                    'price' => '40 créditos por mes'
-                ],
-                [
-                    'title' => 'Membresía Bronce',
-                    'benefits' => 'Incluye ropa libre + Chat libre + Baile + Uso de efectos.',
-                    'image' => '/usuario/rangos/image/membresias/premim.png',
-                    'price' => '28 créditos por mes'
-                ],
-                [
-                    'title' => 'Membresía regla libre',
-                    'benefits' => 'Chat, Mision y ropa libre',
-                    'image' => '/usuario/rangos/image/membresias/regla.png',
-                    'price' => '25 créditos por mes'
-                ],
-                [
-                    'title' => 'Membresía save',
-                    'benefits' => 'Guarda tu paga por 48 Horas.',
-                    'image' => '/usuario/rangos/image/membresias/save.png',
-                    'price' => '10 créditos por mes'
-                ],
-                [
-                    'title' => 'Membresía Fila Vip',
-                    'benefits' => 'Garantiza beneficios frente al resto de usuarios que no tengan fila vip.',
-                    'image' => '/usuario/rangos/image/membresias/vip.png',
-                    'price' => '15 créditos por mes'
-                ],
-                [
-                    'title' => 'Membresía silver',
-                    'benefits' => 'Mismos beneficios de la Membresia bronce + Reduccion en requisitos.',
-                    'image' => '/usuario/rangos/image/membresias/silver.png',
-                    'price' => '34 créditos por mes'
-                ],
-            ];
+        echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
+        echo '<div class="container text-center">';
+        echo '<h2 style="color: #333; font-weight: bold;"><i class="bi bi-gem me-1"></i> Membresías Disponibles <i class="bi bi-gem me-1"></i></h2>';
+        echo '<p style="color: #666; font-size: 18px;">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
+        echo '<div class="row justify-content-center">';
     
-            echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
-            echo '<div class="container text-center">';
-            echo '<h2 style="color: #333; font-weight: bold;"><i class="bi bi-gem me-1"></i> Membresías Disponibles <i class="bi bi-gem me-1"></i></h2>';
-            echo '<p style="color: #666; font-size: 18px;">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
-            echo '<div class="row justify-content-center">';
-    
-            foreach ($memberships as $membership) {
-                echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
-                echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
-                // Añadido atributo alt descriptivo para la imagen de la membresía
-                echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
-                echo '<h3 style="color: #333;">' . $membership['title'] . '</h3>';
-                echo '<p style="color: #008080; font-weight: bold;">' . $membership['benefits'] . '</p>';
-                echo '<div style="background: #FFD700; color: #333; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">';
-                echo '<i class="bi bi-coin me-2"></i>' . $membership['price'];
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-    
+        foreach ($memberships as $membership) {
+            echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
+            echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
+            echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
+            echo '<h3 style="color: #333;">' . $membership['title'] . '</h3>';
+            echo '<p style="color: #008080; font-weight: bold;">' . $membership['benefits'] . '</p>';
+            echo '<div style="background: #FFD700; color: #333; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">';
+            echo '<i class="bi bi-coin me-2"></i>' . $membership['price'];
             echo '</div>';
             echo '</div>';
-            echo '</section>';
+            echo '</div>';
         }
+    
+        echo '</div>';
+        echo '</div>';
+        echo '</section>';
     }
+}
 
-    require_once(BODY_DJ_PATH . 'dj_radio.php');
-    $bodyHome = new BodyHome();
-    $bodyHome->render();
+require_once(BODY_DJ_PATH . 'dj_radio.php');
+$bodyHome = new BodyHome();
+$bodyHome->render();

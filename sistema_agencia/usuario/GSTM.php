@@ -55,7 +55,7 @@ class GestionTiempos
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab1" role="tabpanel">
-                            <table id="datatable_tiempos" class="table table-bordered table-striped table-hover text-center mb-0">
+                            <table id="datatable_tiempos" class="table table-bordered table-hover text-center mb-0">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>Usuario</th>
@@ -110,7 +110,7 @@ class GestionTiempos
                             </table>
                         </div>
                         <div class="tab-pane fade" id="tab3" role="tabpanel">
-                            <table id="datatable_tiempos_completados" class="table table-bordered table-striped table-hover text-center mb-0">
+                            <table id="datatable_tiempos_completados" class="table table-bordered table-hover text-center mb-0">
                                 <thead class="table-light">
                                     <tr>
                                         <th>Usuario</th>
@@ -146,13 +146,18 @@ class GestionTiempos
         $status = $this->getStatusBadge($tiempo['tiempo_status']);
 
         return '<tr>
-            <td>' . $tiempo['habbo_name'] . '</td>
-            <td>' . $status . '</td>
-            <td>' . $tiempo['tiempo_restado'] . '</td>
-            <td>' . $tiempo['tiempo_acumulado'] . '</td>
-            <td>' . $tiempo['tiempo_iniciado'] . '</td>
-            <td>' . ($tiempo['tiempo_encargado_usuario'] ?? 'No disponible') . '</td>
-            <td>' . $this->renderActions($tiempo) . '</td>
+            <td class="text-start align-middle">
+                <div class="d-flex align-items-center">
+                    <img loading="lazy" class="me-2" src="https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($tiempo['habbo_name']) . '&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="' . htmlspecialchars($tiempo['habbo_name']) . '" title="' . htmlspecialchars($tiempo['habbo_name']) . '">
+                    <span style="word-break: break-word;">' . htmlspecialchars($tiempo['habbo_name']) . '</span>
+                </div>
+            </td>
+            <td class="text-center align-middle">' . $status . '</td>
+            <td class="text-center align-middle">' . $tiempo['tiempo_restado'] . '</td>
+            <td class="text-center align-middle">' . $tiempo['tiempo_acumulado'] . '</td>
+            <td class="text-center align-middle">' . $tiempo['tiempo_iniciado'] . '</td>
+            <td class="text-center align-middle">' . ($tiempo['tiempo_encargado_usuario'] ?? 'No disponible') . '</td>
+            <td class="text-center align-middle">' . $this->renderActions($tiempo) . '</td>
         </tr>';
     }
 

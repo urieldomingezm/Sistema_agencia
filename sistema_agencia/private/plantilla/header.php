@@ -87,9 +87,6 @@ class Header
         echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
         echo '<link id="chart-css" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.css" rel="stylesheet">'; // Referencia a Chart.js CSS CDN
 
-        // JQUERY 3.6.0
-        echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>';
-
         // SWEETALERT 2
         echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
         echo '<link id="sweetalert-css" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.7/dist/sweetalert2.min.css" rel="stylesheet">'; // Referencia a SweetAlert2 CSS CDN
@@ -155,14 +152,12 @@ class Header
 $header = new Header('Agencia Shein Habbo');
 
 // Añadir la precarga para la imagen LCP (Añadir esta línea)
-$header->addPreloadLink('/private/plantilla/home/agencia2.png', 'image');
+// $header->addPreloadLink('/private/plantilla/home/agencia2.png', 'image');
 
 // Archivo local Bootstrap CSS (añadido directamente)
 $header->addCssFile('/public/assets/framework/bootstrap/bootstrap.min.css'); // Archivo local Bootstrap minified CSS (añadido directamente)
-$header->addCssFile('/public/assets/framework/bootstrap/icons.css'); // Archivo local Bootstrap Icons CSS (añadido directamente)
 
 // Corregir la ruta de datatable
-$header->addCssFile('/public/assets/framework/data_simple/style.css'); // Archivo local DataTables CSS (añadido directamente)
 $header->addJsFile('/public/assets/framework/data_simple/script.js');
 
 // Archivos estilos CSS para menus CSS personalizados (versiones locales)

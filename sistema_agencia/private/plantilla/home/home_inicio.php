@@ -9,7 +9,6 @@ class BodyHome
         $this->renderHeader();
         $this->renderAboutSection();
         $this->renderTeamSection();
-        $this->renderSocialWidgets();
         $this->renderBlogSection();
         $this->renderHabboPlatesSection();
         $this->renderEventsSection();
@@ -151,7 +150,7 @@ class BodyHome
         echo '<div class="row">';
         echo '<div class="col-md-6">';
         // Añadido atributo alt descriptivo para la imagen "Sobre Nosotros"
-        echo '<img src="/private/plantilla/home/agencia2.png" alt="Imagen de la comunidad Agencia Shein en Habbo" style="width: 100%; border-radius: 15px;">';
+        echo '<img src="https://i.postimg.cc/6QF9TNH1/agencia2.png" alt="Imagen de la comunidad Agencia Shein en Habbo" style="width: 100%; border-radius: 15px;">';
         echo '</div>';
         echo '<div class="col-md-6">';
         echo '<h3 style="color: #2541b2; font-weight: 600;">Nuestra Historia</h3>';
@@ -159,31 +158,6 @@ class BodyHome
         echo '<h3 style="color: #2541b2; font-weight: 600; margin-top: 30px;">Nuestra Misión</h3>';
         echo '<p style="color: #555;">Nuestro objetivo es proporcionar un espacio seguro y divertido donde los usuarios puedan interactuar, participar en eventos emocionantes y desarrollar sus habilidades dentro del juego.</p>';
         echo '</div>';
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
-    }
-
-    private function renderSocialWidgets()
-    {
-        echo '<section style="background: #ffffff; padding: 50px 0;">';
-        echo '<div class="container">';
-        echo '<div class="row">';
-        
-        // Widget de Twitter
-        echo '<div class="col-md-6 mb-4">';
-        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 20px; text-align: center;"><i class="bi bi-twitter me-2"></i>Últimos Tweets<i class="bi bi-twitter ms-2"></i></h2>';
-        echo '<a class="twitter-timeline" href="https://x.com/AgenciaSheinHB" data-height="400" data-theme="light" data-chrome="nofooter noborders">Tweets by TwitterDev</a>';
-        echo '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
-        echo '</div>';
-        
-        // Widget de Discord
-        echo '<div class="col-md-6 mb-4">';
-        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 20px; text-align: center;"><i class="bi bi-discord me-2"></i>Únete a nuestro Discord<i class="bi bi-discord ms-2"></i></h2>';
-        // Añadido atributo title al iframe de Discord
-        echo '<iframe src="https://discord.com/widget?id=TU_ID_DE_DISCORD&theme=dark" width="100%" height="400" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" title="Widget del servidor de Discord de Agencia Shein"></iframe>';
-        echo '</div>';
-        
         echo '</div>';
         echo '</div>';
         echo '</section>';
