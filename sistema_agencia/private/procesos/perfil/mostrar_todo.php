@@ -7,8 +7,8 @@ require_once(CONFIG_PATH . 'bd.php');
 
 class UserProfileData {
     private $conn;
-    private $userCodigoTime;
-    private $nombreHabbo;
+    private $userCodigoTime = null; // Inicializar como null
+    private $nombreHabbo = null; // Inicializar como null
 
     private $personalData = null;
     private $membresiaData = null;
@@ -20,11 +20,12 @@ class UserProfileData {
     private $errors = [];
 
     public function __construct() {
-        $this->userCodigoTime = $_SESSION['codigo_time'] ?? null;
-        $this->nombreHabbo = $_SESSION['nombre_habbo'] ?? null;
+        // Cambiar la verificación inicial para usar user_id o username de la sesión
+        $userId = $_SESSION['user_id'] ?? null;
+        $username = $_SESSION['username'] ?? null;
 
-        if (!$this->userCodigoTime && !$this->nombreHabbo) {
-            $this->errors[] = "Usuario no logueado o sesión incompleta.";
+        if (!$userId && !$username) {
+            $this->errors[] = "Usuario no logueado o sesión incompleta (user_id/username no encontrados).";
             return;
         }
 
@@ -37,12 +38,21 @@ class UserProfileData {
                 return;
             }
 
-            $this->fetchPersonalData();
-            $this->fetchMembresiaData();
-            $this->fetchAscensoData();
-            $this->fetchTiempoData();
-            $this->fetchRequisitosData();
-            $this->fetchPagasData();
+            // Primero, obtener los datos personales usando user_id o username
+            $this->fetchPersonalData($userId, $username);
+
+            // Si se obtuvieron los datos personales y con ellos codigo_time y nombre_habbo,
+            // entonces proceder a obtener los demás datos.
+            if ($this->userCodigoTime || $this->nombreHabbo) {
+                $this->fetchMembresiaData();
+                $this->fetchAscensoData();
+                $this->fetchTiempoData();
+                $this->fetchRequisitosData();
+                $this->fetchPagasData();
+            } else {
+                 $this->errors[] = "No se pudo obtener codigo_time o nombre_habbo del usuario logueado.";
+            }
+
 
         } catch (PDOException $e) {
             $this->errors[] = "Error de PDO: " . $e->getMessage();
@@ -53,8 +63,9 @@ class UserProfileData {
         }
     }
 
-    private function fetchPersonalData() {
-        if (!$this->conn || !$this->userCodigoTime) return;
+    // Modificar fetchPersonalData para usar user_id o username
+    private function fetchPersonalData($userId, $username) {
+        if (!$this->conn || (!$userId && !$username)) return;
 
         $sql = "SELECT
                     id,
@@ -68,20 +79,32 @@ class UserProfileData {
                 FROM
                     registro_usuario
                 WHERE
-                    codigo_time = :codigo_time";
+                    id = :user_id OR usuario_registro = :username
+                LIMIT 1"; // Limitar a 1 por si acaso
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':codigo_time', $this->userCodigoTime, PDO::PARAM_STR);
+        // Bindear ambos parámetros, aunque solo uno se use en la sesión
+        $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
         $stmt->execute();
         $this->personalData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($this->personalData && !isset($_SESSION['nombre_habbo'])) {
-             $_SESSION['nombre_habbo'] = $this->personalData['nombre_habbo'];
-             $this->nombreHabbo = $_SESSION['nombre_habbo'];
+        // Si se encontraron datos, establecer las propiedades codigo_time y nombre_habbo de la clase
+        if ($this->personalData) {
+             $this->userCodigoTime = $this->personalData['codigo_time'] ?? null;
+             $this->nombreHabbo = $this->personalData['nombre_habbo'] ?? null;
+
+             // Opcional: Asegurar que nombre_habbo esté en sesión si se encontró
+             if (!isset($_SESSION['nombre_habbo']) && $this->nombreHabbo) {
+                 $_SESSION['nombre_habbo'] = $this->nombreHabbo;
+             }
+        } else {
+             $this->errors[] = "No se encontraron datos personales para el usuario logueado.";
         }
     }
 
     private function fetchMembresiaData() {
+        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->nombreHabbo) return;
 
         $sql = "SELECT
@@ -100,6 +123,7 @@ class UserProfileData {
     }
 
     private function fetchAscensoData() {
+        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->userCodigoTime) return;
 
         $sql = "SELECT
@@ -107,11 +131,10 @@ class UserProfileData {
                     a.mision_actual,
                     a.firma_usuario,
                     a.estado_ascenso,
-                    a.fecha_disponible_ascenso
+                    a.fecha_disponible_ascenso,
+                    a.usuario_encargado -- Asegurarse de seleccionar este campo si existe
                 FROM
                     ascensos a
-                JOIN
-                    registro_usuario ru ON a.codigo_time = ru.codigo_time
                 WHERE
                     a.codigo_time = :codigo_time";
 
@@ -122,6 +145,7 @@ class UserProfileData {
     }
 
     private function fetchTiempoData() {
+        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->userCodigoTime) return;
 
         $sql = "SELECT
@@ -143,6 +167,7 @@ class UserProfileData {
     }
 
     private function fetchRequisitosData() {
+        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->nombreHabbo) return;
 
         $sql = "SELECT
@@ -165,6 +190,7 @@ class UserProfileData {
     }
 
     private function fetchPagasData() {
+        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->nombreHabbo) return;
 
         $sql = "SELECT
@@ -179,7 +205,8 @@ class UserProfileData {
                 FROM
                     gestion_pagas
                 WHERE
-                    pagas_usuario = :nombre_habbo";
+                    pagas_usuario = :nombre_habbo
+                ORDER BY pagas_fecha_registro DESC"; // Ordenar para obtener la última paga primero
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':nombre_habbo', $this->nombreHabbo, PDO::PARAM_STR);

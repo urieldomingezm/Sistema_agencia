@@ -1,81 +1,86 @@
 <?php
-// Check if constants are defined before using them
-if (!defined('VER_PERFIL_PATCH') || !defined('GESTION_PAGAS_PATCH')) {
-    die('Required constants are not defined');
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
 }
 
-require_once(VER_PERFIL_PATCH . 'ver_perfil.php');
-require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php');
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['username'])) {
+    header('Location: ../login.php');
+    exit();
+}
+
+require_once(VER_PERFIL_PATCH . 'mostrar_todo.php');
 
 try {
-    $userProfile = new UserProfile();
-    $userData = $userProfile->getUserData();
+    $userProfileData = new UserProfileData();
+
+    if ($userProfileData->hasErrors()) {
+        die('Error al cargar datos del perfil: ' . implode(', ', $userProfileData->getErrors()));
+    }
+
+    $personalData = $userProfileData->getPersonalData();
+    $membresiaData = $userProfileData->getMembresiaData();
+    $ascensoData = $userProfileData->getAscensoData();
+    $tiempoData = $userProfileData->getTiempoData();
+    $requisitosData = $userProfileData->getRequisitosData();
+    $pagasData = $userProfileData->getPagasData();
 } catch (Exception $e) {
-    die('Error loading user data: ' . $e->getMessage());
+    die('Error general al procesar datos del perfil: ' . $e->getMessage());
 }
 
-$pagaUsuario = null;
-
-if (isset($pagas) && is_array($pagas)) {
-    foreach ($pagas as $paga) {
-        if ($paga['pagas_usuario'] === $userData['username']) {
-            $pagaUsuario = $paga;
-            break;
-        }
+$ultimaPagaUsuario = null;
+if (!empty($pagasData)) {
+    if (!empty($pagasData)) {
+        $ultimaPagaUsuario = $pagasData[0];
     }
 }
 ?>
 
-<div class="profile-header py-4 position-relative overflow-hidden">
+<div class="profile-header py-4 position-relative overflow-hidden bg-dark">
     <div class="background-pattern"></div>
     <div class="container position-relative">
         <div class="d-flex align-items-center">
-            <div class="avatar-container me-3" style="width: 60px; height: 60px;">
-                <img src="<?php echo htmlspecialchars($userData['avatar'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" 
-                     class="rounded-circle shadow border border-3 border-white" 
-                     alt="Profile Avatar" 
-                     style="width: 100%; height: 100%; object-fit: cover;">
-            </div>
             <div>
                 <h1 class="h4 fw-bold text-white text-shadow mb-0 d-flex align-items-center">
-                    <?php echo htmlspecialchars($userData['username'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
-                    <span class="badge bg-success ms-2">Activo</span> 
-                    <!-- Para "Inactivo" podrías usar: <span class="badge bg-secondary ms-2">Inactivo</span> -->
+                    <?php echo htmlspecialchars($personalData['nombre_habbo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
+                    <span class="badge bg-success ms-2">Activo</span>
                 </h1>
-                <small class="text-white-50"><?php echo htmlspecialchars($userData['role'] ?? '', ENT_QUOTES, 'UTF-8'); ?></small>
             </div>
         </div>
     </div>
 </div>
 
 <div class="container py-3">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <?php
         $sections = [
-            'Personal' => [
-                ['Usuario', $userData['username'] ?? ''],
-                ['Código', $userData['codigo'] ?? ''],
-                ['Rango', $userData['role'] ?? '', 'badge-custom'],
-                ['Membresia', $userData['role'] ?? '', 'badge-custom']
+            'Información' => [
+                ['ID', $personalData['id'] ?? ''],
+                ['Usuario', $personalData['nombre_habbo'] ?? ''],
+                ['Código', $personalData['codigo_time'] ?? ''],
+                ['Rango', $ascensoData['rango_actual'] ?? 'N/A', 'badge-custom'],
+                ['Membresía', $membresiaData['venta_titulo'] ?? 'N/A', 'badge-custom'],
             ],
-            'Requisitos pago' => [
-                ['Pago Pendiente', '30'],
-                ['Estado de sus requisitos', 'Pendiente', 'badge bg-warning text-dark'],
-                ['Recibio pago', 'No', 'badge bg-danger text-white'],
-                ['Estado de Requisitos', 'Pendiente', 'badge bg-warning text-dark']
+            'Pagos' => [
+                ['Pendiente', 'N/A'],
+                ['Estado', !empty($requisitosData) ? 'Pendiente' : 'Ninguno', !empty($requisitosData) ? 'badge bg-info text-dark' : 'badge bg-secondary'],
+                ['Recibido', $ultimaPagaUsuario['pagas_completo'] ?? 'No', ($ultimaPagaUsuario['pagas_completo'] ?? false) ? 'badge bg-success text-white' : 'badge bg-danger text-white'],
             ],
-            'Tiempo de paga' => [
-                ['Tiempo Acumulado', $userData['tiempo_acumulado'] ?? '0'],
-                ['Tiempo Restado', $userData['tiempo_restado'] ?? '0'],
-                ['Encargado', $userData['tiempo_encargado'] ?? 'No disponible'],
-                ['Estado', ucfirst($userData['tiempo_status'] ?? 'No disponible'), 'badge text-white ' . getStatusColor($userData['tiempo_status'] ?? '')]
+            'Tiempo' => [
+                ['Total', $tiempoData['tiempo_acumulado'] ?? '0'],
+                ['Restado', $tiempoData['tiempo_restado'] ?? '0'],
+                ['Encargado', $tiempoData['tiempo_encargado_usuario'] ?? 'N/A'],
+                ['Estado', ucfirst($tiempoData['tiempo_status'] ?? 'N/A'), 'badge text-white ' . getStatusColor($tiempoData['tiempo_status'] ?? '')]
             ],
             'Ascenso' => [
-                ['Misión actual', $userData['mission'] ?? 'No asignada'],
-                ['Encargado', $userData['encargado'] ?? 'No asignado'],
-                ['Próxima hora', formatEstimatedTime($userData['estimatedTime'] ?? '')],
-                ['Estado ascenso', ($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'Disponible' : 'Pendiente', 
-                 'badge text-white ' . (($userData['estado_disponibilidad'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning')]
+                ['Tarea', $ascensoData['mision_actual'] ?? 'Ninguna'],
+                ['Líder', $ascensoData['usuario_encargado'] ?? 'Ninguno'],
+                ['Mi firma', $ascensoData['firma_usuario'] ?? 'N/A'],
+                ['Siguiente', formatEstimatedTime($ascensoData['fecha_disponible_ascenso'] ?? '')],
+                [
+                    'Estado',
+                    ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Listo' : 'Espera',
+                    'badge text-white ' . (($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning')
+                ]
             ]
         ];
 
@@ -88,17 +93,16 @@ if (isset($pagas) && is_array($pagas)) {
 
 <?php
 function renderSection($title, $items) {
-    // Añadidas clases 'shadow' y 'border' para hacer las tarjetas más llamativas
-    $html = '<div class="col"><div class="profile-card glass-effect h-100 shadow border">';
-    $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h6 mb-0">'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'</h3></div>';
-    $html .= '<div class="stats-card p-2">';
+    $html = '<div class="col"><div class="card h-100 shadow border rounded">';
+    $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h6 mb-0 text-white">' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</h3></div>';
+    $html .= '<div class="card-body p-2 d-flex flex-wrap">';
 
     foreach ($items as $item) {
-        $html .= '<div class="info-item d-flex align-items-center">';
-        $html .= '<span class="info-label me-2">'.htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8').'</span>';
+        $html .= '<div class="d-flex align-items-center me-3 mb-2 justify-content-between w-auto">';
+        $html .= '<span class="text-muted fw-medium me-1">' . htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8') . '</span>';
         $html .= isset($item[2]) ?
-                '<span class="'.htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8').'">'.htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8').'</span>' :
-                '<span class="info-value">'.htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8').'</span>';
+            '<span class="' . htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8') . ' badge bg-primary rounded-pill">' . htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8') . '</span>' :
+            '<span class="fw-semibold text-dark">' . htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8') . '</span>';
         $html .= '</div>';
     }
 
@@ -107,15 +111,15 @@ function renderSection($title, $items) {
 }
 
 function getStatusColor($status) {
-    switch(strtolower($status)) {
-        case 'pausa': 
-        case 'inactivo': 
+    switch (strtolower($status)) {
+        case 'pausa':
+        case 'inactivo':
             return 'bg-secondary';
-        case 'activo': 
+        case 'activo':
             return 'bg-primary';
-        case 'completado': 
+        case 'completado':
             return 'bg-success';
-        default: 
+        default:
             return 'bg-secondary';
     }
 }
@@ -130,7 +134,7 @@ function formatEstimatedTime($time) {
         if (!$date) {
             $date = new DateTime($time);
         }
-        
+
         $minutes = (int)$date->format('i');
         $seconds = (int)$date->format('s');
         $output = [];
@@ -149,40 +153,39 @@ function formatEstimatedTime($time) {
 }
 ?>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    let lastCheck = 0;
-    const checkInterval = 60000; // 1 minute
+    document.addEventListener('DOMContentLoaded', function() {
+        let lastCheck = 0;
+        const checkInterval = 60000;
 
-    async function checkAscenso() {
-        const now = Date.now();
-        if (now - lastCheck < checkInterval) return;
+        async function checkAscenso() {
+            const now = Date.now();
+            if (now - lastCheck < checkInterval) return;
 
-        lastCheck = now;
+            lastCheck = now;
 
-        try {
-            const response = await fetch('<?php echo VER_PERFIL_PATCH; ?>check_ascenso.php');
-            if (!response.ok) throw new Error('Network response was not ok');
-            
-            const data = await response.json();
-            if(data.disponible) {
-                document.querySelectorAll('.info-item').forEach(item => {
-                    if (item.querySelector('.info-label').textContent === 'Estado ascenso') {
-                        const badge = item.querySelector('.badge');
-                        if (badge) {
-                            badge.classList.replace('bg-warning', 'bg-success');
-                            badge.textContent = 'Disponible';
+            try {
+                const response = await fetch('<?php echo VER_PERFIL_PATCH; ?>check_ascenso.php');
+                if (!response.ok) throw new Error('Network response was not ok');
+
+                const data = await response.json();
+                if (data.disponible) {
+                    document.querySelectorAll('.info-item').forEach(item => {
+                        if (item.querySelector('.info-label').textContent === 'Estado ascenso') {
+                            const badge = item.querySelector('.badge');
+                            if (badge) {
+                                badge.classList.replace('bg-warning', 'bg-success');
+                                badge.textContent = 'Disponible';
+                            }
                         }
-                    }
-                });
+                    });
+                }
+            } catch (error) {
+                console.error('Error checking ascenso:', error);
             }
-        } catch (error) {
-            console.error('Error checking ascenso:', error);
         }
-    }
 
-    checkAscenso();
-    setInterval(checkAscenso, checkInterval);
-});
+        checkAscenso();
+        setInterval(checkAscenso, checkInterval);
+    });
 </script>
