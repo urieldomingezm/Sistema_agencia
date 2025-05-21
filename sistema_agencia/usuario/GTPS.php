@@ -2,7 +2,7 @@
 
 // RUTAS DE GESTION DE PAGAS
 require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php'); // MOSTRAR USUARIOS
-require_once(GESTION_PAGAS_PATCH . 'mostrar_requisitos.php'); // MOSTRAR REQUISITOS
+
 require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
 ?>
 
