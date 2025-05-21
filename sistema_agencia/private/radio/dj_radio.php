@@ -17,7 +17,7 @@ class RadioPlayer
     public function render()
     {
         echo '<div class="radio-container text-center">';
-        echo '    <img src="/public/assets/custom_general/custom_radio/img/dj.jpg" class="radio-cover" alt="Radio Cover">';
+        echo '    <img src="/public/assets/custom_general/custom_radio/img/dj.ico" class="radio-cover" alt="Radio Cover">';
         echo '    <div class="radio-info">';
         echo '        <p class="dj-label">DJ: <span>' . htmlspecialchars($this->djName) . '</span></p>';
         if ($this->mountPoint) {
