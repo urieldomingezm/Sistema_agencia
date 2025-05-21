@@ -87,9 +87,6 @@ class Header
         echo '<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>';
         echo '<link id="chart-css" href="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.css" rel="stylesheet">'; // Referencia a Chart.js CSS CDN
 
-        // JQUERY 3.6.0
-        echo '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>';
-
         // SWEETALERT 2
         echo "<script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>";
         echo '<link id="sweetalert-css" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.7/dist/sweetalert2.min.css" rel="stylesheet">'; // Referencia a SweetAlert2 CSS CDN
