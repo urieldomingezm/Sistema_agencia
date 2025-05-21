@@ -150,7 +150,7 @@ class BodyHome
         echo '<div class="row">';
         echo '<div class="col-md-6">';
         // Añadido atributo alt descriptivo para la imagen "Sobre Nosotros"
-        echo '<img src="https://i.postimg.cc/6QF9TNH1/agencia2.png" alt="Imagen de la comunidad Agencia Shein en Habbo" style="width: 100%; border-radius: 15px;">';
+        echo '<img src="https://i.postimg.cc/267B81Gt/agencia2.webp" alt="Imagen de la comunidad Agencia Shein en Habbo" style="width: 100%; border-radius: 15px;">';
         echo '</div>';
         echo '<div class="col-md-6">';
         echo '<h3 style="color: #2541b2; font-weight: 600;">Nuestra Historia</h3>';
