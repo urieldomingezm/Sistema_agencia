@@ -121,22 +121,18 @@ $sections = [
 
     <div class="container-fluid p-0">
         <!-- Header compacto -->
-        <div class="profile-header position-relative" style="height: 90px;">
-            <div class="container pt-4">
-                <div class="d-flex align-items-center justify-content-center h-100">
-                    <div class="d-flex align-items-center">
-                        <div class="profile-avatar rounded-circle d-flex align-items-center justify-content-center me-2">
-                            <i class="bi bi-person-fill text-muted"></i>
-                        </div>
-                        <div>
-                            <h1 class="h5 mb-0 text-white fw-bold">
-                                <?php echo htmlspecialchars($personalData['nombre_habbo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
-                            </h1>
-                            <span class="badge bg-success badge-sm mt-1">
-                                <i class="bi bi-check-circle-fill me-1"></i>Activo
-                            </span>
-                        </div>
+        <div class="profile-header position-relative" style="height: 125px;">
+            <div class="container pt-2">
+                <div class="d-flex flex-column align-items-center justify-content-center h-100">
+                    <div class="profile-avatar rounded-circle d-flex align-items-center justify-content-center mb-2">
+                        <i class="bi bi-person-fill text-muted"></i>
                     </div>
+                    <h1 class="h5 mb-1 text-white fw-bold text-center">
+                        <?php echo htmlspecialchars($personalData['nombre_habbo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
+                    </h1>
+                    <span class="badge bg-success badge-sm">
+                        <i class="bi bi-check-circle-fill me-1"></i>Activo
+                    </span>
                 </div>
             </div>
         </div>
