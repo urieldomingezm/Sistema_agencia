@@ -29,87 +29,222 @@ try {
 
 $ultimaPagaUsuario = null;
 if (!empty($pagasData)) {
-    if (!empty($pagasData)) {
-        $ultimaPagaUsuario = $pagasData[0];
-    }
+    $ultimaPagaUsuario = $pagasData[0];
 }
-?>
 
-<div class="profile-header py-4 position-relative overflow-hidden bg-dark">
-    <div class="background-pattern"></div>
-    <div class="container position-relative">
-        <div class="d-flex align-items-center">
-            <div>
-                <h1 class="h4 fw-bold text-white text-shadow mb-0 d-flex align-items-center">
-                    <?php echo htmlspecialchars($personalData['nombre_habbo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
-                    <span class="badge bg-success ms-2">Activo</span>
-                </h1>
+$sections = [
+    'Información' => [
+        ['ID', $personalData['id'] ?? ''],
+        ['Usuario', $personalData['nombre_habbo'] ?? ''],
+        ['Código', $personalData['codigo_time'] ?? ''],
+        ['Rango', $ascensoData['rango_actual'] ?? 'N/A', 'badge bg-primary'],
+        ['Membresía', $membresiaData['venta_titulo'] ?? 'N/A', 'badge bg-warning text-dark'],
+    ],
+    'Pagos' => [
+        ['Estado', !empty($requisitosData) ? 'Pendiente' : 'Ninguno', !empty($requisitosData) ? 'badge bg-info text-dark' : 'badge bg-secondary'],
+        ['Recibido', $ultimaPagaUsuario['pagas_completo'] ?? 'No', ($ultimaPagaUsuario['pagas_completo'] ?? false) ? 'badge bg-success text-white' : 'badge bg-danger text-white'],
+    ],
+    'Tiempo' => [
+        ['Total', $tiempoData['tiempo_acumulado'] ?? '0'],
+        ['Restado', $tiempoData['tiempo_restado'] ?? '0'],
+        ['Estado', ucfirst($tiempoData['tiempo_status'] ?? 'N/A'), 'badge text-white ' . getStatusColor($tiempoData['tiempo_status'] ?? '')]
+    ],
+    'Ascenso' => [
+        ['Tarea', $ascensoData['mision_actual'] ?? 'Ninguna'],
+        ['Siguiente', formatEstimatedTime($ascensoData['fecha_disponible_ascenso'] ?? '')],
+        [
+            'Estado',
+            ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Listo' : 'Espera',
+            'badge text-white ' . (($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning')
+        ]
+    ]
+];
+?>
+<style>
+        .profile-header {
+            height: 120px;
+            background: linear-gradient(45deg, #1877f2, #25a3ff);
+        }
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border: 3px solid white;
+            background-color: #f0f2f5;
+        }
+        .compact-card {
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .compact-card .card-header {
+            padding: 0.5rem 1rem;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+        .compact-card .card-body {
+            padding: 0;
+        }
+        .info-row {
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #f5f5f5;
+            display: flex;
+            justify-content: space-between;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .signature-box {
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            padding: 0.75rem;
+            border: 1px solid #dee2e6;
+            font-size: 0.9rem;
+        }
+        .badge-sm {
+            padding: 0.25em 0.5em;
+            font-size: 0.75em;
+        }
+        @media (max-width: 576px) {
+            .profile-header {
+                height: 100px;
+            }
+            .profile-avatar {
+                width: 50px;
+                height: 50px;
+            }
+            .section-title {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+
+    <div class="container-fluid p-0">
+        <!-- Header compacto -->
+        <div class="profile-header position-relative" style="height: 90px;">
+            <div class="container pt-4">
+                <div class="d-flex align-items-center justify-content-center h-100">
+                    <div class="d-flex align-items-center">
+                        <div class="profile-avatar rounded-circle d-flex align-items-center justify-content-center me-2">
+                            <i class="bi bi-person-fill text-muted"></i>
+                        </div>
+                        <div>
+                            <h1 class="h5 mb-0 text-white fw-bold">
+                                <?php echo htmlspecialchars($personalData['nombre_habbo'] ?? '', ENT_QUOTES, 'UTF-8'); ?>
+                            </h1>
+                            <span class="badge bg-success badge-sm mt-1">
+                                <i class="bi bi-check-circle-fill me-1"></i>Activo
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <!-- Contenido principal compacto -->
+        <div class="container py-2 px-2">
+            <!-- Información General -->
+            <div class="card compact-card mb-2">
+                <div class="card-header">
+                    <h6 class="mb-0 fw-bold section-title"><i class="bi bi-info-circle me-1"></i>Información</h6>
+                </div>
+                <div class="card-body">
+                    <?php foreach ($sections['Información'] as $item): ?>
+                    <div class="info-row">
+                        <span class="text-muted small"><?php echo htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8'); ?></span>
+                        <span class="fw-semibold text-end small">
+                            <?php if (isset($item[2])): ?>
+                                <span class="<?php echo htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8'); ?> badge-sm px-1">
+                                    <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
+                                </span>
+                            <?php else: ?>
+                                <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
+                            <?php endif; ?>
+                        </span>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            
+            <!-- Pagos y Tiempo en una fila -->
+            <div class="row g-2">
+                <div class="col-md-6">
+                    <div class="card compact-card h-100">
+                        <div class="card-header">
+                            <h6 class="mb-0 fw-bold section-title"><i class="bi bi-credit-card me-1"></i>Pagos</h6>
+                        </div>
+                        <div class="card-body">
+                            <?php foreach ($sections['Pagos'] as $item): ?>
+                            <div class="info-row">
+                                <span class="text-muted small"><?php echo htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8'); ?></span>
+                                <span class="fw-semibold text-end small">
+                                    <?php if (isset($item[2])): ?>
+                                        <span class="<?php echo htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8'); ?> badge-sm px-1">
+                                            <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
+                                    <?php endif; ?>
+                                </span>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card compact-card h-100">
+                        <div class="card-header">
+                            <h6 class="mb-0 fw-bold section-title"><i class="bi bi-stopwatch me-1"></i>Tiempo</h6>
+                        </div>
+                        <div class="card-body">
+                            <?php foreach ($sections['Tiempo'] as $item): ?>
+                            <div class="info-row">
+                                <span class="text-muted small"><?php echo htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8'); ?></span>
+                                <span class="fw-semibold text-end small">
+                                    <?php if (isset($item[2])): ?>
+                                        <span class="<?php echo htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8'); ?> badge-sm px-1">
+                                            <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
+                                        </span>
+                                    <?php else: ?>
+                                        <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
+                                    <?php endif; ?>
+                                </span>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ascenso -->
+            <div class="card compact-card mt-2">
+                <div class="card-header">
+                    <h6 class="mb-0 fw-bold section-title"><i class="bi bi-graph-up me-1"></i>Ascenso</h6>
+                </div>
+                <div class="card-body">
+                    <?php foreach ($sections['Ascenso'] as $item): ?>
+                    <div class="info-row">
+                        <span class="text-muted small"><?php echo htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8'); ?></span>
+                        <span class="fw-semibold text-end small">
+                            <?php if (isset($item[2])): ?>
+                                <span class="<?php echo htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8'); ?> badge-sm px-1">
+                                    <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
+                                </span>
+                            <?php else: ?>
+                                <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
+                            <?php endif; ?>
+                        </span>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <br>
+        </div>
     </div>
-</div>
 
-<div class="container py-3">
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-        <?php
-        $sections = [
-            'Información' => [
-                ['ID', $personalData['id'] ?? ''],
-                ['Usuario', $personalData['nombre_habbo'] ?? ''],
-                ['Código', $personalData['codigo_time'] ?? ''],
-                ['Rango', $ascensoData['rango_actual'] ?? 'N/A', 'badge-custom'],
-                ['Membresía', $membresiaData['venta_titulo'] ?? 'N/A', 'badge-custom'],
-            ],
-            'Pagos' => [
-                ['Pendiente', 'N/A'],
-                ['Estado', !empty($requisitosData) ? 'Pendiente' : 'Ninguno', !empty($requisitosData) ? 'badge bg-info text-dark' : 'badge bg-secondary'],
-                ['Recibido', $ultimaPagaUsuario['pagas_completo'] ?? 'No', ($ultimaPagaUsuario['pagas_completo'] ?? false) ? 'badge bg-success text-white' : 'badge bg-danger text-white'],
-            ],
-            'Tiempo' => [
-                ['Total', $tiempoData['tiempo_acumulado'] ?? '0'],
-                ['Restado', $tiempoData['tiempo_restado'] ?? '0'],
-                ['Encargado', $tiempoData['tiempo_encargado_usuario'] ?? 'N/A'],
-                ['Estado', ucfirst($tiempoData['tiempo_status'] ?? 'N/A'), 'badge text-white ' . getStatusColor($tiempoData['tiempo_status'] ?? '')]
-            ],
-            'Ascenso' => [
-                ['Tarea', $ascensoData['mision_actual'] ?? 'Ninguna'],
-                ['Líder', $ascensoData['usuario_encargado'] ?? 'Ninguno'],
-                ['Mi firma', $ascensoData['firma_usuario'] ?? 'N/A'],
-                ['Siguiente', formatEstimatedTime($ascensoData['fecha_disponible_ascenso'] ?? '')],
-                [
-                    'Estado',
-                    ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Listo' : 'Espera',
-                    'badge text-white ' . (($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning')
-                ]
-            ]
-        ];
-
-        foreach ($sections as $title => $items) {
-            echo renderSection($title, $items);
-        }
-        ?>
-    </div>
-</div>
 
 <?php
-function renderSection($title, $items) {
-    $html = '<div class="col"><div class="card h-100 shadow border rounded">';
-    $html .= '<div class="card-header bg-gradient-primary py-2"><h3 class="h6 mb-0 text-white">' . htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '</h3></div>';
-    $html .= '<div class="card-body p-2 d-flex flex-wrap">';
-
-    foreach ($items as $item) {
-        $html .= '<div class="d-flex align-items-center me-3 mb-2 justify-content-between w-auto">';
-        $html .= '<span class="text-muted fw-medium me-1">' . htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8') . '</span>';
-        $html .= isset($item[2]) ?
-            '<span class="' . htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8') . ' badge bg-primary rounded-pill">' . htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8') . '</span>' :
-            '<span class="fw-semibold text-dark">' . htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8') . '</span>';
-        $html .= '</div>';
-    }
-
-    $html .= '</div></div></div>';
-    return $html;
-}
-
 function getStatusColor($status) {
     switch (strtolower($status)) {
         case 'pausa':
@@ -152,40 +287,3 @@ function formatEstimatedTime($time) {
     }
 }
 ?>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        let lastCheck = 0;
-        const checkInterval = 60000;
-
-        async function checkAscenso() {
-            const now = Date.now();
-            if (now - lastCheck < checkInterval) return;
-
-            lastCheck = now;
-
-            try {
-                const response = await fetch('<?php echo VER_PERFIL_PATCH; ?>check_ascenso.php');
-                if (!response.ok) throw new Error('Network response was not ok');
-
-                const data = await response.json();
-                if (data.disponible) {
-                    document.querySelectorAll('.info-item').forEach(item => {
-                        if (item.querySelector('.info-label').textContent === 'Estado ascenso') {
-                            const badge = item.querySelector('.badge');
-                            if (badge) {
-                                badge.classList.replace('bg-warning', 'bg-success');
-                                badge.textContent = 'Disponible';
-                            }
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error('Error checking ascenso:', error);
-            }
-        }
-
-        checkAscenso();
-        setInterval(checkAscenso, checkInterval);
-    });
-</script>
