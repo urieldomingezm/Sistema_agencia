@@ -149,7 +149,6 @@ class BodyHome
         echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-info-circle me-2"></i>Sobre Nosotros<i class="bi bi-info-circle ms-2"></i></h2>';
         echo '<div class="row">';
         echo '<div class="col-md-6">';
-        // Añadido atributo alt descriptivo para la imagen "Sobre Nosotros" y clases responsivas
         echo '<img src="https://i.postimg.cc/267B81Gt/agencia2.webp" alt="Imagen de la comunidad Agencia Shein en Habbo" style="width: 100%; border-radius: 15px;" class="d-none d-md-block">';
         echo '</div>';
         echo '<div class="col-md-6">';
