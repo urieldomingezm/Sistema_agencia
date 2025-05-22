@@ -4,7 +4,7 @@ class HistorialTiempos
 {
     private $tiemposEncargadoData;
     private $totalEncargadoCount;
-    public $weeklyEncargadoCount; // Cambiado de private a public
+    public $weeklyEncargadoCount;
     private $encargadoCountByRange;
     private $errorMessage;
 
@@ -70,67 +70,87 @@ class HistorialTiempos
 
     public function renderDashboard()
     {
-        $html = '<div class="container mt-4">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Dashboard tiempos hechos</h5>
+        $html = '<div class="container-fluid mt-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0"><i class="bi bi-clock-history me-2"></i>Historial de Tiempos como Encargado</h5>
                 </div>
-                <div class="card-body">';
+                <div class="card-body p-0">';
 
         if ($this->errorMessage) {
-            $html .= '<div class="alert alert-danger mb-0">' . htmlspecialchars($this->errorMessage) . '</div>';
+            $html .= '<div class="alert alert-danger m-3">' . htmlspecialchars($this->errorMessage) . '</div>';
         } elseif (empty($this->tiemposEncargadoData)) {
-             $html .= '<div class="alert alert-info mb-0">No hay tiempos registrados donde hayas sido el encargado.</div>';
+             $html .= '<div class="alert alert-info m-3">No hay tiempos registrados donde hayas sido el encargado.</div>';
         }
         else {
-            $html .= '<div class="row mb-4">';
+            $html .= '<div class="row g-3 m-2">';
 
-            $html .= '<div class="col-md-6 mb-3">
-                        <div class="card text-center bg-primary text-white">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-person-check"></i> Total Tiempos (contando todas semana)</h5>
-                                <p class="card-text display-4 fw-bold">' . htmlspecialchars($this->totalEncargadoCount) . '</p>
+            // Tarjeta de total de tiempos
+            $html .= '<div class="col-12 col-md-6">
+                        <div class="card h-100 border border-primary shadow-sm">
+                            <div class="card-body text-center">
+                                <div class="d-flex justify-content-center align-items-center mb-3">
+                                    <i class="bi bi-person-check fs-1 text-primary me-3"></i>
+                                    <div>
+                                        <h6 class="card-subtitle mb-1 text-muted">Total de Tiempos</h6>
+                                        <h3 class="card-title mb-0 fw-bold">' . htmlspecialchars($this->totalEncargadoCount) . '</h3>
+                                    </div>
+                                </div>
+                                <p class="card-text small text-muted">Todos los tiempos registrados como encargado</p>
                             </div>
                         </div>
                     </div>';
 
-            $html .= '<div class="col-md-6 mb-3">
-                        <div class="card text-center bg-success text-white">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-calendar-week"></i> Tiempos tomados en esta Semana</h5>
-                                <p class="card-text display-4 fw-bold">' . htmlspecialchars($this->weeklyEncargadoCount) . '</p>
+            // Tarjeta de tiempos esta semana
+            $html .= '<div class="col-12 col-md-6">
+                        <div class="card h-100 border border-success shadow-sm">
+                            <div class="card-body text-center">
+                                <div class="d-flex justify-content-center align-items-center mb-3">
+                                    <i class="bi bi-calendar-week fs-1 text-success me-3"></i>
+                                    <div>
+                                        <h6 class="card-subtitle mb-1 text-muted">Tiempos esta Semana</h6>
+                                        <h3 class="card-title mb-0 fw-bold">' . htmlspecialchars($this->weeklyEncargadoCount) . '</h3>
+                                    </div>
+                                </div>
+                                <p class="card-text small text-muted">Tiempos tomados desde el lunes de esta semana</p>
                             </div>
                         </div>
                     </div>';
 
             $html .= '</div>';
 
-            // Botón para registrar tiempo - Modificado para usar SweetAlert2
-            $html .= '<div class="text-center mb-4">';
-            $html .= '<button type="button" class="btn btn-primary" id="btnRegistrarRequisito">'; // Añadido ID
-            $html .= 'Registrar mis tiempos hechos de esta semana'; // Texto del botón actualizado
-            $html .= '</button>';
-            $html .= '</div>';
+            // Botón de acción
+            $html .= '<div class="d-grid gap-2 col-md-6 mx-auto my-4">
+                        <button type="button" class="btn btn-primary btn-lg rounded-pill shadow" id="btnRegistrarRequisito">
+                            <i class="bi bi-save me-2"></i>Registrar Tiempos Semanales
+                        </button>
+                    </div>';
 
-            $html .= '<div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <h5 class="card-title"><i class="bi bi-bar-chart-steps"></i> Tiempos Tomados por Rango</h5>';
+            // Sección de tiempos por rango
+            $html .= '<div class="card border border-secondary shadow-sm m-2">
+                        <div class="card-header bg-light">
+                            <h5 class="card-title mb-0"><i class="bi bi-people-fill me-2"></i>Tiempos por Rango</h5>
+                        </div>
+                        <div class="card-body p-0">';
 
             if (empty($this->encargadoCountByRange)) {
-                $html .= '<p class="text-muted">No hay datos de rangos disponibles.</p>';
+                $html .= '<div class="alert alert-warning m-3">No hay datos de rangos disponibles.</div>';
             } else {
                 $html .= '<ul class="list-group list-group-flush">';
                 foreach ($this->encargadoCountByRange as $rango => $count) {
-                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center">
-                                ' . htmlspecialchars($rango) . '
-                                <span class="badge bg-secondary rounded-pill">' . htmlspecialchars($count) . '</span>
+                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center py-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-person-badge me-3 text-secondary"></i>
+                                    <span>' . htmlspecialchars($rango) . '</span>
+                                </div>
+                                <span class="badge bg-primary rounded-pill fs-6">' . htmlspecialchars($count) . '</span>
                               </li>';
                 }
                 $html .= '</ul>';
             }
 
             $html .= '</div>
-            </div>';
+                    </div>';
         }
 
         $html .= '</div>
@@ -150,7 +170,7 @@ class HistorialTiempos
 ob_start();
 
 $historialTiempos = new HistorialTiempos();
-$weeklyCount = $historialTiempos->weeklyEncargadoCount; // Obtener el conteo semanal
+$weeklyCount = $historialTiempos->weeklyEncargadoCount;
 echo $historialTiempos->render();
 
 ?>
@@ -158,81 +178,94 @@ echo $historialTiempos->render();
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const btnRegistrar = document.getElementById('btnRegistrarRequisito');
-    // Pasar el conteo semanal de PHP a JavaScript
     const weeklyTiemposCount = <?php echo json_encode($weeklyCount); ?>;
 
     if (btnRegistrar) {
         btnRegistrar.addEventListener('click', function() {
-            // Verificar si el conteo semanal es cero
             if (weeklyTiemposCount === 0) {
                 Swal.fire({
                     title: 'Sin Tiempos Registrados',
                     text: 'No tienes tiempos tomados como encargado esta semana para registrar.',
                     icon: 'info',
-                    confirmButtonText: 'Entendido'
+                    confirmButtonText: 'Entendido',
+                    confirmButtonColor: '#3085d6',
+                    backdrop: 'rgba(0,0,0,0.4)'
                 });
-                return; // Detener el proceso si el conteo es cero
+                return;
             }
 
             Swal.fire({
-                title: 'Confirmar Registro de Tiempos Semanales',
-                text: `¿Deseas registrar tus ${weeklyTiemposCount} tiempos tomados como encargado esta semana?`, // Usar el conteo semanal
+                title: 'Confirmar Registro',
+                html: `¿Deseas registrar tus <b>${weeklyTiemposCount}</b> tiempos tomados como encargado esta semana?`,
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, Registrar',
-                cancelButtonText: 'Cancelar'
+                confirmButtonText: '<i class="bi bi-check-circle me-2"></i>Sí, Registrar',
+                cancelButtonText: '<i class="bi bi-x-circle me-2"></i>Cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                backdrop: 'rgba(0,0,0,0.4)',
+                customClass: {
+                    confirmButton: 'btn-lg',
+                    cancelButton: 'btn-lg'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Construir el nombre del requisito automáticamente
                     const requirementName = `${weeklyTiemposCount} tiempos tomados esta semana`;
-                    // Añadir un parámetro 'type' para indicar que es un registro de tiempos
-                    const type = 'tiempos'; // Nuevo parámetro para identificar el tipo
+                    const type = 'tiempos';
 
-                    // Mostrar SweetAlert de carga
                     Swal.fire({
                         title: 'Registrando...',
+                        html: 'Por favor espera mientras procesamos tu solicitud',
                         allowOutsideClick: false,
                         didOpen: () => {
                             Swal.showLoading();
-                        }
+                        },
+                        backdrop: 'rgba(0,0,0,0.4)'
                     });
 
-                    // Enviar datos al script PHP usando Fetch
                     fetch('/private/procesos/gestion_cumplimientos/registrar_requisitos.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        // Incluir el nuevo parámetro 'type'
                         body: 'requirement_name=' + encodeURIComponent(requirementName) + '&type=' + encodeURIComponent(type)
                     })
                     .then(response => response.json())
                     .then(data => {
-                        Swal.close(); // Cerrar SweetAlert de carga
+                        Swal.close();
                         if (data.success) {
-                            Swal.fire(
-                                '¡Registrado!',
-                                data.message,
-                                'success'
-                            );
-                            // Opcional: Recargar la página o actualizar el dashboard si es necesario
-                            // location.reload();
+                            Swal.fire({
+                                title: '¡Registro Exitoso!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor: '#3085d6',
+                                backdrop: 'rgba(0,0,0,0.4)'
+                            }).then(() => {
+                                location.reload();
+                            });
                         } else {
-                            Swal.fire(
-                                'Error',
-                                data.message,
-                                'error'
-                            );
+                            Swal.fire({
+                                title: 'Error',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'Entendido',
+                                confirmButtonColor: '#3085d6',
+                                backdrop: 'rgba(0,0,0,0.4)'
+                            });
                         }
                     })
                     .catch((error) => {
-                        Swal.close(); // Cerrar SweetAlert de carga
+                        Swal.close();
                         console.error('Error:', error);
-                        Swal.fire(
-                            'Error',
-                            'Ocurrió un error al comunicarse con el servidor.',
-                            'error'
-                        );
+                        Swal.fire({
+                            title: 'Error de Conexión',
+                            text: 'Ocurrió un error al comunicarse con el servidor.',
+                            icon: 'error',
+                            confirmButtonText: 'Entendido',
+                            confirmButtonColor: '#3085d6',
+                            backdrop: 'rgba(0,0,0,0.4)'
+                        });
                     });
                 }
             });

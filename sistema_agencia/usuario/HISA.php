@@ -38,63 +38,86 @@ class HistorialAscensos
 
     public function render()
     {
-        $html = '<div class="container mt-4">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Dashboard de Ascensos Realizados</h5>
+        $html = '<div class="container-fluid mt-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0"><i class="bi bi-graph-up me-2"></i>Dashboard de Ascensos Realizados</h5>
                 </div>
-                <div class="card-body">';
+                <div class="card-body p-0">';
 
         if ($this->errorMessage) {
-            $html .= '<div class="alert alert-danger mb-0">' . htmlspecialchars($this->errorMessage) . '</div>';
+            $html .= '<div class="alert alert-danger m-3">' . htmlspecialchars($this->errorMessage) . '</div>';
         } else {
-            $html .= '<div class="row">';
+            $html .= '<div class="row g-3 m-2">';
 
-            $html .= '<div class="col-md-4 mb-3">
-                        <div class="card text-center bg-primary text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">Total de Ascensos Realizados</h5>
-                                <p class="card-text display-4 fw-bold">' . $this->totalAscensos . '</p>
+            // Tarjeta de total de ascensos
+            $html .= '<div class="col-12 col-md-4">
+                        <div class="card h-100 border border-primary shadow-sm">
+                            <div class="card-body text-center">
+                                <div class="d-flex justify-content-center align-items-center mb-3">
+                                    <i class="bi bi-trophy fs-1 text-primary me-3"></i>
+                                    <div>
+                                        <h6 class="card-subtitle mb-1 text-muted">Total de Ascensos</h6>
+                                        <h3 class="card-title mb-0 fw-bold">' . $this->totalAscensos . '</h3>
+                                    </div>
+                                </div>
+                                <p class="card-text small text-muted">Todos los ascensos realizados</p>
                             </div>
                         </div>
                     </div>';
 
-            $html .= '<div class="col-md-4 mb-3">
-                        <div class="card text-center bg-info text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">Ascensos por Rango</h5>
-                                <ul class="list-group list-group-flush">';
+            // Tarjeta de ascensos esta semana
+            $html .= '<div class="col-12 col-md-4">
+                        <div class="card h-100 border border-success shadow-sm">
+                            <div class="card-body text-center">
+                                <div class="d-flex justify-content-center align-items-center mb-3">
+                                    <i class="bi bi-calendar-week fs-1 text-success me-3"></i>
+                                    <div>
+                                        <h6 class="card-subtitle mb-1 text-muted">Ascensos esta Semana</h6>
+                                        <h3 class="card-title mb-0 fw-bold">' . $this->ascensosEstaSemana . '</h3>
+                                    </div>
+                                </div>
+                                <p class="card-text small text-muted">Desde el lunes de esta semana</p>
+                            </div>
+                        </div>
+                    </div>';
+
+            // Tarjeta de ascensos por rango
+            $html .= '<div class="col-12 col-md-4">
+                        <div class="card h-100 border border-secondary shadow-sm">
+                            <div class="card-header bg-light">
+                                <h6 class="card-title mb-0"><i class="bi bi-people-fill me-2"></i>Ascensos por Rango</h6>
+                            </div>
+                            <div class="card-body p-0">';
+
             if (!empty($this->ascensosPorRango)) {
+                $html .= '<ul class="list-group list-group-flush">';
                 foreach ($this->ascensosPorRango as $item) {
-                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center text-dark">
-                                ' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '
-                                <span class="badge bg-secondary rounded-pill">' . $item['count'] . '</span>
+                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center py-2">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-person-badge me-3 text-secondary"></i>
+                                    <span>' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '</span>
+                                </div>
+                                <span class="badge bg-primary rounded-pill">' . $item['count'] . '</span>
                               </li>';
                 }
+                $html .= '</ul>';
             } else {
-                 $html .= '<li class="list-group-item text-center text-muted">Sin datos por rango</li>';
+                 $html .= '<div class="alert alert-warning m-3">No hay datos de ascensos por rango</div>';
             }
-            $html .= '</ul>
-                            </div>
-                        </div>
-                    </div>';
 
-            $html .= '<div class="col-md-4 mb-3">
-                        <div class="card text-center bg-success text-white">
-                            <div class="card-body">
-                                <h5 class="card-title">Ascensos Esta Semana</h5>
-                                <p class="card-text display-4 fw-bold">' . $this->ascensosEstaSemana . '</p>
-                            </div>
+            $html .= '</div>
                         </div>
                     </div>';
 
             $html .= '</div>';
 
-            $html .= '<div class="text-center mt-4">';
-            $html .= '<button type="button" class="btn btn-primary" id="btnRegistrarAscensoSemanal">';
-            $html .= 'Registrar mis ascensos hechos de esta semana';
-            $html .= '</button>';
-            $html .= '</div>';
+            // Botón de acción
+            $html .= '<div class="d-grid gap-2 col-md-6 mx-auto my-4">
+                        <button type="button" class="btn btn-primary btn-lg rounded-pill shadow" id="btnRegistrarAscensoSemanal">
+                            <i class="bi bi-save me-2"></i>Registrar Ascensos Semanales
+                        </button>
+                    </div>';
         }
 
         $html .= '</div>
@@ -140,18 +163,27 @@ document.addEventListener('DOMContentLoaded', function() {
                     title: 'Sin Ascensos Registrados',
                     text: 'No tienes ascensos realizados esta semana para registrar.',
                     icon: 'info',
-                    confirmButtonText: 'Entendido'
+                    confirmButtonText: 'Entendido',
+                    confirmButtonColor: '#3085d6',
+                    backdrop: 'rgba(0,0,0,0.4)'
                 });
                 return;
             }
 
             Swal.fire({
-                title: 'Confirmar Registro de Ascensos Semanales',
-                text: `¿Deseas registrar tus ${weeklyAscensosCount} ascensos realizados esta semana?`,
+                title: 'Confirmar Registro',
+                html: `¿Deseas registrar tus <b>${weeklyAscensosCount}</b> ascensos realizados esta semana?`,
                 icon: 'question',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, Registrar',
-                cancelButtonText: 'Cancelar'
+                confirmButtonText: '<i class="bi bi-check-circle me-2"></i>Sí, Registrar',
+                cancelButtonText: '<i class="bi bi-x-circle me-2"></i>Cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                backdrop: 'rgba(0,0,0,0.4)',
+                customClass: {
+                    confirmButton: 'btn-lg',
+                    cancelButton: 'btn-lg'
+                }
             }).then((result) => {
                 if (result.isConfirmed) {
                     const requirementName = `${weeklyAscensosCount} ascensos realizados esta semana`;
@@ -159,10 +191,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     Swal.fire({
                         title: 'Registrando...',
+                        html: 'Por favor espera mientras procesamos tu solicitud',
                         allowOutsideClick: false,
                         didOpen: () => {
                             Swal.showLoading();
-                        }
+                        },
+                        backdrop: 'rgba(0,0,0,0.4)'
                     });
 
                     fetch('/private/procesos/gestion_cumplimientos/registrar_requisitos.php', {
@@ -176,27 +210,38 @@ document.addEventListener('DOMContentLoaded', function() {
                     .then(data => {
                         Swal.close();
                         if (data.success) {
-                            Swal.fire(
-                                '¡Registrado!',
-                                data.message,
-                                'success'
-                            );
+                            Swal.fire({
+                                title: '¡Registro Exitoso!',
+                                text: data.message,
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar',
+                                confirmButtonColor: '#3085d6',
+                                backdrop: 'rgba(0,0,0,0.4)'
+                            }).then(() => {
+                                location.reload();
+                            });
                         } else {
-                            Swal.fire(
-                                'Error',
-                                data.message,
-                                'error'
-                            );
+                            Swal.fire({
+                                title: 'Error',
+                                text: data.message,
+                                icon: 'error',
+                                confirmButtonText: 'Entendido',
+                                confirmButtonColor: '#3085d6',
+                                backdrop: 'rgba(0,0,0,0.4)'
+                            });
                         }
                     })
                     .catch((error) => {
                         Swal.close();
                         console.error('Error:', error);
-                        Swal.fire(
-                            'Error',
-                            'Ocurrió un error al comunicarse con el servidor.',
-                            'error'
-                        );
+                        Swal.fire({
+                            title: 'Error de Conexión',
+                            text: 'Ocurrió un error al comunicarse con el servidor.',
+                            icon: 'error',
+                            confirmButtonText: 'Entendido',
+                            confirmButtonColor: '#3085d6',
+                            backdrop: 'rgba(0,0,0,0.4)'
+                        });
                     });
                 }
             });
