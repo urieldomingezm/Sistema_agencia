@@ -44,20 +44,15 @@ class BodyHome
     {
         $username = htmlspecialchars($this->userData['username']);
     ?>
-        <header class="welcome-header text-center" style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 20px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
-            <div class="container">
-                <h1 class="display-4 text-white mb-2" style="font-size: clamp(1.5rem, 6vw, 2.5rem);">
-                    <i class="bi bi-star-fill me-2"></i> Agencia Shein <i class="bi bi-star-fill me-2"></i>
+        <header class="bg-primary text-white py-4">
+            <div class="container text-center">
+                <h1 class="display-4 mb-3">
+                    <i class="bi bi-star-fill me-2"></i> Agencia Shein <i class="bi bi-star-fill ms-2"></i>
                 </h1>
-                <p class="lead text-white mb-1" style="font-size: clamp(0.9rem, 3vw, 1.2rem);">
-                    Bienvenido <?= $username ?>
-                </p>
-                <?php
-                $announcement = "¡Atención! Por el momento la toma de ascenso estara en mantenimiento pueden tomar tiempo de los usuarios por el momento.";
-                ?>
-                <div class="alert alert-warning mt-3 mb-0" role="alert" style="font-size: clamp(0.8rem, 2.5vw, 1rem);">
+                <p class="lead mb-4">Bienvenido <?= $username ?></p>
+                <div class="alert alert-warning mb-0">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <?= htmlspecialchars($announcement) ?>
+                    ¡Atención! Por el momento la toma de ascenso estará en mantenimiento.
                 </div>
             </div>
         </header>
@@ -89,23 +84,25 @@ class BodyHome
         }
 
     ?>
-        <section style="background: #ffffff; padding: 20px 0;">
+        <section class="py-5 bg-white">
             <div class="container text-center">
-                <h2 style="color: #2541b2; font-weight: bold; font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 30px;">
-                    <i class="bi bi-trophy-fill me-2" style="color: #FFD700;"></i> Top 3 Encargados <i class="bi bi-trophy-fill ms-2" style="color: #FFD700;"></i>
+                <h2 class="mb-5">
+                    <i class="bi bi-trophy-fill me-2 text-warning"></i> Top 3 Encargados <i class="bi bi-trophy-fill ms-2 text-warning"></i>
                 </h2>
                 <div class="row justify-content-center">
                     <?php if (!empty($formattedTopUsers)): ?>
                         <?php foreach ($formattedTopUsers as $user): ?>
-                            <div class="col-12 col-sm-6 col-md-4 mb-4">
-                                <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.1); height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                                    <i class="bi bi-trophy-fill" style="font-size: 3rem; color: <?= $user['icon_color'] ?>; margin-bottom: 15px;"></i>
-                                    <div class="d-flex flex-column align-items-center mb-3">
-                                        <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" title="<?= htmlspecialchars($user['name']) ?>" style="width: 50px; height: 50px; margin-bottom: 5px;">
-                                        <h3 style="color: #333; font-size: clamp(1rem, 3vw, 1.2rem); margin-bottom: 0;"><?= htmlspecialchars($user['name']) ?></h3>
+                            <div class="col-12 col-md-4 mb-4">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <i class="bi bi-trophy-fill display-4 mb-3" style="color: <?= $user['icon_color'] ?>;"></i>
+                                        <div class="mb-3">
+                                            <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
+                                            <h3 class="h5 mb-0"><?= htmlspecialchars($user['name']) ?></h3>
+                                        </div>
+                                        <p class="text-muted mb-2"><?= htmlspecialchars($user['rank']) ?></p>
+                                        <span class="badge bg-primary"><?= htmlspecialchars($user['score']) ?> Acciones</span>
                                     </div>
-                                    <p style="color: #555; font-size: clamp(0.9rem, 2.5vw, 1.1rem); margin-bottom: 10px;"><?= htmlspecialchars($user['rank']) ?></p>
-                                    <span style="background: #2541b2; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: clamp(0.8rem, 2vw, 1rem);"><?= htmlspecialchars($user['score']) ?> Acciones (Ascensos + Tiempos)</span>
                                 </div>
                             </div>
                         <?php endforeach; ?>
