@@ -156,7 +156,7 @@ $sections = [
         <!-- Contenido principal compacto -->
         <div class="container py-2 px-2">
             <!-- Información General -->
-            <div class="card compact-card mb-2">
+            <div class="card compact-card mb-2 border border-primary">
                 <div class="card-header">
                     <h6 class="mb-0 fw-bold section-title"><i class="bi bi-info-circle me-1"></i>Información</h6>
                 </div>
@@ -181,7 +181,7 @@ $sections = [
             <!-- Pagos y Tiempo en una fila -->
             <div class="row g-2">
                 <div class="col-md-6">
-                    <div class="card compact-card h-100">
+                    <div class="card compact-card h-100 border border-info">
                         <div class="card-header">
                             <h6 class="mb-0 fw-bold section-title"><i class="bi bi-credit-card me-1"></i>Pagos</h6>
                         </div>
@@ -205,7 +205,7 @@ $sections = [
                 </div>
 
                 <div class="col-md-6">
-                    <div class="card compact-card h-100">
+                    <div class="card compact-card h-100 border border-warning">
                         <div class="card-header">
                             <h6 class="mb-0 fw-bold section-title"><i class="bi bi-stopwatch me-1"></i>Tiempo</h6>
                         </div>
@@ -230,7 +230,7 @@ $sections = [
             </div>
 
             <!-- Ascenso -->
-            <div class="card compact-card mt-2">
+            <div class="card compact-card mt-2 border border-success">
                 <div class="card-header">
                     <h6 class="mb-0 fw-bold section-title"><i class="bi bi-graph-up me-1"></i>Ascenso</h6>
                 </div>
