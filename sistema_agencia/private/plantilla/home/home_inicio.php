@@ -5,7 +5,7 @@ class BodyHome
 {
     public function render()
     {
-        echo '<body class="d-flex flex-column h-100" style="background-color: #ffffff; font-family: \'Poppins\', sans-serif;">';
+        echo '<body class="d-flex flex-column h-100 bg-light">';
         $this->renderHeader();
         $this->renderAboutSection();
         $this->renderTeamSection();
@@ -17,13 +17,14 @@ class BodyHome
 
     private function renderHeader()
     {
-        echo '<br><br>';
         echo '<main class="flex-shrink-0">';
-        echo '<header style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 20px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">';
+        echo '<header class="bg-gradient-primary text-white py-5">';
         echo '<div class="container text-center">';
-        echo '<h1 style="color: white; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); font-size: clamp(1.5rem, 6vw, 2.5rem);"><i class="bi bi-stars me-2"></i>Agencia Shein<i class="bi bi-stars ms-2"></i></h1>';
-        echo '<p style="color: #e0e0e0; font-size: clamp(0.9rem, 3vw, 1.2rem);">La mejor comunidad de Habbo Hotel</p>';
-        echo '<a href="/login.php" style="background: #ffffff; color: #2541b2; padding: 10px 20px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(37, 65, 178, 0.2); font-size: clamp(0.8rem, 3vw, 1rem);">¡Únete ahora!</a>';
+        echo '<h1 class="display-4 fw-bold mb-3">';
+        echo '<i class="bi bi-stars me-2"></i>Agencia Shein<i class="bi bi-stars ms-2"></i>';
+        echo '</h1>';
+        echo '<p class="lead mb-4">La mejor comunidad de Habbo Hotel</p>';
+        echo '<a href="/login.php" class="btn btn-light btn-lg rounded-pill px-4">¡Únete ahora!</a>';
         echo '</div>';
         echo '</header>';
         echo '</main>';
@@ -171,7 +172,6 @@ class BodyHome
         
         // Sección de Noticias
         echo '<div class="mb-5">';
-        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 20px;"><i class="bi bi-megaphone me-2"></i>Noticias</h3>';
         echo '<div class="row">';
         
         $noticias = [
