@@ -314,3 +314,16 @@ $controller = new UserController();
         });
     </script>
 </body>
+
+<?php
+// Detectar si es un dispositivo móvil
+function isMobileDevice() {
+    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+}
+
+// Redirigir a la versión móvil si es necesario
+if (isMobileDevice() && !isset($_GET['desktop'])) {
+    header('Location: /usuario/movil/index.php');
+    exit;
+}
+?>
