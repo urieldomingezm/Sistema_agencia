@@ -7,10 +7,12 @@ if (!defined('PROCESOS_MEJOR_TOP')) {
 
 require_once(PROCESOS_MEJOR_TOP . 'mostrar_top.php');
 
-class BodyHome {
+class BodyHome
+{
     private $userData;
 
-    public function __construct() {
+    public function __construct()
+    {
         if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
             echo "<script>window.location.href = '/login.php';</script>";
             exit;
@@ -22,9 +24,10 @@ class BodyHome {
             'verificado' => $_SESSION['verificado'] ?? 0
         ];
     }
-    
-    public function render() {
-        ?>
+
+    public function render()
+    {
+?>
         <div class="home-container">
             <?php
             $this->renderHeader();
@@ -34,12 +37,13 @@ class BodyHome {
             $this->renderMembershipSection();
             ?>
         </div>
-        <?php
+    <?php
     }
 
-    private function renderHeader() {
+    private function renderHeader()
+    {
         $username = htmlspecialchars($this->userData['username']);
-        ?>
+    ?>
         <header class="welcome-header text-center" style="background: linear-gradient(135deg, #4a6bff 0%, #2541b2 100%); padding: 20px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
             <div class="container">
                 <h1 class="display-4 text-white mb-2" style="font-size: clamp(1.5rem, 6vw, 2.5rem);">
@@ -57,10 +61,11 @@ class BodyHome {
                 </div>
             </div>
         </header>
-        <?php
+    <?php
     }
 
-    private function renderTopUsersSection() {
+    private function renderTopUsersSection()
+    {
         $topUsers = [];
 
         try {
@@ -83,7 +88,7 @@ class BodyHome {
             ];
         }
 
-        ?>
+    ?>
         <section style="background: #ffffff; padding: 20px 0;">
             <div class="container text-center">
                 <h2 style="color: #2541b2; font-weight: bold; font-size: clamp(1.2rem, 4vw, 1.8rem); margin-bottom: 30px;">
@@ -112,21 +117,22 @@ class BodyHome {
                 </div>
             </div>
         </section>
-        <?php
+<?php
     }
 
-    private function renderEventsSection() {
+    private function renderEventsSection()
+    {
         $events = [
             ['title' => 'Fiesta de Bienvenida', 'description' => 'Conoce a todos los miembros de Agencia Atenas en nuestra fiesta de bienvenida', 'date' => '15 de Marzo, 2025', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20party%20room%20with%20lots%20of%20avatars%20dancing&aspect=16:9'],
             ['title' => 'Construcción', 'description' => 'Muestra tus habilidades de construcción y gana premios increíbles', 'date' => '22 de Marzo, 2025', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20building%20competition%20with%20furniture%20and%20decorations&aspect=16:9'],
             ['title' => 'Carrera de Obstáculos', 'description' => 'Supera todos los obstáculos en el menor tiempo posible', 'date' => '29 de Marzo, 2025', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20obstacle%20course%20with%20traps%20and%20challenges&aspect=16:9'],
         ];
-    
+
         echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
         echo '<div class="container text-center">';
         echo '<h2 style="color: black; font-weight: bold; font-size: clamp(1.2rem, 4vw, 1.8rem);"><i class="bi bi-newspaper me-1"></i> Noticias <i class="bi bi-newspaper me-1"></i></h2>';
         echo '<div class="row justify-content-center">';
-    
+
         foreach ($events as $event) {
             echo '<div class="col-12 col-md-6 col-lg-4 mb-3">';
             echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2);">';
@@ -137,13 +143,14 @@ class BodyHome {
             echo '</div>';
             echo '</div>';
         }
-    
+
         echo '</div>';
         echo '</div>';
         echo '</section>';
     }
 
-    private function renderPaydaySection() {
+    private function renderPaydaySection()
+    {
         $countries = [
             [
                 'name' => 'México',
@@ -186,22 +193,22 @@ class BodyHome {
                 'paytime' => '14:00'
             ],
         ];
-    
+
         echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 20px 0;">';
         echo '<div class="container text-center">';
         echo '<h2 style="color: black; font-weight: bold;"><i class="bi bi-cash-coin me-1"></i> Día de Paga <i class="bi bi-cash-coin me-1"></i></h2>';
-        
+
         echo '<div id="paydayCarousel" class="carousel slide" data-bs-ride="carousel">';
-        
+
         echo '<div class="carousel-inner">';
-        
+
         $itemsPerSlide = 4;
         $totalSlides = ceil(count($countries) / $itemsPerSlide);
-        
+
         for ($i = 0; $i < $totalSlides; $i++) {
             echo '<div class="carousel-item ' . ($i === 0 ? 'active' : '') . '">';
             echo '<div class="row justify-content-center">';
-            
+
             for ($j = $i * $itemsPerSlide; $j < min(($i + 1) * $itemsPerSlide, count($countries)); $j++) {
                 $country = $countries[$j];
                 echo '<div class="col-md-3 mb-4">';
@@ -212,13 +219,13 @@ class BodyHome {
                 echo '</div>';
                 echo '</div>';
             }
-            
+
             echo '</div>';
             echo '</div>';
         }
-        
+
         echo '</div>';
-        
+
         echo '<button class="carousel-control-prev" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev" style="width: 5%;">';
         echo '<span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: black; border-radius: 50%; padding: 15px;"></span>';
         echo '<span class="visually-hidden">Anterior</span>';
@@ -227,13 +234,14 @@ class BodyHome {
         echo '<span class="carousel-control-next-icon" aria-hidden="true" style="background-color: black; border-radius: 50%; padding: 15px;"></span>';
         echo '<span class="visually-hidden">Siguiente</span>';
         echo '</button>';
-        
+
         echo '</div>';
         echo '</div>';
         echo '</section>';
     }
 
-    private function renderMembershipSection() {
+    private function renderMembershipSection()
+    {
         $memberships = [
             [
                 'title' => 'Membresía Gold',
@@ -272,13 +280,13 @@ class BodyHome {
                 'price' => '34 créditos por mes'
             ],
         ];
-    
+
         echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
         echo '<div class="container text-center">';
         echo '<h2 style="color: #333; font-weight: bold;"><i class="bi bi-gem me-1"></i> Membresías Disponibles <i class="bi bi-gem me-1"></i></h2>';
         echo '<p style="color: #666; font-size: 18px;">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
         echo '<div class="row justify-content-center">';
-    
+
         foreach ($memberships as $membership) {
             echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
             echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
@@ -291,7 +299,7 @@ class BodyHome {
             echo '</div>';
             echo '</div>';
         }
-    
+
         echo '</div>';
         echo '</div>';
         echo '</section>';
