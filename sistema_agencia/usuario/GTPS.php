@@ -1,9 +1,21 @@
 <?php
-
-// RUTAS DE GESTION DE PAGAS
-require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php'); // MOSTRAR USUARIOS
-
+require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php');
 require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
+
+// Calcular usuarios pendientes y aceptados de la tabla de cumplimientos
+$pendientes_count = 0;
+$aceptados_count = 0;
+
+if (!empty($GLOBALS['cumplimientos']) && is_array($GLOBALS['cumplimientos'])) {
+    foreach ($GLOBALS['cumplimientos'] as $cumplimiento) {
+        if ($cumplimiento['is_completed'] == 0) {
+            $pendientes_count++;
+        } else {
+            $aceptados_count++;
+        }
+    }
+}
+
 ?>
 
 <div class="container py-4">
@@ -14,28 +26,54 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
     </div>
 
     <div class="row mb-4">
-        <div class="col-md-6 mb-3">
+        <div class="col-md-3 mb-3">
             <div class="card shadow-sm h-100">
                 <div class="card-body d-flex align-items-center">
                     <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:50px;height:50px;">
                         <i class="bi bi-people-fill fs-3"></i>
                     </div>
                     <div>
-                        <h6 class="mb-1 text-muted">Total Usuarios</h6>
+                        <h6 class="mb-1 text-muted">Total Usuarios (Pagos)</h6>
                         <h4 class="mb-0"><?php echo count(array_unique(array_column($pagas, 'pagas_usuario'))); ?></h4>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-3 mb-3">
             <div class="card shadow-sm h-100">
                 <div class="card-body d-flex align-items-center">
                     <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:50px;height:50px;">
                         <i class="bi bi-currency-dollar fs-3"></i>
                     </div>
                     <div>
-                        <h6 class="mb-1 text-muted">Total</h6>
+                        <h6 class="mb-1 text-muted">Total Créditos para pagar</h6>
                         <h4 class="mb-0"><?php echo array_sum(array_column($pagas, 'pagas_recibio')); ?> créditos</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:50px;height:50px;">
+                        <i class="bi bi-clock fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-1 text-muted">Pendientes por aceptar</h6>
+                        <h4 class="mb-0"><?php echo $pendientes_count; ?></h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm h-100">
+                <div class="card-body d-flex align-items-center">
+                    <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width:50px;height:50px;">
+                        <i class="bi bi-check-circle fs-3"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-1 text-muted">Usuarios aceptados</h6>
+                        <h4 class="mb-0"><?php echo $aceptados_count; ?></h4>
                     </div>
                 </div>
             </div>
@@ -68,9 +106,9 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
                     }
                 </style>
             </div>
+
             <div class="card-body">
                 <div class="tab-content" id="myTabContent">
-                    <!-- Tab para Pagos -->
                     <div class="tab-pane fade show active" id="pagos-tab-pane" role="tabpanel" aria-labelledby="pagos-tab">
                         <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
                             <thead class="table-primary">
@@ -78,7 +116,7 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
                                     <th>Usuario</th>
                                     <th>Rango</th>
                                     <th>Sueldo</th>
-                                    <th>Membresia</th>
+                                    <th>Membresía</th>
                                     <th>Requisito</th>
                                     <th>Fecha</th>
                                 </tr>
@@ -89,7 +127,12 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
                                         <td><?php echo htmlspecialchars($paga['pagas_usuario']); ?></td>
                                         <td><?php echo htmlspecialchars($paga['pagas_rango']); ?></td>
                                         <td><?php echo htmlspecialchars($paga['pagas_recibio']); ?> créditos</td>
-                                        <td><?php echo htmlspecialchars($paga['pagas_motivo']); ?></td>
+                                        <td>
+                                            <?php
+                                                // Mostrar el título de la membresía si existe, de lo contrario "No tiene"
+                                                echo htmlspecialchars($paga['venta_titulo'] ?? 'No tiene');
+                                            ?>
+                                        </td>
                                         <td>
                                             <span class="badge <?php echo $paga['pagas_completo'] ? 'bg-success' : 'bg-danger'; ?>">
                                                 <?php echo $paga['pagas_completo'] ? 'Completo' : 'Pendiente'; ?>
@@ -102,7 +145,6 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
                         </table>
                     </div>
 
-                    <!-- Tab para Requisitos -->
                     <div class="tab-pane fade" id="requisitos-tab-pane" role="tabpanel" aria-labelledby="requisitos-tab">
                         <table id="cumplimientosTable" class="table table-bordered table-striped table-hover text-center mb-0">
                             <thead>
@@ -113,7 +155,6 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
                                     <th>Tiempos</th>
                                     <th>Ascensos</th>
                                     <th>Estatus</th>
-                                    <th>Última Actualización</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -133,7 +174,6 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
                                                     <?= $cumplimiento['is_completed'] ? 'Completado' : 'En espera' ?>
                                                 </span>
                                             </td>
-                                            <td><?= htmlspecialchars($cumplimiento['last_updated']) ?></td>
                                             <td>
                                                 <button class="btn btn-success btn-sm btn-completo" data-id="<?= htmlspecialchars($cumplimiento['id']) ?>">
                                                     <i class="fas fa-check"></i> Completo
@@ -158,7 +198,132 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
             </div>
         </div>
     </div>
-
 </div>
 
-<script src="/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const pagasDataTable = new simpleDatatables.DataTable("#pagasTable", {
+        searchable: true,
+        fixedHeight: true,
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "Registros por página",
+            noRows: "No hay registros",
+            info: "Mostrando {start} a {end} de {rows} registros",
+        }
+    });
+
+    const requisitosDataTable = new simpleDatatables.DataTable("#requisitosTable", {
+        searchable: true,
+        fixedHeight: true,
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "Registros por página",
+            noRows: "No hay registros",
+            info: "Mostrando {start} a {end} de {rows} registros",
+        }
+    });
+
+    const cumplimientosDataTable = new simpleDatatables.DataTable("#cumplimientosTable", {
+        searchable: true,
+        fixedHeight: true,
+        perPage: 10,
+        perPageSelect: [10, 25, 50, 100],
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "registros por página",
+            noRows: "No se encontraron registros",
+            info: "Mostrando {start} a {end} de {rows} registros",
+            loading: "Cargando...",
+            infoFiltered: "(filtrado de {rows} registros totales)",
+            next: "Siguiente",
+            previous: "Anterior"
+        }
+    });
+});
+
+document.addEventListener('click', function(e) {
+    if (e.target.closest('.btn-completo')) {
+        const id = e.target.closest('.btn-completo').dataset.id;
+        handleCompleto(id);
+    } else if (e.target.closest('.btn-no-completo')) {
+        const id = e.target.closest('.btn-no-completo').dataset.id;
+        handleNoCompleto(id);
+    }
+});
+
+function handleCompleto(id) {
+    Swal.fire({
+        title: 'Selecciona el tipo de cumplimiento',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Completó todos sus requisitos',
+        cancelButtonText: 'Cumplió pura nomina',
+        showDenyButton: false,
+        reverseButtons: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#ffc107'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateStatus(id, 'complete_all');
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            updateStatus(id, 'complete_bonus');
+        }
+    });
+}
+
+function handleNoCompleto(id) {
+    Swal.fire({
+        title: '¿Marcar como No completo?',
+        text: "Esta acción marcará el requisito como no completado.",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, marcar como no completo',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            updateStatus(id, 'incomplete');
+        }
+    });
+}
+
+function updateStatus(id, status) {
+    fetch('/private/procesos/gestion_cumplimientos/requisitos_completado.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'id=' + encodeURIComponent(id) + '&status=' + encodeURIComponent(status)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                icon: 'success',
+                title: '¡Actualizado!',
+                text: data.message,
+                timer: 2000,
+                showConfirmButton: false
+            }).then(() => {
+                location.reload();
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: '¡Error!',
+                text: data.message,
+            });
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'Hubo un problema al comunicarse con el servidor.',
+        });
+    });
+}
+</script>

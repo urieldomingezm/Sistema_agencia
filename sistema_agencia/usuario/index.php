@@ -104,7 +104,6 @@ class UserController
             'GTPS.php' => 'gestion_de_pagas',
             'VTM.php' => 'ventas_membresias',
             'VTR.php' => 'venta_rangos',
-            'CUMP.php' => 'cumplimiento_de_pagas',
         ];
 
         $results = [];
@@ -199,10 +198,6 @@ class UserController
             ],
             'requisitos_paga' => [
                 'file' => 'RQPG.php',
-                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
-            ],
-            'cumplimiento_de_pagas' => [
-                'file' => 'CUMP.php',
                 'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
             ],
 

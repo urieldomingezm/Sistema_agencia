@@ -94,6 +94,14 @@ $sections = [
         .info-row:last-child {
             border-bottom: none;
         }
+        /* Estilo para hacer las letras de los valores más grandes */
+        .info-row span.fw-bold {
+            font-size: 1rem;
+        }
+        /* Estilo para hacer las letras de las etiquetas más grandes */
+        .info-row span.text-muted.small {
+            font-size: 1rem; /* Ajustado a 1rem */
+        }
         .signature-box {
             background-color: #f8f9fa;
             border-radius: 6px;
@@ -116,6 +124,14 @@ $sections = [
             .section-title {
                 font-size: 0.95rem;
             }
+             /* Ajuste para pantallas pequeñas si es necesario */
+            .info-row span.fw-bold {
+                font-size: 0.9rem;
+            }
+            /* Ajuste para pantallas pequeñas si es necesario */
+            .info-row span.text-muted.small {
+                font-size: 0.9rem;
+            }
         }
     </style>
 
@@ -136,7 +152,7 @@ $sections = [
                 </div>
             </div>
         </div>
-        
+
         <!-- Contenido principal compacto -->
         <div class="container py-2 px-2">
             <!-- Información General -->
@@ -148,7 +164,7 @@ $sections = [
                     <?php foreach ($sections['Información'] as $item): ?>
                     <div class="info-row">
                         <span class="text-muted small"><?php echo htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8'); ?></span>
-                        <span class="fw-semibold text-end small">
+                        <span class="fw-bold text-end small">
                             <?php if (isset($item[2])): ?>
                                 <span class="<?php echo htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8'); ?> badge-sm px-1">
                                     <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
@@ -161,7 +177,7 @@ $sections = [
                     <?php endforeach; ?>
                 </div>
             </div>
-            
+
             <!-- Pagos y Tiempo en una fila -->
             <div class="row g-2">
                 <div class="col-md-6">
@@ -173,7 +189,7 @@ $sections = [
                             <?php foreach ($sections['Pagos'] as $item): ?>
                             <div class="info-row">
                                 <span class="text-muted small"><?php echo htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8'); ?></span>
-                                <span class="fw-semibold text-end small">
+                                <span class="fw-bold text-end small">
                                     <?php if (isset($item[2])): ?>
                                         <span class="<?php echo htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8'); ?> badge-sm px-1">
                                             <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
@@ -187,7 +203,7 @@ $sections = [
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-md-6">
                     <div class="card compact-card h-100">
                         <div class="card-header">
@@ -197,7 +213,7 @@ $sections = [
                             <?php foreach ($sections['Tiempo'] as $item): ?>
                             <div class="info-row">
                                 <span class="text-muted small"><?php echo htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8'); ?></span>
-                                <span class="fw-semibold text-end small">
+                                <span class="fw-bold text-end small">
                                     <?php if (isset($item[2])): ?>
                                         <span class="<?php echo htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8'); ?> badge-sm px-1">
                                             <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
@@ -212,7 +228,7 @@ $sections = [
                     </div>
                 </div>
             </div>
-            
+
             <!-- Ascenso -->
             <div class="card compact-card mt-2">
                 <div class="card-header">
@@ -222,7 +238,7 @@ $sections = [
                     <?php foreach ($sections['Ascenso'] as $item): ?>
                     <div class="info-row">
                         <span class="text-muted small"><?php echo htmlspecialchars($item[0], ENT_QUOTES, 'UTF-8'); ?></span>
-                        <span class="fw-semibold text-end small">
+                        <span class="fw-bold text-end small">
                             <?php if (isset($item[2])): ?>
                                 <span class="<?php echo htmlspecialchars($item[2], ENT_QUOTES, 'UTF-8'); ?> badge-sm px-1">
                                     <?php echo htmlspecialchars($item[1], ENT_QUOTES, 'UTF-8'); ?>
