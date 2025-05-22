@@ -112,9 +112,12 @@ $totalCreditosGeneral = $totalCreditosMembresias;
 
     <!-- Tabla de ventas -->
     <div class="card shadow border-0">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-dark text-white">
             <h5 class="card-title mb-0">
                 <i class="bi bi-table me-2"></i>Listado de Ventas
+                <button type="button" class="btn btn-primary btn-sm float-end" data-bs-toggle="modal" data-bs-target="#registrarCompraModal">
+                    <i class="bi bi-plus-lg me-1"></i>Registrar Compra
+                </button>
             </h5>
         </div>
         <div class="card-body p-0">

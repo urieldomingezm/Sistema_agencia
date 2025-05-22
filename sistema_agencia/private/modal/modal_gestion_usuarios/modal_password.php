@@ -55,9 +55,6 @@ require_once(PROCESO_CAMBIAR_PACTH . 'modificar_password.php');
     </div>
 </div>
 
-<!-- Incluir Just-Validate desde CDN -->
-<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
-
 <script>
 // Función para mostrar/ocultar contraseña
 document.getElementById('togglePassword1').addEventListener('click', function() {
