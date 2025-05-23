@@ -1,14 +1,15 @@
 # Usar una imagen base de PHP con Apache
 FROM php:8.2-apache
 
-# Instalar dependencias necesarias
+# Instalar dependencias necesarias y extensiones PHP
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
     zip \
     unzip \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    libpq-dev \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd pdo_pgsql
 
 # Habilitar el módulo de Apache para reescritura de URL
 RUN a2enmod rewrite

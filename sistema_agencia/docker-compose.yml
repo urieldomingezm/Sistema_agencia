@@ -9,35 +9,48 @@ services:
       - .:/var/www/html
       - /etc/letsencrypt:/etc/letsencrypt
     environment:
-      MYSQL_HOST: db
-      MYSQL_DATABASE: sistema_agencia
-      MYSQL_USER: agencia_user
-      MYSQL_PASSWORD: 123456
+      # Actualizar variables de entorno para PostgreSQL
+      PG_HOST: db
+      PG_DATABASE: sistema_agencia
+      PG_USER: agencia_user
+      PG_PASSWORD: 123456
     depends_on:
       - db
 
+  # Cambiar el servicio de 'db' a PostgreSQL
   db:
-    image: mysql:8.0
+    image: postgres:16 # Puedes elegir una versión específica de PostgreSQL
     ports:
-      - "3306:3306"
+      - "5432:5432" # Puerto por defecto de PostgreSQL
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: sistema_agencia
-      MYSQL_USER: agencia_user
-      MYSQL_PASSWORD: 123456
+      POSTGRES_DB: sistema_agencia
+      POSTGRES_USER: agencia_user
+      POSTGRES_PASSWORD: 123456
+      # POSTGRES_INITDB_ARGS: --encoding=UTF-8 # Opcional: configurar encoding si es necesario
     volumes:
-      - mysql_data:/var/lib/mysql
-    command: --log-bin-trust-function-creators=1 # Añadir esta línea
+      - pg_data:/var/lib/postgresql/data # Montar volumen para persistencia de datos
+    # No se necesita el comando --log-bin-trust-function-creators=1 en PostgreSQL
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+  # phpMyAdmin es para MySQL. Necesitarás un cliente para PostgreSQL, como pgAdmin.
+  # Puedes comentar o eliminar este servicio si no lo necesitas.
+  # Si necesitas pgAdmin, puedes añadir un servicio similar:
+  pgadmin:
+    image: dpage/pgadmin4
     ports:
-      - "8081:80"
+      - "8081:80" # O el puerto que prefieras
     environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root_password
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin_password
     depends_on:
       - db
+  # image: phpmyadmin/phpmyadmin # Comentamos o eliminamos el servicio phpmyadmin si ya no lo necesitas
+  # ports:
+  #   - "8081:80"
+  # environment:
+  #   PMA_HOST: db
+  #   MYSQL_ROOT_PASSWORD: root_password
+  # depends_on:
+  #   - db
 
   nginx:
     image: nginx:latest
@@ -51,4 +64,5 @@ services:
       - web
 
 volumes:
-  mysql_data:
+  # Cambiar el nombre del volumen para PostgreSQL
+  pg_data:
