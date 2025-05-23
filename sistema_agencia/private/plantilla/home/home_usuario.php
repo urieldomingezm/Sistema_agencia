@@ -50,9 +50,12 @@ class BodyHome
                     <i class="bi bi-star-fill me-2"></i> Agencia Shein <i class="bi bi-star-fill ms-2"></i>
                 </h1>
                 <p class="lead mb-4">Bienvenido <?= $username ?></p>
-                <div class="alert alert-warning mb-0">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    ¡Atención! Por el momento la toma de ascenso estará en mantenimiento.
+                <div class="alert alert-warning mb-0 d-flex align-items-center justify-content-center text-center">
+                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                    <div>
+                        <strong>¡Atención!</strong> Sistema en mantenimiento - Versión 20.0
+                        <small class="d-block text-muted">Estamos realizando mejoras para brindarte un mejor servicio.</small>
+                    </div>
                 </div>
             </div>
         </header>
