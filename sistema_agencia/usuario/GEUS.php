@@ -8,51 +8,92 @@ require_once(MODAL_GESTION_USUARIOS_PACH . 'modal_password.php');
     const PROCESO_CAMBIAR_PACTH = '/private/procesos/gestion_usuarios/';
 </script>
 
-
-<div class="container mt-4">
-    <div class="card shadow">
+<div class="container-fluid mt-4">
+    <div class="card shadow border-0">
         <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Gestión de Usuarios</h5>
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="bi bi-people-fill me-2"></i> Gestión de Usuarios</h4>
+                <button class="btn btn-light btn-sm rounded-pill" data-bs-toggle="tooltip" data-bs-placement="left" title="Ayuda">
+                    <i class="bi bi-question-circle"></i>
+                </button>
+            </div>
         </div>
-        <div class="card-body">
-            <table id="usuariosTable" class="table table-striped table-hover">
-                <thead>
-                    <tr class="text-white">
-                        <th>ID</th>
-                        <th>Habbo</th>
-                        <th>Password</th>
-                        <th>Fecha registro</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($usuarios as $usuario): ?>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table id="usuariosTable" class="table table-hover align-middle mb-0">
+                    <thead class="table-dark">
                         <tr>
-                            <td><?= htmlspecialchars($usuario['id']) ?></td>
-                            <td class="align-middle">
-                                <div class="d-flex align-items-center">
-                                    <span><?= htmlspecialchars($usuario['nombre_habbo']) ?></span>
-                                </div>
-                            </td>
-                            <td class="text-center"><?= htmlspecialchars(substr($usuario['password_registro'], 0, 10)) ?></td>
-                            <td class="text-center"><?= htmlspecialchars($usuario['fecha_registro']) ?></td>
-                            <td class="text-center">
-                                <div class="d-flex justify-content-center gap-1">
-                                    <button class="btn btn-primary btn-sm rounded-pill" onclick="editarUsuario(<?= $usuario['id'] ?>)">
-                                        Cambiar contraseña
-                                    </button>
-                                </div>
-                            </td>
+                            <th class="text-center" style="width: 80px;">ID</th>
+                            <th>Usuario Habbo</th>
+                            <th class="text-center" style="width: 200px;">Contraseña</th>
+                            <th class="text-center" style="width: 180px;">Fecha Registro</th>
+                            <th class="text-center" style="width: 200px;">Acciones</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($usuarios as $usuario): ?>
+                            <tr class="border-bottom">
+                                <td class="text-center fw-bold"><?= htmlspecialchars($usuario['id']) ?></td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <img loading="lazy" 
+                                             src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($usuario['nombre_habbo']) ?>&headonly=1&head_direction=3&size=m" 
+                                             alt="<?= htmlspecialchars($usuario['nombre_habbo']) ?>" 
+                                             class="rounded-circle me-3" 
+                                             width="40" 
+                                             height="40">
+                                        <div>
+                                            <span class="fw-semibold"><?= htmlspecialchars($usuario['nombre_habbo']) ?></span>
+                                            <small class="d-block text-muted">ID: <?= htmlspecialchars($usuario['id']) ?></small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <div class="input-group input-group-sm justify-content-center">
+                                        <input type="password" 
+                                               class="form-control form-control-sm bg-light text-center" 
+                                               value="<?= htmlspecialchars(substr($usuario['password_registro'], 0, 10)) ?>" 
+                                               readonly 
+                                               style="width: 120px;">
+                                        <button class="btn btn-outline-secondary btn-sm toggle-password" type="button">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <span class="badge bg-light text-dark">
+                                        <i class="bi bi-calendar3 me-1"></i>
+                                        <?= date('d/m/Y', strtotime($usuario['fecha_registro'])) ?>
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <button class="btn btn-primary btn-sm rounded-pill px-3 py-1 d-flex align-items-center" 
+                                                onclick="editarUsuario(<?= $usuario['id'] ?>)"
+                                                data-bs-toggle="tooltip" 
+                                                data-bs-placement="top" 
+                                                title="Cambiar contraseña">
+                                            <i class="bi bi-key-fill me-1"></i>
+                                            <span>Cambiar</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-light">
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">Total usuarios: <?= count($usuarios) ?></small>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
         const dataTable = new simpleDatatables.DataTable("#usuariosTable", {
             searchable: true,
             fixedHeight: true,
@@ -73,122 +114,131 @@ require_once(MODAL_GESTION_USUARIOS_PACH . 'modal_password.php');
         });
     });
 
-    function editarUsuario(id) {
-        const tabla = document.getElementById('usuariosTable');
-        let nombreHabbo = '';
-
-        const filas = tabla.querySelectorAll('tbody tr');
-        filas.forEach(fila => {
-            const celdaId = fila.querySelector('td:first-child');
-            if (celdaId && celdaId.textContent == id) {
-                nombreHabbo = fila.querySelector('td:nth-child(2)').textContent;
-            }
-        });
-
-        document.getElementById('usuario_id').value = id;
-        document.getElementById('nombre_habbo').value = nombreHabbo;
-        document.getElementById('nueva_password').value = '';
-        document.getElementById('confirmar_password').value = '';
-
-        const modal = new bootstrap.Modal(document.getElementById('modalCambiarPassword'));
-        modal.show();
-    }
-
-    document.getElementById('formCambiarPassword').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const usuarioId = document.getElementById('usuario_id').value;
-        const nuevaPassword = document.getElementById('nueva_password').value;
-        const confirmarPassword = document.getElementById('confirmar_password').value;
-
-        if (nuevaPassword !== confirmarPassword) {
-            Swal.fire({
-                title: 'Error',
-                text: 'Las contraseñas no coinciden',
-                icon: 'error',
-                confirmButtonText: 'Entendido'
-            });
-            return;
-        }
-
-        if (nuevaPassword.trim() === '') {
-            Swal.fire({
-                title: 'Error',
-                text: 'La contraseña no puede estar vacía',
-                icon: 'error',
-                confirmButtonText: 'Entendido'
-            });
-            return;
-        }
-
-        Swal.fire({
-            title: 'Procesando',
-            text: 'Actualizando contraseña...',
-            icon: 'info',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            willOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        const formData = new FormData();
-        formData.append('usuario_id', usuarioId);
-        formData.append('nueva_password', nuevaPassword);
-
-        fetch(PROCESO_CAMBIAR_PACTH + 'modificar_password.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor: ' + response.status);
-                }
-                return response.text();
-            })
-            .then(data => {
-                const modalElement = document.getElementById('modalCambiarPassword');
-                const modal = bootstrap.Modal.getInstance(modalElement);
-                modal.hide();
-
-                if (data.trim() === "success") {
-                    Swal.fire({
-                        title: 'Éxito',
-                        text: 'Contraseña actualizada correctamente',
-                        icon: 'success',
-                        confirmButtonText: 'Entendido'
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                } else {
-                    throw new Error('La respuesta del servidor no fue exitosa: ' + data);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Ocurrió un error al actualizar la contraseña: ' + error.message,
-                    icon: 'error',
-                    confirmButtonText: 'Entendido'
-                });
-            });
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    function eliminarUsuario(id) {
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: "Esta acción no se puede revertir",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                console.log('Eliminar usuario con ID:', id);
+    // Toggle para mostrar/ocultar contraseña
+    document.querySelectorAll('.toggle-password').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            const icon = this.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
             }
         });
+    });
+});
+
+function editarUsuario(id) {
+    const tabla = document.getElementById('usuariosTable');
+    let nombreHabbo = '';
+
+    const filas = tabla.querySelectorAll('tbody tr');
+    filas.forEach(fila => {
+        const celdaId = fila.querySelector('td:first-child');
+        if (celdaId && celdaId.textContent == id) {
+            nombreHabbo = fila.querySelector('td:nth-child(2) span.fw-semibold').textContent;
+        }
+    });
+
+    document.getElementById('usuario_id').value = id;
+    document.getElementById('nombre_habbo').value = nombreHabbo;
+    document.getElementById('nueva_password').value = '';
+    document.getElementById('confirmar_password').value = '';
+
+    const modal = new bootstrap.Modal(document.getElementById('modalCambiarPassword'));
+    modal.show();
+}
+
+document.getElementById('formCambiarPassword').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const usuarioId = document.getElementById('usuario_id').value;
+    const nuevaPassword = document.getElementById('nueva_password').value;
+    const confirmarPassword = document.getElementById('confirmar_password').value;
+
+    if (nuevaPassword !== confirmarPassword) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Las contraseñas no coinciden',
+            icon: 'error',
+            confirmButtonText: 'Entendido'
+        });
+        return;
     }
+
+    if (nuevaPassword.trim() === '') {
+        Swal.fire({
+            title: 'Error',
+            text: 'La contraseña no puede estar vacía',
+            icon: 'error',
+            confirmButtonText: 'Entendido'
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: 'Procesando',
+        text: 'Actualizando contraseña...',
+        icon: 'info',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    const formData = new FormData();
+    formData.append('usuario_id', usuarioId);
+    formData.append('nueva_password', nuevaPassword);
+
+    fetch(PROCESO_CAMBIAR_PACTH + 'modificar_password.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor: ' + response.status);
+            }
+            return response.text();
+        })
+        .then(data => {
+            const modalElement = document.getElementById('modalCambiarPassword');
+            const modal = bootstrap.Modal.getInstance(modalElement);
+            modal.hide();
+
+            if (data.trim() === "success") {
+                Swal.fire({
+                    title: 'Éxito',
+                    text: 'Contraseña actualizada correctamente',
+                    icon: 'success',
+                    confirmButtonText: 'Entendido'
+                }).then(() => {
+                    window.location.reload();
+                });
+            } else {
+                throw new Error('La respuesta del servidor no fue exitosa: ' + data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Ocurrió un error al actualizar la contraseña: ' + error.message,
+                icon: 'error',
+                confirmButtonText: 'Entendido'
+            });
+        });
+});
 </script>

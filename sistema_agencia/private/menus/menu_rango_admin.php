@@ -177,7 +177,7 @@ class Navbar {
       'Ventas membresias' => 'bi bi-person-badge-fill',
       'Gestion de pagas' => 'bi bi-wallet2',
       'Grafico total de pagas' => 'bi bi-pie-chart-fill',
-      'Cumplimiento de pagas' => 'bi bi-check-circle-fill',
+      // 'Cumplimiento de pagas' => 'bi bi-check-circle-fill', // Eliminado
       'Gestionar usuarios' => 'bi bi-gear-fill',
       'Vender membresias' => 'bi bi-tags-fill',
       'Vender rangos' => 'bi bi-award-fill',
@@ -236,7 +236,7 @@ $items = [
     'Vender membresias',
     'Vender rangos'
   ]],
-  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas', 'Cumplimiento de pagas']],
+  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas']], // Eliminado 'Cumplimiento de pagas'
 ];
 
 $navbar = new Navbar('Agencia Shein', $items);

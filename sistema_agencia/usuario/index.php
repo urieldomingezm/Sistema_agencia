@@ -104,7 +104,6 @@ class UserController
             'GTPS.php' => 'gestion_de_pagas',
             'VTM.php' => 'ventas_membresias',
             'VTR.php' => 'venta_rangos',
-            'CUMP.php' => 'cumplimiento_de_pagas',
         ];
 
         $results = [];
@@ -199,10 +198,6 @@ class UserController
             ],
             'requisitos_paga' => [
                 'file' => 'RQPG.php',
-                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
-            ],
-            'cumplimiento_de_pagas' => [
-                'file' => 'CUMP.php',
                 'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
             ],
 
@@ -319,3 +314,16 @@ $controller = new UserController();
         });
     </script>
 </body>
+
+<?php
+// Detectar si es un dispositivo móvil
+function isMobileDevice() {
+    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+}
+
+// Redirigir a la versión móvil si es necesario
+if (isMobileDevice() && !isset($_GET['desktop'])) {
+    header('Location: /usuario/movil/index.php');
+    exit;
+}
+?>

@@ -168,9 +168,6 @@ $header->addCssFile('/public/assets/custom_general/custom_menus/style.css');
 // Archivos estilos de body home (versiones locales)
 $header->addCssFile('/public/assets/custom_general/custom_home/style.css');
 
-// Archivos estilos para perfiles (versiones locales)
-$header->addCssFile('/public/assets/custom_general/custom_perfil/style.css');
-
 // Archivos de tabla de rangos, misiones y costos CSS personalizados (versiones locales)
 $header->addCssFile('/public/assets/custom_general/custom/css/style.css');
 
