@@ -50,12 +50,6 @@ class GestionAscensos
                             border-collapse: separate;
                             border-spacing: 0;
                         }
-                        .table th {
-                            background-color: #212529;
-                            color: white;
-                            font-weight: 500;
-                            border-bottom: 2px solid #0d6efd;
-                        }
                         .table tbody tr:nth-of-type(odd) {
                             background-color: rgba(0, 0, 0, 0.02);
                         }
@@ -65,6 +59,14 @@ class GestionAscensos
                         .table td, .table th {
                             padding: 0.75rem;
                             vertical-align: middle;
+                        }
+                        .action-btn {
+                            padding: 0.25rem 0.5rem;
+                            font-size: 0.75rem;
+                            margin: 0 0.1rem;
+                        }
+                        .action-btn i {
+                            font-size: 0.8rem;
                         }
                     </style>
                 </div>
@@ -77,9 +79,9 @@ class GestionAscensos
                                         <tr>
                                             <th class="text-center">Nombre</th>
                                             <th class="text-center">Rango</th>
-                                            <th class="text-center">Misión</th>
                                             <th class="text-center">Estado</th>
-                                            <th class="text-center">Transcurrido</th>
+                                            <th class="text-center">Próximo ascenso</th>
+                                            <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody class="border-top-0">';
@@ -91,7 +93,7 @@ class GestionAscensos
             if (strtolower($ascenso['estado_ascenso']) === 'disponible') {
                 // Verificar si el ascenso ya fue procesado
                 if (!in_array($ascenso['id_ascenso'] ?? $ascenso['codigo_time'], $processedAscensos)) {
-                    $html .= $this->renderRow($ascenso);
+                    $html .= $this->renderRow($ascenso, true);
                     $processedAscensos[] = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'];
                 }
             }
@@ -108,16 +110,16 @@ class GestionAscensos
                                         <tr>
                                             <th class="text-center">Nombre</th>
                                             <th class="text-center">Rango</th>
-                                            <th class="text-center">Misión</th>
                                             <th class="text-center">Estado</th>
                                             <th class="text-center">Transcurrido</th>
+                                            <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody class="border-top-0">';
 
         foreach ($this->ascensos as $ascenso) {
             if (strtolower($ascenso['estado_ascenso']) === 'completado') {
-                $html .= $this->renderRow($ascenso);
+                $html .= $this->renderRow($ascenso, false);
             }
         }
 
@@ -132,16 +134,16 @@ class GestionAscensos
                                         <tr>
                                             <th class="text-center">Nombre</th>
                                             <th class="text-center">Rango</th>
-                                            <th class="text-center">Misión</th>
                                             <th class="text-center">Estado</th>
                                             <th class="text-center">Transcurrido</th>
+                                            <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody class="border-top-0">';
 
         foreach ($this->ascensos as $ascenso) {
             if (strtolower($ascenso['estado_ascenso']) === 'pendiente') {
-                $html .= $this->renderRow($ascenso);
+                $html .= $this->renderRow($ascenso, false);
             }
         }
 
@@ -164,16 +166,35 @@ class GestionAscensos
         return $html;
     }
 
-    private function renderRow($ascenso)
+    private function renderRow($ascenso, $isDisponible)
     {
         $estado = $this->getStatusBadge($ascenso['estado_ascenso']);
+        $codigo = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'];
+        
+        // Botones de acción según el estado
+        $acciones = '<div class="d-flex justify-content-center">';
+        
+        if ($isDisponible) {
+            $acciones .= '<button type="button" class="btn btn-success action-btn ascender-btn" data-id="' . $codigo . '" title="Ascender">
+                            <i class="bi bi-arrow-up-circle"></i>
+                        </button>
+                        <button type="button" class="btn btn-warning action-btn posponer-btn" data-id="' . $codigo . '" title="Posponer">
+                            <i class="bi bi-clock-history"></i>
+                        </button>';
+        } else {
+            $acciones .= '<button type="button" class="btn btn-primary action-btn detalles-btn" data-id="' . $codigo . '" title="Ver detalles">
+                            <i class="bi bi-info-circle"></i>
+                        </button>';
+        }
+        
+        $acciones .= '</div>';
 
         return '<tr>
             <td class="text-center align-middle text-truncate" style="max-width: 100px;">' . htmlspecialchars($ascenso['nombre_habbo']) . '</td>
             <td class="text-center align-middle text-truncate" style="max-width: 100px;">' . htmlspecialchars($ascenso['rango_actual']) . '</td>
-            <td class="text-center align-middle text-truncate" style="max-width: 100px;">' . htmlspecialchars($ascenso['mision_actual']) . '</td>
             <td class="text-center align-middle">' . $estado . '</td>
             <td class="text-center align-middle text-truncate" style="max-width: 100px;">' . htmlspecialchars($ascenso['tiempo_ascenso']) . '</td>
+            <td class="text-center align-middle">' . $acciones . '</td>
         </tr>';
     }
 
@@ -215,3 +236,84 @@ echo $gestionAscensos->renderTable();
 ?>
 
 <script src="/public/assets/custom_general/custom_gestion_ascensos/index_gestion.js"></script>
+
+<script>
+// Script para manejar las acciones de los botones
+$(document).ready(function() {
+    // Botón de ascender
+    $(document).on('click', '.ascender-btn', function() {
+        const id = $(this).data('id');
+        Swal.fire({
+            title: '¿Confirmar ascenso?',
+            text: "Vas a procesar este ascenso",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#28a745',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, ascender',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aquí iría la lógica para procesar el ascenso
+                Swal.fire('¡Ascendido!', 'El usuario ha sido ascendido correctamente.', 'success');
+            }
+        });
+    });
+
+    // Botón de posponer
+    $(document).on('click', '.posponer-btn', function() {
+        const id = $(this).data('id');
+        Swal.fire({
+            title: 'Posponer ascenso',
+            text: "Indica el motivo para posponer este ascenso",
+            input: 'textarea',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#ffc107',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Posponer',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aquí iría la lógica para posponer el ascenso
+                Swal.fire('Pospuesto', 'El ascenso ha sido pospuesto.', 'info');
+            }
+        });
+    });
+
+    // Botón de ver detalles
+    $(document).on('click', '.detalles-btn', function() {
+        const id = $(this).data('id');
+        // Aquí iría la lógica para mostrar los detalles
+        Swal.fire({
+            title: 'Detalles del ascenso',
+            html: '<div class="text-start"><p><strong>ID:</strong> ' + id + '</p>' +
+                  '<p><strong>Fecha de procesamiento:</strong> 01/01/2023</p>' +
+                  '<p><strong>Procesado por:</strong> Admin</p>' +
+                  '<p><strong>Observaciones:</strong> Ascenso completado correctamente</p></div>',
+            icon: 'info',
+            confirmButtonText: 'Cerrar'
+        });
+    });
+
+    // Botón de eliminar
+    $(document).on('click', '.eliminar-btn', function() {
+        const id = $(this).data('id');
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Esta acción no se puede revertir",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Aquí iría la lógica para eliminar
+                Swal.fire('¡Eliminado!', 'El registro ha sido eliminado.', 'success');
+            }
+        });
+    });
+});
+</script>
