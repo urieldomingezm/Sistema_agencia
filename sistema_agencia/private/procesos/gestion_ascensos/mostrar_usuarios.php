@@ -8,7 +8,8 @@ class AscensoManager {
         $this->conn = $db->getConnection();
     }
 
-    public function getAllAscensos() {
+    public function getAllAscensos()
+    {
         // SQL query to select data from the ascensos table and join with registro_usuario
         // Selecting nombre_habbo from registro_usuario table
         $sql = "SELECT
@@ -26,7 +27,7 @@ class AscensoManager {
                     ascensos a
                 JOIN
                     registro_usuario ru ON a.codigo_time = ru.codigo_time -- Join on codigo_time
-                WHERE a.rango_actual IN ('Agente', 'Seguridad', 'Técnico', 'Logística', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta Directiva')";
+                WHERE a.rango_actual IN ('Agente', 'Seguridad', 'Técnico', 'Logística', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta Directiva')"; // Added WHERE clause back
 
         try {
             $stmt = $this->conn->prepare($sql);
@@ -39,8 +40,16 @@ class AscensoManager {
                     $lastAscensoDate = new DateTime($row['fecha_ultimo_ascenso']);
                     $now = new DateTime();
                     $interval = $now->diff($lastAscensoDate);
-                    // Format the interval (e.g., "X days, Y hours")
-                    $row['tiempo_ascenso'] = $interval->format('%a días, %h horas');
+
+                    // Calculate total hours, minutes, and seconds
+                    $total_seconds = $interval->s + ($interval->i * 60) + ($interval->h * 3600) + ($interval->days * 86400);
+
+                    // Format total seconds into HH:MM:SS
+                    $hours = floor($total_seconds / 3600);
+                    $minutes = floor(($total_seconds % 3600) / 60);
+                    $seconds = $total_seconds % 60;
+
+                    $row['tiempo_ascenso'] = sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
                 } else {
                     $row['tiempo_ascenso'] = 'N/A'; // Or some other default value
                 }
