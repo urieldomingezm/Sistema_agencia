@@ -1,12 +1,15 @@
 <?php
+
 class GestionAscensos {
     private $ascensos;
+
     public function __construct() {
         require_once(GESTION_ASCENSOS_PATCH . 'mostrar_usuarios.php');
         $database = new Database();
         $ascensoManager = new AscensoManager($database);
         $this->ascensos = $ascensoManager->getAllAscensos();
     }
+
     public function renderTable() {
         $html = '<div class="container-fluid mt-4">
             <div class="card shadow-lg">
@@ -40,15 +43,9 @@ class GestionAscensos {
                         </li>
                     </ul>
                     <style>
-                        .nav-link.active {
-                            opacity: 1 !important;
-                        }
-                        .nav-link:not(.active) {
-                            opacity: 0.6 !important;
-                        }
-                        .nav-link:hover {
-                            opacity: 0.8 !important;
-                        }
+                        .nav-link.active {opacity: 1 !important;}
+                        .nav-link:not(.active) {opacity: 0.6 !important;}
+                        .nav-link:hover {opacity: 0.8 !important;}
                     </style>
                 </div>
                 <div class="card-body">
@@ -142,52 +139,46 @@ class GestionAscensos {
         return $html;
     }
 
-    private function renderRow($ascenso, $isDisponible)
-    {
+    private function renderRow($ascenso, $isDisponible) {
         $estado = $this->getStatusBadge($ascenso['estado_ascenso']);
         $codigo = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'];
-        // Determine the correct date field based on status
-        // Changed back to fecha_ultimo_ascenso for available ascensos
         $fechaCampo = $isDisponible ? 'fecha_ultimo_ascenso' : ($ascenso['estado_ascenso'] === 'ascendido' ? 'fecha_ascenso' : 'fecha_pospuesto');
 
-        // Determine badge style based on rank
         $badgeStyle = '';
         switch ($ascenso['rango_actual']) {
             case 'Agente':
-                $badgeStyle = 'background-color: #f8f9fa; color: #212529; border: 1px solid #dee2e6;'; // White with black/grey text
+                $badgeStyle = 'background-color: #f8f9fa; color: #212529; border: 1px solid #dee2e6;';
                 break;
             case 'Seguridad':
-                $badgeStyle = 'background-color: #212529; color: #f8f9fa;'; // Black with white text
+                $badgeStyle = 'background-color: #212529; color: #f8f9fa;';
                 break;
             case 'Técnico':
-                $badgeStyle = 'background-color: #6f42c1; color: #f8f9fa;'; // Purple with white text (using a Bootstrap purple)
+                $badgeStyle = 'background-color: #6f42c1; color: #f8f9fa;';
                 break;
             case 'Logística':
-                $badgeStyle = 'background-color: #6610f2; color: #f8f9fa;'; // Another purple option
+                $badgeStyle = 'background-color: #6610f2; color: #f8f9fa;';
                 break;
             case 'Supervisor':
-                $badgeStyle = 'background-color: #6c757d; color: #f8f9fa;'; // Grey with white text
+                $badgeStyle = 'background-color: #6c757d; color: #f8f9fa;';
                 break;
             case 'Director':
-                $badgeStyle = 'background-color: #dc3545; color: #f8f9fa;'; // Red with white text
+                $badgeStyle = 'background-color: #dc3545; color: #f8f9fa;';
                 break;
             case 'Presidente':
-                $badgeStyle = 'background-color: #0d6efd; color: #f8f9fa;'; // Blue with white text
+                $badgeStyle = 'background-color: #0d6efd; color: #f8f9fa;';
                 break;
             case 'Operativo':
-                $badgeStyle = 'background-color: #ffc107; color: #212529;'; // Yellow with black text
+                $badgeStyle = 'background-color: #ffc107; color: #212529;';
                 break;
             case 'Junta directiva':
-                $badgeStyle = 'background-color: #198754; color: #f8f9fa;'; // Green with white text
+                $badgeStyle = 'background-color: #198754; color: #f8f9fa;';
                 break;
             default:
-                $badgeStyle = 'background-color: #6c757d; color: #f8f9fa;'; // Default grey with white
+                $badgeStyle = 'background-color: #6c757d; color: #f8f9fa;';
         }
 
-        // Format the date/time based on the field
         $formattedDate = 'N/A';
         if (!empty($ascenso[$fechaCampo])) {
-            // Use existing formatDate for all date fields now
             $formattedDate = $this->formatDate($ascenso[$fechaCampo]);
         }
 
@@ -210,8 +201,7 @@ class GestionAscensos {
         </tr>';
     }
 
-    private function renderActions($ascenso, $isDisponible)
-    {
+    private function renderActions($ascenso, $isDisponible) {
         $codigo = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'];
         $actions = '<div class="btn-group btn-group-sm" role="group">';
 
@@ -234,8 +224,7 @@ class GestionAscensos {
         return $actions;
     }
 
-    private function getStatusBadge($status)
-    {
+    private function getStatusBadge($status) {
         $status = strtolower($status);
         $badge_class = '';
         $status_text = '';
@@ -266,8 +255,7 @@ class GestionAscensos {
         return '<span class="badge bg-' . $badge_class . '"><i class="bi ' . $icon . ' me-1"></i>' . $status_text . '</span>';
     }
 
-    private function formatDate($date)
-    {
+    private function formatDate($date) {
         if (!empty($date)) {
             return date('d/m/Y H:i', strtotime($date));
         }
@@ -279,5 +267,4 @@ $gestionAscensos = new GestionAscensos();
 echo $gestionAscensos->renderTable();
 ?>
 
-<!-- JavaScript para la gestión de ascensos -->
 <script src="/public/assets/custom_general/custom_gestion_ascensos/index_gestion.js"></script>
