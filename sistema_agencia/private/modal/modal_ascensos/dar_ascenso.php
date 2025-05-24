@@ -1,4 +1,4 @@
-<div class="modal fade" id="dar_ascenso_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="dar_ascenso_modalLabel" aria-hidden="true">
+<div class="modal fade" id="dar_ascenso_modal" tabindex="-1" aria-labelledby="dar_ascenso_modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
         <div class="modal-content">
             <!-- Encabezado del Modal -->
@@ -364,7 +364,10 @@
 
         darAscensoModal.addEventListener('show.bs.modal', function() {
             mostrarPasoAscenso(1);
-            codigoTimeAscensoInput.value = '';
+            // Only clear the input if it's empty. This allows pre-filling from other scripts.
+            if (!codigoTimeAscensoInput.value) {
+                codigoTimeAscensoInput.value = '';
+            }
             resultadoBusquedaAscensoDiv.innerHTML = '';
             nextBtnAscenso.disabled = true;
             datosUsuarioAscenso = {};

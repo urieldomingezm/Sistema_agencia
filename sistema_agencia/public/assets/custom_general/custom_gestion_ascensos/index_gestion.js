@@ -25,37 +25,26 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
         if (e.target.matches('.ascender-btn')) {
             const id = e.target.dataset.id;
-            Swal.fire({
-                title: '¿Confirmar ascenso?',
-                text: "Vas a procesar este ascenso",
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#28a745',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, ascender',
-                cancelButtonText: 'Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // AJAX para procesar el ascenso
-                    fetch('/private/procesos/gestion_ascensos/registrar_ascenso.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ id: id })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return Swal.fire('¡Ascendido!', 'El usuario ha sido ascendido correctamente.', 'success');
-                    })
-                    .then(() => location.reload())
-                    .catch(() => {
-                        Swal.fire('Error', 'No se pudo completar el ascenso', 'error');
-                    });
-                }
-            });
+            
+            // Get the modal element and the input field for the user code
+            const darAscensoModal = new bootstrap.Modal(document.getElementById('dar_ascenso_modal'));
+            const codigoTimeAscensoInput = document.getElementById('codigoTimeAscenso');
+
+            // Set the user code in the input field
+            if (codigoTimeAscensoInput) {
+                codigoTimeAscensoInput.value = id;
+            }
+
+            // Open the modal
+            darAscensoModal.show();
+
+            // Optionally, trigger the search automatically after setting the code
+            // You might need to find the search button element and trigger its click event
+            const buscarUsuarioAscensoBtn = document.getElementById('buscarUsuarioAscenso');
+            if (buscarUsuarioAscensoBtn) {
+                 buscarUsuarioAscensoBtn.click();
+            }
+
         } else if (e.target.matches('.verificar-tiempo-btn')) {
             const id = e.target.closest('button').dataset.id;
             verificarTiempoAscenso(id);
@@ -64,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Removed the redundant querySelectorAll loop here
 });
-
 function verificarTiempoAscenso(id) {
     fetch('/private/procesos/gestion_ascensos/actualizar_tiempo.php', {
         method: 'POST',

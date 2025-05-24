@@ -29,10 +29,10 @@ class AscensoTimeManager {
                 $fecha_disponible = new DateTime($ascenso_data['fecha_disponible_ascenso']);
 
                 if ($hora_actual >= $fecha_disponible) {
-                    // Usar NOW() para la fecha y hora actual
+                    // Usar DATE(NOW()) para obtener solo la fecha y que la hora sea 00:00:00
                     $update_query = "UPDATE ascensos SET 
                         estado_ascenso = 'disponible',
-                        fecha_disponible_ascenso = NOW()
+                        fecha_disponible_ascenso = TIME(NOW())
                         WHERE " . $id_column . " = :id_ascenso";
                     
                     $update_stmt = $this->conn->prepare($update_query);

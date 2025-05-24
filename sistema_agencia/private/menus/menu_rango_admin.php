@@ -1,18 +1,21 @@
 <?php
-class Navbar {
+class Navbar
+{
   private $brand;
   private $items;
   private $searchPlaceholder;
   private $searchButtonText;
 
-  public function __construct($brand, $items, $searchPlaceholder = "Buscar", $searchButtonText = "Buscar") {
+  public function __construct($brand, $items, $searchPlaceholder = "Buscar", $searchButtonText = "Buscar")
+  {
     $this->brand = $brand;
     $this->items = $items;
     $this->searchPlaceholder = $searchPlaceholder;
     $this->searchButtonText = $searchButtonText;
   }
 
-  public function render() {
+  public function render()
+  {
 ?>
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
@@ -22,46 +25,53 @@ class Navbar {
         </a>
 
         <div class="d-flex align-items-center">
-          <div class="dropdown me-2">
-            <button class="btn btn-outline-light position-relative" type="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-bell-fill"></i>
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                3
-                <span class="visually-hidden">unread notifications</span>
-              </span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="notificationDropdown">
-              <li><a class="dropdown-item" href="#">Notificación 1</a></li>
-              <li><a class="dropdown-item" href="#">Notificación 2</a></li>
-              <li><a class="dropdown-item" href="#">Notificación 3</a></li>
-            </ul>
+          <div class="d-flex align-items-center me-3 gap-2">
+            <!-- Botón de usuario -->
+            <div class="dropdown">
+              <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center position-relative" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle me-1"></i>
+                <span class="d-none d-sm-inline">
+                  <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
+                </span>
+                <span class="d-inline d-sm-none">
+                  <?php
+                  if (isset($_SESSION["usuario"])) {
+                    $nombre = $_SESSION["usuario"];
+                    echo strlen($nombre) > 6 ? substr($nombre, 0, 6) . "..." : $nombre;
+                  } else {
+                    echo "Usuario";
+                  }
+                  ?>
+                </span>
+
+                <!-- Icono de campana con badge dentro del mismo botón -->
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  3
+                  <span class="visually-hidden">unread notifications</span>
+                </span>
+              </button>
+
+              <!-- Menú desplegable combinado -->
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+                <li>
+                  <h6 class="dropdown-header">Notificaciones</h6>
+                </li>
+                <li><a class="dropdown-item" href="#">Notificación 1</a></li>
+                <li><a class="dropdown-item" href="#">Notificación 2</a></li>
+                <li><a class="dropdown-item" href="#">Notificación 3</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> <span class="d-none d-sm-inline">Ver perfil</span><span class="d-inline d-sm-none">Perfil</span></a></li>
+                <li>
+                  <hr class="dropdown-divider my-1">
+                </li>
+                <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> <span class="d-none d-sm-inline">Cerrar sesión</span><span class="d-inline d-sm-none">Salir</span></a></li>
+              </ul>
+            </div>
+
           </div>
 
-          <div class="dropdown me-3">
-            <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-person-circle me-1"></i>
-              <span class="d-none d-sm-inline">
-                <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
-              </span>
-              <span class="d-inline d-sm-none">
-                <?php
-                if (isset($_SESSION["usuario"])) {
-                  $nombre = $_SESSION["usuario"];
-                  echo strlen($nombre) > 6 ? substr($nombre, 0, 6) . "..." : $nombre;
-                } else {
-                  echo "Usuario";
-                }
-                ?>
-              </span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu shadow-sm" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> <span class="d-none d-sm-inline">Ver perfil</span><span class="d-inline d-sm-none">Perfil</span></a></li>
-              <li>
-                <hr class="dropdown-divider my-1">
-              </li>
-              <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> <span class="d-none d-sm-inline">Cerrar sesión</span><span class="d-inline d-sm-none">Salir</span></a></li>
-            </ul>
-          </div>
 
           <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-label="Abrir menú">
             <i class="bi bi-list text-white"></i>
@@ -151,10 +161,11 @@ class Navbar {
 <?php
   }
 
-  private function getMenuIcon($itemName) {
+  private function getMenuIcon($itemName)
+  {
     $icons = [
       'Inicio' => 'bi bi-house-door-fill',
-      'Perfil' => 'bi bi-person-fill', 
+      'Perfil' => 'bi bi-person-fill',
       'Informacion' => 'bi bi-info-circle-fill',
       'Ascensos' => 'bi bi-arrow-up-circle-fill',
       'Tiempos' => 'bi bi-clock-fill',
@@ -166,7 +177,8 @@ class Navbar {
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
 
-  private function getDropdownIcon($itemName) {
+  private function getDropdownIcon($itemName)
+  {
     $icons = [
       'Ver perfil' => 'bi bi-person-circle',
       'Cerrar session' => 'bi bi-box-arrow-right',
@@ -192,7 +204,8 @@ class Navbar {
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
 
-  private function getItemUrl($item) {
+  private function getItemUrl($item)
+  {
     $modalItems = [
       'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
       'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
@@ -366,7 +379,7 @@ require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
       }
     });
 
-    $('#notificationDropdown').on('click', function () {
+    $('#notificationDropdown').on('click', function() {
       $(this).find('.badge').hide();
     });
 
