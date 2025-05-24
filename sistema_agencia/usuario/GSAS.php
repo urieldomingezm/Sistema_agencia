@@ -31,6 +31,8 @@ class GestionAscensos {
                                     <th class="text-center">Rango</th>
                                     <th class="text-center">Estado</th>
                                     <th class="text-center">Próximo Ascenso</th>
+                                    <th class="text-center">Transcurrido</th>
+                                    <th class="text-center">Disponible</th>
                                     <th class="text-center">Acciones</th>
                                 </tr>
                             </thead>
@@ -108,6 +110,8 @@ class GestionAscensos {
         }
 
         $fechaMostrar = !empty($ascenso['fecha_ultimo_ascenso']) ? date('d/m/Y H:i', strtotime($ascenso['fecha_ultimo_ascenso'])) : '';
+        $fechaDisponible = !empty($ascenso['fecha_disponible_ascenso']) ? date('H:i:s', strtotime($ascenso['fecha_disponible_ascenso'])) : '';
+        $elapsedTime = $this->calculateElapsedTime($ascenso['fecha_ultimo_ascenso']);
 
         return '<tr>
             <td class="text-start align-middle">
@@ -124,19 +128,44 @@ class GestionAscensos {
             </td>
             <td class="text-center align-middle">' . $estado . '</td>
             <td class="text-center align-middle">' . $fechaMostrar . '</td>
+            <td class="text-center align-middle">' . $elapsedTime . '</td>
+            <td class="text-center align-middle">' . $fechaDisponible . '</td>
             <td class="text-center align-middle">' . $this->renderActions($codigo) . '</td>
         </tr>';
     }
 
     private function renderActions($codigo) {
-        return '<div class="btn-group btn-group-sm" role="group">
-            <button class="btn btn-success ascender-btn" data-id="' . $codigo . '" title="Ascender">
-                <i class="bi bi-arrow-up-circle-fill"></i>
-            </button>
-            <button class="btn btn-warning posponer-btn" data-id="' . $codigo . '" title="Checar tiempo">
-                <i class="bi bi-arrow-clockwise"></i>
-            </button>
-        </div>';
+        // ... existing code ...
+        $buttons = '<div class="btn-group btn-group-sm" role="group">'; // Initialize $buttons here
+
+        // Assuming $this->ascensos contains the current row's data, including estado_ascenso
+        // You might need to pass the full $ascenso object to this method
+        $ascenso = null;
+        foreach ($this->ascensos as $item) {
+            if (($item['id_ascenso'] ?? $item['codigo_time']) == $codigo) {
+                $ascenso = $item;
+                break;
+            }
+        }
+
+        if ($ascenso) {
+            switch (strtolower($ascenso['estado_ascenso'])) {
+                case 'ascendido':
+                    $buttons .= '<button class="btn btn-warning verificar-tiempo-btn" data-id="' . $codigo . '" title="Checar tiempo">
+                                    <i class="bi bi-arrow-clockwise"></i>
+                                </button>';
+                    break;
+                case 'disponible':
+                case 'pendiente':
+                    $buttons .= '<button class="btn btn-success ascender-btn" data-id="' . $codigo . '" title="Ascender">
+                                    <i class="bi bi-arrow-up-circle-fill"></i>
+                                </button>';
+                    break;
+            }
+        }
+
+        $buttons .= '</div>';
+        return $buttons;
     }
 
     private function getStatusBadge($status) {
@@ -159,6 +188,14 @@ class GestionAscensos {
         }
 
         return '<span class="badge ' . $badgeClass . '"><i class="bi bi-list-check me-1"></i>' . $statusText . '</span>';
+    }
+
+    private function calculateElapsedTime($startTime) {
+        if (empty($startTime)) return '';
+        $start = new DateTime($startTime);
+        $now = new DateTime();
+        $interval = $start->diff($now);
+        return $interval->format('%H:%I:%S');
     }
 }
 

@@ -25,9 +25,7 @@ class HistorialTiempos
         if (isset($jsonData['success']) && $jsonData['success']) {
             $this->tiemposEncargadoData = $jsonData['tiemposEncargado'] ?? [];
             $this->errorMessage = null;
-
             $this->calculateEncargadoStats();
-
         } else {
             $this->tiemposEncargadoData = [];
             $this->totalEncargadoCount = 0;
@@ -70,100 +68,99 @@ class HistorialTiempos
 
     public function renderDashboard()
     {
-        $html = '<div class="container-fluid mt-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0"><i class="bi bi-clock-history me-2"></i>Historial de Tiempos como Encargado</h5>
+        $html = '<div class="container-fluid p-0">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="card-title mb-0 d-flex align-items-center">
+                        <i class="bi bi-clock-history me-2 fs-4"></i>
+                        <span class="fs-5">Historial de Tiempos como Encargado</span>
+                    </h5>
                 </div>
-                <div class="card-body p-0">';
+                <div class="card-body p-3">';
 
         if ($this->errorMessage) {
-            $html .= '<div class="alert alert-danger m-3">' . htmlspecialchars($this->errorMessage) . '</div>';
+            $html .= '<div class="alert alert-danger mb-3">' . htmlspecialchars($this->errorMessage) . '</div>';
         } elseif (empty($this->tiemposEncargadoData)) {
-             $html .= '<div class="alert alert-info m-3">No hay tiempos registrados donde hayas sido el encargado.</div>';
-        }
-        else {
-            $html .= '<div class="row g-3 m-2">';
-
-            // Tarjeta de total de tiempos
-            $html .= '<div class="col-12 col-md-6">
-                        <div class="card h-100 border border-primary shadow-sm">
-                            <div class="card-body text-center">
-                                <div class="d-flex justify-content-center align-items-center mb-3">
-                                    <i class="bi bi-person-check fs-1 text-primary me-3"></i>
-                                    <div>
-                                        <h6 class="card-subtitle mb-1 text-muted">Total de Tiempos</h6>
-                                        <h3 class="card-title mb-0 fw-bold">' . htmlspecialchars($this->totalEncargadoCount) . '</h3>
+            $html .= '<div class="alert alert-info mb-3">No hay tiempos registrados donde hayas sido el encargado.</div>';
+        } else {
+            // Improved cards with hover effects
+            $html .= '<div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-start border-primary border-3 shadow-sm hover-shadow">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-person-check fs-3 text-primary me-3"></i>
+                                        <div>
+                                            <h6 class="card-subtitle mb-1 text-muted small">Total</h6>
+                                            <h5 class="card-title mb-0 fw-bold fs-4">' . htmlspecialchars($this->totalEncargadoCount) . '</h5>
+                                        </div>
                                     </div>
                                 </div>
-                                <p class="card-text small text-muted">Todos los tiempos registrados como encargado</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card h-100 border-start border-success border-3 shadow-sm hover-shadow">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-calendar-week fs-3 text-success me-3"></i>
+                                        <div>
+                                            <h6 class="card-subtitle mb-1 text-muted small">Esta Semana</h6>
+                                            <h5 class="card-title mb-0 fw-bold fs-4">' . htmlspecialchars($this->weeklyEncargadoCount) . '</h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>';
 
-            // Tarjeta de tiempos esta semana
-            $html .= '<div class="col-12 col-md-6">
-                        <div class="card h-100 border border-success shadow-sm">
-                            <div class="card-body text-center">
-                                <div class="d-flex justify-content-center align-items-center mb-3">
-                                    <i class="bi bi-calendar-week fs-1 text-success me-3"></i>
-                                    <div>
-                                        <h6 class="card-subtitle mb-1 text-muted">Tiempos esta Semana</h6>
-                                        <h3 class="card-title mb-0 fw-bold">' . htmlspecialchars($this->weeklyEncargadoCount) . '</h3>
-                                    </div>
-                                </div>
-                                <p class="card-text small text-muted">Tiempos tomados desde el lunes de esta semana</p>
-                            </div>
-                        </div>
-                    </div>';
-
-            $html .= '</div>';
-
-            // Botón de acción
-            $html .= '<div class="d-grid gap-2 col-md-6 mx-auto my-4">
-                        <button type="button" class="btn btn-primary btn-lg rounded-pill shadow" id="btnRegistrarRequisito">
-                            <i class="bi bi-save me-2"></i>Registrar Tiempos Semanales
+            // Improved button with tooltip
+            $html .= '<div class="d-grid mb-4">
+                        <button type="button" class="btn btn-primary btn-lg rounded-3 shadow-sm" id="btnRegistrarRequisito" data-bs-toggle="tooltip" title="Registrar tus tiempos semanales">
+                            Registrar Tiempos Semanales
                         </button>
                     </div>';
 
-            // Sección de tiempos por rango
-            $html .= '<div class="card border border-secondary shadow-sm m-2">
-                        <div class="card-header bg-light">
-                            <h5 class="card-title mb-0"><i class="bi bi-people-fill me-2"></i>Tiempos por Rango</h5>
-                        </div>
-                        <div class="card-body p-0">';
+            // Improved range section with accordion
+            $html .= '<div class="card border shadow-sm mb-3">
+                        <div class="card-header bg-light py-2">
+                            <h6 class="mb-0 d-flex align-items-center">
+                                <i class="bi bi-people-fill me-2 fs-4"></i>
+                                <span class="fs-5">Tiempos por Rango</span>
+                            </h6>
+                        </div>';
 
             if (empty($this->encargadoCountByRange)) {
                 $html .= '<div class="alert alert-warning m-3">No hay datos de rangos disponibles.</div>';
             } else {
-                $html .= '<ul class="list-group list-group-flush">';
+                $html .= '<div class="accordion accordion-flush" id="accordionRangos">';
                 foreach ($this->encargadoCountByRange as $rango => $count) {
-                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center py-3">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-person-badge me-3 text-secondary"></i>
-                                    <span>' . htmlspecialchars($rango) . '</span>
-                                </div>
-                                <span class="badge bg-primary rounded-pill fs-6">' . htmlspecialchars($count) . '</span>
-                              </li>';
+                    $html .= '<div class="accordion-item">
+                                <h2 class="accordion-header" id="heading' . htmlspecialchars($rango) . '">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' . htmlspecialchars($rango) . '">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-person-badge me-2 text-secondary fs-4"></i>
+                                            <span class="text-truncate" style="max-width: 200px;" title="' . htmlspecialchars($rango) . '">' . htmlspecialchars($rango) . '</span>
+                                            <span class="badge bg-primary rounded-pill ms-2">' . htmlspecialchars($count) . '</span>
+                                        </div>
+                                    </button>
+                                </h2>
+                            </div>';
                 }
-                $html .= '</ul>';
+                $html .= '</div>';
             }
-
-            $html .= '</div>
-                    </div>';
+            $html .= '</div>';
         }
 
         $html .= '</div>
-            </div>
-        </div>';
+                </div>
+            </div>';
 
         return $html;
     }
 
     public function render()
     {
-        $html = $this->renderDashboard();
-        return $html;
+        return $this->renderDashboard();
     }
 }
 
@@ -205,8 +202,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 cancelButtonColor: '#d33',
                 backdrop: 'rgba(0,0,0,0.4)',
                 customClass: {
-                    confirmButton: 'btn-lg',
-                    cancelButton: 'btn-lg'
+                    confirmButton: 'btn-sm',
+                    cancelButton: 'btn-sm'
                 }
             }).then((result) => {
                 if (result.isConfirmed) {

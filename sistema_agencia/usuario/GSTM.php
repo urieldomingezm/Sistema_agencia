@@ -19,44 +19,41 @@ class GestionTiempos
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Gestión de Tiempos</h5>
-                    <ul class="nav nav-tabs card-header-tabs mt-2">
-                        <li class="nav-item mx-1">
-                            <button class="nav-link active bg-dark text-white border-light" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" style="opacity: 1; transition: opacity 0.3s;">
-                                <i class="bi bi-play-circle me-1"></i> Iniciados
-                            </button>
-                        </li>
-                        <li class="nav-item mx-1">
-                            <button class="nav-link bg-dark text-white border-light" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" style="opacity: 0.6; transition: opacity 0.3s;">
-                                <i class="bi bi-pause-circle me-1"></i> Pausados
-                            </button>
-                        </li>
-                        <li class="nav-item mx-1">
-                            <button class="nav-link bg-dark text-white border-light" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" style="opacity: 0.6; transition: opacity 0.3s;">
-                                <i class="bi bi-check-circle me-1"></i> Completados
-                            </button>
-                        </li>
-                        <li class="nav-item mx-1">
-                            <button class="nav-link bg-success text-white border-light" 
-                                    id="Ayuda_gestion_times-tab" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#Ayuda_gestion_times" 
-                                    type="button" 
-                                    style="opacity: 0.6; transition: opacity 0.3s;">
-                                <i class="bi bi-question-circle-fill me-1"></i> Ayuda
-                            </button>
-                        </li>
-                    </ul>
-                    <style>
-                        .nav-link.active {
-                            opacity: 1 !important;
-                        }
-                        .nav-link:not(.active) {
-                            opacity: 0.6 !important;
-                        }
-                        .nav-link:hover {
-                            opacity: 0.8 !important;
-                        }
-                    </style>
+<ul class="nav nav-tabs card-header-tabs mt-2">
+    <li class="nav-item mx-1">
+        <button class="nav-link active bg-dark text-white border-light" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button">
+            <i class="bi bi-play-circle me-1"></i> Iniciados
+        </button>
+    </li>
+    <li class="nav-item mx-1">
+        <button class="nav-link bg-dark text-white border-light" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button">
+            <i class="bi bi-pause-circle me-1"></i> Pausados
+        </button>
+    </li>
+    <li class="nav-item mx-1">
+        <button class="nav-link bg-dark text-white border-light" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button">
+            <i class="bi bi-check-circle me-1"></i> Completados
+        </button>
+    </li>
+    <li class="nav-item mx-1">
+        <button class="nav-link bg-success text-white border-light rounded-circle p-1" 
+                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
+                id="Ayuda_gestion_times-tab" 
+                data-bs-toggle="modal" 
+                data-bs-target="#Ayuda_gestion_times" 
+                type="button">
+            <i class="bi bi-question-circle-fill"></i>
+        </button>
+    </li>
+    <li class="nav-item mx-1">
+        <button class="nav-link bg-warning text-white border-light rounded-circle p-1" 
+                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
+                type="button">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+    </li>
+    
+</ul>
                 </div>
                 <div class="card-body">
                     

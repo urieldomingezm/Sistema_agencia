@@ -38,91 +38,90 @@ class HistorialAscensos
 
     public function render()
     {
-        $html = '<div class="container-fluid mt-3">
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0"><i class="bi bi-graph-up me-2"></i>Dashboard de Ascensos Realizados</h5>
+        $html = '<div class="container-fluid p-0">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="card-title mb-0 d-flex align-items-center">
+                        <i class="bi bi-graph-up me-2 fs-4"></i>
+                        <span class="fs-5">Historial de Ascensos</span>
+                    </h5>
                 </div>
-                <div class="card-body p-0">';
+                <div class="card-body p-3">';
 
         if ($this->errorMessage) {
-            $html .= '<div class="alert alert-danger m-3">' . htmlspecialchars($this->errorMessage) . '</div>';
+            $html .= '<div class="alert alert-danger mb-3">' . htmlspecialchars($this->errorMessage) . '</div>';
         } else {
-            $html .= '<div class="row g-3 m-2">';
-
-            // Tarjeta de total de ascensos
-            $html .= '<div class="col-12 col-md-4">
-                        <div class="card h-100 border border-primary shadow-sm">
-                            <div class="card-body text-center">
-                                <div class="d-flex justify-content-center align-items-center mb-3">
-                                    <i class="bi bi-trophy fs-1 text-primary me-3"></i>
-                                    <div>
-                                        <h6 class="card-subtitle mb-1 text-muted">Total de Ascensos</h6>
-                                        <h3 class="card-title mb-0 fw-bold">' . $this->totalAscensos . '</h3>
+            // Improved cards with hover effects
+            $html .= '<div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100 border-start border-primary border-3 shadow-sm hover-shadow">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-trophy fs-3 text-primary me-3"></i>
+                                        <div>
+                                            <h6 class="card-subtitle mb-1 text-muted small">Total de Ascensos</h6>
+                                            <h5 class="card-title mb-0 fw-bold fs-4">' . $this->totalAscensos . '</h5>
+                                        </div>
                                     </div>
                                 </div>
-                                <p class="card-text small text-muted">Todos los ascensos realizados</p>
                             </div>
                         </div>
-                    </div>';
-
-            // Tarjeta de ascensos esta semana
-            $html .= '<div class="col-12 col-md-4">
-                        <div class="card h-100 border border-success shadow-sm">
-                            <div class="card-body text-center">
-                                <div class="d-flex justify-content-center align-items-center mb-3">
-                                    <i class="bi bi-calendar-week fs-1 text-success me-3"></i>
-                                    <div>
-                                        <h6 class="card-subtitle mb-1 text-muted">Ascensos esta Semana</h6>
-                                        <h3 class="card-title mb-0 fw-bold">' . $this->ascensosEstaSemana . '</h3>
+                        <div class="col-md-6">
+                            <div class="card h-100 border-start border-success border-3 shadow-sm hover-shadow">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-calendar-week fs-3 text-success me-3"></i>
+                                        <div>
+                                            <h6 class="card-subtitle mb-1 text-muted small">Esta Semana</h6>
+                                            <h5 class="card-title mb-0 fw-bold fs-4">' . $this->ascensosEstaSemana . '</h5>
+                                        </div>
                                     </div>
                                 </div>
-                                <p class="card-text small text-muted">Desde el lunes de esta semana</p>
                             </div>
                         </div>
                     </div>';
 
-            // Tarjeta de ascensos por rango
-            $html .= '<div class="col-12 col-md-4">
-                        <div class="card h-100 border border-secondary shadow-sm">
-                            <div class="card-header bg-light">
-                                <h6 class="card-title mb-0"><i class="bi bi-people-fill me-2"></i>Ascensos por Rango</h6>
-                            </div>
-                            <div class="card-body p-0">';
-
-            if (!empty($this->ascensosPorRango)) {
-                $html .= '<ul class="list-group list-group-flush">';
-                foreach ($this->ascensosPorRango as $item) {
-                    $html .= '<li class="list-group-item d-flex justify-content-between align-items-center py-2">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-person-badge me-3 text-secondary"></i>
-                                    <span>' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '</span>
-                                </div>
-                                <span class="badge bg-primary rounded-pill">' . $item['count'] . '</span>
-                              </li>';
-                }
-                $html .= '</ul>';
-            } else {
-                 $html .= '<div class="alert alert-warning m-3">No hay datos de ascensos por rango</div>';
-            }
-
-            $html .= '</div>
-                        </div>
-                    </div>';
-
-            $html .= '</div>';
-
-            // Botón de acción
-            $html .= '<div class="d-grid gap-2 col-md-6 mx-auto my-4">
-                        <button type="button" class="btn btn-primary btn-lg rounded-pill shadow" id="btnRegistrarAscensoSemanal">
-                            <i class="bi bi-save me-2"></i>Registrar Ascensos Semanales
+            // Improved button with tooltip
+            $html .= '<div class="d-grid mb-4">
+                        <button type="button" class="btn btn-primary btn-lg rounded-3 shadow-sm" id="btnRegistrarAscensoSemanal" data-bs-toggle="tooltip" title="Registrar tus ascensos semanales">
+                            Registrar Ascensos Semanales
                         </button>
                     </div>';
+
+            // Improved range section with accordion
+            $html .= '<div class="card border shadow-sm mb-3">
+                        <div class="card-header bg-light py-2">
+                            <h6 class="mb-0 d-flex align-items-center">
+                                <i class="bi bi-people-fill me-2 fs-4"></i>
+                                <span class="fs-5">Ascensos por Rango</span>
+                            </h6>
+                        </div>';
+
+            if (empty($this->ascensosPorRango)) {
+                $html .= '<div class="alert alert-warning m-3">No hay datos de rangos disponibles.</div>';
+            } else {
+                $html .= '<div class="accordion accordion-flush" id="accordionRangos">';
+                foreach ($this->ascensosPorRango as $item) {
+                    $html .= '<div class="accordion-item">
+                                <h2 class="accordion-header" id="heading' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-person-badge me-2 text-secondary fs-4"></i>
+                                            <span class="text-truncate" style="max-width: 200px;" title="' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '">' . htmlspecialchars($item['rango_actual'] ?? 'Sin Rango') . '</span>
+                                            <span class="badge bg-primary rounded-pill ms-2">' . $item['count'] . '</span>
+                                        </div>
+                                    </button>
+                                </h2>
+                            </div>';
+                }
+                $html .= '</div>';
+            }
+            $html .= '</div>';
         }
 
         $html .= '</div>
-            </div>
-        </div>';
+                </div>
+            </div>';
 
         return $html;
     }

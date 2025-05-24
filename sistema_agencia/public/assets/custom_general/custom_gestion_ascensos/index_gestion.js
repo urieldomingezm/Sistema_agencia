@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         new simpleDatatables.DataTable("#ascensosDisponiblesTable", tableConfig);
     }
 
-    // Botón de ascender
+    // Botón de ascender y verificar tiempo (using event delegation)
     document.addEventListener('click', function(e) {
         if (e.target.matches('.ascender-btn')) {
             const id = e.target.dataset.id;
@@ -56,54 +56,50 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                 }
             });
+        } else if (e.target.matches('.verificar-tiempo-btn')) {
+            const id = e.target.closest('button').dataset.id;
+            verificarTiempoAscenso(id);
         }
     });
 
-    // Botón de posponer
-    document.addEventListener('click', function(e) {
-        if (e.target.matches('.posponer-btn')) {
-            const id = e.target.dataset.id;
+    // Removed the redundant querySelectorAll loop here
+});
+
+function verificarTiempoAscenso(id) {
+    fetch('/private/procesos/gestion_ascensos/actualizar_tiempo.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
             Swal.fire({
-                title: 'Posponer ascenso',
-                text: "Indica el motivo para posponer este ascenso",
-                input: 'textarea',
-                inputPlaceholder: 'Motivo de la posposición...',
+                title: 'Éxito',
+                text: data.message,
+                icon: 'success',
+                confirmButtonColor: '#198754'
+            }).then(() => {
+                location.reload(); // Recargar la página después del éxito
+            });
+        } else {
+            Swal.fire({
+                title: 'Información',
+                text: data.message,
                 icon: 'info',
-                showCancelButton: true,
-                confirmButtonColor: '#ffc107',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Posponer',
-                cancelButtonText: 'Cancelar',
-                inputValidator: (value) => {
-                    if (!value) {
-                        return 'Debes indicar un motivo';
-                    }
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // AJAX para posponer el ascenso
-                    fetch('/posponer_ascenso.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ 
-                            id: id,
-                            motivo: result.value 
-                        })
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return Swal.fire('Pospuesto', 'El ascenso ha sido pospuesto.', 'info');
-                    })
-                    .then(() => location.reload())
-                    .catch(() => {
-                        Swal.fire('Error', 'No se pudo posponer el ascenso', 'error');
-                    });
-                }
+                confirmButtonColor: '#0dcaf0'
             });
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'No se pudo verificar el tiempo',
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
     });
-});
+}

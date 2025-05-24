@@ -20,21 +20,44 @@ class BodyHome
     private function renderLoader()
     {
         echo '<div id="preloader" class="preloader">
-            <div class="triangle-loader">
-                <div class="triangle">
-                    <div class="led led-1"></div>
-                    <div class="led led-2"></div>
-                    <div class="led led-3"></div>
-                    <div class="led led-4"></div>
-                    <div class="led led-5"></div>
-                    <div class="led led-6"></div>
-                    <div class="led led-7"></div>
-                    <div class="led led-8"></div>
-                    <div class="led led-9"></div>
+            <div class="eyes-loader">
+                <div class="eyes-container">
+                    <div class="eye left-eye"></div>
+                    <div class="eye right-eye"></div>
                 </div>
                 <div class="loading-text">Bienvenido a Agencia Shein</div>
             </div>
         </div>
+        
+        <style>
+        .eye {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ff0000 0%, #8b0000 100%);
+            box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8);
+            position: relative;
+            animation: glow 1.5s infinite alternate, blink 3s infinite;
+        }
+    
+        @keyframes blink {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.1); }
+        }
+    
+        @keyframes glow {
+            0% { 
+                box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8), 
+                            0 0 40px 15px rgba(255, 0, 0, 0.6),
+                            0 0 60px 25px rgba(255, 0, 0, 0.4);
+            }
+            100% { 
+                box-shadow: 0 0 40px 15px rgba(255, 0, 0, 1),
+                            0 0 60px 25px rgba(255, 0, 0, 0.8),
+                            0 0 80px 35px rgba(255, 0, 0, 0.6);
+            }
+        }
+        </style>
         
         <style>
         .preloader {
@@ -43,7 +66,7 @@ class BodyHome
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #000000; /* Fondo totalmente negro */
+            background-color: #000000;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -51,52 +74,30 @@ class BodyHome
             transition: opacity 0.5s ease-out;
         }
         
-        .triangle-loader {
+        .eyes-loader {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
         }
         
-        .triangle {
-            width: 0;
-            height: 0;
-            border-left: 80px solid transparent;
-            border-right: 80px solid transparent;
-            border-bottom: 140px solid #2541b2;
-            position: relative;
-            animation: pulse 2s infinite;
+        .eyes-container {
+            display: flex;
+            gap: 40px;
         }
         
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        .led {
-            position: absolute;
-            width: 10px;
-            height: 10px;
+        .eye {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            background-color: #fff;
-            box-shadow: 0 0 10px 2px #4a6bff, 0 0 20px 5px rgba(74, 107, 255, 0.5);
-            animation: blink 1.5s infinite alternate;
+            background: radial-gradient(circle, #ff0000 0%, #8b0000 100%);
+            box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8);
+            position: relative;
+            animation: glow 1.5s infinite alternate;
         }
         
-        .led-1 { top: 20px; left: -70px; animation-delay: 0s; }
-        .led-2 { top: 50px; left: -60px; animation-delay: 0.2s; }
-        .led-3 { top: 80px; left: -40px; animation-delay: 0.4s; }
-        .led-4 { top: 110px; left: -20px; animation-delay: 0.6s; }
-        .led-5 { top: 130px; left: 0; animation-delay: 0.8s; }
-        .led-6 { top: 110px; right: -20px; animation-delay: 1s; }
-        .led-7 { top: 80px; right: -40px; animation-delay: 1.2s; }
-        .led-8 { top: 50px; right: -60px; animation-delay: 1.4s; }
-        .led-9 { top: 20px; right: -70px; animation-delay: 1.6s; }
-        
-        @keyframes blink {
-            0% { opacity: 0.3; box-shadow: 0 0 5px 1px #4a6bff, 0 0 10px 2px rgba(74, 107, 255, 0.3); }
-            100% { opacity: 1; box-shadow: 0 0 15px 3px #4a6bff, 0 0 30px 8px rgba(74, 107, 255, 0.7); }
+        @keyframes glow {
+            0% { transform: scale(1); box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8); }
+            100% { transform: scale(1.1); box-shadow: 0 0 40px 10px rgba(255, 0, 0, 1); }
         }
         
         .loading-text {
@@ -106,25 +107,24 @@ class BodyHome
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 3px;
-            animation: glow 1.5s infinite alternate;
+            animation: text-glow 1.5s infinite alternate;
         }
         
-        @keyframes glow {
-            0% { text-shadow: 0 0 5px #4a6bff, 0 0 10px #4a6bff; }
-            100% { text-shadow: 0 0 10px #4a6bff, 0 0 20px #4a6bff, 0 0 30px #4a6bff; }
+        @keyframes text-glow {
+            0% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000; }
+            100% { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000; }
         }
         </style>
         
         <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // Ocultar el preloader después de que la página se cargue completamente
             setTimeout(function() {
                 const preloader = document.getElementById("preloader");
                 preloader.style.opacity = "0";
                 setTimeout(function() {
                     preloader.style.display = "none";
                 }, 500);
-            }, 1500); // Ajusta este tiempo según lo desees (1.5 segundos en este caso)
+            }, 1500);
         });
         </script>';
     }
