@@ -210,7 +210,7 @@ class GestionAscensos {
                 <button class="btn btn-success ascender-btn" data-id="' . $codigo . '" title="Ascender">
                     <i class="bi bi-arrow-up-circle-fill"></i>
                 </button>
-                <button class="btn btn-warning posponer-btn" data-id="' . $codigo . '" title="Posponer">
+                <button class="btn btn-warning posponer-btn" data-id="' . $codigo . '" title="Checar tiempo">
                     <i class="bi bi-clock-fill"></i>
                 </button>';
         } else {
