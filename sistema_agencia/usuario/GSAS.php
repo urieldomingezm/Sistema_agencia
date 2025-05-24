@@ -15,121 +15,43 @@ class GestionAscensos {
             <div class="card shadow-lg">
                 <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="bi bi-arrow-up-circle me-2"></i>Gestión de Ascensos</h5>
-                    <ul class="nav nav-tabs card-header-tabs mt-2">
-                        <li class="nav-item mx-1">
-                            <button class="nav-link active bg-dark text-white border-light" id="tab1-tab" data-bs-toggle="tab" data-bs-target="#tab1" type="button" style="opacity: 1; transition: opacity 0.3s;">
-                                <i class="bi bi-list-check me-1"></i> Disponibles
-                            </button>
-                        </li>
-                        <li class="nav-item mx-1">
-                            <button class="nav-link bg-dark text-white border-light" id="tab2-tab" data-bs-toggle="tab" data-bs-target="#tab2" type="button" style="opacity: 0.6; transition: opacity 0.3s;">
-                                <i class="bi bi-check-circle me-1"></i> Ascendidos
-                            </button>
-                        </li>
-                        <li class="nav-item mx-1">
-                            <button class="nav-link bg-dark text-white border-light" id="tab3-tab" data-bs-toggle="tab" data-bs-target="#tab3" type="button" style="opacity: 0.6; transition: opacity 0.3s;">
-                                <i class="bi bi-clock me-1"></i> Pendientes
-                            </button>
-                        </li>
-                        <li class="nav-item mx-1">
-                            <button class="nav-link bg-success text-white border-light" 
-                                    id="Ayuda_gestion_ascensos-tab" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#Ayuda_gestion_ascensos" 
-                                    type="button" 
-                                    style="opacity: 0.6; transition: opacity 0.3s;">
-                                <i class="bi bi-question-circle-fill me-1"></i> Ayuda
-                            </button>
-                        </li>
-                    </ul>
-                    <style>
-                        .nav-link.active {opacity: 1 !important;}
-                        .nav-link:not(.active) {opacity: 0.6 !important;}
-                        .nav-link:hover {opacity: 0.8 !important;}
-                    </style>
+                    <button class="btn btn-success" 
+                            id="Ayuda_gestion_ascensos-tab" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#Ayuda_gestion_ascensos">
+                        <i class="bi bi-question-circle-fill me-1"></i> Ayuda
+                    </button>
                 </div>
                 <div class="card-body">
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="tab1" role="tabpanel">
-                            <div class="table-responsive">
-                                <table id="ascensosDisponiblesTable" class="table table-striped table-bordered align-middle mb-0" style="width:100%">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th class="text-center">Usuario</th>
-                                            <th class="text-center">Rango</th>
-                                            <th class="text-center">Estado</th>
-                                            <th class="text-center">Próximo Ascenso</th>
-                                            <th class="text-center">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>';
+                    <div class="table-responsive">
+                        <table id="ascensosDisponiblesTable" class="table table-striped table-bordered align-middle mb-0" style="width:100%">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th class="text-center">Usuario</th>
+                                    <th class="text-center">Rango</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Próximo Ascenso</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>';
 
         $processedAscensos = [];
         foreach ($this->ascensos as $ascenso) {
-            if (strtolower($ascenso['estado_ascenso']) === 'disponible' && !in_array($ascenso['id_ascenso'] ?? $ascenso['codigo_time'], $processedAscensos)) {
-                $html .= $this->renderRow($ascenso, true);
+            if (!in_array($ascenso['id_ascenso'] ?? $ascenso['codigo_time'], $processedAscensos)) {
+                $html .= $this->renderRow($ascenso);
                 $processedAscensos[] = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'];
             }
         }
 
         $html .= '</tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="tab2" role="tabpanel">
-                            <div class="table-responsive">
-                                <table id="ascensosAscendidosTable" class="table table-striped table-bordered align-middle mb-0" style="width:100%">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th class="text-center">Usuario</th>
-                                            <th class="text-center">Rango</th>
-                                            <th class="text-center">Estado</th>
-                                            <th class="text-center">Proximo ascenso</th>
-                                            <th class="text-center">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>';
-
-        foreach ($this->ascensos as $ascenso) {
-            if (strtolower($ascenso['estado_ascenso']) === 'ascendido') {
-                $html .= $this->renderRow($ascenso, false);
-            }
-        }
-
-        $html .= '</tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="tab3" role="tabpanel">
-                            <div class="table-responsive">
-                                <table id="ascensosPendientesTable" class="table table-striped table-bordered align-middle mb-0" style="width:100%">
-                                    <thead class="table-dark">
-                                        <tr>
-                                            <th class="text-center">Usuario</th>
-                                            <th class="text-center">Rango</th>
-                                            <th class="text-center">Estado</th>
-                                            <th class="text-center">Proximo ascenso</th>
-                                            <th class="text-center">Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>';
-
-        foreach ($this->ascensos as $ascenso) {
-            if (strtolower($ascenso['estado_ascenso']) === 'pendiente') {
-                $html .= $this->renderRow($ascenso, false);
-            }
-        }
-
-        $html .= '</tbody>
-                                </table>
-                            </div>
-                        </div>
+                        </table>
                     </div>
                 </div>
                 <div class="card-footer bg-light">
                     <div class="row">
                         <div class="col-12 text-end">
-                            <span class="badge bg-info"><i class="bi bi-info-circle me-1"></i> Total registros: ' . count($this->ascensos) . '</span>
+                            <span class="badge bg-info"><i class="bi bi-info-circle me-1"></i> Total registros: ' . count($processedAscensos) . '</span>
                         </div>
                     </div>
                 </div>
@@ -139,48 +61,53 @@ class GestionAscensos {
         return $html;
     }
 
-    private function renderRow($ascenso, $isDisponible) {
+    private function renderRow($ascenso) {
         $estado = $this->getStatusBadge($ascenso['estado_ascenso']);
         $codigo = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'];
-        $fechaCampo = $isDisponible ? 'fecha_ultimo_ascenso' : ($ascenso['estado_ascenso'] === 'ascendido' ? 'fecha_ascenso' : 'fecha_pospuesto');
 
         $badgeStyle = '';
-        switch ($ascenso['rango_actual']) {
+        switch (strtolower($ascenso['rango_actual'])) {
+            case 'agente':
             case 'Agente':
                 $badgeStyle = 'background-color: #f8f9fa; color: #212529; border: 1px solid #dee2e6;';
                 break;
+            case 'seguridad':
             case 'Seguridad':
                 $badgeStyle = 'background-color: #212529; color: #f8f9fa;';
                 break;
-            case 'Técnico':
-                $badgeStyle = 'background-color: #6f42c1; color: #f8f9fa;';
+            case 'Tecnico':
+            case 'tecnico':
+                $badgeStyle = 'background-color:rgb(71, 40, 0); color: #f8f9fa;';
                 break;
-            case 'Logística':
+            case 'Logistica':
+            case 'logistica':
                 $badgeStyle = 'background-color: #6610f2; color: #f8f9fa;';
                 break;
+            case 'supervisor':
             case 'Supervisor':
                 $badgeStyle = 'background-color: #6c757d; color: #f8f9fa;';
                 break;
-            case 'Director':
+            case 'director':
+                case 'Director':
                 $badgeStyle = 'background-color: #dc3545; color: #f8f9fa;';
                 break;
-            case 'Presidente':
+            case 'presidente':
+                case 'Presidente':
                 $badgeStyle = 'background-color: #0d6efd; color: #f8f9fa;';
                 break;
-            case 'Operativo':
+            case 'operativo':
+                case 'Operativo':
                 $badgeStyle = 'background-color: #ffc107; color: #212529;';
                 break;
-            case 'Junta directiva':
+            case 'junta directiva':
+                case 'Junta directiva':
                 $badgeStyle = 'background-color: #198754; color: #f8f9fa;';
                 break;
             default:
                 $badgeStyle = 'background-color: #6c757d; color: #f8f9fa;';
         }
 
-        $formattedDate = 'N/A';
-        if (!empty($ascenso[$fechaCampo])) {
-            $formattedDate = $this->formatDate($ascenso[$fechaCampo]);
-        }
+        $fechaMostrar = !empty($ascenso['fecha_ultimo_ascenso']) ? date('d/m/Y H:i', strtotime($ascenso['fecha_ultimo_ascenso'])) : '';
 
         return '<tr>
             <td class="text-start align-middle">
@@ -196,75 +123,48 @@ class GestionAscensos {
                 <span class="badge" style="' . $badgeStyle . '">' . htmlspecialchars($ascenso['rango_actual']) . '</span>
             </td>
             <td class="text-center align-middle">' . $estado . '</td>
-            <td class="text-center align-middle">' . $formattedDate . '</td>
-            <td class="text-center align-middle">' . $this->renderActions($ascenso, $isDisponible) . '</td>
+            <td class="text-center align-middle">' . $fechaMostrar . '</td>
+            <td class="text-center align-middle">' . $this->renderActions($codigo) . '</td>
         </tr>';
     }
 
-    private function renderActions($ascenso, $isDisponible) {
-        $codigo = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'];
-        $actions = '<div class="btn-group btn-group-sm" role="group">';
-
-        if ($isDisponible) {
-            $actions .= '
-                <button class="btn btn-success ascender-btn" data-id="' . $codigo . '" title="Ascender">
-                    <i class="bi bi-arrow-up-circle-fill"></i>
-                </button>
-                <button class="btn btn-warning posponer-btn" data-id="' . $codigo . '" title="Checar tiempo">
-                    <i class="bi bi-clock-fill"></i>
-                </button>';
-        } else {
-            $actions .= '
-                <button class="btn btn-primary detalles-btn" data-id="' . $codigo . '" title="Detalles">
-                    <i class="bi bi-info-circle-fill"></i>
-                </button>';
-        }
-
-        $actions .= '</div>';
-        return $actions;
+    private function renderActions($codigo) {
+        return '<div class="btn-group btn-group-sm" role="group">
+            <button class="btn btn-success ascender-btn" data-id="' . $codigo . '" title="Ascender">
+                <i class="bi bi-arrow-up-circle-fill"></i>
+            </button>
+            <button class="btn btn-warning posponer-btn" data-id="' . $codigo . '" title="Checar tiempo">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+        </div>';
     }
 
     private function getStatusBadge($status) {
-        $status = strtolower($status);
-        $badge_class = '';
-        $status_text = '';
-        $icon = '';
+        $badgeClass = '';
+        $statusText = ucfirst(strtolower($status));
 
-        switch ($status) {
-            case 'pendiente':
-                $badge_class = 'warning';
-                $status_text = 'Pendiente';
-                $icon = 'bi-clock';
+        switch (strtolower($status)) {
+            case 'disponible':
+                $badgeClass = 'bg-primary';
                 break;
             case 'ascendido':
-                $badge_class = 'success';
-                $status_text = 'Ascendido';
-                $icon = 'bi-check-circle';
+                $badgeClass = 'bg-success';
                 break;
-            case 'disponible':
-                $badge_class = 'primary';
-                $status_text = 'Disponible';
-                $icon = 'bi-list-check';
+            case 'pendiente':
+                $badgeClass = 'bg-warning';
                 break;
             default:
-                $badge_class = 'secondary';
-                $status_text = ucfirst($status);
-                $icon = 'bi-question-circle';
+                $badgeClass = 'bg-secondary';
+                break;
         }
 
-        return '<span class="badge bg-' . $badge_class . '"><i class="bi ' . $icon . ' me-1"></i>' . $status_text . '</span>';
-    }
-
-    private function formatDate($date) {
-        if (!empty($date)) {
-            return date('d/m/Y H:i', strtotime($date));
-        }
-        return 'N/A';
+        return '<span class="badge ' . $badgeClass . '"><i class="bi bi-list-check me-1"></i>' . $statusText . '</span>';
     }
 }
 
 $gestionAscensos = new GestionAscensos();
 echo $gestionAscensos->renderTable();
 ?>
+
 
 <script src="/public/assets/custom_general/custom_gestion_ascensos/index_gestion.js"></script>
