@@ -6,7 +6,7 @@ class BodyHome
     public function render()
     {
         echo '<body class="d-flex flex-column h-100 bg-light">';
-        $this->renderLoader(); // Añadimos el loader antes de cualquier contenido
+        $this->renderLoader();
         $this->renderHeader();
         $this->renderAboutSection();
         $this->renderTeamSection();
@@ -16,7 +16,6 @@ class BodyHome
         echo '</body>';
     }
     
-    // Nuevo método para renderizar el loader
     private function renderLoader()
     {
         echo '<div id="preloader" class="preloader">
@@ -46,12 +45,12 @@ class BodyHome
         }
     
         @keyframes glow {
-            0% { 
-                box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8), 
+            0% {
+                box-shadow: 0 0 20px 5px rgba(255, 0, 0, 0.8),
                             0 0 40px 15px rgba(255, 0, 0, 0.6),
                             0 0 60px 25px rgba(255, 0, 0, 0.4);
             }
-            100% { 
+            100% {
                 box-shadow: 0 0 40px 15px rgba(255, 0, 0, 1),
                             0 0 60px 25px rgba(255, 0, 0, 0.8),
                             0 0 80px 35px rgba(255, 0, 0, 0.6);
@@ -108,6 +107,7 @@ class BodyHome
             text-transform: uppercase;
             letter-spacing: 3px;
             animation: text-glow 1.5s infinite alternate;
+            text-align: center;
         }
         
         @keyframes text-glow {
@@ -129,7 +129,6 @@ class BodyHome
         </script>';
     }
     
-    // El resto de los métodos permanecen igual
     private function renderHeader()
     {
         echo '<main class="flex-shrink-0">';
@@ -216,7 +215,6 @@ class BodyHome
             foreach ($teamMembers as $member) {
                 echo '<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2 mb-md-3 text-center">';
                 echo '<div style="display: inline-block; width: 100%; max-width: 100px;">';
-                // Añadido atributo alt descriptivo para el avatar del miembro del equipo
                 echo '<img src="' . $member['image'] . '" alt="Avatar de Habbo de ' . htmlspecialchars($member['name']) . '" style="width: 100%; height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 2px solid #4a6bff;">';
                 echo '<div class="mt-1 mt-md-2">';
                 echo '<div style="color: #2541b2; font-weight: 600; font-size: clamp(0.6rem, 2vw, 0.8rem); word-break: break-word;">' . $member['name'] . '</div>';
@@ -245,7 +243,6 @@ class BodyHome
         foreach ($events as $event) {
             echo '<div class="col-md-4 mb-4">';
             echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%; transition: all 0.3s ease;">';
-            // Añadido atributo alt descriptivo para la imagen del evento
             echo '<img src="' . $event['image'] . '" alt="' . htmlspecialchars($event['title']) . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
             echo '<h3 style="color: #2541b2; font-weight: 600;">' . $event['title'] . '</h3>';
             echo '<p style="color: #555; margin: 15px 0;">' . $event['description'] . '</p>';
@@ -284,7 +281,6 @@ class BodyHome
         echo '<div class="container">';
         echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-newspaper me-2"></i>Blog<i class="bi bi-newspaper ms-2"></i></h2>';
         
-        // Sección de Noticias
         echo '<div class="mb-5">';
         echo '<div class="row">';
         
@@ -309,7 +305,6 @@ class BodyHome
         foreach ($noticias as $noticia) {
             echo '<div class="col-md-4 mb-4">';
             echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
-            // Añadido atributo alt descriptivo para la imagen de la noticia
             echo '<img src="' . $noticia['image'] . '" alt="' . htmlspecialchars($noticia['title']) . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
             echo '<h4 style="color: #2541b2; font-weight: 600;">' . $noticia['title'] . '</h4>';
             echo '<p style="color: #555;">' . $noticia['description'] . '</p>';
@@ -354,7 +349,6 @@ class BodyHome
         foreach ($plates as $plate) {
             echo '<div class="col-md-4 mb-4">';
             echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%; transition: all 0.3s ease;">';
-            // Añadido atributo alt descriptivo para la imagen de la placa
             echo '<img src="' . $plate['image'] . '" alt="' . htmlspecialchars($plate['name']) . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
             echo '<h3 style="color: #2541b2; font-weight: 600;">' . $plate['name'] . '</h3>';
             echo '<p style="color: #555; margin: 15px 0;">' . $plate['description'] . '</p>';
@@ -367,8 +361,6 @@ class BodyHome
         echo '</div>';
         echo '</section>';
     }
-
-    // Eliminar la función renderTestimonialsSection()
 }
 
 $bodyHome = new BodyHome();

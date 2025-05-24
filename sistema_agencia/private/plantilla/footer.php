@@ -12,19 +12,24 @@ class Footer
     public function render()
     {
         ?>
-        <footer class="custom-footer py-2 py-md-3">
+        <style>
+            .scroll-top-btn {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                display: none;
+                z-index: 1031;
+            }
+        </style>
+        <footer class="custom-footer py-2 py-md-3 bg-light text-center">
             <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-12 col-sm-8 col-md-6 text-center text-md-start">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-12">
                         <div class="footer-content">
                             <span class="copyright small">
                                 &copy; <?= date('Y') ?> Agencia Shein. Todos los derechos reservados para Ing. Medina
                             </span>
                         </div>
-                    </div>
-                    <div class="col-12 col-sm-4 col-md-6 text-center text-md-end mt-2 mt-sm-0">
-                        <a href="#" class="text-decoration-none small me-3 text-white">Política de Privacidad</a>
-                        <a href="#" class="text-decoration-none small text-white">Términos de Servicio</a>
                     </div>
                 </div>
             </div>
