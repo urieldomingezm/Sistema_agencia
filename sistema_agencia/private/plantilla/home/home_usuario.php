@@ -53,8 +53,8 @@ class BodyHome
                 <div class="alert alert-warning mb-0 d-flex align-items-center justify-content-center text-center">
                     <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
                     <div>
-                        <strong>¡Atención!</strong> Sistema en mantenimiento - Versión 20.0
-                        <small class="d-block text-muted">Estamos realizando mejoras para brindarte un mejor servicio.</small>
+                        <strong>¡Aviso Importante!</strong> Se han realizado mejoras al sistema - Versión 20.0
+                        <small class="d-block text-muted">Si encuentras algún problema, por favor repórtalo en nuestro buzón de quejas para poder ayudarte.</small>
                     </div>
                 </div>
             </div>
