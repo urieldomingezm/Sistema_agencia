@@ -104,6 +104,7 @@ class UserController
             'GTPS.php' => 'gestion_de_pagas',
             'VTM.php' => 'ventas_membresias',
             'VTR.php' => 'venta_rangos',
+            'GTNT.php' => 'gestion_de_notificaciones',
         ];
 
         $results = [];
@@ -229,9 +230,15 @@ class UserController
                 'roles' => ['Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
             ],
 
+            
+
             // Pages accessible only by administrators
             'gestion_de_pagas' => [
                 'file' => 'GTPS.php',
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+            ],
+            'gestion_de_notificaciones' => [
+                'file' => 'GTNT.php',
                 'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
             ],
             'ventas_membresias' => [

@@ -16,6 +16,8 @@ class Navbar
 
   public function render()
   {
+
+    require_once(PROCESOS_NOTIFICACIONES_PACTH . 'get_notifications.php');
 ?>
     <nav class="custom-navbar navbar fixed-top">
       <div class="container-fluid">
@@ -35,30 +37,52 @@ class Navbar
                 </span>
                 <span class="d-inline d-sm-none">
                   <?php
-                  if (isset($_SESSION["usuario"])) {
-                    $nombre = $_SESSION["usuario"];
-                    echo strlen($nombre) > 6 ? substr($nombre, 0, 6) . "..." : $nombre;
+                  if (isset($_SESSION["user_id"])) {
+                    $notificationManager = new NotificationManager();
+                    $userNotifications = $notificationManager->getNotificationsByUserId($_SESSION["user_id"]);
+                    
+                    if (isset($_SESSION["usuario"])) {
+                      $nombre = $_SESSION["usuario"];
+                      echo strlen($nombre) > 6 ? substr($nombre, 0, 6) . "..." : $nombre;
+                    } else {
+                      echo "Usuario";
+                    }
                   } else {
+                    $userNotifications = [];
                     echo "Usuario";
                   }
                   ?>
                 </span>
 
-                <!-- Icono de campana con badge dentro del mismo botón -->
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                  3
-                  <span class="visually-hidden">unread notifications</span>
-                </span>
+                <!-- Icono de campana con badge dinámico -->
+                <?php if (!empty($userNotifications)): ?>
+                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    <?php echo count($userNotifications); ?>
+                    <span class="visually-hidden">unread notifications</span>
+                  </span>
+                <?php endif; ?>
               </button>
 
-              <!-- Menú desplegable combinado -->
               <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
                 <li>
-                  <h6 class="dropdown-header">Notificaciones</h6>
+                  <h6 class="dropdown-header text-white">Notificaciones</h6>
                 </li>
-                <li><a class="dropdown-item" href="#">Notificación 1</a></li>
-                <li><a class="dropdown-item" href="#">Notificación 2</a></li>
-                <li><a class="dropdown-item" href="#">Notificación 3</a></li>
+
+                <?php if (!empty($userNotifications)): ?>
+                  <?php foreach ($userNotifications as $notification): ?>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        <strong><?php echo htmlspecialchars($notification["nombre_habbo"]); ?>:</strong>
+                        <?php echo htmlspecialchars($notification["notificacion_mensaje"]); ?>
+                      </a>
+                    </li>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <li>
+                    <span class="dropdown-item text-white">No tienes notificaciones</span>
+                  </li>
+                <?php endif; ?>
+
                 <li>
                   <hr class="dropdown-divider">
                 </li>
@@ -189,7 +213,6 @@ class Navbar
       'Ventas membresias' => 'bi bi-person-badge-fill',
       'Gestion de pagas' => 'bi bi-wallet2',
       'Grafico total de pagas' => 'bi bi-pie-chart-fill',
-      // 'Cumplimiento de pagas' => 'bi bi-check-circle-fill', // Eliminado
       'Gestionar usuarios' => 'bi bi-gear-fill',
       'Vender membresias' => 'bi bi-tags-fill',
       'Vender rangos' => 'bi bi-award-fill',
@@ -200,6 +223,8 @@ class Navbar
       'Ver mis tiempos' => 'bi bi-clock-history',
       'Ver mis ascensos' => 'bi bi-graph-up',
       'Quejas y sugerencias' => 'bi bi-chat-left-text-fill',
+      'Gestion de notificaciones' => 'bi bi-bell-fill',
+      'Dar notificacion' => 'bi bi-envelope-plus-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -215,6 +240,7 @@ class Navbar
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#venta_rangos',
       'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#editar_usuario',
       'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias',
+      'Dar notificacion' => '#" data-bs-toggle="modal" data-bs-target="#modalNotificacion',
     ];
 
     if (isset($modalItems[$item])) {
@@ -228,7 +254,7 @@ class Navbar
 $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
-  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias']],
+  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias', 'Gestion de notificaciones', 'divider', 'Dar notificacion']],
   ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios', 'Modificar usuario']],
   ['name' => 'Ascensos', 'dropdown' => [
     'Gestion ascenso',
@@ -319,9 +345,10 @@ require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');
 require_once(DAR_TIEMPO_PATCH . 'dar_tiempo.php');
 echo "<!-- Separador -->";
 require_once(MODALES_MENU_PATH . 'modal_calcular.php');
+require_once(MODALES_MENU_PATH . 'modal_notifiacion.php');
 require_once(MODALES_MENU_PATH . 'modal_quejas.php');
-require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
 echo "<!-- Separador -->";
+require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
 require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
 ?>
 
