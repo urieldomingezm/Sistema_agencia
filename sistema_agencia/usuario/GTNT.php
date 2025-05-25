@@ -75,7 +75,10 @@ class GestionNotificaciones {
                 '</span>
             </td>
             <td class="text-center align-middle">
-                ' . ($notificacion['id_encargado'] ? '<span class="badge bg-success">' . htmlspecialchars($notificacion['id_encargado']) . '</span>' : '<span class="badge bg-secondary">No asignado</span>') . '
+                ' . ($notificacion['encargado_nombre'] ? 
+                     '<span class="badge bg-success" title="ID: ' . htmlspecialchars($notificacion['id_encargado']) . '">' . 
+                     htmlspecialchars($notificacion['encargado_nombre']) . '</span>' : 
+                     '<span class="badge bg-secondary">No asignado</span>') . '
             </td>
             <td class="text-center align-middle">' . $this->renderActions($notificacion) . '</td>
         </tr>';

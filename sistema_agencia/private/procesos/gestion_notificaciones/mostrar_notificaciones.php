@@ -11,9 +11,11 @@ class NotificacionManager {
 
     public function obtenerNotificaciones() {
         $query = "SELECT n.notificacion_id, n.notificacion_mensaje, n.notificacion_registro, 
-                         n.usuario_id, n.id_encargado, r.usuario_registro
+                         n.usuario_id, n.id_encargado, r.usuario_registro,
+                         e.usuario_registro as encargado_nombre
                   FROM gestion_notificaciones n
-                  LEFT JOIN registro_usuario r ON n.usuario_id = r.id";
+                  LEFT JOIN registro_usuario r ON n.usuario_id = r.id
+                  LEFT JOIN registro_usuario e ON n.id_encargado = e.id";
         
         try {
             $stmt = $this->conexion->query($query);

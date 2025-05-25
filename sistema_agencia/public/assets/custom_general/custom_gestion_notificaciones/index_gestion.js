@@ -53,8 +53,49 @@ document.addEventListener('DOMContentLoaded', function() {
                 cancelButtonText: 'Cancelar'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Aquí irá la lógica para eliminar la notificación
-                    console.log('Eliminar notificación:', id);
+                    const formData = new FormData();
+                    formData.append('id', id);
+
+                    fetch('/private/procesos/gestion_notificaciones/eliminar_notificacion.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: '¡Eliminada!',
+                                text: 'La notificación ha sido eliminada.',
+                                icon: 'success',
+                                confirmButtonText: 'Aceptar'
+                            }).then(() => {
+                                // Recargar la tabla
+                                const table = document.querySelector('#datatable_notificaciones');
+                                if (table) {
+                                    const dataTable = table.datatable;
+                                    if (dataTable) {
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: data.message || 'Error al eliminar la notificación',
+                                icon: 'error',
+                                confirmButtonText: 'Aceptar'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Hubo un error al comunicarse con el servidor',
+                            icon: 'error',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    });
                 }
             });
         }

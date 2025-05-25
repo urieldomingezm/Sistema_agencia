@@ -19,8 +19,9 @@
                                     
                                     try {
                                         $db = new Database();
+                                        $conn = $db->getConnection();
                                         $query = "SELECT id, usuario_registro FROM registro_usuario ORDER BY usuario_registro ASC";
-                                        $stmt = $db->prepare($query);
+                                        $stmt = $conn->prepare($query);
                                         $stmt->execute();
                                         
                                         while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -52,7 +53,6 @@
     </div>
 </div>
 
-<!-- Script para validación y envío del formulario -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const validator = new JustValidate('#formNotificacion', {
@@ -67,11 +67,7 @@
         mensajeTextarea.addEventListener('input', function() {
             const remainingChars = 500 - this.value.length;
             charCountSpan.textContent = remainingChars;
-            if (remainingChars < 50) {
-                charCountSpan.style.color = 'red';
-            } else {
-                charCountSpan.style.color = '';
-            }
+            charCountSpan.style.color = remainingChars < 50 ? 'red' : '';
         });
 
         validator
@@ -129,6 +125,7 @@
                                 if (typeof notificacionesTable !== 'undefined') {
                                     notificacionesTable.ajax.reload();
                                 }
+                                window.location.href = '?page=gestion_de_notificaciones';
                             }
                         });
                     } else {
