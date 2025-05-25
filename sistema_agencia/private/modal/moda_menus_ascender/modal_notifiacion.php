@@ -4,7 +4,6 @@
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="modalNotificacionLabel">Enviar Notificación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="formNotificacion" method="POST">
@@ -36,10 +35,12 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <label for="mensaje" class="form-label fw-bold">Mensaje</label>
+                                <label for="mensaje" class="form-label fw-bold">Mensaje (10-30 caracteres)</label>
                                 <textarea class="form-control" id="mensaje" name="mensaje" rows="6" 
-                                    style="resize: none;" maxlength="500"></textarea>
-                                <div class="form-text" id="mensajeHelp">Caracteres restantes: <span id="charCount">500</span></div>
+                                    style="resize: none;"></textarea>
+                                <div class="form-text" id="mensajeHelp">
+                                    <span id="digitCount">0 caracteres</span> (mínimo 10, máximo 30 caracteres)
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -62,12 +63,16 @@
 
         // Contador de caracteres
         const mensajeTextarea = document.getElementById('mensaje');
-        const charCountSpan = document.getElementById('charCount');
+        const digitCountSpan = document.getElementById('digitCount');
+
+        function contarCaracteres(texto) {
+            return texto.length;
+        }
 
         mensajeTextarea.addEventListener('input', function() {
-            const remainingChars = 500 - this.value.length;
-            charCountSpan.textContent = remainingChars;
-            charCountSpan.style.color = remainingChars < 50 ? 'red' : '';
+            const caracteres = contarCaracteres(this.value);
+            digitCountSpan.textContent = caracteres + ' caracteres';
+            digitCountSpan.style.color = (caracteres >= 10 && caracteres <= 30) ? 'green' : 'red';
         });
 
         validator
@@ -83,14 +88,11 @@
                     errorMessage: 'Por favor ingrese un mensaje'
                 },
                 {
-                    rule: 'minLength',
-                    value: 10,
-                    errorMessage: 'El mensaje debe tener al menos 10 caracteres'
-                },
-                {
-                    rule: 'maxLength',
-                    value: 500,
-                    errorMessage: 'El mensaje no puede exceder los 500 caracteres'
+                    validator: (value) => {
+                        const caracteres = contarCaracteres(value);
+                        return caracteres >= 10 && caracteres <= 30;
+                    },
+                    errorMessage: 'El mensaje debe contener entre 10 y 30 caracteres'
                 }
             ])
             .onSuccess((event) => {
