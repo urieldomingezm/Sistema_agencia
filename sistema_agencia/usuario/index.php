@@ -62,9 +62,9 @@ class UserController
             'Agente' => 'menu_rango_bajos.php',
             'Seguridad' => 'menu_rango_bajos.php', 
             'Tecnico' => 'menu_rango_bajos.php',
+            'Logistica' => 'menu_rango_bajos.php',
 
             // Medium rank menus
-            'Logistica' => 'menu_rango_medios.php',
             'Supervisor' => 'menu_rango_medios.php',
 
             // High rank menus
