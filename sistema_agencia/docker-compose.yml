@@ -1,12 +1,13 @@
+version: '3.8'
+
 services:
   web:
     build: .
     ports:
-      - "8080:80"
+      - "8080:80"  # Mantener este mapeo para acceso directo si es necesario
     volumes:
       - .:/var/www/html
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - /etc/letsencrypt:/etc/letsencrypt
     environment:
       MYSQL_HOST: db
       MYSQL_DATABASE: sistema_agencia
@@ -26,7 +27,7 @@ services:
       MYSQL_PASSWORD: 123456
     volumes:
       - mysql_data:/var/lib/mysql
-    command: --log-bin-trust-function-creators=1
+    command: --log-bin-trust-function-creators=1 # Añadir esta línea
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -41,20 +42,13 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "80:80"
+      - "8082:80"
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
+      - /etc/letsencrypt:/etc/letsencrypt
     depends_on:
       - web
-
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - ./certbot/conf:/etc/letsencrypt
-      - ./certbot/www:/var/www/certbot
 
 volumes:
   mysql_data:
