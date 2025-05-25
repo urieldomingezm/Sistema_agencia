@@ -69,14 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 icon: 'success',
                                 confirmButtonText: 'Aceptar'
                             }).then(() => {
-                                // Recargar la tabla
-                                const table = document.querySelector('#datatable_notificaciones');
-                                if (table) {
-                                    const dataTable = table.datatable;
-                                    if (dataTable) {
-                                        window.location.reload();
-                                    }
-                                }
+                                window.location.href = '?page=gestion_de_notificaciones';
                             });
                         } else {
                             Swal.fire({
