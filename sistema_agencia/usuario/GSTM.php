@@ -45,13 +45,6 @@ class GestionTiempos
             <i class="bi bi-question-circle-fill"></i>
         </button>
     </li>
-    <li class="nav-item mx-1">
-        <button class="nav-link bg-warning text-white border-light rounded-circle p-1" 
-                style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"
-                type="button">
-            <i class="bi bi-arrow-clockwise"></i>
-        </button>
-    </li>
     
 </ul>
                 </div>
@@ -256,7 +249,7 @@ class GestionTiempos
             $actions .= '
                 <div class="btn-group btn-group-sm" role="group">
                     <button class="btn btn-success completar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Completar">
-                        <i class="bi bi-check-circle-fill"></i>
+                        Completo requisito
                     </button>
                 </div>';
         } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {

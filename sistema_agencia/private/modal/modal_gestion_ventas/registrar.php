@@ -7,12 +7,12 @@ class VentaRegistration
     private $conn;
     private $table = 'gestion_ventas';
     private $membresiaCostos = [
-        'Membresía Gold' => 15,
-        'Membresía Bronce' => 5,
-        'Membresía regla libre' => 10,
-        'Membresía save' => 8,
-        'Membresía silver' => 12,
-        'Membresía VIP' => 30
+        'Membresía Gold' => 40,
+        'Membresía Bronce' => 28,
+        'Membresía regla libre' => 25,
+        'Membresía save' => 10,
+        'Membresía silver' => 15,
+        'Membresía VIP' => 34
     ];
 
     public function __construct()
