@@ -149,13 +149,13 @@ class GestionAscensos {
             switch (strtolower($ascenso['estado_ascenso'])) {
                 case 'ascendido':
                     $buttons .= '<button class="btn btn-warning verificar-tiempo-btn" data-id="' . $codigo . '" title="Checar tiempo">
-                                    <i class="bi bi-arrow-clockwise"></i>
+                                    Checar tiempo
                                 </button>';
                     break;
                 case 'disponible':
                 case 'pendiente':
                     $buttons .= '<button class="btn btn-success ascender-btn" data-id="' . $codigo . '" title="Ascender">
-                                    <i class="bi bi-arrow-up-circle-fill"></i>
+                                    Ascender
                                 </button>';
                     break;
             }

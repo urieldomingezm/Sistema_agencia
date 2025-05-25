@@ -115,7 +115,7 @@ $totalCreditosGeneral = $totalCreditosMembresias;
         <div class="card-header bg-dark text-white">
             <h5 class="card-title mb-0">
                 <i class="bi bi-table me-2"></i>Listado de Ventas
-                <button type="button" class="btn btn-primary btn-sm float-end" data-bs-toggle="modal" data-bs-target="#registrarCompraModal">
+                <button type="button" class="btn btn-primary btn-sm float-end" data-bs-toggle="modal" data-bs-target="#registrarVentaModal">
                     <i class="bi bi-plus-lg me-1"></i>Registrar Compra
                 </button>
             </h5>
@@ -160,10 +160,10 @@ $totalCreditosGeneral = $totalCreditosMembresias;
                                 <td class="text-center">
                                     <div class="d-flex gap-2 justify-content-center">
                                         <button class="btn btn-sm btn-outline-success" onclick="renovarVenta(<?= $venta['venta_id'] ?>)" title="Renovar">
-                                            <i class="bi bi-arrow-clockwise"></i>
+                                            Renovar
                                         </button>
                                         <button class="btn btn-sm btn-outline-danger" onclick="confirmarEliminarVenta(<?= $venta['venta_id'] ?>)" title="Eliminar">
-                                            <i class="bi bi-trash"></i>
+                                            Eliminar
                                         </button>
                                     </div>
                                 </td>

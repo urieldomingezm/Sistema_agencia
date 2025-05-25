@@ -94,7 +94,7 @@ class GestionNotificaciones {
     private function renderActions($notificacion) {
         return '<div class="btn-group btn-group-sm" role="group">
             <button class="btn btn-danger eliminar-notificacion" data-id="' . $notificacion['notificacion_id'] . '" title="Eliminar">
-                <i class="bi bi-trash-fill"></i>
+                Eliminar
             </button>
         </div>';
     }

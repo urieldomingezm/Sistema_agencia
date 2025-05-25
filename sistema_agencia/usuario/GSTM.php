@@ -263,19 +263,19 @@ class GestionTiempos
             $actions .= '
                 <div class="btn-group btn-group-sm" role="group">
                     <button class="btn btn-warning pausar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Pausar">
-                        <i class="bi bi-pause-fill"></i>
+                        Pausar
                     </button>
                     <button class="btn btn-danger designar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Designar">
-                        <i class="bi bi-person-plus-fill"></i>
+                        Designar
                     </button>
                     <button class="btn btn-info ver-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Detalles">
-                        <i class="bi bi-clock-fill"></i>
+                        Detalles
                     </button>
                 </div>';
         } elseif ($status === 'completado') {
             $actions .= '
                 <button class="btn btn-sm btn-outline-secondary" title="No hay acciones disponibles" disabled>
-                    <i class="bi bi-lock-fill"></i>
+                    Bloqueado
                 </button>';
         }
 

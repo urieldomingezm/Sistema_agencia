@@ -167,10 +167,10 @@ if (!empty($GLOBALS['cumplimientos']) && is_array($GLOBALS['cumplimientos'])) {
                                             </td>
                                             <td>
                                                 <button class="btn btn-success btn-sm btn-completo" data-id="<?= htmlspecialchars($cumplimiento['id']) ?>">
-                                                    <i class="fas fa-check"></i> Completo
+                                                     Completo
                                                 </button>
                                                 <button class="btn btn-warning btn-sm btn-no-completo" data-id="<?= htmlspecialchars($cumplimiento['id']) ?>">
-                                                    <i class="fas fa-times"></i> No completo
+                                                     No completo
                                                 </button>
                                             </td>
                                         </tr>
