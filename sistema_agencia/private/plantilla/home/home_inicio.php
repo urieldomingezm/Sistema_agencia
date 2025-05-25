@@ -9,6 +9,7 @@ class BodyHome
         $this->renderLoader();
         $this->renderHeader();
         $this->renderAboutSection();
+        $this->renderVideosSection();
         $this->renderTeamSection();
         $this->renderBlogSection();
         $this->renderHabboPlatesSection();
@@ -361,7 +362,42 @@ class BodyHome
         echo '</div>';
         echo '</section>';
     }
-}
 
+    private function renderVideosSection()
+    {
+        echo '<section style="background: #ffffff; padding: 50px 0;">';
+        echo '<div class="container">';
+        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;">';
+        echo '<i class="bi bi-play-circle-fill me-2"></i>Videos Destacados<i class="bi bi-play-circle-fill ms-2"></i>';
+        echo '</h2>';
+        echo '<div class="row justify-content-center">';
+        
+        // Card del primer video
+        echo '<div class="col-md-6 mb-4">';
+        echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
+        echo '<div style="background: #f8f9fa; border-radius: 15px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">';
+        echo '<i class="bi bi-play-circle" style="font-size: 48px; color: #2541b2;"></i>';
+        echo '</div>';
+        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 15px; text-align: center;">Video tutorial 1</h3>';
+        echo '<p style="color: #555; text-align: center;">Aprende las funcionalidades de nuestra web para mejor entendimiento y mejor uso.</p>';
+        echo '</div>';
+        echo '</div>';
+        
+        // Card del segundo video
+        echo '<div class="col-md-6 mb-4">';
+        echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
+        echo '<div style="background: #f8f9fa; border-radius: 15px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">';
+        echo '<i class="bi bi-play-circle" style="font-size: 48px; color: #2541b2;"></i>';
+        echo '</div>';
+        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 15px; text-align: center;">Video tutorial 2</h3>';
+        echo '<p style="color: #555; text-align: center;">Aprenderas la forma de gestionar pagos, tomar tiempos y ascensos a las personas</p>';
+        echo '</div>';
+        echo '</div>';
+        
+        echo '</div>';
+        echo '</div>';
+        echo '</section>';
+    }
+}
 $bodyHome = new BodyHome();
 $bodyHome->render();
