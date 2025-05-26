@@ -32,7 +32,7 @@ class UserLogin
                 return ['success' => false, 'message' => 'Usuario y contraseña son requeridos'];
             }
 
-            $query = "SELECT r.id, r.usuario_registro, r.password_registro, r.rol_id, a.rango_actual 
+            $query = "SELECT r.id, r.usuario_registro, r.password_registro, r.rol_id, a.rango_actual, r.ip_bloqueo 
                      FROM {$this->table} r
                      LEFT JOIN ascensos a ON r.codigo_time = a.codigo_time
                      WHERE r.usuario_registro = :username";
@@ -43,6 +43,10 @@ class UserLogin
 
             if ($stmt->rowCount() > 0) {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($user['ip_bloqueo'] !== null) {
+                    return ['success' => false, 'message' => 'Cuenta bloqueada. Por favor, contacte al soporte.'];
+                }
 
                 if (password_verify($password, $user['password_registro'])) {
                     $_SESSION['user_id'] = $user['id'];
