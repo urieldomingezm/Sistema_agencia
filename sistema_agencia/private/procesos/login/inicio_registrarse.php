@@ -104,7 +104,7 @@ class UserRegistration
             $queryAscenso = "INSERT INTO ascensos 
                             (codigo_time, rango_actual, mision_actual, firma_usuario, firma_encargado, estado_ascenso, fecha_ultimo_ascenso, fecha_disponible_ascenso, usuario_encargado, es_recluta) 
                             VALUES 
-                            (:codigo_time, 'Agente', 'AGE- Iniciado I', NULL, NULL, 'pendiente', :fecha_ultimo_ascenso, :fecha_disponible_ascenso, NULL, TRUE)";
+                            (:codigo_time, 'Agente', 'AGE- Iniciado I', NULL, NULL, 'ascendido', :fecha_ultimo_ascenso, :fecha_disponible_ascenso, NULL, TRUE)";
 
             $fecha_disponible_ascenso = "00:10:00";
             $stmtAscenso = $this->conn->prepare($queryAscenso);
