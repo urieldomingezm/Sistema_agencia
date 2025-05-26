@@ -375,8 +375,9 @@ class BodyHome
         // Card del primer video
         echo '<div class="col-md-6 mb-4">';
         echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
+        // Reemplazar el div placeholder con el iframe del video
         echo '<div style="background: #f8f9fa; border-radius: 15px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">';
-        echo '<i class="bi bi-play-circle" style="font-size: 48px; color: #2541b2;"></i>';
+        echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/g0ZMA5vAgyc?si=N5r-RrN_iGGh-LdH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: 100%; border-radius: 15px;"></iframe>';
         echo '</div>';
         echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 15px; text-align: center;">Video tutorial 1</h3>';
         echo '<p style="color: #555; text-align: center;">Aprende las funcionalidades de nuestra web para mejor entendimiento y mejor uso.</p>';
