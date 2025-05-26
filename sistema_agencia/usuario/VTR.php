@@ -81,20 +81,15 @@ class VentaRangosDashboard {
 
             <!-- Tabla de Ventas -->
             <div class="card shadow-lg border-0">
-                <div class="card-header bg-dark text-white">
+                <div class="card-header bg-primary text-white">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0">Historial de Ventas de Rangos</h4>
-                        <div>
-                            <button class="btn btn-sm btn-light" id="exportExcel">
-                                <i class="bi bi-file-excel"></i> Exportar
-                            </button>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
                         <table id="ventasRangosTable" class="table table-hover table-striped mb-0">
-                            <thead class="table-dark">
+                            <thead class="table-light">
                                 <tr>
                                     <th width="5%">ID</th>
                                     <th width="15%">Fecha</th>
