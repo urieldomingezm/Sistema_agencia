@@ -113,7 +113,7 @@ class Navbar
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
               <?php
-              $maintenanceItems = ['Gestion de pagas'];
+              $maintenanceItems = ['Gestion de pagas','Ver mis ascensos'];
               ?>
               <?php foreach ($this->items as $index => $item): ?>
                 <?php if ($item['name'] !== 'Perfil'): ?>
