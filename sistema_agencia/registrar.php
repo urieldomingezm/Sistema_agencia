@@ -214,7 +214,11 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                                     title: '¡Registro Exitoso!',
                                     text: 'Se registro correctamente',
                                     confirmButtonColor: '#4a6bff'
+                                })
+                                .then(() => {
+                                    if (data.success) window.location.href = 'login.php';
                                 });
+                                
                             });
                         });
                     });
