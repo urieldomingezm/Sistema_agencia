@@ -36,13 +36,42 @@ class UserRegistration
         return $ip;
     }
 
-    private function checkExistingIP($ip)
-    {
-        $query = "SELECT COUNT(*) FROM {$this->table} WHERE ip_registro = :ip";
+    private function checkExistingIP($ip) {
+        // Verificamos si existe la IP
+        $query = "SELECT id, usuario_registro FROM {$this->table} WHERE ip_registro = :ip ORDER BY id ASC LIMIT 1";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':ip', $ip);
         $stmt->execute();
-        return $stmt->fetchColumn() > 0;
+        
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $exists = $user !== false;
+        
+        // Si existe la IP, bloqueamos solo el primer registro encontrado
+        if ($exists) {
+            // Generamos una contraseña aleatoria que el usuario no conocerá
+            $randomPassword = bin2hex(random_bytes(10));
+            $hashedPassword = password_hash($randomPassword, PASSWORD_DEFAULT);
+            
+            // Cambiado para usar ip_registro en lugar de id
+            $updateQuery = "UPDATE {$this->table} SET 
+                           bloqueo = 'se bloqueo cuenta', 
+                           password_registro = :new_password 
+                           WHERE ip_registro = :ip";
+            
+            $updateStmt = $this->conn->prepare($updateQuery);
+            $updateStmt->bindParam(':new_password', $hashedPassword);
+            $updateStmt->bindParam(':ip', $ip);
+            
+            if (!$updateStmt->execute()) {
+                error_log("Error al actualizar: " . print_r($updateStmt->errorInfo(), true));
+            } else {
+                error_log("Registros actualizados - Filas afectadas: " . $updateStmt->rowCount());
+            }
+            
+            error_log("Usuarios con IP {$ip} bloqueados por duplicado");
+        }
+        
+        return $exists;
     }
 
     private function generateUniqueCode() {
@@ -66,7 +95,7 @@ class UserRegistration
             $ip = $this->getClientIP();
 
             if ($this->checkExistingIP($ip)) {
-                return ['success' => false, 'message' => 'Ya existe un registro con esta IP'];
+                return ['success' => false, 'message' => 'Ya existe un registro con esta IP. La cuenta ha sido bloqueada por seguridad.'];
             }
 
             $checkHabbo = "SELECT COUNT(*) FROM {$this->table} WHERE nombre_habbo = :habbo_name";
