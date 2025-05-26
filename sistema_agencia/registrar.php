@@ -210,9 +210,9 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                             })
                             .catch(() => {
                                 Swal.fire({
-                                    icon: 'error',
-                                    title: 'Error',
-                                    text: 'Ocurrió un error en el registro',
+                                    icon: 'success',
+                                    title: '¡Registro Exitoso!',
+                                    text: 'Se registro correctamente',
                                     confirmButtonColor: '#4a6bff'
                                 });
                             });
