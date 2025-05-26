@@ -248,9 +248,24 @@ class GestionTiempos
         if ($status === 'pausa' || $status === 'inactivo') {
             $actions .= '
                 <div class="btn-group btn-group-sm" role="group">
-                    <button class="btn btn-success completar-tiempo" data-codigo="' . $tiempo['codigo_time'] . '" title="Completar">
-                        Completo requisito
-                    </button>
+                    <button 
+    class="btn btn-success btn-sm completar-tiempo me-2" 
+    data-codigo="' . $tiempo['codigo_time'] . '" 
+    title="Completar"
+>
+    Completo requisito
+</button>
+
+<button 
+    class="btn btn-primary btn-sm iniciar-tiempo" 
+    data-bs-toggle="modal" 
+    data-bs-target="#dar_tiempo_modal" 
+    data-codigo="' . $tiempo['codigo_time'] . '" 
+    title="Iniciar tiempo"
+>
+    Iniciar tiempo
+</button>
+
                 </div>';
         } elseif (!empty($tiempo['tiempo_encargado_usuario']) && $status !== 'pausa') {
             $actions .= '
@@ -279,5 +294,22 @@ class GestionTiempos
 $gestionTiempos = new GestionTiempos();
 echo $gestionTiempos->renderTable();
 ?>
+
+<script>
+
+ // Manejar el clic en el botón de iniciar tiempo
+    document.querySelectorAll('.iniciar-tiempo').forEach(button => {
+        button.addEventListener('click', function() {
+            const codigo = this.getAttribute('data-codigo');
+            const codigoInput = document.getElementById('codigoTimeTiempo');
+            if (codigoInput) {
+                codigoInput.value = codigo;
+                // Disparar el evento de búsqueda automáticamente
+                document.getElementById('buscarUsuarioTiempo').click();
+            }
+        });
+    });
+
+</script>
 
 <script src="/public/assets/custom_general/custom_gestion_tiempos/index_gestion.js"></script>

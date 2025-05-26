@@ -1,479 +1,260 @@
-<div class="modal fade" id="editar_usuario" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editar_usuarioLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
+<div class="modal fade" id="modificarRangoModal" tabindex="-1" aria-labelledby="modificarRangoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <!-- Encabezado del Modal -->
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title fw-bold" id="editar_usuarioLabel">
-                    Editar Usuario
-                </h5>
+                <h5 class="modal-title" id="modificarRangoModalLabel">Modificar Rango</h5>
             </div>
-            
-            <!-- Cuerpo del Modal -->
             <div class="modal-body">
-                <!-- Indicador de pasos -->
-                <div class="progress mb-4" style="height: 10px;">
-                    <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+                <input type="hidden" id="codigoTimeUsuario">
                 
-                <!-- Formulario de múltiples pasos -->
-                <form id="editarUsuarioForm">
-                    <!-- Paso 1: Búsqueda de Usuario -->
-                    <div class="step" id="step1">
-                        <h4 class="text-center mb-4 fw-bold text-primary">Buscar Usuario</h4>
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <label for="codigoUsuarioEdit" class="form-label fw-bold">
-                                    <i class="bi bi-person-badge me-1"></i> Código de Usuario (5 caracteres)
-                                </label>
-                                <div class="input-group input-group-lg mb-3">
-                                    <span class="input-group-text">
-                                        <i class="bi bi-hash"></i>
-                                    </span>
-                                    <input type="text" class="form-control" id="codigoUsuarioEdit" name="codigoUsuarioEdit" maxlength="5" placeholder="Ingrese el código" autocomplete="off">
-                                    <button class="btn btn-primary" type="button" id="buscarUsuarioEdit">
-                                        <i class="bi bi-search me-1"></i> Buscar
-                                    </button>
+                <div class="mb-4">
+                    <h6 class="fw-bold text-primary mb-3">Información del Usuario</h6>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p><span class="fw-semibold">Nombre Habbo:</span> <span id="infoNombreHabbo"></span></p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><span class="fw-semibold">Rango Actual:</span> <span id="infoRangoActual" class="badge bg-primary"></span></p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><span class="fw-semibold">Misión actual:</span> <span id="infoMisionActual"></span></p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><span class="fw-semibold">Firma:</span> <span id="infoFirmaUsuario"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-top pt-3">
+                    <h6 class="fw-bold text-primary mb-3">Modificar Campos</h6>
+                    <form id="formModificarRango">
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="nuevoRango" class="form-label">Rango</label>
+                                    <select class="form-select" id="nuevoRango" name="nuevoRango" required>
+                                        <option value="">Seleccionar</option>
+                                        <option value="agente">Agente</option>
+                                        <option value="seguridad">Seguridad</option>
+                                        <option value="tecnico">Técnico</option>
+                                        <option value="logistica">Logística</option>
+                                        <option value="supervisor">Supervisor</option>
+                                        <option value="director">Director</option>
+                                        <option value="presidente">Presidente</option>
+                                        <option value="operativo">Operativo</option>
+                                        <option value="junta_directiva">Junta Directiva</option>
+                                        <option value="administrador">Administrador</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="fundador">Fundador</option>
+                                        <option value="dueno">Dueño</option>
+                                    </select>
                                 </div>
-                                <div class="form-text">
-                                    <i class="bi bi-info-circle me-1"></i> Ingrese el código de 5 caracteres del usuario a editar.
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="nuevaMision" class="form-label">Misión</label>
+                                    <input type="text" class="form-control" id="nuevaMision" name="nuevaMision" 
+                                           maxlength="50" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label for="nuevaFirma" class="form-label">Firma (3 chars)</label>
+                                    <input type="text" class="form-control" id="nuevaFirma" name="nuevaFirma"
+                                           pattern="[A-Z0-9]{3}" title="3 caracteres alfanuméricos en mayúsculas"
+                                           maxlength="3" required>
                                 </div>
                             </div>
                         </div>
-                        <div id="resultadoBusquedaEdit" class="mt-3"></div>
-                    </div>
-                    
-                    <!-- Paso 2: Información del Usuario -->
-                    <div class="step d-none" id="step2">
-                        <h4 class="text-center mb-4 fw-bold text-primary">Información del Usuario</h4>
-                        <div class="card mb-3">
-                            <div class="card-header bg-light">
-                                <h5 class="mb-0 fw-bold">
-                                    <i class="bi bi-person-badge-fill me-2 text-primary"></i>Datos del Usuario
-                                </h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row g-4">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <small class="text-muted d-block">Usuario</small>
-                                            <span class="fw-bold" id="nombreUsuarioEdit"></span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <small class="text-muted d-block">Rango Actual</small>
-                                            <span class="fw-bold" id="rangoActualEdit"></span>
-                                        </div>
-                                        <div>
-                                            <small class="text-muted d-block">Misión Actual</small>
-                                            <span class="fw-bold" id="misionActualEdit"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <small class="text-muted d-block">Firma</small>
-                                            <span class="fw-bold" id="firmaUsuarioEdit"></span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <small class="text-muted d-block">Estado</small>
-                                            <span id="estadoAscensoEdit"></span>
-                                        </div>
-                                        <div>
-                                            <small class="text-muted d-block">Código Time</small>
-                                            <span class="fw-bold" id="codigoTimeInfoEdit"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Paso 3: Formulario de Modificación -->
-                    <div class="step d-none" id="step3">
-                        <h4 class="text-center mb-4 fw-bold text-primary">
-                            <i class="bi bi-pencil-square me-2"></i>Editar Usuario
-                        </h4>
-                        <div class="card mb-4">
-                            <div class="card-body">
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nuevoNombreEdit" class="form-label fw-bold">
-                                            <i class="bi bi-person-fill me-1 text-primary"></i> Nombre de Usuario
-                                        </label>
-                                        <input type="text" class="form-control" id="nuevoNombreEdit" name="nuevoNombreEdit" readonly>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nuevoRangoEdit" class="form-label fw-bold">
-                                            <i class="bi bi-award-fill me-1 text-primary"></i> Rango
-                                        </label>
-                                        <select class="form-select" id="nuevoRangoEdit" name="nuevoRangoEdit" required>
-                                            <option value="">Seleccione un rango</option>
-                                            <option value="Agente">Agente</option>
-                                            <option value="Seguridad">Seguridad</option>
-                                            <option value="Tecnico">Técnico</option>
-                                            <option value="Logistica">Logística</option>
-                                            <option value="Supervisor">Supervisor</option>
-                                            <option value="Director">Director</option>
-                                            <option value="Presidente">Presidente</option>
-                                            <option value="Operativo">Operativo</option>
-                                            <option value="Junta directiva">Junta directiva</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nuevaMisionEdit" class="form-label fw-bold">
-                                            <i class="bi bi-briefcase-fill me-1 text-primary"></i> Misión
-                                        </label>
-                                        <input type="text" class="form-control" id="nuevaMisionEdit" name="nuevaMisionEdit" required>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nuevaFirmaEdit" class="form-label fw-bold">
-                                            <i class="bi bi-pen-fill me-1 text-primary"></i> Firma (3 dígitos)
-                                        </label>
-                                        <input type="text" class="form-control" id="nuevaFirmaEdit" name="nuevaFirmaEdit" maxlength="3" required>
-                                    </div>
-                                </div>
-                                <div class="row g-4">
-                                    <div class="col-md-6 mb-3">
-                                        <label for="nuevoEstadoEdit" class="form-label fw-bold">
-                                            <i class="bi bi-toggle-on me-1 text-primary"></i> Estado
-                                        </label>
-                                        <select class="form-select" id="nuevoEstadoEdit" name="nuevoEstadoEdit" required >
-                                            <option value="pendiente">Pendiente</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 mb-3">
-                                        <label for="firmaEncargadoEdit" class="form-label fw-bold">
-                                            <i class="bi bi-person-check-fill me-1 text-primary"></i> Firma Encargado (3 dígitos)
-                                        </label>
-                                        <input type="text" class="form-control" id="firmaEncargadoEdit" name="firmaEncargadoEdit" maxlength="3" required>
-                                    </div>
-                                </div>
-                                <input type="hidden" id="usuarioIdEdit" name="usuarioIdEdit">
-                                <input type="hidden" id="codigoTimeHiddenEdit" name="codigoTimeHiddenEdit">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Paso 4: Confirmación -->
-                    <div class="step d-none" id="step4">
-                        <div class="text-center p-5">
-                            <div class="display-1 text-success mb-4">
-                                <i class="bi bi-check-circle-fill"></i>
-                            </div>
-                            <h4 class="mb-3 fw-bold text-success">¡Usuario Editado Correctamente!</h4>
-                            <p class="lead">Los datos del usuario han sido actualizados exitosamente.</p>
-                            <div class="mt-4">
-                                <div class="spinner-grow spinner-grow-sm text-success me-1" role="status">
-                                    <span class="visually-hidden">Cargando...</span>
-                                </div>
-                                <span class="text-muted">Redirigiendo...</span>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            
-            <!-- Pie del Modal -->
-            <div class="modal-footer bg-light">
-                <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">
-                    Cerrar
-                </button>
-                <button type="button" class="btn btn-outline-secondary btn-lg" id="prevBtnEdit" disabled>
-                     Anterior
-                </button>
-                <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtnEdit">
-                    Siguiente 
-                </button>
-                <button type="button" class="btn btn-outline-success btn-lg d-none" id="submitBtnEdit">
-                     Guardar Cambios
-                </button>
+                        <button type="submit" class="btn btn-primary w-100 mt-2">Guardar Cambios</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Incluye JustValidate desde CDN antes de tu script principal -->
+<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
 <script>
-$(document).ready(function() {
-    let currentStepModificarUsuario = 1;
-    const totalStepsModificarUsuario = 4;
-    let userDataModificarUsuario = {};
-    
-    // Actualizar la barra de progreso
-    function updateProgressBarModificarUsuario() {
-        const percent = ((currentStepModificarUsuario - 1) / (totalStepsModificarUsuario - 1)) * 100;
-        $('#editar_usuario .progress-bar').css('width', percent + '%').attr('aria-valuenow', percent);
+class UserModificationModalHandler {
+    constructor() {
+        this.modal = document.getElementById('modificarRangoModal');
+        this.form = document.getElementById('formModificarRango');
+        this.userIdInput = document.getElementById('codigoTimeUsuario');
+        this.infoNombreHabbo = document.getElementById('infoNombreHabbo');
+        this.infoRangoActual = document.getElementById('infoRangoActual');
+        this.infoMisionActual = document.getElementById('infoMisionActual');
+        this.infoFirmaUsuario = document.getElementById('infoFirmaUsuario');
+        this.nuevaMisionInput = document.getElementById('nuevaMision');
+        this.nuevaFirmaInput = document.getElementById('nuevaFirma');
+        this.nuevoRangoSelect = document.getElementById('nuevoRango');
+
+        this.initModalEvents();
+        this.initFormValidation();
     }
-    
-    // Mostrar el paso actual
-    function showStepModificarUsuario(step) {
-        $('#editar_usuario .step').addClass('d-none');
-        $('#editar_usuario #step' + step).removeClass('d-none');
-        
-        // Actualizar botones
-        $('#prevBtnEdit').prop('disabled', step === 1);
-        $('#nextBtnEdit').toggleClass('d-none', step === 3 || step === 4);
-        $('#submitBtnEdit').toggleClass('d-none', step !== 3);
-        
-        // Actualizar progreso
-        currentStepModificarUsuario = step;
-        updateProgressBarModificarUsuario();
+
+    initModalEvents() {
+        this.modal.addEventListener('show.bs.modal', (e) => this.handleModalShow(e));
     }
-    
-    // Función para mostrar/ocultar el campo de firma según el rango
-    function toggleFirmaField() {
-        const rangoSeleccionado = $('#nuevoRangoEdit').val();
-        const firmaContainer = $('#nuevaFirmaEdit').closest('.col-md-6');
+
+    handleModalShow(e) {
+        const button = e.relatedTarget;
+        const userId = button.getAttribute('data-id');
         
-        if (rangoSeleccionado === 'Agente' || rangoSeleccionado === 'Seguridad') {
-            firmaContainer.hide();
-            $('#nuevaFirmaEdit').val('').removeAttr('required');
-        } else {
-            firmaContainer.show();
-            $('#nuevaFirmaEdit').attr('required', 'required');
-        }
+        this.userIdInput.value = userId;
+        
+        this.fetchUserData(userId);
     }
-    
-    // Ejecutar cuando cambie el rango
-    $('#nuevoRangoEdit').change(toggleFirmaField);
-    
-    // Buscar usuario por código
-    $('#buscarUsuarioEdit').click(function() {
-        const codigo = $('#codigoUsuarioEdit').val().trim();
-        
-        if (codigo.length !== 5) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'El código debe tener exactamente 5 caracteres'
-            });
-            return;
-        }
-        
-        // Mostrar cargando
-        $('#resultadoBusquedaEdit').html('<div class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div></div>');
-        
-        // Realizar petición AJAX
-        $.ajax({
-            url: '/private/procesos/gestion_ascensos/buscar_usuario.php',
-            type: 'POST',
-            data: { codigo: codigo },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    userDataModificarUsuario = response.data;
-                    
-                    // Mostrar información del usuario
-                    $('#nombreUsuarioEdit').text(userDataModificarUsuario.usuario_registro);
-                    $('#rangoActualEdit').text(userDataModificarUsuario.rango_actual);
-                    $('#misionActualEdit').text(userDataModificarUsuario.mision_actual);
-                    $('#firmaUsuarioEdit').text(userDataModificarUsuario.firma_usuario ? userDataModificarUsuario.firma_usuario : 'No disponible');
-                    $('#codigoTimeInfoEdit').text(userDataModificarUsuario.codigo_time);
-                    
-                    // Mostrar estado con badge
-                    let badgeClass = 'bg-warning';
-                    if (userDataModificarUsuario.estado_ascenso === 'ascendido') {
-                        badgeClass = 'bg-success';
-                    } else if (userDataModificarUsuario.estado_ascenso === 'pendiente') {
-                        badgeClass = 'bg-danger';
-                    }
-                    $('#estadoAscensoEdit').html(`<span class="badge ${badgeClass}">${userDataModificarUsuario.estado_ascenso}</span>`);
-                    
-                    // Prellenar los campos del formulario de modificación
-                    $('#nuevoNombreEdit').val(userDataModificarUsuario.usuario_registro);
-                    $('#nuevoRangoEdit').val(userDataModificarUsuario.rango_actual);
-                    $('#nuevaMisionEdit').val(userDataModificarUsuario.mision_actual);
-                    $('#nuevaFirmaEdit').val(userDataModificarUsuario.firma_usuario);
-                    $('#nuevoEstadoEdit').val(userDataModificarUsuario.estado_ascenso);
-                    $('#usuarioIdEdit').val(userDataModificarUsuario.ascenso_id);
-                    $('#codigoTimeHiddenEdit').val(userDataModificarUsuario.codigo_time);
-                    
-                    // Aplicar la lógica de mostrar/ocultar firma según el rango
-                    toggleFirmaField();
-                    
-                    // Mostrar el resultado
-                    $('#resultadoBusquedaEdit').html(`
-                        <div class="alert alert-success">
-                            <i class="bi bi-check-circle-fill me-2"></i> Usuario encontrado: <strong>${userDataModificarUsuario.usuario_registro}</strong>
-                        </div>
-                    `);
-                    
-                    // Habilitar el botón siguiente
-                    $('#nextBtnEdit').prop('disabled', false);
-                } else {
-                    // Mostrar mensaje de error
-                    $('#resultadoBusquedaEdit').html(`
-                        <div class="alert alert-danger">
-                            <i class="bi bi-exclamation-triangle-fill me-2"></i> ${response.message}
-                        </div>
-                    `);
-                    
-                    // Deshabilitar el botón siguiente
-                    $('#nextBtnEdit').prop('disabled', true);
-                }
-            },
-            error: function() {
-                $('#resultadoBusquedaEdit').html(`
-                    <div class="alert alert-danger">
-                        <i class="bi bi-exclamation-triangle-fill me-2"></i> Error de conexión. Inténtelo de nuevo.
-                    </div>
-                `);
+
+    fetchUserData(userId) {
+        fetch('/private/procesos/gestion_modificar/buscar.php', {
+            method: 'POST',
+            body: JSON.stringify({ id: userId }),
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                this.infoNombreHabbo.textContent = data.data.nombre_habbo;
+                this.infoRangoActual.textContent = data.data.rango_actual;
+                this.infoMisionActual.textContent = data.data.mision_actual;
+                this.infoFirmaUsuario.textContent = data.data.firma_usuario ? data.data.firma_usuario : 'No disponible';
                 
-                // Deshabilitar el botón siguiente
-                $('#nextBtnEdit').prop('disabled', true);
+                this.nuevaMisionInput.value = data.data.mision_actual;
+                this.nuevaFirmaInput.value = data.data.firma_usuario;
+                
+            } else {
+                 console.error('Error al cargar datos del usuario:', data.error);
+                 Swal.fire({
+                    title: 'Error',
+                    text: 'No se pudieron cargar los datos del usuario: ' + data.error,
+                    icon: 'error',
+                    confirmButtonText: 'Entendido'
+                });
+                 const modalInstance = bootstrap.Modal.getInstance(this.modal);
+                 modalInstance.hide();
             }
+        })
+        .catch(error => {
+            console.error('Error en la solicitud de búsqueda:', error);
+             Swal.fire({
+                title: 'Error',
+                text: 'Ocurrió un error de red al cargar los datos del usuario.',
+                icon: 'error',
+                confirmButtonText: 'Entendido'
+            });
+             const modalInstance = bootstrap.Modal.getInstance(this.modal);
+             modalInstance.hide();
         });
-    });
-    
-    // Botón Siguiente
-    $('#nextBtnEdit').click(function() {
-        if (currentStepModificarUsuario < totalStepsModificarUsuario) {
-            showStepModificarUsuario(currentStepModificarUsuario + 1);
-        }
-    });
-    
-    // Botón Anterior
-    $('#prevBtnEdit').click(function() {
-        if (currentStepModificarUsuario > 1) {
-            showStepModificarUsuario(currentStepModificarUsuario - 1);
-        }
-    });
-    
-    // Botón Guardar Cambios
-    $('#submitBtnEdit').click(function() {
-        // Validar formulario
-        const nuevoRango = $('#nuevoRangoEdit').val();
-        const nuevaMision = $('#nuevaMisionEdit').val().trim();
-        const nuevaFirma = $('#nuevaFirmaEdit').val().trim();
-        const nuevoEstado = $('#nuevoEstadoEdit').val();
-        const firmaEncargado = $('#firmaEncargadoEdit').val().trim();
-        
-        // Validación condicional según el rango
-        if (!nuevoRango || !nuevaMision || !nuevoEstado || !firmaEncargado) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Todos los campos son obligatorios excepto la firma'
+    }
+
+    initFormValidation() {
+        const validator = new JustValidate(this.form, {
+            validateBeforeSubmitting: true,
+        });
+
+        validator
+            .addField('#nuevoRango', [
+                {
+                    rule: 'required',
+                    errorMessage: 'El rango es requerido.',
+                },
+            ])
+            .addField('#nuevaMision', [
+                {
+                    rule: 'required',
+                    errorMessage: 'La misión es requerida.',
+                },
+                {
+                    rule: 'maxLength',
+                    value: 50,
+                    errorMessage: 'La misión no debe exceder los 50 caracteres.',
+                },
+            ])
+            .addField('#nuevaFirma', [
+                {
+                    rule: 'required',
+                    errorMessage: 'La firma es requerida.',
+                },
+                {
+                    rule: 'customRegexp',
+                    value: /^[A-Z0-9]{3}$/,
+                    errorMessage: 'El formato de la firma es inválido. Debe ser 3 caracteres alfanuméricos en mayúsculas.',
+                },
+            ])
+            .onSuccess((event) => {
+                this.handleFormSubmit(event);
             });
-            return;
-        }
-        
-        if (firmaEncargado.length !== 3) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La firma del encargado debe tener 3 dígitos'
-            });
-            return;
-        }
-        
-        // Solo validar la firma si se ha ingresado algo
-        if (nuevaFirma && nuevaFirma.length !== 3) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La firma del usuario debe tener 3 dígitos si se proporciona'
-            });
-            return;
-        }
-        
-        // Validar firma solo si es requerida (rangos superiores)
-        if (nuevoRango !== 'Agente' && nuevoRango !== 'Seguridad' && !nuevaFirma) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La firma es obligatoria para este rango'
-            });
-            return;
-        }
-        
-        if (firmaEncargado.length !== 3) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La firma del encargado debe tener 3 dígitos'
-            });
-            return;
-        }
-        
-        if (nuevoRango !== 'Agente' && nuevoRango !== 'Seguridad' && nuevaFirma.length !== 3) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'La firma del usuario debe tener 3 dígitos'
-            });
-            return;
-        }
-        
-        // Mostrar cargando
+    }
+
+    handleFormSubmit(event) {
+        event.preventDefault();
+
+        const userId = this.userIdInput.value;
+        const nuevoRango = this.nuevoRangoSelect.value;
+        const nuevaMision = this.nuevaMisionInput.value;
+        const nuevaFirma = this.nuevaFirmaInput.value;
+
         Swal.fire({
-            title: 'Guardando cambios',
-            text: 'Por favor espere...',
+            title: 'Guardando cambios...',
+            text: 'Por favor espera.',
+            icon: 'info',
             allowOutsideClick: false,
-            didOpen: () => {
+            showConfirmButton: false,
+            willOpen: () => {
                 Swal.showLoading();
             }
         });
-        
-        // Preparar datos para enviar
-        const formData = new FormData();
-        formData.append('ascenso_id', $('#usuarioIdEdit').val());
-        formData.append('codigoTimeHiddenEdit', $('#codigoTimeHiddenEdit').val());
-        formData.append('nuevoRangoEdit', nuevoRango);
-        formData.append('nuevaMisionEdit', nuevaMision);
-        
-        // Solo enviar firma si es requerida
-        if (nuevoRango !== 'Agente' && nuevoRango !== 'Seguridad') {
-            formData.append('nuevaFirmaEdit', nuevaFirma);
-        } else {
-            formData.append('nuevaFirmaEdit', ''); // Enviar vacío para que se guarde como NULL
-        }
-        
-        formData.append('nuevoEstadoEdit', nuevoEstado);
-        formData.append('firmaEncargadoEdit', firmaEncargado);
-        
-        // Realizar petición AJAX
-        $.ajax({
-            url: '/private/procesos/gestion_modificar/modificar.php',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    // Mostrar paso de confirmación
-                    showStepModificarUsuario(4);
-                    
-                    // Redireccionar después de 2 segundos
-                    setTimeout(function() {
-                        $('#editar_usuario').modal('hide');
-                        location.reload();
-                    }, 2000);
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message || 'Ocurrió un error al modificar el usuario'
-                    });
-                }
-            },
-            error: function() {
+
+        fetch('/private/procesos/gestion_modificar/modificar.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                userId: userId,
+                nuevoRango: nuevoRango,
+                nuevaMision: nuevaMision,
+                nuevaFirma: nuevaFirma
+            }),
+            headers: {'Content-Type': 'application/json'}
+        })
+        .then(response => response.json())
+        .then(data => {
+            Swal.close();
+            if (data.success) {
                 Swal.fire({
-                    icon: 'error',
+                    title: 'Éxito',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonText: 'Entendido'
+                }).then(() => {
+                    window.location.reload(); 
+                });
+                const modalInstance = bootstrap.Modal.getInstance(this.modal);
+                modalInstance.hide();
+            } else {
+                Swal.fire({
                     title: 'Error',
-                    text: 'Ocurrió un error en la comunicación con el servidor'
+                    text: 'Error al guardar los cambios: ' + data.error,
+                    icon: 'error',
+                    confirmButtonText: 'Entendido'
                 });
             }
+        })
+        .catch(error => {
+            Swal.close();
+            console.error('Error en la solicitud de modificación:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Ocurrió un error de red al guardar los cambios.',
+                icon: 'error',
+                confirmButtonText: 'Entendido'
+            });
         });
-    });
-    
-    // Reiniciar el formulario cuando se cierra el modal
-    $('#editar_usuario').on('hidden.bs.modal', function() {
-        $('#editarUsuarioForm')[0].reset();
-        $('#resultadoBusquedaEdit').html('');
-        $('#nextBtnEdit').prop('disabled', true);
-        showStepModificarUsuario(1);
-    });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    new UserModificationModalHandler();
 });
 </script>

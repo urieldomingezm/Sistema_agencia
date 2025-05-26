@@ -238,7 +238,6 @@ class Navbar
       'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal',
       'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
       'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#venta_rangos',
-      'Modificar usuario' => '#" data-bs-toggle="modal" data-bs-target="#editar_usuario',
       'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias',
       'Dar notificacion' => '#" data-bs-toggle="modal" data-bs-target="#modalNotificacion',
     ];
@@ -255,7 +254,7 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias', 'Gestion de notificaciones', 'divider', 'Dar notificacion']],
-  ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios', 'Modificar usuario']],
+  ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios']],
   ['name' => 'Ascensos', 'dropdown' => [
     'Gestion ascenso',
     'Ver mis ascensos',
@@ -339,7 +338,6 @@ $navbar->render();
 </script>
 
 <?php
-require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
 echo "<!-- Separador -->";
 require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');
 require_once(DAR_TIEMPO_PATCH . 'dar_tiempo.php');
