@@ -74,6 +74,7 @@ class UserController
             'Junta directiva' => 'menu_rango_altos.php',
 
             // Admin rank menus
+            'My_queen' => 'menu_rango_admin.php',
             'Administrador' => 'menu_rango_admin.php',
             'Manager' => 'menu_rango_admin.php',
             'Dueno' => 'menu_rango_admin.php',
@@ -187,47 +188,47 @@ class UserController
             // Pages accessible by all roles
             'inicio' => [
                 'file' => 'USR.php',
-                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
             'ver_perfil' => [
                 'file' => 'PRUS.php',
-                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
             'cerrar_session' => [
                 'file' => 'CRSS.php',
-                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
             'requisitos_paga' => [
                 'file' => 'RQPG.php',
-                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
 
             // Pages accessible by technical roles and above
             'gestionar_usuarios' => [
                 'file' => 'GEUS.php',
-                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
 
             // Pages accessible by logistics and above
             'gestion_ascenso' => [
                 'file' => 'GSAS.php',
-                'roles' => ['Logistica', 'Supervisor', 'Operativo', 'Director', 'Presidente', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Logistica', 'Supervisor', 'Operativo', 'Director', 'Presidente', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
             
             // Pages for viewing personal time and promotions (accessible by logistics and above)
             'ver_mis_tiempos' => [
                 'file' => 'HIST.php',
-                'roles' => ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
             'ver_mis_ascensos' => [
                 'file' => 'HISA.php',
-                'roles' => ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
 
             // Pages accessible by director and above
             'gestion_de_tiempo' => [
                 'file' => 'GSTM.php',
-                'roles' => ['Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
 
             
@@ -235,19 +236,19 @@ class UserController
             // Pages accessible only by administrators
             'gestion_de_pagas' => [
                 'file' => 'GTPS.php',
-                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
             'gestion_de_notificaciones' => [
                 'file' => 'GTNT.php',
-                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
             'ventas_membresias' => [
                 'file' => 'VTM.php',
-                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
             'ventas_rangos_y_traslados' => [
                 'file' => 'VTR.php',
-                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador']
+                'roles' => ['Administrador', 'Manager', 'Dueño', 'Fundador', 'My_queen']
             ],
         ];
 
