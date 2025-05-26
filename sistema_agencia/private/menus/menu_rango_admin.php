@@ -40,7 +40,7 @@ class Navbar
                   if (isset($_SESSION["user_id"])) {
                     $notificationManager = new NotificationManager();
                     $userNotifications = $notificationManager->getNotificationsByUserId($_SESSION["user_id"]);
-                    
+
                     if (isset($_SESSION["usuario"])) {
                       $nombre = $_SESSION["usuario"];
                       echo strlen($nombre) > 6 ? substr($nombre, 0, 6) . "..." : $nombre;
@@ -113,7 +113,7 @@ class Navbar
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
               <?php
-              $maintenanceItems = ['Gestion de pagas','Ver mis ascensos'];
+              $maintenanceItems = ['Gestion de pagas', 'Vender rangos'];
               ?>
               <?php foreach ($this->items as $index => $item): ?>
                 <?php if ($item['name'] !== 'Perfil'): ?>
