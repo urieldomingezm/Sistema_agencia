@@ -93,7 +93,7 @@ class VentaRangosDashboard {
                                 <tr>
                                     <th width="5%">ID</th>
                                     <th width="15%">Fecha</th>
-                                    <th width="10%">Tipo</th>
+                                    <th width="10%">Rango</th>
                                     <th width="20%">Comprador</th>
                                     <th width="20%">Vendedor</th>
                                     <th width="15%">Costo</th>
