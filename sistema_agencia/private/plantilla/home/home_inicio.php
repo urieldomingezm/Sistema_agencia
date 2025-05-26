@@ -368,7 +368,7 @@ class BodyHome
         echo '<section style="background: #ffffff; padding: 50px 0;">';
         echo '<div class="container">';
         echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;">';
-        echo '<i class="bi bi-play-circle-fill me-2"></i>Videos Destacados<i class="bi bi-play-circle-fill ms-2"></i>';
+        echo '<i class="bi bi-play-circle-fill me-2"></i>Videos<i class="bi bi-play-circle-fill ms-2"></i>';
         echo '</h2>';
         echo '<div class="row justify-content-center">';
         
