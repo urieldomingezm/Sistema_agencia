@@ -1,23 +1,18 @@
 <div class="modal fade" id="venta_rangos" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="venta_rangosLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
         <div class="modal-content">
-            <!-- Encabezado del Modal -->
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title fw-bold" id="venta_rangosLabel">
                     Venta/Traslado de Rangos
                 </h5>
             </div>
 
-            <!-- Cuerpo del Modal -->
             <div class="modal-body">
-                <!-- Indicador de pasos -->
                 <div class="progress mb-4" style="height: 10px;">
                     <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
-                <!-- Formulario de múltiples pasos -->
                 <form id="ventaRangosForm">
-                    <!-- Paso 1: Selección de Rango -->
                     <div class="step" id="step1">
                         <h4 class="text-center mb-4 fw-bold text-primary">Seleccionar Rango</h4>
                         <div class="card mb-3">
@@ -36,7 +31,7 @@
                                             <option value="Supervisor">Supervisor</option>
                                             <option value="Director">Director</option>
                                             <option value="Presidente">Presidente</option>
-                                            <option value="Operativo">Operativo</option>
+                                            <option value="Operativo">Operativo</n>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
@@ -50,7 +45,6 @@
                         </div>
                     </div>
 
-                    <!-- Paso 2: Información de las Partes -->
                     <div class="step d-none" id="step2">
                         <h4 class="text-center mb-4 fw-bold text-primary">Información de las Partes</h4>
                         <div class="card mb-3">
@@ -73,7 +67,6 @@
                         </div>
                     </div>
 
-                    <!-- Paso 3: Confirmación y Firmas -->
                     <div class="step d-none" id="step3">
                         <h4 class="text-center mb-4 fw-bold text-primary">
                             <i class="bi bi-file-earmark-check-fill me-2"></i>Confirmación
@@ -98,7 +91,6 @@
                         </div>
                     </div>
 
-                    <!-- Paso 4: Confirmación Final -->
                     <div class="step d-none" id="step4">
                         <div class="text-center p-5">
                             <div class="display-1 text-primary mb-4">
@@ -135,56 +127,56 @@
     </div>
 </div>
 
-<!-- Script para el funcionamiento del modal -->
 <script>
-$(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     let currentStepVenta = 1;
     const totalStepsVenta = 4;
 
-    // Actualizar la barra de progreso
+    const modal = document.getElementById('venta_rangos');
+    const progressBar = modal.querySelector('.progress-bar');
+    const steps = modal.querySelectorAll('.step');
+    const prevBtn = document.getElementById('prevBtnVenta');
+    const nextBtn = document.getElementById('nextBtnVenta');
+    const submitBtn = document.getElementById('submitBtnVenta');
+    const form = document.getElementById('ventaRangosForm');
+
     function updateProgressBarVenta() {
         const percent = ((currentStepVenta - 1) / (totalStepsVenta - 1)) * 100;
-        $('#venta_rangos .progress-bar').css('width', percent + '%').attr('aria-valuenow', percent);
+        progressBar.style.width = percent + '%';
+        progressBar.setAttribute('aria-valuenow', percent);
     }
 
-    // Mostrar el paso actual
     function showStepVenta(step) {
-        $('#venta_rangos .step').addClass('d-none');
-        $('#venta_rangos #step' + step).removeClass('d-none');
+        steps.forEach(s => s.classList.add('d-none'));
+        document.getElementById('step' + step).classList.remove('d-none');
 
-        // Actualizar botones
-        $('#prevBtnVenta').prop('disabled', step === 1);
-        $('#nextBtnVenta').toggleClass('d-none', step === 3 || step === 4);
-        $('#submitBtnVenta').toggleClass('d-none', step !== 3);
+        prevBtn.disabled = step === 1;
+        nextBtn.classList.toggle('d-none', step === 3 || step === 4);
+        submitBtn.classList.toggle('d-none', step !== 3);
 
-        // Actualizar progreso
         currentStepVenta = step;
         updateProgressBarVenta();
     }
 
-    // Botón Siguiente
-    $('#nextBtnVenta').click(function() {
+    nextBtn.addEventListener('click', function() {
         if (currentStepVenta < totalStepsVenta) {
             showStepVenta(currentStepVenta + 1);
         }
     });
 
-    // Botón Anterior
-    $('#prevBtnVenta').click(function() {
+    prevBtn.addEventListener('click', function() {
         if (currentStepVenta > 1) {
             showStepVenta(currentStepVenta - 1);
         }
     });
 
-    // Botón Registrar Operación
-    $('#submitBtnVenta').click(function() {
-        // Validar formulario
-        const rangoVenta = $('#rangoVenta').val();
-        const costoRango = $('#costoRango').val();
-        const vendedor = $('#vendedorRango').val();
-        const comprador = $('#compradorRango').val();
-        const firmaVendedor = $('#firmaVendedor').val();
-        const firmaComprador = $('#firmaComprador').val();
+    submitBtn.addEventListener('click', function() {
+        const rangoVenta = document.getElementById('rangoVenta').value;
+        const costoRango = document.getElementById('costoRango').value;
+        const vendedor = document.getElementById('vendedorRango').value;
+        const comprador = document.getElementById('compradorRango').value;
+        const firmaVendedor = document.getElementById('firmaVendedor').value;
+        const firmaComprador = document.getElementById('firmaComprador').value;
 
         if (!rangoVenta || !costoRango || !vendedor || !comprador || !firmaVendedor || !firmaComprador) {
             Swal.fire({
@@ -204,17 +196,15 @@ $(document).ready(function() {
             return;
         }
 
-        // Mostrar cargando
         Swal.fire({
             title: 'Registrando operación',
-            text: 'Por favor espere...',
+            text: 'Por favor espere...', 
             allowOutsideClick: false,
             didOpen: () => {
                 Swal.showLoading();
             }
         });
 
-        // Preparar datos para enviar
         const formData = new FormData();
         formData.append('rangov_tipo', rangoVenta);
         formData.append('rangov_costo', costoRango);
@@ -223,50 +213,37 @@ $(document).ready(function() {
         formData.append('rangov_firma_vendedor', firmaVendedor);
         formData.append('rangov_firma_comprador', firmaComprador);
 
-        // Realizar petición AJAX
-        $.ajax({
-            url: '/private/procesos/gestion_rangos/registrar_venta.php',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    // Mostrar paso de confirmación
-                    showStepVenta(4);
-
-                    // Cerrar el modal de carga
-                    Swal.close();
-
-                    // Redireccionar después de 3 segundos
-                    setTimeout(function() {
-                        window.location.href = '/usuario/GSAS.php';
-                    }, 3000);
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: response.message || 'Error al registrar la operación'
-                    });
-                }
-            },
-            error: function() {
+        fetch('/private/procesos/gestion_venta_rangos/registrar_venta.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            Swal.close();
+            if (data.success) {
+                showStepVenta(4);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+            } else {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Error de conexión. Inténtelo de nuevo.'
+                    text: data.error || 'Error al registrar la operación'
                 });
             }
+        })
+        .catch(error => {
+            Swal.close();
+            console.error('Error en la solicitud:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ocurrió un error de red al registrar la operación.'
+            });
         });
     });
 
-    // Inicializar el modal
-    $('#venta_rangos').on('show.bs.modal', function() {
-        // Resetear el formulario y volver al paso 1
-        $('#ventaRangosForm')[0].reset();
-        showStepVenta(1);
-        $('#nextBtnVenta').prop('disabled', false);
-    });
+    showStepVenta(1);
 });
 </script>
