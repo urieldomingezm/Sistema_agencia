@@ -56,13 +56,13 @@ class UserRegistration
                 $randomPassword = bin2hex(random_bytes(16));
                 $hashedPassword = password_hash($randomPassword, PASSWORD_DEFAULT);
                 
-                // Actualizamos TODOS los registros con esta IP usando parámetros preparados
-                $updateQuery = "UPDATE {$this->table} SET bloqueo = :bloqueo, password_registro = :password WHERE ip_registro = :ip";
+                // Actualizamos TODOS los registros con esta IP
+                $updateQuery = "UPDATE {$this->table} SET password_registro = :password, ip_bloqueo = :bloqueo WHERE ip_registro = :ip";
                 $updateStmt = $this->conn->prepare($updateQuery);
                 
-                $bloqueoStatus = 'Se bloqueo cuenta';
-                $updateStmt->bindParam(':bloqueo', $bloqueoStatus);
+                $bloqueoStatus = 'se bloqueo cuenta';
                 $updateStmt->bindParam(':password', $hashedPassword);
+                $updateStmt->bindParam(':bloqueo', $bloqueoStatus);
                 $updateStmt->bindParam(':ip', $ip);
                 
                 if (!$updateStmt->execute()) {
@@ -95,81 +95,55 @@ class UserRegistration
     {
         try {
             $this->conn->beginTransaction();
-
+    
             if (empty($habboName) || empty($password)) {
                 return ['success' => false, 'message' => 'Todos los campos son requeridos'];
             }
-
+    
             $ip = $this->getClientIP();
-
-            // Verificar IP existente y bloquear cuentas si es necesario
-            if ($this->checkExistingIP($ip)) {
-                return ['success' => false, 'message' => 'Ya existe un registro con esta IP. Todas las cuentas asociadas han sido bloqueadas por seguridad.'];
-            }
-
-            // Verificar si el nombre de Habbo ya existe (ahora será también el nombre de usuario)
-            $checkHabbo = "SELECT COUNT(*) FROM {$this->table} WHERE nombre_habbo = :habbo_name OR usuario_registro = :habbo_name";
-            $stmtHabbo = $this->conn->prepare($checkHabbo);
-            $stmtHabbo->bindParam(':habbo_name', $habboName);
-            $stmtHabbo->execute();
-            if ($stmtHabbo->fetchColumn() > 0) {
-                return ['success' => false, 'message' => 'Este nombre de Habbo ya está registrado'];
-            }
-
+    
+            // Inserción de nuevo usuario
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $codigo_time = $this->generateUniqueCode();
-            
-            // Insertar en tabla registro_usuario (usuario_registro = nombre_habbo)
             $query = "INSERT INTO {$this->table} 
-                     (usuario_registro, password_registro, nombre_habbo, rol_id, fecha_registro, ip_registro, codigo_time, bloqueo) 
+                     (usuario_registro, password_registro, nombre_habbo, rol_id, fecha_registro, ip_registro, codigo_time, ip_bloqueo) 
                      VALUES (:habbo_name, :password, :habbo_name, 1, NOW(), :ip, :codigo_time, NULL)";
-
+    
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':habbo_name', $habboName);
             $stmt->bindParam(':password', $hashedPassword);
             $stmt->bindParam(':ip', $ip);
             $stmt->bindParam(':codigo_time', $codigo_time);
-
+    
             if (!$stmt->execute()) {
                 throw new Exception("Error al guardar el registro de usuario");
             }
-
-            // Obtener fecha y hora de México en formato datetime
-            $dtMexico = new DateTime('now', new DateTimeZone('America/Mexico_City'));
-            $fecha_registro = $dtMexico->format('Y-m-d H:i:s');
-
-            // Insertar en tabla ascensos
-            $queryAscenso = "INSERT INTO ascensos 
-                            (codigo_time, rango_actual, mision_actual, firma_usuario, firma_encargado, estado_ascenso, fecha_ultimo_ascenso, fecha_disponible_ascenso, usuario_encargado, es_recluta) 
-                            VALUES 
-                            (:codigo_time, 'Agente', 'AGE- Iniciado I', NULL, NULL, 'ascendido', :fecha_ultimo_ascenso, :fecha_disponible_ascenso, NULL, TRUE)";
-
-            $fecha_disponible_ascenso = "00:10:00";
-            $stmtAscenso = $this->conn->prepare($queryAscenso);
-            $stmtAscenso->bindParam(':codigo_time', $codigo_time);
-            $stmtAscenso->bindParam(':fecha_ultimo_ascenso', $fecha_registro);
-            $stmtAscenso->bindParam(':fecha_disponible_ascenso', $fecha_disponible_ascenso);
-
-            if (!$stmtAscenso->execute()) {
-                throw new Exception("Error al guardar el registro de ascenso");
+    
+            // Verificación de IP existente
+            if ($this->checkExistingIP($ip)) {
+                // Bloqueo de cuentas existentes
+                $randomPassword = bin2hex(random_bytes(16));
+                $hashedPassword = password_hash($randomPassword, PASSWORD_DEFAULT);
+                $updateQuery = "UPDATE {$this->table} SET password_registro = :password, ip_bloqueo = :bloqueo WHERE ip_registro = :ip";
+                $updateStmt = $this->conn->prepare($updateQuery);
+                $bloqueoStatus = 'se bloqueo cuenta';
+                $updateStmt->bindParam(':password', $hashedPassword);
+                $updateStmt->bindParam(':bloqueo', $bloqueoStatus);
+                $updateStmt->bindParam(':ip', $ip);
+    
+                if (!$updateStmt->execute()) {
+                    error_log("ERROR: Fallo al ejecutar el UPDATE para IP: " . $ip . ". ErrorInfo: " . print_r($updateStmt->errorInfo(), true));
+                    throw new Exception("Error al bloquear cuentas existentes");
+                }
+    
+                $affectedRows = $updateStmt->rowCount();
+                error_log("DEBUG: UPDATE para IP " . $ip . " ejecutado. Filas afectadas: " . $affectedRows);
+                error_log("Cuentas con IP {$ip} bloqueadas por duplicado");
             }
-
-            // Insertar en tabla gestion_tiempo
-            $queryTiempo = "INSERT INTO gestion_tiempo 
-                          (codigo_time, tiempo_status, tiempo_restado, tiempo_acumulado, tiempo_transcurrido, tiempo_encargado_usuario, tiempo_fecha_registro) 
-                          VALUES 
-                          (:codigo_time, 'pausa', '00:00:00', '00:00:00', '00:00:00', NULL, NOW())";
-
-            $stmtTiempo = $this->conn->prepare($queryTiempo);
-            $stmtTiempo->bindParam(':codigo_time', $codigo_time);
-
-            if (!$stmtTiempo->execute()) {
-                throw new Exception("Error al guardar el registro de tiempo");
-            }
-
+    
             $this->conn->commit();
             return ['success' => true, 'message' => '¡Registro exitoso! Por favor, inicia sesión para continuar.'];
-
+    
         } catch (PDOException $e) {
             $this->conn->rollBack();
             error_log("Error en registro: " . $e->getMessage());
