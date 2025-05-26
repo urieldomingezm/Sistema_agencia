@@ -36,9 +36,9 @@ class UserRegistration
         return $ip;
     }
 
-    private function checkExistingIP($ip)
-    {
+    private function checkExistingIP($ip) {
         try {
+            error_log("DEBUG: checkExistingIP called for IP: " . $ip);
             // Primero verificamos si existe la IP
             $query = "SELECT id, usuario_registro FROM {$this->table} WHERE ip_registro = :ip";
             $stmt = $this->conn->prepare($query);
@@ -48,29 +48,31 @@ class UserRegistration
             $existingUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $exists = count($existingUsers) > 0;
             
+            error_log("DEBUG: IP " . $ip . " exists: " . ($exists ? 'true' : 'false') . ". Found " . count($existingUsers) . " users.");
+    
             // Si existe la IP, bloqueamos todas las cuentas asociadas a esa IP
             if ($exists) {
-                foreach ($existingUsers as $user) {
-                    // Generamos una contraseña aleatoria que el usuario no conocerá
-                    $randomPassword = bin2hex(random_bytes(16));
-                    $hashedPassword = password_hash($randomPassword, PASSWORD_DEFAULT);
-                    
-                    // Actualizamos el registro con el bloqueo y la nueva contraseña
-                    $updateQuery = "UPDATE {$this->table} SET 
-                                   bloqueo = 'Se bloqueo cuenta', 
-                                   password_registro = :new_password 
-                                   WHERE id = :user_id";
-                                   
-                    $updateStmt = $this->conn->prepare($updateQuery);
-                    $updateStmt->bindParam(':new_password', $hashedPassword);
-                    $updateStmt->bindParam(':user_id', $user['id']);
-                    
-                    if (!$updateStmt->execute()) {
-                        throw new Exception("Error al bloquear cuenta existente");
-                    }
-                    
-                    error_log("Usuario {$user['usuario_registro']} bloqueado por IP duplicada: {$ip}");
+                // Generamos una contraseña aleatoria que el usuario no conocerá
+                $randomPassword = bin2hex(random_bytes(16));
+                $hashedPassword = password_hash($randomPassword, PASSWORD_DEFAULT);
+                
+                // Actualizamos TODOS los registros con esta IP usando parámetros preparados
+                $updateQuery = "UPDATE {$this->table} SET bloqueo = :bloqueo, password_registro = :password WHERE ip_registro = :ip";
+                $updateStmt = $this->conn->prepare($updateQuery);
+                
+                $bloqueoStatus = 'Se bloqueo cuenta';
+                $updateStmt->bindParam(':bloqueo', $bloqueoStatus);
+                $updateStmt->bindParam(':password', $hashedPassword);
+                $updateStmt->bindParam(':ip', $ip);
+                
+                if (!$updateStmt->execute()) {
+                    error_log("ERROR: Fallo al ejecutar el UPDATE para IP: " . $ip . ". ErrorInfo: " . print_r($updateStmt->errorInfo(), true));
+                    throw new Exception("Error al bloquear cuentas existentes");
                 }
+                
+                $affectedRows = $updateStmt->rowCount();
+                error_log("DEBUG: UPDATE para IP " . $ip . " ejecutado. Filas afectadas: " . $affectedRows);
+                error_log("Cuentas con IP {$ip} bloqueadas por duplicado");
             }
             
             return $exists;
@@ -89,32 +91,24 @@ class UserRegistration
         return $code;
     }
 
-    public function register($username, $password, $habboName)
+    public function register($habboName, $password)
     {
         try {
             $this->conn->beginTransaction();
 
-            if (empty($username) || empty($password) || empty($habboName)) {
+            if (empty($habboName) || empty($password)) {
                 return ['success' => false, 'message' => 'Todos los campos son requeridos'];
             }
 
             $ip = $this->getClientIP();
-
-            // Verificar si el nombre de usuario ya existe
-            $checkUsername = "SELECT COUNT(*) FROM {$this->table} WHERE usuario_registro = :username";
-            $stmtUsername = $this->conn->prepare($checkUsername);
-            $stmtUsername->bindParam(':username', $username);
-            $stmtUsername->execute();
-            if ($stmtUsername->fetchColumn() > 0) {
-                return ['success' => false, 'message' => 'Este nombre de usuario ya está registrado'];
-            }
 
             // Verificar IP existente y bloquear cuentas si es necesario
             if ($this->checkExistingIP($ip)) {
                 return ['success' => false, 'message' => 'Ya existe un registro con esta IP. Todas las cuentas asociadas han sido bloqueadas por seguridad.'];
             }
 
-            $checkHabbo = "SELECT COUNT(*) FROM {$this->table} WHERE nombre_habbo = :habbo_name";
+            // Verificar si el nombre de Habbo ya existe (ahora será también el nombre de usuario)
+            $checkHabbo = "SELECT COUNT(*) FROM {$this->table} WHERE nombre_habbo = :habbo_name OR usuario_registro = :habbo_name";
             $stmtHabbo = $this->conn->prepare($checkHabbo);
             $stmtHabbo->bindParam(':habbo_name', $habboName);
             $stmtHabbo->execute();
@@ -125,15 +119,14 @@ class UserRegistration
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $codigo_time = $this->generateUniqueCode();
             
-            // Insertar en tabla registro_usuario
+            // Insertar en tabla registro_usuario (usuario_registro = nombre_habbo)
             $query = "INSERT INTO {$this->table} 
                      (usuario_registro, password_registro, nombre_habbo, rol_id, fecha_registro, ip_registro, codigo_time, bloqueo) 
-                     VALUES (:username, :password, :habbo_name, 1, NOW(), :ip, :codigo_time, NULL)";
+                     VALUES (:habbo_name, :password, :habbo_name, 1, NOW(), :ip, :codigo_time, NULL)";
 
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':username', $username);
-            $stmt->bindParam(':password', $hashedPassword);
             $stmt->bindParam(':habbo_name', $habboName);
+            $stmt->bindParam(':password', $hashedPassword);
             $stmt->bindParam(':ip', $ip);
             $stmt->bindParam(':codigo_time', $codigo_time);
 
@@ -145,7 +138,7 @@ class UserRegistration
             $dtMexico = new DateTime('now', new DateTimeZone('America/Mexico_City'));
             $fecha_registro = $dtMexico->format('Y-m-d H:i:s');
 
-            // Insertar en tabla ascensos (NUEVA ESTRUCTURA)
+            // Insertar en tabla ascensos
             $queryAscenso = "INSERT INTO ascensos 
                             (codigo_time, rango_actual, mision_actual, firma_usuario, firma_encargado, estado_ascenso, fecha_ultimo_ascenso, fecha_disponible_ascenso, usuario_encargado, es_recluta) 
                             VALUES 
@@ -192,7 +185,7 @@ class UserRegistration
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $registration = new UserRegistration();
-        $result = $registration->register($_POST['username'], $_POST['password'], $_POST['habboName']);
+        $result = $registration->register($_POST['habboName'], $_POST['password']);
         header('Content-Type: application/json');
         echo json_encode($result);
     } catch (Exception $e) {
@@ -200,4 +193,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'message' => 'Error en el registro: ' . $e->getMessage()]);
     }
 }
-?>
