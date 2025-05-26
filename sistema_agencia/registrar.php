@@ -104,14 +104,16 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 
     /* Ajustes para los mensajes de validación */
     .form-group {
-        margin-bottom: 2rem;  /* Aumentado para dar espacio a los mensajes */
+        margin-bottom: 2rem;
+        /* Aumentado para dar espacio a los mensajes */
         position: relative;
     }
 
     .just-validate-error-label {
         position: absolute;
         left: 0;
-        top: 100%;  /* Cambiado de bottom a top */
+        top: 100%;
+        /* Cambiado de bottom a top */
         font-size: 0.75rem;
         color: #dc3545;
         margin-top: 0.25rem;
@@ -163,67 +165,95 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     </div>
 
     <script>
-            document.getElementById('togglePassword').addEventListener('click', function() {
-                const passwordInput = document.querySelector('input[name="password"]');
-                passwordInput.setAttribute('type', passwordInput.type === 'password' ? 'text' : 'password');
-                this.querySelector('i').classList.toggle('bi-eye-fill');
-                this.querySelector('i').classList.toggle('bi-eye-slash-fill');
-            });
-        
-            const validator = new JustValidate('#registrationForm', {
-                validateBeforeSubmitting: true,
-                focusInvalidField: true,
-                lockForm: true,
-                errorFieldCssClass: 'is-invalid',
-                successFieldCssClass: 'is-valid',
-                errorLabelStyle: { fontSize: '12px', color: '#dc3545' }
-            });
-        
-            validator
-                .addField('[name="habboName"]', [
-                    { rule: 'required', errorMessage: 'El nombre de Habbo es requerido' },
-                    { rule: 'minLength', value: 3, errorMessage: 'Debe tener al menos 3 caracteres' },
-                    { rule: 'maxLength', value: 16, errorMessage: 'No puede tener más de 16 caracteres' }
-                ])
-                .addField('[name="password"]', [
-                    { rule: 'required', errorMessage: 'La contraseña es requerida' },
-                    { rule: 'password', errorMessage: 'Debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número' },
-                    { rule: 'maxLength', value: 16, errorMessage: 'No puede tener más de 16 caracteres' }
-                ])
-                .onSuccess((event) => {
-                    event.preventDefault();
-                    grecaptcha.ready(() => {
-                        grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', { action: 'register' })
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.querySelector('input[name="password"]');
+            passwordInput.setAttribute('type', passwordInput.type === 'password' ? 'text' : 'password');
+            this.querySelector('i').classList.toggle('bi-eye-fill');
+            this.querySelector('i').classList.toggle('bi-eye-slash-fill');
+        });
+
+        const validator = new JustValidate('#registrationForm', {
+            validateBeforeSubmitting: true,
+            focusInvalidField: true,
+            lockForm: true,
+            errorFieldCssClass: 'is-invalid',
+            successFieldCssClass: 'is-valid',
+            errorLabelStyle: {
+                fontSize: '12px',
+                color: '#dc3545'
+            }
+        });
+
+        validator
+            .addField('[name="habboName"]', [{
+                    rule: 'required',
+                    errorMessage: 'El nombre de Habbo es requerido'
+                },
+                {
+                    rule: 'minLength',
+                    value: 3,
+                    errorMessage: 'Debe tener al menos 3 caracteres'
+                },
+                {
+                    rule: 'maxLength',
+                    value: 16,
+                    errorMessage: 'No puede tener más de 16 caracteres'
+                }
+            ])
+            .addField('[name="password"]', [{
+                    rule: 'required',
+                    errorMessage: 'La contraseña es requerida'
+                },
+                {
+                    rule: 'minLength',
+                    value: 5,
+                    errorMessage: 'Debe tener al menos 5 caracteres'
+                },
+                {
+                    rule: 'customRegexp',
+                    value: /[A-Z]/,
+                    errorMessage: 'Debe contener al menos una letra mayúscula'
+                }
+            ])
+            .onSuccess((event) => {
+                event.preventDefault();
+                grecaptcha.ready(() => {
+                    grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
+                            action: 'register'
+                        })
                         .then(token => {
                             document.getElementById('g-recaptcha-response').value = token;
-                            fetch('registrar.php', { method: 'POST', body: new FormData(event.target) })
-                            .then(response => response.json())
-                            .then(data => {
-                                Swal.fire({
-                                    icon: data.success ? 'success' : 'error',
-                                    title: data.success ? '¡Registro Exitoso!' : 'Error',
-                                    text: data.message,
-                                    confirmButtonColor: '#4a6bff'
-                                }).then(() => {
-                                    if (data.success) window.location.href = 'login.php';
-                                });
-                            })
-                            .catch(() => {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: '¡Registro Exitoso!',
-                                    text: 'Se registro correctamente',
-                                    confirmButtonColor: '#4a6bff'
+                            fetch('registrar.php', {
+                                    method: 'POST',
+                                    body: new FormData(event.target)
                                 })
-                                .then(() => {
-                                    if (data.success) window.location.href = 'login.php';
+                                .then(response => response.json())
+                                .then(data => {
+                                    Swal.fire({
+                                        icon: data.success ? 'success' : 'error',
+                                        title: data.success ? '¡Registro Exitoso!' : 'Error',
+                                        text: data.message,
+                                        confirmButtonColor: '#4a6bff'
+                                    }).then(() => {
+                                        if (data.success) window.location.href = 'login.php';
+                                    });
+                                })
+                                .catch(() => {
+                                    Swal.fire({
+                                            icon: 'success',
+                                            title: '¡Registro Exitoso!',
+                                            text: 'Se registro correctamente',
+                                            confirmButtonColor: '#4a6bff'
+                                        })
+                                        .then(() => {
+                                            if (data.success) window.location.href = 'login.php';
+                                        });
+
                                 });
-                                
-                            });
                         });
-                    });
                 });
-        </script>
+            });
+    </script>
 </body>
 
 <?php
