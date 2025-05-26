@@ -36,42 +36,48 @@ class UserRegistration
         return $ip;
     }
 
-    private function checkExistingIP($ip) {
-        // Verificamos si existe la IP
-        $query = "SELECT id, usuario_registro FROM {$this->table} WHERE ip_registro = :ip ORDER BY id ASC LIMIT 1";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':ip', $ip);
-        $stmt->execute();
-        
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $exists = $user !== false;
-        
-        // Si existe la IP, bloqueamos solo el primer registro encontrado
-        if ($exists) {
-            // Generamos una contraseña aleatoria que el usuario no conocerá
-            $randomPassword = bin2hex(random_bytes(10));
-            $hashedPassword = password_hash($randomPassword, PASSWORD_DEFAULT);
+    private function checkExistingIP($ip)
+    {
+        try {
+            // Primero verificamos si existe la IP
+            $query = "SELECT id, usuario_registro FROM {$this->table} WHERE ip_registro = :ip";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':ip', $ip);
+            $stmt->execute();
             
-            // Cambiado para usar ip_registro en lugar de id
-            $updateQuery = "UPDATE {$this->table} SET 
-                           bloqueo = 'se bloqueo cuenta', 
-                           password_registro = :new_password 
-                           WHERE ip_registro = :ip";
+            $existingUsers = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $exists = count($existingUsers) > 0;
             
-            $updateStmt = $this->conn->prepare($updateQuery);
-            $updateStmt->bindParam(':new_password', $hashedPassword);
-            $updateStmt->bindParam(':ip', $ip);
-            
-            if (!$updateStmt->execute()) {
-                error_log("Error al actualizar: " . print_r($updateStmt->errorInfo(), true));
-            } else {
-                error_log("Registros actualizados - Filas afectadas: " . $updateStmt->rowCount());
+            // Si existe la IP, bloqueamos todas las cuentas asociadas a esa IP
+            if ($exists) {
+                foreach ($existingUsers as $user) {
+                    // Generamos una contraseña aleatoria que el usuario no conocerá
+                    $randomPassword = bin2hex(random_bytes(16));
+                    $hashedPassword = password_hash($randomPassword, PASSWORD_DEFAULT);
+                    
+                    // Actualizamos el registro con el bloqueo y la nueva contraseña
+                    $updateQuery = "UPDATE {$this->table} SET 
+                                   bloqueo = 'Se bloqueo cuenta', 
+                                   password_registro = :new_password 
+                                   WHERE id = :user_id";
+                                   
+                    $updateStmt = $this->conn->prepare($updateQuery);
+                    $updateStmt->bindParam(':new_password', $hashedPassword);
+                    $updateStmt->bindParam(':user_id', $user['id']);
+                    
+                    if (!$updateStmt->execute()) {
+                        throw new Exception("Error al bloquear cuenta existente");
+                    }
+                    
+                    error_log("Usuario {$user['usuario_registro']} bloqueado por IP duplicada: {$ip}");
+                }
             }
             
-            error_log("Usuarios con IP {$ip} bloqueados por duplicado");
+            return $exists;
+        } catch (PDOException $e) {
+            error_log("Error en checkExistingIP: " . $e->getMessage());
+            throw $e;
         }
-        
-        return $exists;
     }
 
     private function generateUniqueCode() {
@@ -94,15 +100,25 @@ class UserRegistration
 
             $ip = $this->getClientIP();
 
+            // Verificar si el nombre de usuario ya existe
+            $checkUsername = "SELECT COUNT(*) FROM {$this->table} WHERE usuario_registro = :username";
+            $stmtUsername = $this->conn->prepare($checkUsername);
+            $stmtUsername->bindParam(':username', $username);
+            $stmtUsername->execute();
+            if ($stmtUsername->fetchColumn() > 0) {
+                return ['success' => false, 'message' => 'Este nombre de usuario ya está registrado'];
+            }
+
+            // Verificar IP existente y bloquear cuentas si es necesario
             if ($this->checkExistingIP($ip)) {
-                return ['success' => false, 'message' => 'Ya existe un registro con esta IP. La cuenta ha sido bloqueada por seguridad.'];
+                return ['success' => false, 'message' => 'Ya existe un registro con esta IP. Todas las cuentas asociadas han sido bloqueadas por seguridad.'];
             }
 
             $checkHabbo = "SELECT COUNT(*) FROM {$this->table} WHERE nombre_habbo = :habbo_name";
-            $stmt = $this->conn->prepare($checkHabbo);
-            $stmt->bindParam(':habbo_name', $habboName);
-            $stmt->execute();
-            if ($stmt->fetchColumn() > 0) {
+            $stmtHabbo = $this->conn->prepare($checkHabbo);
+            $stmtHabbo->bindParam(':habbo_name', $habboName);
+            $stmtHabbo->execute();
+            if ($stmtHabbo->fetchColumn() > 0) {
                 return ['success' => false, 'message' => 'Este nombre de Habbo ya está registrado'];
             }
 
@@ -111,8 +127,8 @@ class UserRegistration
             
             // Insertar en tabla registro_usuario
             $query = "INSERT INTO {$this->table} 
-                     (usuario_registro, password_registro, nombre_habbo, rol_id, fecha_registro, ip_registro, codigo_time) 
-                     VALUES (:username, :password, :habbo_name, 1, NOW(), :ip, :codigo_time)";
+                     (usuario_registro, password_registro, nombre_habbo, rol_id, fecha_registro, ip_registro, codigo_time, bloqueo) 
+                     VALUES (:username, :password, :habbo_name, 1, NOW(), :ip, :codigo_time, NULL)";
 
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':username', $username);
@@ -162,6 +178,10 @@ class UserRegistration
             return ['success' => true, 'message' => '¡Registro exitoso! Por favor, inicia sesión para continuar.'];
 
         } catch (PDOException $e) {
+            $this->conn->rollBack();
+            error_log("Error en registro: " . $e->getMessage());
+            return ['success' => false, 'message' => 'Error en el registro: ' . $e->getMessage()];
+        } catch (Exception $e) {
             $this->conn->rollBack();
             error_log("Error en registro: " . $e->getMessage());
             return ['success' => false, 'message' => 'Error en el registro: ' . $e->getMessage()];
