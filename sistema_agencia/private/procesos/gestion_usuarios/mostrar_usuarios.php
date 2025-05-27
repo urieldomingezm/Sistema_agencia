@@ -7,7 +7,7 @@ try {
 
     // Query to get all users data
     $query = "SELECT `id`, `usuario_registro`, `password_registro`, `rol_id`, 
-                     `fecha_registro`, `ip_registro`, `nombre_habbo`, `codigo_time` 
+                     `fecha_registro`, `ip_registro`, `nombre_habbo`, `codigo_time`, `ip_bloqueo`
               FROM `registro_usuario`";
     $stmt = $conn->prepare($query);
     $stmt->execute();

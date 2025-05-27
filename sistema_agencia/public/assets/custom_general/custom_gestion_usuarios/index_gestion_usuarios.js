@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const dataTable = new simpleDatatables.DataTable("#usuariosTable", {
         searchable: true,
         fixedHeight: true,
@@ -19,30 +19,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Inicializar tooltips
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-    tooltipTriggerList.map(function(tooltipTriggerEl) {
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 
-    // Toggle para mostrar/ocultar contraseña
-    document.querySelectorAll('.toggle-password').forEach(button => {
-        button.addEventListener('click', function() {
-            const input = this.previousElementSibling;
-            const icon = this.querySelector('i');
-
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('bi-eye');
-                icon.classList.add('bi-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('bi-eye-slash');
-                icon.classList.add('bi-eye');
-            }
-        });
-    });
 });
 
 function editarUsuario(id) {
@@ -66,7 +49,7 @@ function editarUsuario(id) {
     modal.show();
 }
 
-document.getElementById('formCambiarPassword').addEventListener('submit', function(e) {
+document.getElementById('formCambiarPassword').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const usuarioId = document.getElementById('usuario_id').value;
@@ -109,9 +92,9 @@ document.getElementById('formCambiarPassword').addEventListener('submit', functi
     formData.append('nueva_password', nuevaPassword);
 
     fetch(PROCESO_CAMBIAR_PACTH + 'modificar_password.php', {
-            method: 'POST',
-            body: formData
-        })
+        method: 'POST',
+        body: formData
+    })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error en la respuesta del servidor: ' + response.status);
@@ -146,3 +129,7 @@ document.getElementById('formCambiarPassword').addEventListener('submit', functi
             });
         });
 });
+
+
+
+

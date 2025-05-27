@@ -24,10 +24,10 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
                 <table id="usuariosTable" class="table table-hover align-middle mb-0">
                     <thead class="table-dark">
                         <tr>
-                            <th class="text-center" style="width: 60px;">ID</th>
+                            <th class="text-center" style="width: 40px;">ID</th>
                             <th>Usuario Habbo</th>
-                            <th class="text-center" style="width: 300px;">Contraseña</th>
                             <th class="text-center" style="width: 180px;">Fecha Registro</th>
+                            <th class="text-center" style="width: 180px;">Bloqueado</th>
                             <th class="text-center" style="width: 200px;">Acciones</th>
                         </tr>
                     </thead>
@@ -50,21 +50,17 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
                                     </div>
                                 </td>
                                 <td class="text-center">
-                                    <div class="input-group input-group-sm justify-content-center">
-                                        <input type="password"
-                                            class="form-control form-control-sm bg-light text-center"
-                                            value="<?= htmlspecialchars(substr($usuario['password_registro'], 0, 16)) ?>"
-                                            readonly
-                                            style="width: 120px;">
-                                        <button class="btn btn-outline-secondary btn-sm toggle-password" type="button">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td class="text-center">
                                     <span class="badge bg-light text-dark">
                                         <i class="bi bi-calendar3 me-1"></i>
                                         <?= date('d/m/Y', strtotime($usuario['fecha_registro'])) ?>
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <?php
+                                    $bloqueado = empty($usuario['ip_bloqueo']) ? 'No bloqueado' : 'Bloqueado';
+                                    ?>
+                                    <span class="badge <?= $bloqueado === 'No bloqueado' ? 'bg-success' : 'bg-danger' ?>">
+                                        <?= $bloqueado ?>
                                     </span>
                                 </td>
                                 <td class="text-center">
@@ -76,7 +72,6 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
                                             title="Cambiar contraseña">
                                             <span>Password</span>
                                         </button>
-                                        
                                         <button class="btn btn-info btn-sm rounded-pill px-3 py-1 d-flex align-items-center ms-1"
                                             data-bs-toggle="modal"
                                             data-bs-target="#modificarRangoModal"
@@ -84,6 +79,13 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
                                             title="Modificar rango">
                                             <span>Rango</span>
                                         </button>
+                                        <?php if (!empty($usuario['ip_bloqueo'])): ?>
+                                            <button class="btn btn-warning btn-sm rounded-pill px-3 py-1 d-flex align-items-center ms-1"
+                                                onclick="mostrarDesbloquearSwal(<?= $usuario['id'] ?>)"
+                                                title="Desbloquear">
+                                                <span>Desbloquear</span>
+                                            </button>
+                                        <?php endif; ?>
                                     </div>
                                 </td>
                             </tr>
@@ -101,3 +103,53 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
 </div>
 
 <script src="/public/assets/custom_general/custom_gestion_usuarios/index_gestion_usuarios.js"></script>
+
+
+<script>
+    function mostrarDesbloquearSwal(usuarioId) {
+    Swal.fire({
+        title: 'Desbloquear usuario',
+        html: '<p>¿Estás seguro que deseas desbloquear al usuario con ID ' + usuarioId + '?</p>',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, desbloquear',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch('/private/procesos/gestion_usuarios/desbloquear.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'usuario_id=' + encodeURIComponent(usuarioId)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: '¡Desbloqueado!',
+                            text: 'El usuario ha sido desbloqueado correctamente.',
+                            icon: 'success',
+                            confirmButtonText: 'Entendido'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.message || 'No se pudo desbloquear el usuario.',
+                            icon: 'error',
+                            confirmButtonText: 'Entendido'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Error en la petición: ' + error,
+                        icon: 'error',
+                        confirmButtonText: 'Entendido'
+                    });
+                });
+        }
+    });
+}
+</script>
