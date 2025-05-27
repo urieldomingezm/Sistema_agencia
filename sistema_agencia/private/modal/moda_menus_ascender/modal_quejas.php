@@ -163,12 +163,7 @@
                         title: '¡Éxito!',
                         text: data.message
                     }).then(() => {
-                        const modalElement = document.getElementById('modalQuejasSugerencias');
-                        const modal = bootstrap.Modal.getInstance(modalElement);
-                        modal.hide();
-                        form.reset();
-                        otroAsuntoContainer.style.display = 'none';
-                        validation.removeField('#otroAsuntoInput');
+                        window.location.reload();
                     });
                 } else {
                     Swal.fire({
