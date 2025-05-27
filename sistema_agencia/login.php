@@ -206,9 +206,19 @@ require_once(TEMPLATES_PATH . 'header.php');
                 errorMessage: 'El usuario es requerido'
             },
             {
-                rule: 'minLength',
-                value: 3,
-                errorMessage: 'El usuario debe tener al menos 3 caracteres'
+                rule: 'maxLength',
+                value: 13,
+                errorMessage: 'No puede tener más de 13 caracteres'
+            },
+            {
+                rule: 'customRegexp',
+                value: /^[a-zA-Z0-9]+$/,
+                errorMessage: 'Solo letras y números permitidos'
+            },
+            {
+                rule: 'customRegexp',
+                value: /^(?:(?!SELECT|INSERT|UPDATE|DELETE|DROP|UNION|EXEC|ALTER|CREATE|TRUNCATE).)*$/i,
+                errorMessage: 'Caracteres no permitidos'
             }
         ])
         .addField('[name="password"]', [{
@@ -217,8 +227,18 @@ require_once(TEMPLATES_PATH . 'header.php');
             },
             {
                 rule: 'minLength',
-                value: 8,
-                errorMessage: 'La contraseña debe tener al menos 8 caracteres'
+                value: 5,
+                errorMessage: 'Debe tener al menos 5 caracteres'
+            },
+            {
+                rule: 'maxLength',
+                value: 13,
+                errorMessage: 'No puede tener más de 13 caracteres'
+            },
+            {
+                rule: 'customRegexp',
+                value: /^[a-zA-Z0-9]+$/,
+                errorMessage: 'Solo letras y números permitidos'
             }
         ])
         .onSuccess((event) => {

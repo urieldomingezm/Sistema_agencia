@@ -190,14 +190,19 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                     errorMessage: 'El nombre de Habbo es requerido'
                 },
                 {
-                    rule: 'minLength',
-                    value: 3,
-                    errorMessage: 'Debe tener al menos 3 caracteres'
+                    rule: 'maxLength',
+                    value: 13,
+                    errorMessage: 'No puede tener más de 13 caracteres'
                 },
                 {
-                    rule: 'maxLength',
-                    value: 16,
-                    errorMessage: 'No puede tener más de 16 caracteres'
+                    rule: 'customRegexp',
+                    value: /^[a-zA-Z0-9]+$/,
+                    errorMessage: 'Solo letras y números permitidos'
+                },
+                {
+                    rule: 'customRegexp',
+                    value: /^(?:(?!SELECT|INSERT|UPDATE|DELETE|DROP|UNION|EXEC|ALTER|CREATE|TRUNCATE).)*$/i,
+                    errorMessage: 'Caracteres no permitidos'
                 }
             ])
             .addField('[name="password"]', [{
@@ -210,9 +215,14 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                     errorMessage: 'Debe tener al menos 5 caracteres'
                 },
                 {
+                    rule: 'maxLength',
+                    value: 13,
+                    errorMessage: 'No puede tener más de 13 caracteres'
+                },
+                {
                     rule: 'customRegexp',
-                    value: /[A-Z]/,
-                    errorMessage: 'Debe contener al menos una letra mayúscula'
+                    value: /^[a-zA-Z0-9]+$/,
+                    errorMessage: 'Solo letras y números permitidos'
                 }
             ])
             .onSuccess((event) => {
