@@ -74,15 +74,19 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
+                                        <th scope="col">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            12 Tiempos<img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40"> 6 horas
+                                            17 Tiempos<img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            16 Tiempos<img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40"> 4 horas
+                                            13 Tiempos<img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                        </td>
+                                        <td>
+                                            30 Tiempos<img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -101,8 +105,8 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>6 Tiempos<img src="/public/custom/custom_requisitos_rangos/image/paga/boni.png" alt="Icono" width="40">4 horas</td>
-                                        <td>8 Tiempos<img src="/public/custom/custom_requisitos_rangos/image/paga/paga.png" alt="Icono" width="40">2 horas</td>
+                                        <td>6 Tiempos<img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">4 horas</td>
+                                        <td>8 Tiempos<img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">2 horas</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -117,34 +121,14 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
-                                        <th scope="col">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <h4>17 times</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
-                                        </td>
-                                        <td>
-                                            <h4>+ 13 times</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
-                                        </td>
-                                        <td>
-                                            <h4>30</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Nómina</th>
-                                        <th scope="col">Bonificación</th>
                                         <th scope="col">Total de creditos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><h4>12c <img src="/usuario/rangos/image/paga/moneda.png" alt="" width="25px"></h4></td>
-                                        <td><h4>20c <img src="/usuario/rangos/image/paga/moneda.png" alt="" width="25px"></h4></td>
-                                        <td><h4>32c <img src="/usuario/rangos/image/paga/moneda.png" alt="" width="25px"><img src="/usuario/rangos/image/paga/moneda.png" alt="" width="25px"></h4></td>
+                                        <td><h4>12c <img src="/usuario/rangos/image/paga/paga.png" alt="" width="25px"></h4></td>
+                                        <td><h4>20c <img src="/usuario/rangos/image/paga/boni.png" alt="" width="25px"></h4></td>
+                                        <td><h4>32c <img src="/usuario/rangos/image/paga/boni.png" alt="" width="25px"><img src="/usuario/rangos/image/paga/paga.png" alt="" width="25px"></h4></td>
                                     </tr>
                                 </tbody>
                             </table>
