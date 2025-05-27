@@ -1,23 +1,18 @@
 <div class="modal fade" id="dar_ascenso_modal" tabindex="-1" aria-labelledby="dar_ascenso_modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-sm-down">
         <div class="modal-content">
-            <!-- Encabezado del Modal -->
             <div class="modal-header bg-primary text-white">
                 <h5 class="modal-title fw-bold" id="dar_ascenso_modalLabel">
                     Gestión de Ascensos
                 </h5>
             </div>
 
-            <!-- Cuerpo del Modal -->
             <div class="modal-body">
-                <!-- Indicador de pasos -->
                 <div class="progress mb-4" style="height: 10px;">
                     <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
 
-                <!-- Formulario de múltiples pasos -->
                 <form id="ascensoFormModal">
-                    <!-- Paso 1: Búsqueda de Usuario -->
                     <div class="step" id="step1_ascenso">
                         <h4 class="text-center mb-4 fw-bold text-primary">Paso 1: Buscar Usuario</h4>
                         <div class="card mb-3">
@@ -40,11 +35,9 @@
                             </div>
                         </div>
                         <div id="resultadoBusquedaAscenso" class="mt-3">
-                            <!-- Aquí se mostrará el resultado de la búsqueda -->
                         </div>
                     </div>
 
-                    <!-- Paso 2: Información del Usuario y Ascenso -->
                     <div class="step d-none" id="step2_ascenso">
                         <h4 class="text-center mb-4 fw-bold text-primary">Paso 2: Información del Usuario y Ascenso</h4>
                         <div class="card mb-3">
@@ -88,7 +81,6 @@
                         </div>
                     </div>
 
-                    <!-- Paso 3: Resultado del Ascenso -->
                     <div class="step d-none" id="step3_ascenso">
                         <div class="text-center p-5">
                             <div class="display-1 text-success mb-4">
@@ -107,7 +99,6 @@
                 </form>
             </div>
 
-            <!-- Pie del Modal -->
             <div class="modal-footer bg-light">
                 <button type="button" class="btn btn-outline-danger btn-lg" data-bs-dismiss="modal">
                     Cerrar
@@ -126,7 +117,6 @@
     </div>
 </div>
 
-<!-- Script para el funcionamiento del modal -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         let pasoActualAscenso = 1;
@@ -321,12 +311,6 @@
                 Swal.close();
 
                 if (data.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Ascenso Completado!',
-                        text: data.message
-                    });
-
                     mostrarPasoAscenso(totalPasosAscenso);
 
                     setTimeout(function() {
@@ -334,7 +318,8 @@
                         if (modalInstance) {
                             modalInstance.hide();
                         }
-                    }, 3000);
+                        location.reload();
+                    }, 2000);
                 } else {
                     Swal.fire({
                         icon: 'error',
@@ -346,25 +331,20 @@
             .catch(error => {
                 Swal.close();
                 console.error('Error en la solicitud AJAX:', error);
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Proceso Completado!',
-                    text: 'El ascenso se ha registrado correctamente.',
-                    timer: 2000,
-                    showConfirmButton: false
-                }).then(() => {
-                    // Reset form and redirect to initial state
-                    mostrarPasoAscenso(1);
-                    codigoTimeAscensoInput.value = '';
-                    resultadoBusquedaAscensoDiv.innerHTML = '';
-                    datosUsuarioAscenso = {};
-                });
+                mostrarPasoAscenso(totalPasosAscenso);
+                
+                setTimeout(function() {
+                    const modalInstance = bootstrap.Modal.getInstance(darAscensoModal);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                    location.reload();
+                }, 2000);
             });
         });
 
         darAscensoModal.addEventListener('show.bs.modal', function() {
             mostrarPasoAscenso(1);
-            // Only clear the input if it's empty. This allows pre-filling from other scripts.
             if (!codigoTimeAscensoInput.value) {
                 codigoTimeAscensoInput.value = '';
             }
