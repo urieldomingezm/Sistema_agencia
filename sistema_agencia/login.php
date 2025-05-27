@@ -221,19 +221,14 @@ require_once(TEMPLATES_PATH . 'header.php');
                 errorMessage: 'La contraseña es requerida'
             },
             {
-                rule: 'minLength',
-                value: 5,
-                errorMessage: 'Debe tener al menos 5 caracteres'
-            },
-            {
-                rule: 'maxLength',
-                value: 13,
-                errorMessage: 'No puede tener más de 13 caracteres'
-            },
-            {
                 rule: 'customRegexp',
-                value: /^[a-zA-Z0-9]+$/,
-                errorMessage: 'Solo letras y números permitidos'
+                value: /^[a-zA-Z0-9.!@#$%^&*()_+-=]+$/,
+                errorMessage: 'Solo se permiten letras, números y caracteres especiales comunes'
+            },
+            {
+                rule: 'minLength',
+                value: 8,
+                errorMessage: 'Mínimo 8 caracteres'
             }
         ])
         .onSuccess((event) => {

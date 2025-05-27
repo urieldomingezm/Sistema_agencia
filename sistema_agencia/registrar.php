@@ -221,8 +221,8 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                 },
                 {
                     rule: 'customRegexp',
-                    value: /^[a-zA-Z0-9]+$/,
-                    errorMessage: 'Solo letras y números permitidos'
+                    value: /^[a-zA-Z0-9.!@#$%^&*()_+-=]+$/,
+                    errorMessage: 'Solo se permiten letras, números y caracteres especiales comunes'
                 }
             ])
             .onSuccess((event) => {
