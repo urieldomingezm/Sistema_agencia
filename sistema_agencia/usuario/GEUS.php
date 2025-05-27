@@ -153,3 +153,6 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
     });
 }
 </script>
+<head>
+    <meta name="keywords" content="Requisitos de paga, ascensos y misiones para los usuarios como tambien traslados">
+</head>

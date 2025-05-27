@@ -313,3 +313,6 @@ echo $gestionTiempos->renderTable();
 </script>
 
 <script src="/public/assets/custom_general/custom_gestion_tiempos/index_gestion.js"></script>
+<head>
+    <meta name="keywords" content="Requisitos de paga, ascensos y misiones para los usuarios como tambien traslados">
+</head>

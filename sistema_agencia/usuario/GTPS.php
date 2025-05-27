@@ -193,3 +193,6 @@ if (!empty($GLOBALS['cumplimientos']) && is_array($GLOBALS['cumplimientos'])) {
 
 <!-- Include the JavaScript file -->
 <script src="/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js"></script>
+<head>
+    <meta name="keywords" content="Requisitos de paga, ascensos y misiones para los usuarios como tambien traslados">
+</head>

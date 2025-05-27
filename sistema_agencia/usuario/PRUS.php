@@ -226,3 +226,6 @@ function formatEstimatedTime($time) {
     }
 }
 ?>
+<head>
+    <meta name="keywords" content="Requisitos de paga, ascensos y misiones para los usuarios como tambien traslados">
+</head>
