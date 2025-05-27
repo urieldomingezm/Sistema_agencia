@@ -21,7 +21,7 @@
         <li class="nav-item flex-grow-1 text-center" role="presentation">
             <button class="nav-link w-100" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">
                 <div class="tab-content-container">
-                    <img src="/usuario/rangos/image/supervisor.png" alt="Seguridad" class="tab-img">
+                    <img src="/usuario/rangos/image/seg.png" alt="Seguridad" class="tab-img">
                     <span class="tab-text"></span>
                 </div>
             </button>
@@ -45,7 +45,7 @@
         <li class="nav-item flex-grow-1 text-center" role="presentation">
             <button class="nav-link w-100" id="supervisor-tab" data-bs-toggle="tab" data-bs-target="#supervisor-tab-pane" type="button" role="tab" aria-controls="supervisor-tab-pane" aria-selected="false">
                 <div class="tab-content-container">
-                    <img src="/usuario/rangos/image/seg.png" alt="Supervisor" class="tab-img">
+                    <img src="/usuario/rangos/image/supervisor.png" alt="Supervisor" class="tab-img">
                     <span class="tab-text"></span>
                 </div>
             </button>
