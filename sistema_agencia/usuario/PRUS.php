@@ -50,8 +50,8 @@ $sections = [
         ['Estado', ucfirst($tiempoData['tiempo_status'] ?? 'N/A'), 'badge text-white ' . getStatusColor($tiempoData['tiempo_status'] ?? '')]
     ],
     'Ascenso' => [
-        ['Tarea', $ascensoData['mision_actual'] ?? 'Ninguna'],
-        ['Siguiente', formatEstimatedTime($ascensoData['fecha_disponible_ascenso'] ?? '')],
+        ['Mision', $ascensoData['mision_actual'] ?? 'Ninguna'],
+        ['Siguiente', 'En mantenimiento'],
         [
             'Estado',
             ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Listo' : 'Espera',
