@@ -117,18 +117,8 @@
                             text: 'La notificación ha sido enviada correctamente',
                             icon: 'success',
                             confirmButtonText: 'Aceptar'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                const modal = bootstrap.Modal.getInstance(document.getElementById('modalNotificacion'));
-                                modal.hide();
-                                document.getElementById('formNotificacion').reset();
-                                charCountSpan.textContent = '500';
-                                charCountSpan.style.color = '';
-                                if (typeof notificacionesTable !== 'undefined') {
-                                    notificacionesTable.ajax.reload();
-                                }
-                                window.location.href = '?page=gestion_de_notificaciones';
-                            }
+                        }).then(() => {
+                            window.location.reload();
                         });
                     } else {
                         Swal.fire({
