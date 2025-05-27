@@ -7,8 +7,8 @@ require_once(CONFIG_PATH . 'bd.php');
 
 class UserProfileData {
     private $conn;
-    private $userCodigoTime = null; // Inicializar como null
-    private $nombreHabbo = null; // Inicializar como null
+    private $userCodigoTime = null;
+    private $nombreHabbo = null;
 
     private $personalData = null;
     private $membresiaData = null;
@@ -20,7 +20,6 @@ class UserProfileData {
     private $errors = [];
 
     public function __construct() {
-        // Cambiar la verificación inicial para usar user_id o username de la sesión
         $userId = $_SESSION['user_id'] ?? null;
         $username = $_SESSION['username'] ?? null;
 
@@ -38,11 +37,8 @@ class UserProfileData {
                 return;
             }
 
-            // Primero, obtener los datos personales usando user_id o username
             $this->fetchPersonalData($userId, $username);
 
-            // Si se obtuvieron los datos personales y con ellos codigo_time y nombre_habbo,
-            // entonces proceder a obtener los demás datos.
             if ($this->userCodigoTime || $this->nombreHabbo) {
                 $this->fetchMembresiaData();
                 $this->fetchAscensoData();
@@ -63,7 +59,6 @@ class UserProfileData {
         }
     }
 
-    // Modificar fetchPersonalData para usar user_id o username
     private function fetchPersonalData($userId, $username) {
         if (!$this->conn || (!$userId && !$username)) return;
 
@@ -104,7 +99,6 @@ class UserProfileData {
     }
 
     private function fetchMembresiaData() {
-        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->nombreHabbo) return;
 
         $sql = "SELECT
@@ -123,7 +117,6 @@ class UserProfileData {
     }
 
     private function fetchAscensoData() {
-        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->userCodigoTime) return;
 
         $sql = "SELECT
@@ -132,7 +125,7 @@ class UserProfileData {
                     a.firma_usuario,
                     a.estado_ascenso,
                     a.fecha_disponible_ascenso,
-                    a.usuario_encargado -- Asegurarse de seleccionar este campo si existe
+                    a.usuario_encargado
                 FROM
                     ascensos a
                 WHERE
@@ -145,7 +138,6 @@ class UserProfileData {
     }
 
     private function fetchTiempoData() {
-        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->userCodigoTime) return;
 
         $sql = "SELECT
@@ -167,7 +159,6 @@ class UserProfileData {
     }
 
     private function fetchRequisitosData() {
-        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->nombreHabbo) return;
 
         $sql = "SELECT
@@ -190,7 +181,6 @@ class UserProfileData {
     }
 
     private function fetchPagasData() {
-        // Ahora usamos la propiedad de la clase
         if (!$this->conn || !$this->nombreHabbo) return;
 
         $sql = "SELECT
