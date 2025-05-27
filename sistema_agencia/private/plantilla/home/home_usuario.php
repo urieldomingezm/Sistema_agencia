@@ -28,7 +28,7 @@ class BodyHome
     public function render()
     {
 ?>
-        <div class="home-container">
+        <div class="container-fluid px-0">
             <?php
             $this->renderHeader();
             $this->renderTopUsersSection();
@@ -44,18 +44,19 @@ class BodyHome
     {
         $username = htmlspecialchars($this->userData['username']);
     ?>
-        <header class="bg-primary text-white py-4">
+        <header class="bg-primary text-white py-4 mb-4 shadow">
             <div class="container text-center">
-                <h1 class="display-4 mb-3">
-                    <i class="bi bi-star-fill me-2"></i> Agencia Shein <i class="bi bi-star-fill ms-2"></i>
+                <h1 class="display-5 mb-3 fw-bold">
+                    <i class="bi bi-star-fill me-2 text-warning"></i> Agencia Shein <i class="bi bi-star-fill ms-2 text-warning"></i>
                 </h1>
-                <p class="lead mb-4">Bienvenido <?= $username ?></p>
-                <div class="alert alert-warning mb-0 d-flex align-items-center justify-content-center text-center">
-                    <i class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
+                <p class="lead mb-4 fs-5">Bienvenido <?= $username ?></p>
+                <div class="alert alert-warning mb-0 alert-dismissible fade show">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     <div>
                         <strong>¡Aviso Importante!</strong> Se han realizado mejoras al sistema - Versión 20.0
                         <small class="d-block text-muted">Si encuentras algún problema, por favor repórtalo en nuestro buzón de quejas para poder ayudarte.</small>
                     </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
         </header>
@@ -87,37 +88,39 @@ class BodyHome
         }
 
     ?>
-        <section class="py-5 bg-white">
-            <div class="container text-center">
-                <h2 class="mb-5">
+        <section class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5 display-6 fw-bold">
                     <i class="bi bi-trophy-fill me-2 text-warning"></i> Top 3 Encargados <i class="bi bi-trophy-fill ms-2 text-warning"></i>
                 </h2>
-                <div class="row justify-content-center">
+                <div class="row g-4 justify-content-center">
                     <?php if (!empty($formattedTopUsers)): ?>
                         <?php foreach ($formattedTopUsers as $user): ?>
-                            <div class="col-12 col-md-4 mb-4">
-                                <div class="card h-100 shadow-sm">
-                                    <div class="card-body">
-                                        <i class="bi bi-trophy-fill display-4 mb-3" style="color: <?= $user['icon_color'] ?>;"></i>
+                            <div class="col-12 col-md-4">
+                                <div class="card h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center p-4">
+                                        <i class="bi bi-trophy-fill display-4 mb-3" style="color: <?= $user['icon_color'] ?>"></i>
                                         <div class="mb-3">
-                                            <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" class="rounded-circle mb-2" style="width: 80px; height: 80px;">
-                                            <h3 class="h5 mb-0"><?= htmlspecialchars($user['name']) ?></h3>
+                                            <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" class="rounded-circle mb-2 img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                            <h3 class="h4 mb-0 fw-bold"><?= htmlspecialchars($user['name']) ?></h3>
                                         </div>
                                         <p class="text-muted mb-2"><?= htmlspecialchars($user['rank']) ?></p>
-                                        <span class="badge bg-primary"><?= htmlspecialchars($user['score']) ?> Acciones</span>
+                                        <span class="badge bg-primary rounded-pill fs-5"><?= htmlspecialchars($user['score']) ?> Acciones</span>
                                     </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="col-12">
-                            <p class="text-muted">No hay datos disponibles para mostrar el top de encargados.</p>
+                            <div class="alert alert-info text-center">
+                                No hay datos disponibles para mostrar el top de encargados.
+                            </div>
                         </div>
                     <?php endif; ?>
                 </div>
             </div>
         </section>
-<?php
+    <?php
     }
 
     private function renderEventsSection()
@@ -128,25 +131,31 @@ class BodyHome
             ['title' => 'Carrera de Obstáculos', 'description' => 'Supera todos los obstáculos en el menor tiempo posible', 'date' => '29 de Marzo, 2025', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20obstacle%20course%20with%20traps%20and%20challenges&aspect=16:9'],
         ];
 
-        echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
-        echo '<div class="container text-center">';
-        echo '<h2 style="color: black; font-weight: bold; font-size: clamp(1.2rem, 4vw, 1.8rem);"><i class="bi bi-newspaper me-1"></i> Noticias <i class="bi bi-newspaper me-1"></i></h2>';
-        echo '<div class="row justify-content-center">';
-
-        foreach ($events as $event) {
-            echo '<div class="col-12 col-md-6 col-lg-4 mb-3">';
-            echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2);">';
-            echo '<img src="' . $event['image'] . '" style="width: 100%; height: 120px; border-radius: 10px; object-fit: cover;" alt="' . htmlspecialchars($event['title']) . '">';
-            echo '<h3 style="color: #333; margin-top: 10px; font-size: clamp(1rem, 3vw, 1.2rem);">' . $event['title'] . '</h3>';
-            echo '<p style="color: #666; font-size: clamp(0.8rem, 2.5vw, 1rem);">' . $event['description'] . '</p>';
-            echo '<span style="background: #008080; color: white; padding: 5px 10px; border-radius: 10px; font-size: clamp(0.7rem, 2vw, 0.9rem);">' . $event['date'] . '</span>';
-            echo '</div>';
-            echo '</div>';
-        }
-
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
+    ?>
+        <section class="py-5 bg-white">
+            <div class="container">
+                <h2 class="text-center mb-5 display-6 fw-bold">
+                    <i class="bi bi-newspaper me-2 text-primary"></i> Noticias <i class="bi bi-newspaper ms-2 text-primary"></i>
+                </h2>
+                <div class="row g-4">
+                    <?php foreach ($events as $event): ?>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <img src="<?= $event['image'] ?>" class="card-img-top" style="height: 180px; object-fit: cover;" alt="<?= htmlspecialchars($event['title']) ?>">
+                                <div class="card-body">
+                                    <h3 class="card-title h5 fw-bold"><?= $event['title'] ?></h3>
+                                    <p class="card-text text-muted"><?= $event['description'] ?></p>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0">
+                                    <span class="badge bg-success rounded-pill"><?= $event['date'] ?></span>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </section>
+    <?php
     }
 
     private function renderPaydaySection()
@@ -194,50 +203,50 @@ class BodyHome
             ],
         ];
 
-        echo '<section style="background: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 20px 0;">';
-        echo '<div class="container text-center">';
-        echo '<h2 style="color: black; font-weight: bold;"><i class="bi bi-cash-coin me-1"></i> Día de Paga <i class="bi bi-cash-coin me-1"></i></h2>';
-
-        echo '<div id="paydayCarousel" class="carousel slide" data-bs-ride="carousel">';
-
-        echo '<div class="carousel-inner">';
-
-        $itemsPerSlide = 4;
-        $totalSlides = ceil(count($countries) / $itemsPerSlide);
-
-        for ($i = 0; $i < $totalSlides; $i++) {
-            echo '<div class="carousel-item ' . ($i === 0 ? 'active' : '') . '">';
-            echo '<div class="row justify-content-center">';
-
-            for ($j = $i * $itemsPerSlide; $j < min(($i + 1) * $itemsPerSlide, count($countries)); $j++) {
-                $country = $countries[$j];
-                echo '<div class="col-md-3 mb-4">';
-                echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 8px 15px rgba(0,0,0,0.2);">';
-                echo '<img src="' . $country['flag'] . '" style="width: 100%; height: 120px; border-radius: 8px; object-fit: cover;" alt="Bandera de ' . htmlspecialchars($country['name']) . '">';
-                echo '<p style="color: #333; margin-top: 15px; font-size: 18px; font-weight: bold;">' . $country['name'] . '</p>';
-                echo '<p style="color: #666; font-size: 16px;">Hora de paga: ' . $country['paytime'] . '</p>';
-                echo '</div>';
-                echo '</div>';
-            }
-
-            echo '</div>';
-            echo '</div>';
-        }
-
-        echo '</div>';
-
-        echo '<button class="carousel-control-prev" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev" style="width: 5%;">';
-        echo '<span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: black; border-radius: 50%; padding: 15px;"></span>';
-        echo '<span class="visually-hidden">Anterior</span>';
-        echo '</button>';
-        echo '<button class="carousel-control-next" type="button" data-bs-target="#paydayCarousel" data-bs-slide="next" style="width: 5%;">';
-        echo '<span class="carousel-control-next-icon" aria-hidden="true" style="background-color: black; border-radius: 50%; padding: 15px;"></span>';
-        echo '<span class="visually-hidden">Siguiente</span>';
-        echo '</button>';
-
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
+    ?>
+        <section class="py-5 bg-light">
+            <div class="container">
+                <h2 class="text-center mb-5 display-6 fw-bold">
+                    <i class="bi bi-clock-history me-2 text-primary"></i> Horarios de Pago <i class="bi bi-clock-history ms-2 text-primary"></i>
+                </h2>
+                <div id="paydayCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <?php
+                        $chunks = array_chunk($countries, 3);
+                        foreach ($chunks as $index => $chunk):
+                        ?>
+                            <div class="carousel-item <?= $index === 0 ? 'active' : '' ?>">
+                                <div class="row g-4 justify-content-center">
+                                    <?php foreach ($chunk as $country): ?>
+                                        <div class="col-md-4">
+                                            <div class="card h-100 border-0 shadow-sm">
+                                                <div class="card-body text-center">
+                                                    <img src="<?= $country['flag'] ?>" class="img-fluid mb-3" style="height: 80px;" alt="<?= htmlspecialchars($country['name']) ?>">
+                                                    <h3 class="h5 fw-bold"><?= $country['name'] ?></h3>
+                                                    <div class="d-flex align-items-center justify-content-center mt-3">
+                                                        <i class="bi bi-clock-fill me-2 text-primary"></i>
+                                                        <span class="fs-5 fw-bold"><?= $country['paytime'] ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev" style="filter: brightness(0);">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#paydayCarousel" data-bs-slide="next" style="filter: brightness(0);">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+<?php
     }
 
     private function renderMembershipSection()
@@ -283,8 +292,8 @@ class BodyHome
 
         echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
         echo '<div class="container text-center">';
-        echo '<h2 style="color: #333; font-weight: bold;"><i class="bi bi-gem me-1"></i> Membresías Disponibles <i class="bi bi-gem me-1"></i></h2>';
-        echo '<p style="color: #666; font-size: 18px;">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
+        echo '<h2 style="color: #333; font-weight: bold; font-size: 1.5rem;"><i class="bi bi-gem me-1"></i> Membresías Disponibles <i class="bi bi-gem me-1"></i></h2>';
+        echo '<p style="color: #666; font-size: 1rem;">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
         echo '<div class="row justify-content-center">';
 
         foreach ($memberships as $membership) {
