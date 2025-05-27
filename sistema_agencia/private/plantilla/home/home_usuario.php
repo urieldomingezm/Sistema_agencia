@@ -66,18 +66,18 @@ class BodyHome
     private function renderTopUsersSection()
     {
         $topUsers = [];
-
+    
         try {
             $topManager = new TopEncargados();
             $topUsers = $topManager->getTopEncargados(3);
         } catch (Exception $e) {
             error_log("Error al obtener el top de encargados: " . $e->getMessage());
         }
-
+    
         $formattedTopUsers = [];
         $rankColors = ['#FFD700', '#C0C0C0', '#CD7F32'];
         $rankNames = ['1er Lugar', '2do Lugar', '3er Lugar'];
-
+    
         foreach ($topUsers as $index => $user) {
             $formattedTopUsers[] = [
                 'name' => $user['usuario'],
@@ -86,37 +86,51 @@ class BodyHome
                 'icon_color' => $rankColors[$index] ?? '#CD7F32'
             ];
         }
-
+    
     ?>
         <section class="py-5 bg-light">
             <div class="container">
                 <h2 class="text-center mb-5 display-6 fw-bold">
                     <i class="bi bi-trophy-fill me-2 text-warning"></i> Top 3 Encargados <i class="bi bi-trophy-fill ms-2 text-warning"></i>
                 </h2>
-                <div class="row g-4 justify-content-center">
-                    <?php if (!empty($formattedTopUsers)): ?>
-                        <?php foreach ($formattedTopUsers as $user): ?>
-                            <div class="col-12 col-md-4">
-                                <div class="card h-100 border-0 shadow-sm">
-                                    <div class="card-body text-center p-4">
-                                        <i class="bi bi-trophy-fill display-4 mb-3" style="color: <?= $user['icon_color'] ?>"></i>
-                                        <div class="mb-3">
-                                            <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" class="rounded-circle mb-2 img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                                            <h3 class="h4 mb-0 fw-bold"><?= htmlspecialchars($user['name']) ?></h3>
+                <div class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <?php if (!empty($formattedTopUsers)): ?>
+                            <div class="carousel-item active">
+                                <div class="row g-4 justify-content-center">
+                                    <?php foreach ($formattedTopUsers as $user): ?>
+                                        <div class="col-md-4">
+                                            <div class="card h-100 border-0 shadow-sm">
+                                                <div class="card-body text-center p-4">
+                                                    <i class="bi bi-trophy-fill display-4 mb-3" style="color: <?= $user['icon_color'] ?>"></i>
+                                                    <div class="mb-3">
+                                                        <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" class="rounded-circle mb-2 img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
+                                                        <h3 class="h4 mb-0 fw-bold"><?= htmlspecialchars($user['name']) ?></h3>
+                                                    </div>
+                                                    <p class="text-muted mb-2"><?= htmlspecialchars($user['rank']) ?></p>
+                                                    <span class="badge bg-primary rounded-pill fs-5"><?= htmlspecialchars($user['score']) ?> Acciones</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <p class="text-muted mb-2"><?= htmlspecialchars($user['rank']) ?></p>
-                                        <span class="badge bg-primary rounded-pill fs-5"><?= htmlspecialchars($user['score']) ?> Acciones</span>
-                                    </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <div class="col-12">
-                            <div class="alert alert-info text-center">
-                                No hay datos disponibles para mostrar el top de encargados.
+                        <?php else: ?>
+                            <div class="carousel-item active">
+                                <div class="alert alert-info text-center">
+                                    No hay datos disponibles para mostrar el top de encargados.
+                                </div>
                             </div>
-                        </div>
-                    <?php endif; ?>
+                        <?php endif; ?>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#topUsersCarousel" data-bs-slide="prev" style="filter: brightness(0);">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#topUsersCarousel" data-bs-slide="next" style="filter: brightness(0);">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </div>
         </section>
