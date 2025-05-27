@@ -135,7 +135,7 @@ class UserController
         echo '<div class="search-results-container">';
         echo '<div class="card shadow-lg border-0 rounded-lg">';
         echo '<div class="card-header bg-gradient-primary">';
-        echo '<h4 class="text-dark mb-0"><i class="bi bi-search me-2"></i>Resultados para: "' . htmlspecialchars($query) . '"</h4>';
+        echo '<h4 class="text-white mb-0"><i class="bi bi-search me-2"></i>Resultados para: "' . htmlspecialchars($query) . '"</h4>';
         echo '</div>';
         echo '<div class="card-body">';
 
