@@ -169,9 +169,20 @@ $sections = [
                 </h5>
             </div>
             <div class="card-body">
-                <div class="alert alert-warning text-center mb-0">
-                    <i class="bi bi-tools me-2"></i>Esta sección está en mantenimiento. Por favor, vuelve más tarde.
+                <?php foreach ($sections['Ascenso'] as $item): ?>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
+                    <span class="fw-bold">
+                        <?php if (isset($item[2])): ?>
+                            <span class="<?= htmlspecialchars($item[2]) ?>">
+                                <?= htmlspecialchars($item[1]) ?>
+                            </span>
+                        <?php else: ?>
+                            <?= htmlspecialchars($item[1]) ?>
+                        <?php endif; ?>
+                    </span>
                 </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
