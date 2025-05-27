@@ -66,18 +66,18 @@ class BodyHome
     private function renderTopUsersSection()
     {
         $topUsers = [];
-    
+
         try {
             $topManager = new TopEncargados();
             $topUsers = $topManager->getTopEncargados(3); // Limitar a 3 resultados
         } catch (Exception $e) {
             error_log("Error al obtener el top de encargados: " . $e->getMessage());
         }
-    
+
         $formattedTopUsers = [];
         $rankColors = ['#FFD700', '#C0C0C0', '#CD7F32'];
         $rankNames = ['1er Lugar', '2do Lugar', '3er Lugar'];
-    
+
         foreach ($topUsers as $index => $user) {
             // Solo procesar los primeros 3 lugares
             if ($index < 3) {
@@ -89,7 +89,7 @@ class BodyHome
                 ];
             }
         }
-    
+
     ?>
         <section class="py-5 bg-light">
             <div class="container">
@@ -297,21 +297,40 @@ class BodyHome
         echo '<div class="container text-center">';
         echo '<h2 style="color: #333; font-weight: bold; font-size: 1.5rem;"><i class="bi bi-gem me-1"></i> Membresías Disponibles <i class="bi bi-gem me-1"></i></h2>';
         echo '<p style="color: #666; font-size: 1rem;">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
-        echo '<div class="row justify-content-center">';
+        echo '<div id="membershipCarousel" class="carousel slide" data-bs-ride="carousel">';
+        echo '<div class="carousel-inner">';
 
-        foreach ($memberships as $membership) {
-            echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
-            echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
-            echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
-            echo '<h3 style="color: #333;">' . $membership['title'] . '</h3>';
-            echo '<p style="color: #008080; font-weight: bold;">' . $membership['benefits'] . '</p>';
-            echo '<div style="background: #FFD700; color: #333; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">';
-            echo '<i class="bi bi-coin me-2"></i>' . $membership['price'];
-            echo '</div>';
+        $chunks = array_chunk($memberships, 3);
+        foreach ($chunks as $index => $chunk) {
+            echo '<div class="carousel-item' . ($index === 0 ? ' active' : '') . '">';
+            echo '<div class="row justify-content-center">';
+
+            foreach ($chunk as $membership) {
+                echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
+                echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
+                echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
+                echo '<h3 style="color: #333;">' . $membership['title'] . '</h3>';
+                echo '<p style="color: #008080; font-weight: bold;">' . $membership['benefits'] . '</p>';
+                echo '<div style="background: #FFD700; color: #333; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">';
+                echo '<i class="bi bi-coin me-2"></i>' . $membership['price'];
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+
             echo '</div>';
             echo '</div>';
         }
 
+        echo '</div>';
+        echo '<button class="carousel-control-prev" type="button" data-bs-target="#membershipCarousel" data-bs-slide="prev" style="filter: brightness(0);">';
+        echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+        echo '<span class="visually-hidden">Previous</span>';
+        echo '</button>';
+        echo '<button class="carousel-control-next" type="button" data-bs-target="#membershipCarousel" data-bs-slide="next" style="filter: brightness(0);">';
+        echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+        echo '<span class="visually-hidden">Next</span>';
+        echo '</button>';
         echo '</div>';
         echo '</div>';
         echo '</section>';
