@@ -151,7 +151,7 @@
                                             <h4>10 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>25 creditos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>15 creditos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
                                             <h4>25 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">

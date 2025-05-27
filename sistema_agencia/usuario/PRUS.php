@@ -62,7 +62,6 @@ $sections = [
 ?>
 
 <div class="container-fluid p-0">
-    <!-- Header -->
     <div class="bg-gradient-primary text-white py-4">
         <div class="container">
             <div class="d-flex flex-column align-items-center">
@@ -79,9 +78,7 @@ $sections = [
         </div>
     </div>
 
-    <!-- Contenido principal -->
     <div class="container py-4">
-        <!-- Información General -->
         <div class="card mb-4 border-start border-primary border-4 shadow-sm">
             <div class="card-header bg-white">
                 <h5 class="mb-0 fw-bold">
@@ -106,7 +103,6 @@ $sections = [
             </div>
         </div>
 
-        <!-- Sección de Pagos y Tiempo -->
         <div class="row g-4 mb-4">
             <div class="col-md-6">
                 <div class="card h-100 border-start border-success border-4 shadow-sm">
@@ -161,7 +157,6 @@ $sections = [
             </div>
         </div>
 
-        <!-- Sección de Ascenso -->
         <div class="card border-start border-info border-4 shadow-sm">
             <div class="card-header bg-white">
                 <h5 class="mb-0 fw-bold">

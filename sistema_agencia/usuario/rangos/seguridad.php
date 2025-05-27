@@ -121,7 +121,7 @@
             </div>
 
             <div class="tab-pane fade" id="pagaSEG" role="tabpanel" aria-labelledby="pagaSEG-tab" tabindex="0">
-                <h4>PAGA SEGURIDAD</h4>
+                <h4>PAGA</h4>
                 <br>
                 <div class="table-responsive">
                     <table class="table table-striped text-center">
@@ -129,13 +129,13 @@
                             <tr>
                                 <th scope="col">Nómina</th>
                                 <th scope="col">Bonificación</th>
-                                <th scope="col">Total</th>
+                                <th scope="col">Total de creditos</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>9 creditos</h4> <img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>9 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
                                     <h4>9 creditos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">

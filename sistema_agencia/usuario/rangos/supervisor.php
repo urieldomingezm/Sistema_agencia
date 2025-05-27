@@ -134,7 +134,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="pagaSUP" role="tabpanel" aria-labelledby="pagaSUP-tab" tabindex="0">
-                        <h4>PAGA SUPERVISOR</h4>
+                        <h4>PAGA</h4>
                         <br>
                         <div class="table-responsive">
                             <table class="table table-striped text-center">
@@ -142,19 +142,19 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
-                                        <th scope="col">Total</th>
+                                        <th scope="col">Total de creditos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>25 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>10 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>5 creditos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>13 creditos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>30 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>23 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>

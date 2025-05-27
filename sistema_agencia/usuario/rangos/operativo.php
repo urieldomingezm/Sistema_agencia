@@ -128,14 +128,20 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
-                                        <th scope="col">Total</th>
+                                        <th scope="col">Total de creditos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>13 creditos</td>
-                                        <td>15 creditos/td>
-                                        <td>28 creditos</td>
+                                        <td>
+                                            <h4>12c <img src="/usuario/rangos/image/paga/paga.png" alt="" width="25px"></h4>
+                                        </td>
+                                        <td>
+                                            <h4>15c <img src="/usuario/rangos/image/paga/boni.png" alt="" width="25px"></h4>
+                                        </td>
+                                        <td>
+                                            <h4>27c <img src="/usuario/rangos/image/paga/paga.png" alt="" width="25px"><img src="/usuario/rangos/image/paga/boni.png" alt="" width="25px"></h4>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

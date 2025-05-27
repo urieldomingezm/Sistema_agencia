@@ -148,13 +148,13 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>22 creditos</h4> <img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>9 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>8 creditos</h4> <img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>13 creditos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>30 creditos</h4> <img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>22 creditos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>
