@@ -6,7 +6,7 @@
             </div>
             <div class="modal-body">
                 <input type="hidden" id="codigoTimeUsuario">
-                
+
                 <div class="mb-4">
                     <h6 class="fw-bold text-primary mb-3">Información del Usuario</h6>
                     <div class="row">
@@ -54,8 +54,8 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="nuevaMision" class="form-label">Misión</label>
-                                    <input type="text" class="form-control" id="nuevaMision" name="nuevaMision" 
-                                           maxlength="50" required>
+                                    <input type="text" class="form-control" id="nuevaMision" name="nuevaMision"
+                                        maxlength="50" required>
                                 </div>
                             </div>
 
@@ -63,8 +63,8 @@
                                 <div class="mb-3">
                                     <label for="nuevaFirma" class="form-label">Firma (3 chars)</label>
                                     <input type="text" class="form-control" id="nuevaFirma" name="nuevaFirma"
-                                           pattern="[A-Z0-9]{3}" title="3 caracteres alfanuméricos en mayúsculas"
-                                           maxlength="3" required>
+                                        pattern="[A-Z0-9]{3}" title="3 caracteres alfanuméricos en mayúsculas"
+                                        maxlength="3" required>
                                 </div>
                             </div>
                         </div>
@@ -76,185 +76,8 @@
     </div>
 </div>
 
-<script src="https://unpkg.com/just-validate@latest/dist/just-validate.production.min.js"></script>
 <script>
-class UserModificationModalHandler {
-    constructor() {
-        this.modal = document.getElementById('modificarRangoModal');
-        this.form = document.getElementById('formModificarRango');
-        this.userIdInput = document.getElementById('codigoTimeUsuario');
-        this.infoNombreHabbo = document.getElementById('infoNombreHabbo');
-        this.infoRangoActual = document.getElementById('infoRangoActual');
-        this.infoMisionActual = document.getElementById('infoMisionActual');
-        this.infoFirmaUsuario = document.getElementById('infoFirmaUsuario');
-        this.nuevaMisionInput = document.getElementById('nuevaMision');
-        this.nuevaFirmaInput = document.getElementById('nuevaFirma');
-        this.nuevoRangoSelect = document.getElementById('nuevoRango');
-
-        this.initModalEvents();
-        this.initFormValidation();
-    }
-
-    initModalEvents() {
-        this.modal.addEventListener('show.bs.modal', (e) => this.handleModalShow(e));
-    }
-
-    handleModalShow(e) {
-        const button = e.relatedTarget;
-        const userId = button.getAttribute('data-id');
-        
-        this.userIdInput.value = userId;
-        
-        this.fetchUserData(userId);
-    }
-
-    fetchUserData(userId) {
-        fetch('/private/procesos/gestion_modificar/buscar.php', {
-            method: 'POST',
-            body: JSON.stringify({ id: userId }),
-            headers: {'Content-Type': 'application/json'}
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                this.infoNombreHabbo.textContent = data.data.nombre_habbo;
-                this.infoRangoActual.textContent = data.data.rango_actual;
-                this.infoMisionActual.textContent = data.data.mision_actual;
-                this.infoFirmaUsuario.textContent = data.data.firma_usuario ? data.data.firma_usuario : 'No disponible';
-                
-                this.nuevaMisionInput.value = data.data.mision_actual;
-                this.nuevaFirmaInput.value = data.data.firma_usuario;
-                
-            } else {
-                 console.error('Error al cargar datos del usuario:', data.error);
-                 Swal.fire({
-                    title: 'Error',
-                    text: 'No se pudieron cargar los datos del usuario: ' + data.error,
-                    icon: 'error',
-                    confirmButtonText: 'Entendido'
-                });
-                 const modalInstance = bootstrap.Modal.getInstance(this.modal);
-                 modalInstance.hide();
-            }
-        })
-        .catch(error => {
-            console.error('Error en la solicitud de búsqueda:', error);
-             Swal.fire({
-                title: 'Error',
-                text: 'Ocurrió un error de red al cargar los datos del usuario.',
-                icon: 'error',
-                confirmButtonText: 'Entendido'
-            });
-             const modalInstance = bootstrap.Modal.getInstance(this.modal);
-             modalInstance.hide();
-        });
-    }
-
-    initFormValidation() {
-        const validator = new JustValidate(this.form, {
-            validateBeforeSubmitting: true,
-        });
-
-        validator
-            .addField('#nuevoRango', [
-                {
-                    rule: 'required',
-                    errorMessage: 'El rango es requerido.',
-                },
-            ])
-            .addField('#nuevaMision', [
-                {
-                    rule: 'required',
-                    errorMessage: 'La misión es requerida.',
-                },
-                {
-                    rule: 'maxLength',
-                    value: 50,
-                    errorMessage: 'La misión no debe exceder los 50 caracteres.',
-                },
-            ])
-            .addField('#nuevaFirma', [
-                {
-                    rule: 'required',
-                    errorMessage: 'La firma es requerida.',
-                },
-                {
-                    rule: 'customRegexp',
-                    value: /^[A-Z0-9]{3}$/,
-                    errorMessage: 'El formato de la firma es inválido. Debe ser 3 caracteres alfanuméricos en mayúsculas.',
-                },
-            ])
-            .onSuccess((event) => {
-                this.handleFormSubmit(event);
-            });
-    }
-
-    handleFormSubmit(event) {
-        event.preventDefault();
-
-        const userId = this.userIdInput.value;
-        const nuevoRango = this.nuevoRangoSelect.value;
-        const nuevaMision = this.nuevaMisionInput.value;
-        const nuevaFirma = this.nuevaFirmaInput.value;
-
-        Swal.fire({
-            title: 'Guardando cambios...',
-            text: 'Por favor espera.',
-            icon: 'info',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            willOpen: () => {
-                Swal.showLoading();
-            }
-        });
-
-        fetch('/private/procesos/gestion_modificar/modificar.php', {
-            method: 'POST',
-            body: JSON.stringify({
-                userId: userId,
-                nuevoRango: nuevoRango,
-                nuevaMision: nuevaMision,
-                nuevaFirma: nuevaFirma
-            }),
-            headers: {'Content-Type': 'application/json'}
-        })
-        .then(response => response.json())
-        .then(data => {
-            Swal.close();
-            if (data.success) {
-                Swal.fire({
-                    title: 'Éxito',
-                    text: data.message,
-                    icon: 'success',
-                    confirmButtonText: 'Entendido'
-                }).then(() => {
-                    window.location.reload(); 
-                });
-                const modalInstance = bootstrap.Modal.getInstance(this.modal);
-                modalInstance.hide();
-            } else {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Error al guardar los cambios: ' + data.error,
-                    icon: 'error',
-                    confirmButtonText: 'Entendido'
-                });
-            }
-        })
-        .catch(error => {
-            Swal.close();
-            console.error('Error en la solicitud de modificación:', error);
-            Swal.fire({
-                title: 'Error',
-                text: 'Ocurrió un error de red al guardar los cambios.',
-                icon: 'error',
-                confirmButtonText: 'Entendido'
-            });
-        });
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    new UserModificationModalHandler();
-});
+const script = document.createElement('script');
+script.src = '/public/assets/custom_general/custom_gestion_usuarios/index_modificar_usuario.js';
+document.head.appendChild(script);
 </script>
