@@ -104,7 +104,6 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
 
 <script src="/public/assets/custom_general/custom_gestion_usuarios/index_gestion_usuarios.js"></script>
 
-
 <script>
     function mostrarDesbloquearSwal(usuarioId) {
     Swal.fire({
