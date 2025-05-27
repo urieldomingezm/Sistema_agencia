@@ -206,19 +206,14 @@ require_once(TEMPLATES_PATH . 'header.php');
                 errorMessage: 'El usuario es requerido'
             },
             {
+                rule: 'customRegexp',
+                value: /^[a-zA-Z0-9._]+$/,
+                errorMessage: 'Solo se permiten letras, números, puntos y guiones bajos'
+            },
+            {
                 rule: 'maxLength',
                 value: 13,
-                errorMessage: 'No puede tener más de 13 caracteres'
-            },
-            {
-                rule: 'customRegexp',
-                value: /^[a-zA-Z0-9]+$/,
-                errorMessage: 'Solo letras y números permitidos'
-            },
-            {
-                rule: 'customRegexp',
-                value: /^(?:(?!SELECT|INSERT|UPDATE|DELETE|DROP|UNION|EXEC|ALTER|CREATE|TRUNCATE).)*$/i,
-                errorMessage: 'Caracteres no permitidos'
+                errorMessage: 'Máximo 13 caracteres'
             }
         ])
         .addField('[name="password"]', [{
