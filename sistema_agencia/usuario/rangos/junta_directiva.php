@@ -117,6 +117,26 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
+                                        <th scope="col">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <h4>17 times</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                        </td>
+                                        <td>
+                                            <h4>+ 13 times</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                        </td>
+                                        <td>
+                                            <h4>30</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nómina</th>
+                                        <th scope="col">Bonificación</th>
                                         <th scope="col">Total de creditos</th>
                                     </tr>
                                 </thead>

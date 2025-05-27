@@ -143,13 +143,13 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>8 creditos</h4> <img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>3 Horas</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>12 creditos</h4> <img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>5 Horas</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>20 creditos</h4> <img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>8 Horas</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>

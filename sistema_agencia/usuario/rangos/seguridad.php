@@ -86,10 +86,10 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <h4>3 Asistencias</h4> <img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                    <h4>3 horas</h4> <img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                 </td>
                                 <td>
-                                    <h4>4 Asistencias</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                    <h4>4 horas</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                 </td>
                             </tr>
                         </tbody>

@@ -87,19 +87,19 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
-                                        <th scope="col">Total de ascenso</th>
+                                        <th scope="col">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>6 Asistencias</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
+                                            <h4>6 Horas</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>7 Acensos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>7 Ascensos</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>6 Asistencias y 7 Ascensos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
+                                            <h4>6 Horas y 7 Ascensos</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>

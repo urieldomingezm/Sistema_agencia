@@ -85,6 +85,7 @@
                                     <tr>
                                         <th scope="col">Nómina</th>
                                         <th scope="col">Bonificación</th>
+                                        <th scope="col">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,13 +135,13 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <h4>12c <img src="/usuario/rangos/image/paga/paga.png" alt="" width="25px"></h4>
+                                            <h4>13 times</h4><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>15c <img src="/usuario/rangos/image/paga/boni.png" alt="" width="25px"></h4>
+                                            <h4>+ 12 times</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40">
                                         </td>
                                         <td>
-                                            <h4>27c <img src="/usuario/rangos/image/paga/paga.png" alt="" width="25px"><img src="/usuario/rangos/image/paga/boni.png" alt="" width="25px"></h4>
+                                            <h4>25</h4><img src="/usuario/rangos/image/paga/boni.png" alt="Icono" width="40"><img src="/usuario/rangos/image/paga/paga.png" alt="Icono" width="40">
                                         </td>
                                     </tr>
                                 </tbody>
