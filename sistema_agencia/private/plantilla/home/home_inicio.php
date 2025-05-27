@@ -16,7 +16,7 @@ class BodyHome
         $this->renderEventsSection();
         echo '</body>';
     }
-    
+
     private function renderLoader()
     {
         echo '<div id="preloader" class="preloader">
@@ -129,7 +129,7 @@ class BodyHome
         });
         </script>';
     }
-    
+
     private function renderHeader()
     {
         echo '<main class="flex-shrink-0">';
@@ -204,28 +204,28 @@ class BodyHome
             ],
         ];
 
-            echo '<section class="team-section py-3 py-md-5" style="background: #ffffff;">';
-            echo '<div class="container">';
-            echo '<h2 class="text-center mb-3 mb-md-5" style="color: #2541b2; font-weight: 700; font-size: clamp(1.2rem, 4vw, 1.8rem);">';
-            echo '<i class="bi bi-people-fill me-2" style="color: #4a6bff;"></i>';
-            echo 'Nuestro Equipo';
-            echo '<i class="bi bi-people-fill ms-2" style="color: #4a6bff;"></i>';
-            echo '</h2>';
-            echo '<div class="row justify-content-center g-2 g-md-3">';
+        echo '<section class="team-section py-3 py-md-5" style="background: #ffffff;">';
+        echo '<div class="container">';
+        echo '<h2 class="text-center mb-3 mb-md-5" style="color: #2541b2; font-weight: 700; font-size: clamp(1.2rem, 4vw, 1.8rem);">';
+        echo '<i class="bi bi-people-fill me-2" style="color: #4a6bff;"></i>';
+        echo 'Nuestro Equipo';
+        echo '<i class="bi bi-people-fill ms-2" style="color: #4a6bff;"></i>';
+        echo '</h2>';
+        echo '<div class="row justify-content-center g-2 g-md-3">';
 
-            foreach ($teamMembers as $member) {
-                echo '<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2 mb-md-3 text-center">';
-                echo '<div style="display: inline-block; width: 100%; max-width: 100px;">';
-                echo '<img src="' . $member['image'] . '" alt="Avatar de Habbo de ' . htmlspecialchars($member['name']) . '" style="width: 100%; height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 2px solid #4a6bff;">';
-                echo '<div class="mt-1 mt-md-2">';
-                echo '<div style="color: #2541b2; font-weight: 600; font-size: clamp(0.6rem, 2vw, 0.8rem); word-break: break-word;">' . $member['name'] . '</div>';
-                echo '<div style="color: #4a6bff; font-size: clamp(0.5rem, 1.8vw, 0.7rem);">' . $member['rank'] . '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-            
-            echo '</div></div></section>';
+        foreach ($teamMembers as $member) {
+            echo '<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2 mb-md-3 text-center">';
+            echo '<div style="display: inline-block; width: 100%; max-width: 100px;">';
+            echo '<img src="' . $member['image'] . '" alt="Avatar de Habbo de ' . htmlspecialchars($member['name']) . '" style="width: 100%; height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 2px solid #4a6bff;">';
+            echo '<div class="mt-1 mt-md-2">';
+            echo '<div style="color: #2541b2; font-weight: 600; font-size: clamp(0.6rem, 2vw, 0.8rem); word-break: break-word;">' . $member['name'] . '</div>';
+            echo '<div style="color: #4a6bff; font-size: clamp(0.5rem, 1.8vw, 0.7rem);">' . $member['rank'] . '</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '</div>';
+        }
+
+        echo '</div></div></section>';
     }
 
     private function renderEventsSection()
@@ -281,10 +281,10 @@ class BodyHome
         echo '<section style="background: #ffffff; padding: 50px 0;">';
         echo '<div class="container">';
         echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-newspaper me-2"></i>Blog<i class="bi bi-newspaper ms-2"></i></h2>';
-        
+
         echo '<div class="mb-5">';
         echo '<div class="row">';
-        
+
         $noticias = [
             [
                 'title' => 'Nuevas Actualizaciones',
@@ -302,7 +302,7 @@ class BodyHome
                 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20community&aspect=16:9'
             ]
         ];
-    
+
         foreach ($noticias as $noticia) {
             echo '<div class="col-md-4 mb-4">';
             echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
@@ -313,7 +313,7 @@ class BodyHome
             echo '</div>';
             echo '</div>';
         }
-        
+
         echo '</div>';
         echo '</div>';
         echo '</section>';
@@ -325,7 +325,7 @@ class BodyHome
         echo '<div class="container">';
         echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-award me-2"></i>Nuevas Placas de Habbo<i class="bi bi-award ms-2"></i></h2>';
         echo '<div class="row">';
-    
+
         $plates = [
             [
                 'name' => 'Placa de Oro',
@@ -346,7 +346,7 @@ class BodyHome
                 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20bronze%20plate&aspect=16:9'
             ]
         ];
-    
+
         foreach ($plates as $plate) {
             echo '<div class="col-md-4 mb-4">';
             echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%; transition: all 0.3s ease;">';
@@ -357,7 +357,7 @@ class BodyHome
             echo '</div>';
             echo '</div>';
         }
-    
+
         echo '</div>';
         echo '</div>';
         echo '</section>';
@@ -371,29 +371,76 @@ class BodyHome
         echo '<i class="bi bi-play-circle-fill me-2"></i>Videos<i class="bi bi-play-circle-fill ms-2"></i>';
         echo '</h2>';
         echo '<div class="row justify-content-center">';
+        echo '<div id="videosCarousel" class="carousel slide" data-bs-ride="carousel">';
+        echo '<div class="carousel-inner">';
         
-        // Card del primer video
-        echo '<div class="col-md-6 mb-4">';
-        echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
-        // Reemplazar el div placeholder con el iframe del video
-        echo '<div style="background: #f8f9fa; border-radius: 15px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">';
-        echo '<iframe width="560" height="315" src="https://www.youtube.com/embed/g0ZMA5vAgyc?si=N5r-RrN_iGGh-LdH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width: 100%; height: 100%; border-radius: 15px;"></iframe>';
+        // Grupo 1 (activo)
+        echo '<div class="carousel-item active">';
+        echo '<div class="row justify-content-center">';
+        
+        // Video 1
+        echo '<div class="col-md-6 col-lg-5 mb-4">';
+        echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 100%;">';
+        echo '<div style="background: #f8f9fa; border-radius: 10px; aspect-ratio: 16/9; margin-bottom: 15px;">';
+        echo '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/g0ZMA5vAgyc?si=N5r-RrN_iGGh-LdH" title="YouTube video player" frameborder="0" allowfullscreen style="border-radius: 10px;"></iframe>';
         echo '</div>';
-        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 15px; text-align: center;">Video tutorial 1</h3>';
-        echo '<p style="color: #555; text-align: center;">Aprende las funcionalidades de nuestra web para mejor entendimiento y mejor uso.</p>';
+        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 10px; text-align: center; font-size: 1.2rem;">Video tutorial 1</h3>';
+        echo '<p style="color: #555; text-align: center; font-size: 0.9rem;">Aprende las funcionalidades de nuestra web</p>';
         echo '</div>';
         echo '</div>';
         
-        // Card del segundo video
-        echo '<div class="col-md-6 mb-4">';
-        echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
-        echo '<div style="background: #f8f9fa; border-radius: 15px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">';
-        echo '<i class="bi bi-play-circle" style="font-size: 48px; color: #2541b2;"></i>';
+        // Video 2
+        echo '<div class="col-md-6 col-lg-5 mb-4">';
+        echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 100%;">';
+        echo '<div style="background: #f8f9fa; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">';
+        echo '<i class="bi bi-play-circle" style="font-size: 36px; color: #2541b2;"></i>';
         echo '</div>';
-        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 15px; text-align: center;">Video tutorial 2</h3>';
-        echo '<p style="color: #555; text-align: center;">Aprenderas la forma de gestionar pagos, tomar tiempos y ascensos a las personas</p>';
+        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 10px; text-align: center; font-size: 1.2rem;">Video tutorial 2</h3>';
+        echo '<p style="color: #555; text-align: center; font-size: 0.9rem;">Gestionar pagos, tiempos y ascensos</p>';
         echo '</div>';
         echo '</div>';
+        
+        echo '</div>';
+        echo '</div>';
+        
+        // Grupo 2 (para futuros videos)
+        echo '<div class="carousel-item">';
+        echo '<div class="row justify-content-center">';
+        
+        // Video 3 (placeholder)
+        echo '<div class="col-md-6 col-lg-5 mb-4">';
+        echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 100%;">';
+        echo '<div style="background: #f8f9fa; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">';
+        echo '<i class="bi bi-play-circle" style="font-size: 36px; color: #2541b2;"></i>';
+        echo '</div>';
+        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 10px; text-align: center; font-size: 1.2rem;">Video tutorial 3</h3>';
+        echo '<p style="color: #555; text-align: center; font-size: 0.9rem;">Próximamente</p>';
+        echo '</div>';
+        echo '</div>';
+        
+        // Video 4 (placeholder)
+        echo '<div class="col-md-6 col-lg-5 mb-4">';
+        echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 100%;">';
+        echo '<div style="background: #f8f9fa; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">';
+        echo '<i class="bi bi-play-circle" style="font-size: 36px; color: #2541b2;"></i>';
+        echo '</div>';
+        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 10px; text-align: center; font-size: 1.2rem;">Video tutorial 4</h3>';
+        echo '<p style="color: #555; text-align: center; font-size: 0.9rem;">Próximamente</p>';
+        echo '</div>';
+        echo '</div>';
+        
+        echo '</div>';
+        echo '</div>';
+        
+        // Controles del carrusel
+        echo '<button class="carousel-control-prev" type="button" data-bs-target="#videosCarousel" data-bs-slide="prev" style="filter: brightness(0); width: 5%;">';
+        echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
+        echo '<span class="visually-hidden">Previous</span>';
+        echo '</button>';
+        echo '<button class="carousel-control-next" type="button" data-bs-target="#videosCarousel" data-bs-slide="next" style="filter: brightness(0); width: 5%;">';
+        echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
+        echo '<span class="visually-hidden">Next</span>';
+        echo '</button>';
         
         echo '</div>';
         echo '</div>';
