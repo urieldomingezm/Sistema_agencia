@@ -12,11 +12,50 @@ class AscensoHandler {
     private $codigoUsuario;
     private $response = ['success' => false, 'message' => ''];
 
+    private function getFirmaEncargado() {
+        // Get the encargado's codigo_time from registro_usuario table
+        $query = "SELECT codigo_time FROM registro_usuario WHERE usuario_registro = :username";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $this->usuarioEncargado);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result || empty($result['codigo_time'])) {
+            return null;
+        }
+        
+        $codigoTimeEncargado = $result['codigo_time'];
+        
+        // Get the encargado's signature from ascensos table
+        $query = "SELECT firma_usuario FROM ascensos WHERE codigo_time = :codigo";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':codigo', $codigoTimeEncargado);
+        $stmt->execute();
+        
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['firma_usuario'] ?? null;
+    }
+    
+    // Modify the constructor to get the firma_encargado automatically
     public function __construct($misionesPorRango, $tiempoAscensoSegundosPorRango) {
+        if (!defined('CONFIG_PATH')) {
+            define('CONFIG_PATH', $_SERVER['DOCUMENT_ROOT'] . '/private/conexion/');
+        }
+        
         $this->misionesPorRango = $misionesPorRango;
         $this->tiempoAscensoSegundosPorRango = $tiempoAscensoSegundosPorRango;
-        $this->firmaEncargado = $_SESSION['firma'] ?? null;
         $this->usuarioEncargado = $_SESSION['username'] ?? null;
+        
+        // Initialize connection once
+        require_once(CONFIG_PATH . 'bd.php');
+        $database = new Database();
+        $this->conn = $database->getConnection();
+        
+        if (!$this->conn) {
+            throw new Exception("No se pudo establecer la conexión con la base de datos");
+        }
+        
+        $this->firmaEncargado = $this->getFirmaEncargado();
     }
 
     public function procesar() {
