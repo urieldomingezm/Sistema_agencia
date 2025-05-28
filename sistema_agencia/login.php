@@ -188,175 +188,83 @@ require_once(TEMPLATES_PATH . 'header.php');
         this.querySelector('i').classList.toggle('bi-eye-slash-fill');
     });
 
-    const validator = new JustValidate('#loginForm', {
-        validateBeforeSubmitting: true,
-        focusInvalidField: true,
-        lockForm: true,
-        errorFieldCssClass: 'is-invalid',
-        successFieldCssClass: 'is-valid',
-        errorLabelStyle: {
-            fontSize: '12px',
-            color: '#dc3545',
+    // Función para manejar el "Recordar sesión"
+    function handleRememberMe() {
+        const rememberMe = document.getElementById('rememberMe');
+        const usernameInput = document.querySelector('input[name="username"]');
+        
+        if (rememberMe.checked) {
+            // Guardar en localStorage con cifrado básico
+            const encryptedUsername = btoa(usernameInput.value);
+            localStorage.setItem('rememberedUser', encryptedUsername);
+        } else {
+            localStorage.removeItem('rememberedUser');
+        }
+    }
+
+    // Cargar usuario recordado al cargar la página
+    window.addEventListener('load', function() {
+        const rememberedUser = localStorage.getItem('rememberedUser');
+        if (rememberedUser) {
+            const usernameInput = document.querySelector('input[name="username"]');
+            usernameInput.value = atob(rememberedUser);
+            document.getElementById('rememberMe').checked = true;
         }
     });
 
-    validator
-        .addField('[name="username"]', [{
-                rule: 'required',
-                errorMessage: 'El usuario es requerido'
-            },
-            {
-                rule: 'customRegexp',
-                value: /^[a-zA-Z0-9._]+$/,
-                errorMessage: 'Solo se permiten letras, números, puntos y guiones bajos'
-            },
-            {
-                rule: 'maxLength',
-                value: 13,
-                errorMessage: 'Máximo 13 caracteres'
-            }
-        ])
-        .addField('[name="password"]', [{
-                rule: 'required',
-                errorMessage: 'La contraseña es requerida'
-            },
-            {
-                rule: 'customRegexp',
-                value: /^[a-zA-Z0-9.!@#$%^&*()_+-=]+$/,
-                errorMessage: 'Solo se permiten letras, números y caracteres especiales comunes'
-            },
-            {
-                rule: 'minLength',
-                value: 8,
-                errorMessage: 'Mínimo 8 caracteres'
-            }
-        ])
-        .onSuccess((event) => {
-            event.preventDefault();
-            grecaptcha.ready(function() {
-                grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
-                        action: 'login'
-                    })
-                    .then(function(token) {
-                        document.getElementById('g-recaptcha-response').value = token;
-                        const form = event.target;
-                        fetch('login.php', {
-                                method: 'POST',
-                                body: new FormData(form)
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: '¡Bienvenido!',
-                                        text: data.message,
-                                        confirmButtonColor: '#4a6bff'
-                                    }).then(() => {
-                                        if (data.redirect) {
-                                            window.location.href = data.redirect;
-                                        } else {
-                                            window.location.href = '/usuario/index.php';
-                                        }
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Error',
-                                        text: data.message,
-                                        confirmButtonColor: '#4a6bff'
-                                    });
-                                }
-                            })
-                            .catch(error => {
+    // Event listener para el checkbox
+    document.getElementById('rememberMe').addEventListener('change', handleRememberMe);
+
+    // Manejo del envío del formulario sin JustValidate
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        handleRememberMe();
+        event.preventDefault();
+        grecaptcha.ready(function() {
+            grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
+                    action: 'login'
+                })
+                .then(function(token) {
+                    document.getElementById('g-recaptcha-response').value = token;
+                    const form = event.target;
+                    fetch('login.php', {
+                            method: 'POST',
+                            body: new FormData(form)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: '¡Bienvenido!',
+                                    text: data.message,
+                                    confirmButtonColor: '#4a6bff'
+                                }).then(() => {
+                                    if (data.redirect) {
+                                        window.location.href = data.redirect;
+                                    } else {
+                                        window.location.href = '/usuario/index.php';
+                                    }
+                                });
+                            } else {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Error',
-                                    text: 'Error al iniciar sesión',
+                                    text: data.message,
                                     confirmButtonColor: '#4a6bff'
                                 });
-                            });
-                    });
-            });
-        });
-
-// Función para manejar el "Recordar sesión"
-function handleRememberMe() {
-    const rememberMe = document.getElementById('rememberMe');
-    const usernameInput = document.querySelector('input[name="username"]');
-    
-    if (rememberMe.checked) {
-        // Guardar en localStorage con cifrado básico
-        const encryptedUsername = btoa(usernameInput.value);
-        localStorage.setItem('rememberedUser', encryptedUsername);
-    } else {
-        localStorage.removeItem('rememberedUser');
-    }
-}
-
-// Cargar usuario recordado al cargar la página
-window.addEventListener('load', function() {
-    const rememberedUser = localStorage.getItem('rememberedUser');
-    if (rememberedUser) {
-        const usernameInput = document.querySelector('input[name="username"]');
-        usernameInput.value = atob(rememberedUser);
-        document.getElementById('rememberMe').checked = true;
-    }
-});
-
-// Event listener para el checkbox
-document.getElementById('rememberMe').addEventListener('change', handleRememberMe);
-
-// Modificar el onSuccess del validador para incluir el manejo de "Recordar sesión"
-validator.onSuccess((event) => {
-    handleRememberMe();
-    event.preventDefault();
-    grecaptcha.ready(function() {
-        grecaptcha.execute('6LfUGiwrAAAAAPDhTJ-D6pxFBueqlrs82xS_dVf0', {
-                action: 'login'
-            })
-            .then(function(token) {
-                document.getElementById('g-recaptcha-response').value = token;
-                const form = event.target;
-                fetch('login.php', {
-                        method: 'POST',
-                        body: new FormData(form)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Bienvenido!',
-                                text: data.message,
-                                confirmButtonColor: '#4a6bff'
-                            }).then(() => {
-                                if (data.redirect) {
-                                    window.location.href = data.redirect;
-                                } else {
-                                    window.location.href = '/usuario/index.php';
-                                }
-                            });
-                        } else {
+                            }
+                        })
+                        .catch(error => {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Error',
-                                text: data.message,
+                                text: 'Error al iniciar sesión',
                                 confirmButtonColor: '#4a6bff'
                             });
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: 'Error al iniciar sesión',
-                            confirmButtonColor: '#4a6bff'
                         });
-                    });
-            });
+                });
+        });
     });
-});
 </script>
 
 <?php
