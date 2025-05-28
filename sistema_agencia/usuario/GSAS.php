@@ -254,7 +254,6 @@ echo $gestionAscensos->renderTable();
         }
     });
 
-    // Removed the redundant querySelectorAll loop here
 });
 </script>
 

@@ -52,6 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Removed the redundant querySelectorAll loop here
+    
+    // Add this at the end
+    setupAutoTimeChecks();
 });
 function verificarTiempoAscenso(id) {
     fetch('/private/procesos/gestion_ascensos/actualizar_tiempo.php', {
@@ -90,4 +93,28 @@ function verificarTiempoAscenso(id) {
             confirmButtonColor: '#dc3545'
         });
     });
+}
+
+// Add this after the existing event listeners
+function setupAutoTimeChecks() {
+    // Check every minute (60000ms)
+    setInterval(() => {
+        document.querySelectorAll('.verificar-tiempo-btn').forEach(btn => {
+            const id = btn.dataset.id;
+            
+            fetch('/private/procesos/gestion_ascensos/actualizar_tiempo.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ id: id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.tiempo_disponible) {
+                    // If time is available, trigger a silent refresh
+                    btn.click();
+                }
+            })
+            .catch(error => console.error('Auto-check error:', error));
+        });
+    }, 60000);
 }
