@@ -60,25 +60,39 @@ class UserController
         $menuMap = [
             // Low rank menus
             'Agente' => 'menu_rango_bajos.php',
-            'Seguridad' => 'menu_rango_bajos.php', 
+            'agente' => 'menu_rango_bajos.php',
+            'Seguridad' => 'menu_rango_bajos.php',
+            'seguridad' => 'menu_rango_bajos.php',
             'Tecnico' => 'menu_rango_bajos.php',
+            'tecnico' => 'menu_rango_bajos.php',
             'Logistica' => 'menu_rango_bajos.php',
+            'logistica' => 'menu_rango_bajos.php',
 
             // Medium rank menus
             'Supervisor' => 'menu_rango_medios.php',
+            'supervisor' => 'menu_rango_medios.php',
 
             // High rank menus
             'Director' => 'menu_rango_altos.php',
+            'director' => 'menu_rango_altos.php',
             'Presidente' => 'menu_rango_altos.php',
+            'presidente' => 'menu_rango_altos.php',
             'Operativo' => 'menu_rango_altos.php',
+            'operativo' => 'menu_rango_altos.php',
             'Junta directiva' => 'menu_rango_altos.php',
+            'junta directiva' => 'menu_rango_altos.php',
 
             // Admin rank menus
             'My_queen' => 'menu_rango_admin.php',
+            'my_queen' => 'menu_rango_admin.php',
             'Administrador' => 'menu_rango_admin.php',
+            'administrador' => 'menu_rango_admin.php',
             'Manager' => 'menu_rango_admin.php',
+            'manager' => 'menu_rango_admin.php',
             'Dueno' => 'menu_rango_admin.php',
-            'Fundador' => 'menu_rango_admin.php'
+            'dueno' => 'menu_rango_admin.php',
+            'Fundador' => 'menu_rango_admin.php',
+            'fundador' => 'menu_rango_admin.php'
         ];
 
         $menuFile = $menuMap[$this->userRango] ?? 'menu_rango_bajos.php';
