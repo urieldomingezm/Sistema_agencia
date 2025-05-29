@@ -137,11 +137,25 @@ class AscensoHandler {
             $this->output();
         }
         $misionesActuales = $this->misionesPorRango[$rangoActual];
-        $currentMisionIndex = array_search($misionActual, $misionesActuales);
+        
+        // Limpiar la misión actual para comparación
+        $misionActualLimpia = preg_replace('/^SHN-\s*|\s*-.*$/', '', trim($misionActual));
+        
+        // Buscar coincidencia en el array de misiones
+        $currentMisionIndex = false;
+        foreach ($misionesActuales as $index => $mision) {
+            $misionLimpia = preg_replace('/^SHN-\s*/', '', trim($mision));
+            if (strcasecmp(trim($misionActualLimpia), trim($misionLimpia)) === 0) {
+                $currentMisionIndex = $index;
+                break;
+            }
+        }
+
         if ($currentMisionIndex === false) {
             $this->response['message'] = 'La misión actual del usuario no coincide con las misiones definidas para su rango en rangos_data.php.';
             $this->output();
         }
+
         if ($currentMisionIndex === count($misionesActuales) - 1) {
             $nextRangoIndex = $currentRangoIndex + 1;
             if ($nextRangoIndex < count($rangosKeys)) {
@@ -155,6 +169,30 @@ class AscensoHandler {
             $siguienteRango = $rangoActual;
             $siguienteMision = $misionesActuales[$currentMisionIndex + 1];
         }
+
+        // Obtener la inicial del rango actual
+        $inicialRango = strtoupper(substr($siguienteRango, 0, 1));
+        
+        // Modificar la parte donde se formatea la misión
+        $misionActualPartes = explode('-', $misionActual);
+        $firmaUsuario = $usuario['firma_usuario'];
+        
+        // Si el usuario no tiene firma, no incluir su parte en el formato
+        if (empty($firmaUsuario)) {
+            $misionFormateada = sprintf("SHN- %s -%s #%s",
+                str_replace('SHN- ', '', $siguienteMision),
+                $this->firmaEncargado ?: '-',
+                $inicialRango
+            );
+        } else {
+            $misionFormateada = sprintf("SHN- %s -%s -%s #%s",
+                str_replace('SHN- ', '', $siguienteMision),
+                $firmaUsuario,
+                $this->firmaEncargado ?: '-',
+                $inicialRango
+            );
+        }
+
         $tiempoStr = $this->tiempoAscensoSegundosPorRango[$rangoActual] ?? '00:00:00';
         list($h, $m, $s) = explode(':', $tiempoStr);
         $interval = new DateInterval(sprintf('PT%dH%dM%dS', $h, $m, $s));
@@ -165,7 +203,7 @@ class AscensoHandler {
         $fechaUltimoAscensoFormatted = $horaActual->format('Y-m-d H:i:s');
         $stmt = $this->conn->prepare("UPDATE ascensos SET rango_actual = :siguiente_rango, mision_actual = :siguiente_mision, firma_usuario = :firma_usuario, firma_encargado = :firma_encargado, estado_ascenso = 'ascendido', fecha_ultimo_ascenso = :fecha_ultimo_ascenso, fecha_disponible_ascenso = :fecha_disponible_ascenso, usuario_encargado = :usuario_encargado WHERE codigo_time = :codigo");
         $stmt->bindParam(':siguiente_rango', $siguienteRango);
-        $stmt->bindParam(':siguiente_mision', $siguienteMision);
+        $stmt->bindParam(':siguiente_mision', $misionFormateada); // Usar la misión formateada
         $stmt->bindParam(':firma_usuario', $firmaUsuario);
         $stmt->bindParam(':firma_encargado', $this->firmaEncargado);
         $stmt->bindParam(':fecha_ultimo_ascenso', $fechaUltimoAscensoFormatted);
