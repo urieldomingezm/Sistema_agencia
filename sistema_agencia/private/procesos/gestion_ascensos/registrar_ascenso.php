@@ -193,12 +193,22 @@ class AscensoHandler {
             );
         }
 
+        // Obtener el tiempo de espera del rango actual
         $tiempoStr = $this->tiempoAscensoSegundosPorRango[$rangoActual] ?? '00:00:00';
-        list($h, $m, $s) = explode(':', $tiempoStr);
-        $interval = new DateInterval(sprintf('PT%dH%dM%dS', $h, $m, $s));
+        
+        // Convertir el formato HH:MM:SS a segundos para cálculos precisos
+        list($horas, $minutos, $segundos) = explode(':', $tiempoStr);
+        $tiempoEnSegundos = ($horas * 3600) + ($minutos * 60) + $segundos;
+        
+        // Crear el intervalo usando los segundos calculados
+        $interval = new DateInterval('PT' . $tiempoEnSegundos . 'S');
+        
+        // Establecer la zona horaria de México
         $horaActual = new DateTime('now', new DateTimeZone('America/Mexico_City'));
         $horaDisponible = clone $horaActual;
         $horaDisponible->add($interval);
+
+        // Formatear las fechas
         $fechaDisponibleAscensoFormatted = $horaDisponible->format('Y-m-d H:i:s');
         $fechaUltimoAscensoFormatted = $horaActual->format('Y-m-d H:i:s');
         $stmt = $this->conn->prepare("UPDATE ascensos SET rango_actual = :siguiente_rango, mision_actual = :siguiente_mision, firma_usuario = :firma_usuario, firma_encargado = :firma_encargado, estado_ascenso = 'ascendido', fecha_ultimo_ascenso = :fecha_ultimo_ascenso, fecha_disponible_ascenso = :fecha_disponible_ascenso, usuario_encargado = :usuario_encargado WHERE codigo_time = :codigo");
