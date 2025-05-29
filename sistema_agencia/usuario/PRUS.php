@@ -33,36 +33,50 @@ if (!empty($pagasData)) {
 }
 
 $siguienteAscenso = 'No disponible';
-if (isset($ascensoData['fecha_disponible_ascenso']) && $ascensoData['fecha_disponible_ascenso'] != '00:00:00') {
-    date_default_timezone_set('America/Mexico_City');
-    $fechaDisponible = new DateTime($ascensoData['fecha_disponible_ascenso']);
-    $ahora = new DateTime();
+$descripcionTiempo = '';
 
-    if ($fechaDisponible > $ahora) {
-        $intervalo = $fechaDisponible->diff($ahora);
-        $partesTiempo = [];
-
-        if ($intervalo->days > 0) {
-            $partesTiempo[] = $intervalo->days . ' día' . ($intervalo->days > 1 ? 's' : '');
-        }
-        if ($intervalo->h > 0) {
-            $partesTiempo[] = $intervalo->h . ' hora' . ($intervalo->h > 1 ? 's' : '');
-        }
-        if ($intervalo->i > 0) {
-            $partesTiempo[] = $intervalo->i . ' minuto' . ($intervalo->i > 1 ? 's' : '');
-        }
-        if ($intervalo->s > 0 || empty($partesTiempo)) {
-            $partesTiempo[] = $intervalo->s . ' segundo' . ($intervalo->s > 1 ? 's' : '');
-        }
-
-        $siguienteAscenso = implode(', ', $partesTiempo);
-
-        // Si hay más de una parte de tiempo, reemplazar la última coma por "y"
-        if (count($partesTiempo) > 1) {
-            $siguienteAscenso = preg_replace('/,([^,]*)$/', ' y$1', $siguienteAscenso);
-        }
-    } else {
+if (isset($ascensoData['fecha_disponible_ascenso'])) {
+    if ($ascensoData['fecha_disponible_ascenso'] === '00:00:00') {
         $siguienteAscenso = 'Disponible ahora';
+        $descripcionTiempo = 'Ya puedes solicitar tu ascenso';
+    } else {
+        // Parsear el tiempo en formato HH:MM:SS
+        $tiempo = $ascensoData['fecha_disponible_ascenso'];
+        
+        if (preg_match('/^(\d{2}):(\d{2}):(\d{2})$/', $tiempo, $matches)) {
+            $horas = intval($matches[1]);
+            $minutos = intval($matches[2]);
+            $segundos = intval($matches[3]);
+            
+            // Convertir a días si hay más de 24 horas
+            $dias = 0;
+            if ($horas >= 24) {
+                $dias = floor($horas / 24);
+                $horas = $horas % 24;
+            }
+            
+            // Construir descripción detallada
+            $partesTiempo = [];
+            
+            if ($dias > 0) {
+                $partesTiempo[] = $dias . ' día' . ($dias > 1 ? 's' : '');
+            }
+            if ($horas > 0) {
+                $partesTiempo[] = $horas . ' hora' . ($horas > 1 ? 's' : '');
+            }
+            if ($minutos > 0) {
+                $partesTiempo[] = $minutos . ' minuto' . ($minutos > 1 ? 's' : '');
+            }
+            if ($segundos > 0) {
+                $partesTiempo[] = $segundos . ' segundo' . ($segundos > 1 ? 's' : '');
+            }
+            
+            $siguienteAscenso = $ascensoData['fecha_disponible_ascenso'];
+            $descripcionTiempo = 'Faltan ' . implode(', ', $partesTiempo);
+        } else {
+            $siguienteAscenso = $ascensoData['fecha_disponible_ascenso'];
+            $descripcionTiempo = 'Tiempo no válido';
+        }
     }
 }
 
@@ -85,7 +99,10 @@ $sections = [
     ],
     'Ascenso' => [
         ['Mision', $ascensoData['mision_actual'] ?? 'Ninguna'],
-        ['Proximo ascenso en', $siguienteAscenso, 'badge ' . ($siguienteAscenso === 'Disponible ahora' ? 'bg-success' : 'bg-info') . ' text-white'],
+        ['Proximo ascenso en', 
+            $siguienteAscenso . ($descripcionTiempo ? '<br><class="text-white">' . $descripcionTiempo . '</>' : ''), 
+            'badge ' . ($siguienteAscenso === 'Disponible ahora' ? 'bg-success' : 'bg-info') . ' text-white'
+        ],
         [
             'Estado',
             ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Disponible para ascender' : 'Espera',
@@ -204,7 +221,7 @@ $sections = [
                         <span class="fw-bold">
                             <?php if (isset($item[2])): ?>
                                 <span class="<?= htmlspecialchars($item[2]) ?>">
-                                    <?= htmlspecialchars($item[1]) ?>
+                                    <?= $item[1] // Nota: Aquí quitamos htmlspecialchars para permitir el HTML del <small> ?>
                                 </span>
                             <?php else: ?>
                                 <?= htmlspecialchars($item[1]) ?>
@@ -223,7 +240,7 @@ function getStatusColor($status)
     switch (strtolower($status)) {
         case 'pausa':
         case 'inactivo':
-            return 'bg-danger';
+            return 'bg-warning';
         case 'activo':
             return 'bg-primary';
         case 'completado':
