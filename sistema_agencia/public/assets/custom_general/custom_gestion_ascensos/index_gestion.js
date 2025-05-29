@@ -80,8 +80,8 @@ document.addEventListener('DOMContentLoaded', function() {
         procesarSiguienteUsuario();
     }
 
-    // Iniciar actualización automática cada 10 minutos
-    setInterval(actualizarTiemposAutomaticamente, 600000); // 10 minutos = 600000ms
+    // Iniciar actualización automática cada 3 minutos
+    setInterval(actualizarTiemposAutomaticamente, 180000); // 3 minutos = 180000ms
 
     // Verificación manual (existente)
     function verificarTiempoAscenso(id) {

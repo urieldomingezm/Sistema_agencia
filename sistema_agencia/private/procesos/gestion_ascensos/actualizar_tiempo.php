@@ -74,8 +74,8 @@ class AscensoTimeManager {
                     );
                     
                     // Actualizar fecha_disponible_ascenso con el tiempo restante
-                    // Solo actualizar en verificación manual o cada 10 minutos
-                    if (!$auto_update || $minutos_trans % 10 === 0) {
+                    // Solo actualizar en verificación manual o cada 3 minutos
+                    if (!$auto_update || $minutos_trans % 3 === 0) {
                         $update_query = "UPDATE ascensos SET 
                             fecha_disponible_ascenso = :tiempo_restante
                             WHERE " . $id_column . " = :id_ascenso";
