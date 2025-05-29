@@ -12,8 +12,8 @@ class AscensoTimeManager {
         $this->tiempoAscensoSegundosPorRango = $tiempoAscensoSegundosPorRango;
     }
 
-    public function verificarTiempoAscenso($id_ascenso) {
-        $response = ['success' => false, 'message' => '', 'tiempo_disponible' => false, 'tiempo_transcurrido' => ''];
+    public function verificarTiempoAscenso($id_ascenso, $auto_update = false) {
+        $response = ['success' => false, 'message' => '', 'tiempo_disponible' => false];
 
         try {
             $id_column = is_numeric($id_ascenso) ? 'ascenso_id' : 'codigo_time';
@@ -48,16 +48,7 @@ class AscensoTimeManager {
                 $minutos_trans = floor(($tiempo_transcurrido % 3600) / 60);
                 $segundos_trans = $tiempo_transcurrido % 60;
 
-                $response['tiempo_transcurrido'] = sprintf(
-                    '%dd %02d:%02d:%02d',
-                    $dias_trans,
-                    $horas_trans,
-                    $minutos_trans,
-                    $segundos_trans
-                );
-
                 if ($tiempo_transcurrido >= $segundos_requeridos) {
-                    // El tiempo requerido se ha cumplido
                     $update_query = "UPDATE ascensos SET 
                         estado_ascenso = 'disponible',
                         fecha_disponible_ascenso = '00:00:00'
@@ -68,25 +59,36 @@ class AscensoTimeManager {
                     $update_stmt->execute();
 
                     $response['success'] = true;
-                    $response['message'] = 'El tiempo requerido ha sido cumplido y el estado ha sido actualizado';
+                    $response['message'] = $auto_update ? 
+                        'Actualización automática: Tiempo cumplido' : 
+                        'El tiempo requerido ha sido cumplido y el estado ha sido actualizado';
                     $response['tiempo_disponible'] = true;
                 } else {
                     // Calcular tiempo restante
                     $segundos_restantes = $segundos_requeridos - $tiempo_transcurrido;
-                    $dias = floor($segundos_restantes / 86400);
-                    $horas = floor(($segundos_restantes % 86400) / 3600);
-                    $minutos = floor(($segundos_restantes % 3600) / 60);
-                    $segundos = $segundos_restantes % 60;
-
                     $tiempo_restante = sprintf(
-                        '%d días, %02d:%02d:%02d',
-                        $dias,
-                        $horas,
-                        $minutos,
-                        $segundos
+                        '%02d:%02d:%02d',
+                        floor($segundos_restantes / 3600),
+                        floor(($segundos_restantes % 3600) / 60),
+                        $segundos_restantes % 60
                     );
                     
-                    $response['message'] = 'Tiempo restante: ' . $tiempo_restante;
+                    // Actualizar fecha_disponible_ascenso con el tiempo restante
+                    // Solo actualizar en verificación manual o cada 10 minutos
+                    if (!$auto_update || $minutos_trans % 10 === 0) {
+                        $update_query = "UPDATE ascensos SET 
+                            fecha_disponible_ascenso = :tiempo_restante
+                            WHERE " . $id_column . " = :id_ascenso";
+                        
+                        $update_stmt = $this->conn->prepare($update_query);
+                        $update_stmt->bindParam(':tiempo_restante', $tiempo_restante);
+                        $update_stmt->bindParam(':id_ascenso', $id_ascenso);
+                        $update_stmt->execute();
+                    }
+                    
+                    $response['message'] = $auto_update ? 
+                        'Actualización automática: ' . $tiempo_restante : 
+                        'Tiempo restante: ' . $tiempo_restante;
                     $response['tiempo_disponible'] = false;
                 }
             } else {
@@ -103,11 +105,12 @@ class AscensoTimeManager {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents('php://input'), true);
     $id_ascenso = $data['id'] ?? null;
+    $auto_update = $data['auto_update'] ?? false;
 
     if ($id_ascenso) {
         $database = new Database();
         $timeManager = new AscensoTimeManager($database);
-        $result = $timeManager->verificarTiempoAscenso($id_ascenso);
+        $result = $timeManager->verificarTiempoAscenso($id_ascenso, $auto_update);
         
         header('Content-Type: application/json');
         echo json_encode($result);

@@ -51,70 +51,87 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Removed the redundant querySelectorAll loop here
-    
-    // Add this at the end
-    setupAutoTimeChecks();
-});
-function verificarTiempoAscenso(id) {
-    fetch('/private/procesos/gestion_ascensos/actualizar_tiempo.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ id: id })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            Swal.fire({
-                title: 'Éxito',
-                text: data.message,
-                icon: 'success',
-                confirmButtonColor: '#198754'
-            }).then(() => {
-                location.reload(); // Recargar la página después del éxito
-            });
-        } else {
-            Swal.fire({
-                title: 'Información',
-                text: data.message,
-                icon: 'info',
-                confirmButtonColor: '#0dcaf0'
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        Swal.fire({
-            title: 'Error',
-            text: 'No se pudo verificar el tiempo',
-            icon: 'error',
-            confirmButtonColor: '#dc3545'
-        });
-    });
-}
+    // Función para actualización automática
+    function actualizarTiemposAutomaticamente() {
+        const rows = document.querySelectorAll('[data-usuario-id]');
+        let currentIndex = 0;
 
-// Add this after the existing event listeners
-function setupAutoTimeChecks() {
-    // Check every minute (60000ms)
-    setInterval(() => {
-        document.querySelectorAll('.verificar-tiempo-btn').forEach(btn => {
-            const id = btn.dataset.id;
-            
-            fetch('/private/procesos/gestion_ascensos/actualizar_tiempo.php', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ id: id })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.tiempo_disponible) {
-                    // If time is available, trigger a silent refresh
-                    btn.click();
-                }
-            })
-            .catch(error => console.error('Auto-check error:', error));
+        function procesarSiguienteUsuario() {
+            if (currentIndex < rows.length) {
+                const id = rows[currentIndex].getAttribute('data-usuario-id');
+                fetch('/private/procesos/gestion_ascensos/actualizar_tiempo.php', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ 
+                        id: id,
+                        auto_update: true // Flag para identificar actualización automática
+                    })
+                })
+                .then(response => response.json())
+                .then(() => {
+                    currentIndex++;
+                    // Procesar siguiente después de un pequeño delay
+                    setTimeout(procesarSiguienteUsuario, 500);
+                })
+                .catch(error => console.error('Error en actualización automática:', error));
+            }
+        }
+
+        procesarSiguienteUsuario();
+    }
+
+    // Iniciar actualización automática cada 10 minutos
+    setInterval(actualizarTiemposAutomaticamente, 600000); // 10 minutos = 600000ms
+
+    // Verificación manual (existente)
+    function verificarTiempoAscenso(id) {
+        Swal.fire({
+            title: 'Verificando...',
+            text: 'Por favor espera',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            willOpen: () => {
+                Swal.showLoading();
+            }
         });
-    }, 60000);
-}
+
+        fetch('/private/procesos/gestion_ascensos/actualizar_tiempo.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ 
+                id: id,
+                auto_update: false // Flag para identificar verificación manual
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            Swal.close();
+            if (data.success) {
+                Swal.fire({
+                    title: 'Éxito',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonColor: '#198754'
+                }).then(() => {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    title: 'Información',
+                    text: data.message,
+                    icon: 'info',
+                    confirmButtonColor: '#0dcaf0'
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: 'Error',
+                text: 'No se pudo verificar el tiempo',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+        });
+    }
+});

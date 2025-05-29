@@ -109,7 +109,16 @@ class GestionAscensos {
         }
 
         $fechaMostrar = !empty($ascenso['fecha_ultimo_ascenso']) ? date('d/m/Y H:i', strtotime($ascenso['fecha_ultimo_ascenso'])) : '';
-        $fechaDisponible = !empty($ascenso['fecha_disponible_ascenso']) ? date('H:i:s', strtotime($ascenso['fecha_disponible_ascenso'])) : '';
+        $fechaDisponible = '';
+        if (!empty($ascenso['fecha_disponible_ascenso'])) {
+            if ($ascenso['fecha_disponible_ascenso'] === '00:00:00') {
+                $fechaDisponible = '<span class="badge bg-success">Disponible</span>';
+            } else {
+                $fechaDisponible = '<span class="badge bg-warning">' . 
+                    htmlspecialchars($ascenso['fecha_disponible_ascenso']) . 
+                    '</span>';
+            }
+        }
 
         return '<tr>
             <td class="text-start align-middle">
