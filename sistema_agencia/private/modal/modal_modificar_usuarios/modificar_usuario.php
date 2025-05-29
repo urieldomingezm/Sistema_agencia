@@ -91,7 +91,7 @@
             this.nuevoRangoSelect = document.getElementById('nuevoRango');
 
             this.initModalEvents();
-            this.initFormValidation();
+            this.initFormEvents(); // Cambiado de initFormValidation a initFormEvents
 
             // Add event listener for rank selection change
             this.nuevoRangoSelect.addEventListener('change', (e) => this.handleRankChange(e));
@@ -123,14 +123,37 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
+                        const misionCompleta = data.data.mision_actual;
+                        const firma = data.data.firma_usuario;
+                        
+                        // Extraer la misión base sin la firma
+                        let misionBase = misionCompleta;
+                        if (firma) {
+                            misionBase = misionCompleta.replace(` -${firma}`, '').replace(` -XDD #A`, '');
+                        } else {
+                            misionBase = misionCompleta.replace(` -XDD #A`, '');
+                        }
+
                         this.infoNombreHabbo.textContent = data.data.nombre_habbo;
                         this.infoRangoActual.textContent = data.data.rango_actual;
-                        this.infoMisionActual.textContent = data.data.mision_actual;
-                        this.infoFirmaUsuario.textContent = data.data.firma_usuario ? data.data.firma_usuario : 'No disponible';
+                        this.infoMisionActual.textContent = misionCompleta;
+                        this.infoFirmaUsuario.textContent = firma ? firma : 'No disponible';
 
-                        this.nuevaMisionInput.value = data.data.mision_actual;
-                        this.nuevaFirmaInput.value = data.data.firma_usuario;
+                        // Establecer el rango actual en el select
+                        this.nuevoRangoSelect.value = data.data.rango_actual;
+                        
+                        // Manejar la visibilidad inicial de la firma
+                        this.handleFirmaVisibility(data.data.rango_actual);
+                        
+                        this.nuevaMisionInput.value = misionBase;
+                        this.nuevaFirmaInput.value = firma || '';
 
+                        // Guardar la misión base para uso posterior
+                        this.misionBase = misionBase;
+
+                        // Disparar el evento change para manejar las misiones
+                        const event = new Event('change');
+                        this.nuevoRangoSelect.dispatchEvent(event);
                     } else {
                         console.error('Error al cargar datos del usuario:', data.error);
                         Swal.fire({
@@ -156,48 +179,82 @@
                 });
         }
 
-        initFormValidation() {
-            const validator = new JustValidate(this.form, {
-                validateBeforeSubmitting: true,
-            });
+        // Agregar método para manejar la visibilidad de la firma
+        handleFirmaVisibility(rango) {
+            const rangosBasicos = ['agente', 'seguridad', 'tecnico', 'logistica'];
+            const firmaContainer = this.nuevaFirmaInput.closest('.mb-3');
 
-            validator
-                .addField('#nuevoRango', [{
-                    rule: 'required',
-                    errorMessage: 'El rango es requerido.',
-                }, ])
-                .addField('#nuevaMision', [{
-                        rule: 'required',
-                        errorMessage: 'La misión es requerida.',
-                    },
-                    {
-                        rule: 'maxLength',
-                        value: 50,
-                        errorMessage: 'La misión no debe exceder los 50 caracteres.',
-                    },
-                ])
-                .addField('#nuevaFirma', [{
-                        rule: 'required',
-                        errorMessage: 'La firma es requerida.',
-                    },
-                    {
-                        rule: 'customRegexp',
-                        value: /^[A-Z0-9]{3}$/,
-                        errorMessage: 'El formato de la firma es inválido. Debe ser 3 caracteres alfanuméricos en mayúsculas.',
-                    },
-                ])
-                .onSuccess((event) => {
-                    this.handleFormSubmit(event);
-                });
+            if (rangosBasicos.includes(rango)) {
+                firmaContainer.style.display = 'none';
+                this.nuevaFirmaInput.value = '';
+                this.nuevaFirmaInput.required = false;
+            } else {
+                firmaContainer.style.display = 'block';
+                this.nuevaFirmaInput.required = true;
+            }
         }
 
-        handleFormSubmit(event) {
-            event.preventDefault();
+        initFormEvents() {
+            this.form.addEventListener('submit', (event) => {
+                event.preventDefault();
 
-            const userId = this.userIdInput.value;
+                // Validación básica
+                if (!this.validateForm()) {
+                    return;
+                }
+
+                this.handleFormSubmit(event);
+            });
+        }
+
+        validateForm() {
             const nuevoRango = this.nuevoRangoSelect.value;
             const nuevaMision = this.nuevaMisionInput.value;
             const nuevaFirma = this.nuevaFirmaInput.value;
+            const rangosBasicos = ['agente', 'seguridad', 'tecnico', 'logistica'];
+
+            if (!nuevoRango) {
+                Swal.fire('Error', 'El rango es requerido.', 'error');
+                return false;
+            }
+
+            if (!nuevaMision) {
+                Swal.fire('Error', 'La misión es requerida.', 'error');
+                return false;
+            }
+
+            if (nuevaMision.length > 50) {
+                Swal.fire('Error', 'La misión no debe exceder los 50 caracteres.', 'error');
+                return false;
+            }
+
+            // Solo validar firma si no es un rango básico
+            if (!rangosBasicos.includes(nuevoRango)) {
+                if (!nuevaFirma) {
+                    Swal.fire('Error', 'La firma es requerida para este rango.', 'error');
+                    return false;
+                }
+
+                if (!/^[A-Z0-9]{3}$/.test(nuevaFirma)) {
+                    Swal.fire('Error', 'El formato de la firma es inválido. Debe ser 3 caracteres alfanuméricos en mayúsculas.', 'error');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        handleFormSubmit(event) {
+            const userId = this.userIdInput.value;
+            const nuevoRango = this.nuevoRangoSelect.value;
+            let nuevaMision = this.missionSelect ? this.missionSelect.value : this.nuevaMisionInput.value;
+            const nuevaFirma = this.nuevaFirmaInput.value;
+
+            // Formatear la misión con la firma si existe
+            if (nuevaFirma) {
+                nuevaMision = `${nuevaMision} -${nuevaFirma}`;
+            }
+            nuevaMision = `${nuevaMision} -XDD #A`;
 
             Swal.fire({
                 title: 'Guardando cambios...',
@@ -261,8 +318,12 @@
             const selectedRank = e.target.value;
             const specialRanks = ['administrador', 'manager', 'fundador', 'dueno', 'junta_directiva'];
 
+            // Manejar la visibilidad de la firma
+            this.handleFirmaVisibility(selectedRank);
+
             // Clear existing options if any
             if (this.missionSelect) {
+                const selectedMission = this.missionSelect.value;
                 this.missionSelect.remove();
                 this.missionSelect = null;
             }
@@ -271,7 +332,7 @@
                 // For special ranks, show text input
                 this.nuevaMisionInput.type = 'text';
                 this.nuevaMisionInput.style.display = 'block';
-                this.nuevaMisionInput.value = '';
+                this.nuevaMisionInput.value = this.misionBase || '';
             } else {
                 // For regular ranks, create select dropdown
                 this.nuevaMisionInput.style.display = 'none';
@@ -290,18 +351,16 @@
 
                 // Get missions for selected rank from data_rangos.php
                 fetch('/private/modal/modal_modificar_usuarios/data_rangos.php')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
+                    .then(response => response.json())
                     .then(data => {
                         if (data && data[selectedRank]) {
                             data[selectedRank].forEach(mission => {
                                 const option = document.createElement('option');
                                 option.value = mission;
                                 option.textContent = mission;
+                                if (mission === this.misionBase) {
+                                    option.selected = true;
+                                }
                                 this.missionSelect.appendChild(option);
                             });
                         }

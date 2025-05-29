@@ -12,12 +12,20 @@ class UserModifier {
     }
 
     public function updateUser($userId, $nuevoRango, $nuevaMision, $nuevaFirma) {
-        if (!$userId || !$nuevoRango || !$nuevaMision || !$nuevaFirma) {
+        if (!$userId || !$nuevoRango || !$nuevaMision) {
             throw new Exception('Datos incompletos para la modificación');
         }
 
-        if (!preg_match('/^[A-Z0-9]{3}$/', $nuevaFirma)) {
-            throw new Exception('Formato de firma inválido. Debe ser 3 caracteres alfanuméricos en mayúsculas.');
+        $rangosBasicos = ['agente', 'seguridad', 'tecnico', 'logistica'];
+        
+        // Si es un rango básico, la firma será NULL
+        if (in_array($nuevoRango, $rangosBasicos)) {
+            $nuevaFirma = null;
+        } else {
+            // Solo validar firma para rangos no básicos
+            if (!$nuevaFirma || !preg_match('/^[A-Z0-9]{3}$/', $nuevaFirma)) {
+                throw new Exception('Firma requerida o inválida para el rango seleccionado.');
+            }
         }
 
         $stmt = $this->conn->prepare("SELECT codigo_time FROM registro_usuario WHERE id = :id");
