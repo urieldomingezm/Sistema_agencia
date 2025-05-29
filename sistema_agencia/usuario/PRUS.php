@@ -105,7 +105,7 @@ $sections = [
         ],
         [
             'Estado',
-            ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Disponible para ascender' : 'Espera',
+            ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Disponible para ascender' : 'En Espera',
             'badge text-white ' . (($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning')
         ]
     ]
