@@ -32,6 +32,40 @@ if (!empty($pagasData)) {
     $ultimaPagaUsuario = $pagasData[0];
 }
 
+$siguienteAscenso = 'No disponible';
+if (isset($ascensoData['fecha_disponible_ascenso']) && $ascensoData['fecha_disponible_ascenso'] != '00:00:00') {
+    date_default_timezone_set('America/Mexico_City');
+    $fechaDisponible = new DateTime($ascensoData['fecha_disponible_ascenso']);
+    $ahora = new DateTime();
+
+    if ($fechaDisponible > $ahora) {
+        $intervalo = $fechaDisponible->diff($ahora);
+        $partesTiempo = [];
+
+        if ($intervalo->days > 0) {
+            $partesTiempo[] = $intervalo->days . ' día' . ($intervalo->days > 1 ? 's' : '');
+        }
+        if ($intervalo->h > 0) {
+            $partesTiempo[] = $intervalo->h . ' hora' . ($intervalo->h > 1 ? 's' : '');
+        }
+        if ($intervalo->i > 0) {
+            $partesTiempo[] = $intervalo->i . ' minuto' . ($intervalo->i > 1 ? 's' : '');
+        }
+        if ($intervalo->s > 0 || empty($partesTiempo)) {
+            $partesTiempo[] = $intervalo->s . ' segundo' . ($intervalo->s > 1 ? 's' : '');
+        }
+
+        $siguienteAscenso = implode(', ', $partesTiempo);
+
+        // Si hay más de una parte de tiempo, reemplazar la última coma por "y"
+        if (count($partesTiempo) > 1) {
+            $siguienteAscenso = preg_replace('/,([^,]*)$/', ' y$1', $siguienteAscenso);
+        }
+    } else {
+        $siguienteAscenso = 'Disponible ahora';
+    }
+}
+
 $sections = [
     'Información' => [
         ['ID', $personalData['id'] ?? ''],
@@ -51,10 +85,10 @@ $sections = [
     ],
     'Ascenso' => [
         ['Mision', $ascensoData['mision_actual'] ?? 'Ninguna'],
-        ['Siguiente', 'En mantenimiento'],
+        ['Proximo ascenso en', $siguienteAscenso, 'badge ' . ($siguienteAscenso === 'Disponible ahora' ? 'bg-success' : 'bg-info') . ' text-white'],
         [
             'Estado',
-            ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Listo' : 'Espera',
+            ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'Disponible para ascender' : 'Espera',
             'badge text-white ' . (($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 'bg-success' : 'bg-warning')
         ]
     ]
@@ -87,18 +121,18 @@ $sections = [
             </div>
             <div class="card-body">
                 <?php foreach ($sections['Información'] as $item): ?>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                    <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
-                    <span class="fw-bold">
-                        <?php if (isset($item[2])): ?>
-                            <span class="<?= htmlspecialchars($item[2]) ?>">
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
+                        <span class="fw-bold">
+                            <?php if (isset($item[2])): ?>
+                                <span class="<?= htmlspecialchars($item[2]) ?>">
+                                    <?= htmlspecialchars($item[1]) ?>
+                                </span>
+                            <?php else: ?>
                                 <?= htmlspecialchars($item[1]) ?>
-                            </span>
-                        <?php else: ?>
-                            <?= htmlspecialchars($item[1]) ?>
-                        <?php endif; ?>
-                    </span>
-                </div>
+                            <?php endif; ?>
+                        </span>
+                    </div>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -113,18 +147,18 @@ $sections = [
                     </div>
                     <div class="card-body">
                         <?php foreach ($sections['Pagos'] as $item): ?>
-                        <div class="d-flex justify-content-between py-2 border-bottom">
-                            <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
-                            <span class="fw-bold">
-                                <?php if (isset($item[2])): ?>
-                                    <span class="<?= htmlspecialchars($item[2]) ?>">
+                            <div class="d-flex justify-content-between py-2 border-bottom">
+                                <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
+                                <span class="fw-bold">
+                                    <?php if (isset($item[2])): ?>
+                                        <span class="<?= htmlspecialchars($item[2]) ?>">
+                                            <?= htmlspecialchars($item[1]) ?>
+                                        </span>
+                                    <?php else: ?>
                                         <?= htmlspecialchars($item[1]) ?>
-                                    </span>
-                                <?php else: ?>
-                                    <?= htmlspecialchars($item[1]) ?>
-                                <?php endif; ?>
-                            </span>
-                        </div>
+                                    <?php endif; ?>
+                                </span>
+                            </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -139,18 +173,18 @@ $sections = [
                     </div>
                     <div class="card-body">
                         <?php foreach ($sections['Tiempo'] as $item): ?>
-                        <div class="d-flex justify-content-between py-2 border-bottom">
-                            <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
-                            <span class="fw-bold">
-                                <?php if (isset($item[2])): ?>
-                                    <span class="<?= htmlspecialchars($item[2]) ?>">
+                            <div class="d-flex justify-content-between py-2 border-bottom">
+                                <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
+                                <span class="fw-bold">
+                                    <?php if (isset($item[2])): ?>
+                                        <span class="<?= htmlspecialchars($item[2]) ?>">
+                                            <?= htmlspecialchars($item[1]) ?>
+                                        </span>
+                                    <?php else: ?>
                                         <?= htmlspecialchars($item[1]) ?>
-                                    </span>
-                                <?php else: ?>
-                                    <?= htmlspecialchars($item[1]) ?>
-                                <?php endif; ?>
-                            </span>
-                        </div>
+                                    <?php endif; ?>
+                                </span>
+                            </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -165,18 +199,18 @@ $sections = [
             </div>
             <div class="card-body">
                 <?php foreach ($sections['Ascenso'] as $item): ?>
-                <div class="d-flex justify-content-between py-2 border-bottom">
-                    <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
-                    <span class="fw-bold">
-                        <?php if (isset($item[2])): ?>
-                            <span class="<?= htmlspecialchars($item[2]) ?>">
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted"><?= htmlspecialchars($item[0]) ?></span>
+                        <span class="fw-bold">
+                            <?php if (isset($item[2])): ?>
+                                <span class="<?= htmlspecialchars($item[2]) ?>">
+                                    <?= htmlspecialchars($item[1]) ?>
+                                </span>
+                            <?php else: ?>
                                 <?= htmlspecialchars($item[1]) ?>
-                            </span>
-                        <?php else: ?>
-                            <?= htmlspecialchars($item[1]) ?>
-                        <?php endif; ?>
-                    </span>
-                </div>
+                            <?php endif; ?>
+                        </span>
+                    </div>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -184,7 +218,8 @@ $sections = [
 </div>
 
 <?php
-function getStatusColor($status) {
+function getStatusColor($status)
+{
     switch (strtolower($status)) {
         case 'pausa':
         case 'inactivo':
@@ -198,7 +233,8 @@ function getStatusColor($status) {
     }
 }
 
-function formatEstimatedTime($time) {
+function formatEstimatedTime($time)
+{
     if (empty($time)) {
         return 'No disponible';
     }
@@ -226,6 +262,7 @@ function formatEstimatedTime($time) {
     }
 }
 ?>
+
 <head>
     <meta name="keywords" content="Requisitos de paga, ascensos y misiones para los usuarios como tambien traslados">
 </head>

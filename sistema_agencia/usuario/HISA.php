@@ -7,6 +7,7 @@ class HistorialAscensos
     private $ascensosPorSemana;
     private $errorMessage;
     public $ascensosEstaSemana;
+    private $historialDetallado;
 
     public function __construct()
     {
@@ -26,6 +27,7 @@ class HistorialAscensos
             $this->totalAscensos = $jsonData['totalAscensos'] ?? 0;
             $this->ascensosPorRango = $jsonData['ascensosPorRango'] ?? [];
             $this->ascensosEstaSemana = $jsonData['ascensosEstaSemana'] ?? 0;
+            $this->historialDetallado = $jsonData['historialAscensos'] ?? []; // Agregar esta línea
             $this->errorMessage = null;
         } else {
             $this->totalAscensos = 0;
@@ -101,40 +103,63 @@ class HistorialAscensos
             } else {
                 $html .= '<div class="accordion accordion-flush" id="accordionRangos">';
                 
-                foreach ($this->ascensosPorRango as $item) {
-                    $item['personas'] = $item['personas'] ?? [];
-                    
-                    if (isset($historialAscensos) && is_array($historialAscensos)) {
-                        foreach ($historialAscensos as $ascenso) {
-                            if (isset($ascenso['rango_actual']) && $ascenso['rango_actual'] === $item['rango_actual']) {
-                                $nombre = $ascenso['nombre_habbo'] ?? $ascenso['usuario_registro'] ?? 'No disponible';
-                                if (!in_array($nombre, $item['personas'])) {
-                                    $item['personas'][] = $nombre;
-                                }
-                            }
-                        }
-                    }
+                // Organizar el historial por rango y contar ascensos por persona
+                $personasPorRango = [];
+                $conteoAscensosPorPersona = [];
 
+                foreach ($this->historialDetallado as $ascenso) {
+                    $rango = $ascenso['rango_actual'];
+                    $nombre = $ascenso['nombre_habbo'] ?? $ascenso['usuario_registro'] ?? 'No disponible';
+                    
+                    // Inicializar arrays si no existen
+                    if (!isset($personasPorRango[$rango])) {
+                        $personasPorRango[$rango] = [];
+                        $conteoAscensosPorPersona[$rango] = [];
+                    }
+                    
+                    // Agregar persona al array si no existe
+                    if (!isset($conteoAscensosPorPersona[$rango][$nombre])) {
+                        $personasPorRango[$rango][] = $nombre;
+                        $conteoAscensosPorPersona[$rango][$nombre] = 0;
+                    }
+                    
+                    // Incrementar contador de ascensos
+                    $conteoAscensosPorPersona[$rango][$nombre]++;
+                }
+
+                foreach ($this->ascensosPorRango as $item) {
                     $rangoActual = htmlspecialchars($item['rango_actual'] ?? 'Sin Rango');
                     $count = $item['count'] ?? 0;
+                    $personas = $personasPorRango[$item['rango_actual']] ?? [];
                     
                     $html .= '<div class="accordion-item">
-                                <h2 class="accordion-header" id="heading' . $rangoActual . '">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' . $rangoActual . '">
+                                <h2 class="accordion-header" id="heading' . md5($rangoActual) . '">
+                                    <button class="accordion-button collapsed" type="button" 
+                                            data-bs-toggle="collapse" 
+                                            data-bs-target="#collapse' . md5($rangoActual) . '">
                                         <div class="d-flex align-items-center">
                                             <i class="bi bi-person-badge me-2 text-secondary fs-4"></i>
-                                            <span class="text-truncate" style="max-width: 200px;" title="' . $rangoActual . '">' . $rangoActual . '</span>
+                                            <span class="text-truncate" style="max-width: 200px;" 
+                                                  title="' . $rangoActual . '">' . $rangoActual . '</span>
                                             <span class="badge bg-primary rounded-pill ms-2">' . $count . '</span>
                                         </div>
                                     </button>
                                 </h2>
-                                <div id="collapse' . $rangoActual . '" class="accordion-collapse collapse" data-bs-parent="#accordionRangos">
+                                <div id="collapse' . md5($rangoActual) . '" 
+                                     class="accordion-collapse collapse" 
+                                     data-bs-parent="#accordionRangos">
                                     <div class="accordion-body">
                                         <ul class="list-group">';
-                    
-                    if (!empty($item['personas'])) {
-                        foreach ($item['personas'] as $persona) {
-                            $html .= '<li class="list-group-item">' . htmlspecialchars($persona) . '</li>';
+                
+                    if (!empty($personas)) {
+                        foreach ($personas as $persona) {
+                            $cantidadAscensos = $conteoAscensosPorPersona[$item['rango_actual']][$persona];
+                            $html .= '<li class="list-group-item d-flex justify-content-between align-items-center">
+                                ' . htmlspecialchars($persona) . '
+                                <span class="badge bg-secondary rounded-pill" title="Cantidad de ascensos">
+                                    ' . $cantidadAscensos . ' ascenso' . ($cantidadAscensos > 1 ? 's' : '') . '
+                                </span>
+                            </li>';
                         }
                     } else {
                         $html .= '<li class="list-group-item">No hay personas registradas.</li>';

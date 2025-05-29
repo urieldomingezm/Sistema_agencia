@@ -3,6 +3,7 @@
 class HistorialTiempos
 {
     private $tiemposEncargadoData;
+    private $tiemposPorRango;  // Nueva propiedad
     private $totalEncargadoCount;
     public $weeklyEncargadoCount;
     private $encargadoCountByRange;
@@ -24,6 +25,7 @@ class HistorialTiempos
 
         if (isset($jsonData['success']) && $jsonData['success']) {
             $this->tiemposEncargadoData = $jsonData['tiemposEncargado'] ?? [];
+            $this->tiemposPorRango = $jsonData['tiemposPorRango'] ?? [];
             $this->errorMessage = null;
             $this->calculateEncargadoStats();
         } else {
@@ -129,36 +131,48 @@ class HistorialTiempos
                             </h6>
                         </div>';
 
-            if (empty($this->encargadoCountByRange)) {
+            if (empty($this->tiemposPorRango)) {
                 $html .= '<div class="alert alert-warning m-3">No hay datos de rangos disponibles.</div>';
             } else {
                 $html .= '<div class="accordion accordion-flush" id="accordionRangos">';
-                foreach ($this->encargadoCountByRange as $rango => $count) {
+                foreach ($this->tiemposPorRango as $rangoData) {
+                    $rango = htmlspecialchars($rangoData['rango_actual']);
+                    $count = $rangoData['count'];
+                    
                     $html .= '<div class="accordion-item">
-                                <h2 class="accordion-header" id="heading' . htmlspecialchars($rango) . '">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' . htmlspecialchars($rango) . '">
+                                <h2 class="accordion-header" id="heading' . md5($rango) . '">
+                                    <button class="accordion-button collapsed" type="button" 
+                                            data-bs-toggle="collapse" 
+                                            data-bs-target="#collapse' . md5($rango) . '">
                                         <div class="d-flex align-items-center">
                                             <i class="bi bi-person-badge me-2 text-secondary fs-4"></i>
-                                            <span class="text-truncate" style="max-width: 200px;" title="' . htmlspecialchars($rango) . '">' . htmlspecialchars($rango) . '</span>
-                                            <span class="badge bg-primary rounded-pill ms-2">' . htmlspecialchars($count) . '</span>
+                                            <span class="text-truncate" style="max-width: 200px;" 
+                                                  title="' . $rango . '">' . $rango . '</span>
+                                            <span class="badge bg-primary rounded-pill ms-2">' . $count . '</span>
                                         </div>
                                     </button>
                                 </h2>
-                                <div id="collapse' . htmlspecialchars($rango) . '" class="accordion-collapse collapse" data-bs-parent="#accordionRangos">
-                                    <div class="accordion-body">';
+                                <div id="collapse' . md5($rango) . '" 
+                                     class="accordion-collapse collapse" 
+                                     data-bs-parent="#accordionRangos">
+                                    <div class="accordion-body">
+                                        <ul class="list-group">';
 
-                    // Aquí se debe agregar la lógica para obtener y mostrar los nombres de las personas
-                    if (isset($this->tiemposEncargadoData[$rango])) {
-                        foreach ($this->tiemposEncargadoData[$rango] as $persona) {
-                            $html .= '<p>' . htmlspecialchars($persona['nombre']) . '</p>';
+                    if (!empty($rangoData['personas'])) {
+                        foreach ($rangoData['personas'] as $persona) {
+                            $html .= '<li class="list-group-item d-flex justify-content-between align-items-center">
+            <span>' . htmlspecialchars($persona['nombre']) . '</span>
+            <span class="badge bg-secondary rounded-pill" title="Cantidad de tiempos">
+                ' . $persona['total_tiempos'] . ' tiempo' . 
+                ($persona['total_tiempos'] > 1 ? 's' : '') . '
+            </span>
+        </li>';
                         }
                     } else {
-                        $html .= '<p>No hay personas registradas para este rango.</p>';
+                        $html .= '<li class="list-group-item">No hay personas registradas para este rango.</li>';
                     }
 
-                    $html .= '    </div>
-                                </div>
-                            </div>';
+                    $html .= '</ul></div></div></div>';
                 }
                 $html .= '</div>';
             }
