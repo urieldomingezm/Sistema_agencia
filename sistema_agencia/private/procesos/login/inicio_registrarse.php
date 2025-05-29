@@ -81,6 +81,74 @@ class UserRegistration
         return substr(str_shuffle($characters), 0, 5);
     }
 
+    private function insertDefaultRecords($codigo_time) {
+        try {
+            // Insertar registro en tabla ascensos
+            $queryAscensos = "INSERT INTO ascensos (
+                codigo_time, 
+                rango_actual, 
+                mision_actual, 
+                firma_usuario, 
+                firma_encargado, 
+                estado_ascenso, 
+                fecha_ultimo_ascenso,
+                fecha_disponible_ascenso,
+                es_recluta
+            ) VALUES (
+                :codigo_time,
+                'Agente',
+                'SHN- Iniciado I',
+                NULL,
+                NULL,
+                'disponible',
+                NOW(),
+                '00:00:00',
+                1
+            )";
+
+            $stmtAscensos = $this->conn->prepare($queryAscensos);
+            $stmtAscensos->bindParam(':codigo_time', $codigo_time);
+            
+            if (!$stmtAscensos->execute()) {
+                throw new Exception("Error al insertar registro en ascensos");
+            }
+
+            // Insertar registro en tabla gestion_tiempo
+            $queryTiempo = "INSERT INTO gestion_tiempo (
+                codigo_time,
+                tiempo_status,
+                tiempo_restado,
+                tiempo_acumulado,
+                tiempo_transcurrido,
+                tiempo_encargado_usuario,
+                tiempo_fecha_registro,
+                tiempo_iniciado
+            ) VALUES (
+                :codigo_time,
+                'pausa',
+                '00:00:00',
+                '00:00:00',
+                '00:00:00',
+                NULL,
+                NOW(),
+                '00:00:00'
+            )";
+
+            $stmtTiempo = $this->conn->prepare($queryTiempo);
+            $stmtTiempo->bindParam(':codigo_time', $codigo_time);
+            
+            if (!$stmtTiempo->execute()) {
+                throw new Exception("Error al insertar registro en gestion_tiempo");
+            }
+
+            return true;
+
+        } catch (Exception $e) {
+            error_log("Error en insertDefaultRecords: " . $e->getMessage());
+            throw $e;
+        }
+    }
+
     public function register($habboName, $password)
     {
         try {
@@ -128,6 +196,9 @@ class UserRegistration
             if (!$stmt->execute()) {
                 throw new Exception("Error al registrar usuario");
             }
+
+            // Insertar registros por defecto en otras tablas
+            $this->insertDefaultRecords($codigo_time);
 
             $this->conn->commit();
             return ['success' => true, 'message' => '¡Registro exitoso!'];

@@ -188,7 +188,7 @@ function getStatusColor($status) {
     switch (strtolower($status)) {
         case 'pausa':
         case 'inactivo':
-            return 'bg-secondary';
+            return 'bg-danger';
         case 'activo':
             return 'bg-primary';
         case 'completado':
