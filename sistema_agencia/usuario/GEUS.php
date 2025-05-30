@@ -28,7 +28,7 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
                             <th>Usuario Habbo</th>
                             <th class="text-center" style="width: 180px;">Fecha Registro</th>
                             <th class="text-center" style="width: 180px;">Bloqueado</th>
-                            
+                            <th class="text-center" style="width: 200px;">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,31 +63,7 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
                                         <?= $bloqueado ?>
                                     </span>
                                 </td>
-                                <td class="text-center">
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <button class="btn btn-primary btn-sm rounded-pill px-3 py-1 d-flex align-items-center"
-                                            onclick="editarUsuario(<?= $usuario['id'] ?>)"
-                                            data-bs-toggle="tooltip"
-                                            data-bs-placement="top"
-                                            title="Cambiar contraseña">
-                                            <span>Password</span>
-                                        </button>
-                                        <button class="btn btn-info btn-sm rounded-pill px-3 py-1 d-flex align-items-center ms-1"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#modificarRangoModal"
-                                            data-id="<?= $usuario['id'] ?>"
-                                            title="Modificar rango">
-                                            <span>Rango</span>
-                                        </button>
-                                        <?php if (!empty($usuario['ip_bloqueo'])): ?>
-                                            <button class="btn btn-warning btn-sm rounded-pill px-3 py-1 d-flex align-items-center ms-1"
-                                                onclick="mostrarDesbloquearSwal(<?= $usuario['id'] ?>)"
-                                                title="Desbloquear">
-                                                <span>Desbloquear</span>
-                                            </button>
-                                        <?php endif; ?>
-                                    </div>
-                                </td>
+                                
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
