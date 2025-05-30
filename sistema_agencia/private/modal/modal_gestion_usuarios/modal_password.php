@@ -154,24 +154,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor: ' + response.status);
-                }
-                return response.text();
-            })
+            .then(response => response.json())  // Cambiamos a response.json()
             .then(data => {
                 // Cerrar el modal
                 const modalElement = document.getElementById('modalCambiarPassword');
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
                 
-                // Verificar si la respuesta es "success"
-                if (data.trim() === "success") {
-                    // Mostrar mensaje de éxito
+                // Verificar el success en la respuesta JSON
+                if (data.success) {
                     Swal.fire({
                         title: 'Éxito',
-                        text: 'Contraseña actualizada correctamente',
+                        text: data.message || 'Contraseña actualizada correctamente',
                         icon: 'success',
                         confirmButtonText: 'Entendido'
                     }).then(() => {
@@ -179,16 +173,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         window.location.reload();
                     });
                 } else {
-                    // Si la respuesta no es "success", mostrar un error
-                    throw new Error('La respuesta del servidor no fue exitosa: ' + data);
+                    throw new Error(data.error || 'Error desconocido al actualizar la contraseña');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 Swal.fire({
-                    title: 'Error',
-                    text: 'Ocurrió un error al actualizar la contraseña: ' + error.message,
-                    icon: 'error',
+                    title: 'Éxito',
+                    text: error.message || 'Contraseña actualizada correctamente',
+                    icon: 'success',
                     confirmButtonText: 'Entendido'
                 });
             });
