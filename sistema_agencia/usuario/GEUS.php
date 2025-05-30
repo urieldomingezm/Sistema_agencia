@@ -28,7 +28,7 @@ require_once(MODAL_MODIFICAR_USUARIO_PACH . 'modificar_usuario.php');
                             <th>Usuario Habbo</th>
                             <th class="text-center" style="width: 180px;">Fecha Registro</th>
                             <th class="text-center" style="width: 180px;">Bloqueado</th>
-                            <th class="text-center" style="width: 200px;">Acciones</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
