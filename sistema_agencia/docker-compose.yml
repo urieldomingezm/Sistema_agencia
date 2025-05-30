@@ -12,7 +12,7 @@ services:
       MYSQL_HOST: db
       MYSQL_DATABASE: sistema_agencia
       MYSQL_USER: sistema_agencia_de_shein
-      MYSQL_PASSWORD: Urielmedina7u7aasdjandkandkjankdnakjsdjaskdkjnkas
+      MYSQL_PASSWORD: Urielmedina7u7
     depends_on:
       - db
 
@@ -24,7 +24,7 @@ services:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: sistema_agencia
       MYSQL_USER: sistema_agencia_de_shein
-      MYSQL_PASSWORD: Urielmedina7u7aasdjandkandkjankdnakjsdjaskdkjnkas
+      MYSQL_PASSWORD: Urielmedina7u7
     volumes:
       - mysql_data:/var/lib/mysql
     command: --log-bin-trust-function-creators=1 # Añadir esta línea
