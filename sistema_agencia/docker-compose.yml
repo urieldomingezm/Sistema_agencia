@@ -11,7 +11,7 @@ services:
     environment:
       MYSQL_HOST: db
       MYSQL_DATABASE: sistema_agencia
-      MYSQL_USER: sistema_agencia_de_shein
+      MYSQL_USER: sistema_agencia
       MYSQL_PASSWORD: Urielmedina7u7
     depends_on:
       - db
@@ -23,7 +23,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: sistema_agencia
-      MYSQL_USER: sistema_agencia_de_shein
+      MYSQL_USER: sistema_agencia
       MYSQL_PASSWORD: Urielmedina7u7
     volumes:
       - mysql_data:/var/lib/mysql
