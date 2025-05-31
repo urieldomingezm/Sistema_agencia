@@ -32,9 +32,11 @@ class UserLogin
                 return ['success' => false, 'message' => 'Usuario y contraseña son requeridos'];
             }
 
-            $query = "SELECT r.id, r.usuario_registro, r.password_registro, r.rol_id, a.rango_actual, r.ip_bloqueo 
+            $query = "SELECT r.id, r.usuario_registro, r.password_registro, r.rol_id, 
+                            a.rango_actual, r.ip_bloqueo, ro.nombre as rol_nombre
                      FROM {$this->table} r
                      LEFT JOIN ascensos a ON r.codigo_time = a.codigo_time
+                     LEFT JOIN roles ro ON r.rol_id = ro.id
                      WHERE r.usuario_registro = :username";
 
             $stmt = $this->conn->prepare($query);
@@ -52,6 +54,7 @@ class UserLogin
                     $_SESSION['user_id'] = $user['id'];
                     $_SESSION['username'] = $user['usuario_registro'];
                     $_SESSION['rol_id'] = $user['rol_id'];
+                    $_SESSION['rol_nombre'] = $user['rol_nombre'];
                     $_SESSION['rango'] = $user['rango_actual'] ?? 'Agente';
 
                     return [
@@ -81,5 +84,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
     exit;
+}
+
+// Ejemplo de uso en cualquier archivo que necesite verificar permisos
+function checkUserPermission($permissionName) {
+    if (!isset($_SESSION['user_id'])) {
+        return false;
+    }
+
+    $db = new Database();
+    return $db->checkPermission($_SESSION['user_id'], $permissionName);
+}
+
+// Ejemplo de uso:
+if (checkUserPermission('modify_ascensos')) {
+    // Permitir modificar ascensos
+} else {
+    echo "No tienes permiso para realizar esta acción";
 }
 ?>
