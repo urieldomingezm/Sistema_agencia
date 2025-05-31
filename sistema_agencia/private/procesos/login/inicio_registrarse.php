@@ -83,7 +83,7 @@ class UserRegistration
 
     private function insertDefaultRecords($codigo_time) {
         try {
-            // Insertar registro en tabla ascensos
+            // Insertar registro en tabla ascensos con valores por defecto
             $queryAscensos = "INSERT INTO ascensos (
                 codigo_time, 
                 rango_actual, 
@@ -96,14 +96,14 @@ class UserRegistration
                 es_recluta
             ) VALUES (
                 :codigo_time,
-                'Agente',
-                'SHN- Iniciado I',
+                'Agente',          
+                'SHN- Iniciado I', 
                 NULL,
                 NULL,
-                'disponible',
+                'Ascendido',       
                 NOW(),
-                '00:00:00',
-                1
+                '00:10:00',       
+                1                   
             )";
 
             $stmtAscensos = $this->conn->prepare($queryAscensos);
@@ -125,7 +125,7 @@ class UserRegistration
                 tiempo_iniciado
             ) VALUES (
                 :codigo_time,
-                'pausa',
+                'pausa',     
                 '00:00:00',
                 '00:00:00',
                 '00:00:00',
@@ -142,7 +142,6 @@ class UserRegistration
             }
 
             return true;
-
         } catch (Exception $e) {
             error_log("Error en insertDefaultRecords: " . $e->getMessage());
             throw $e;
@@ -206,7 +205,7 @@ class UserRegistration
         } catch (Exception $e) {
             $this->conn->rollBack();
             error_log("Error en registro: " . $e->getMessage());
-            return ['success' => false, 'message' => 'Error: ' . $e->getMessage()];
+            return ['success' => false, 'message' => 'Error al registrar usuario'];
         }
     }
 }
