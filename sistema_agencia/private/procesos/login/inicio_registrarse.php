@@ -161,21 +161,21 @@ class UserRegistration
 
             // 1. Verificar IP existente
             if ($this->checkExistingIP($ip)) {
-                // 2. Bloquear cuentas existentes
                 $affected = $this->blockAccountsByIP($ip);
                 error_log("Bloqueadas $affected cuentas con IP $ip");
                 
-                $this->conn->commit(); // Confirmar el UPDATE del bloqueo
+                $this->conn->commit();
                 return ['success' => false, 'message' => 'No se permiten múltiples registros. Cuentas bloqueadas.'];
             }
 
-            // 3. Verificar nombre de Habbo
-            $checkHabbo = "SELECT COUNT(*) FROM {$this->table} WHERE nombre_habbo = :habbo_name OR usuario_registro = :habbo_name";
+            // 3. Verificar nombre de Habbo - Corregido
+            $checkHabbo = "SELECT COUNT(*) as total FROM {$this->table} WHERE nombre_habbo = :habbo_name OR usuario_registro = :habbo_name";
             $stmtHabbo = $this->conn->prepare($checkHabbo);
             $stmtHabbo->bindParam(':habbo_name', $habboName);
             $stmtHabbo->execute();
             
-            if ($stmtHabbo->fetchColumn() > 0) {
+            $result = $stmtHabbo->fetch(PDO::FETCH_ASSOC);
+            if ($result['total'] > 0) {
                 $this->conn->rollBack();
                 return ['success' => false, 'message' => 'Nombre de Habbo ya registrado'];
             }
@@ -187,8 +187,10 @@ class UserRegistration
                      VALUES (:habbo_name, :password, :habbo_name, 1, NOW(), :ip, :codigo_time, NULL)";
 
             $stmt = $this->conn->prepare($query);
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            
             $stmt->bindParam(':habbo_name', $habboName);
-            $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
+            $stmt->bindParam(':password', $hashedPassword);
             $stmt->bindParam(':ip', $ip);
             $stmt->bindParam(':codigo_time', $codigo_time);
 
@@ -196,7 +198,7 @@ class UserRegistration
                 throw new Exception("Error al registrar usuario");
             }
 
-            // Insertar registros por defecto en otras tablas
+            // Insertar registros por defecto
             $this->insertDefaultRecords($codigo_time);
 
             $this->conn->commit();
