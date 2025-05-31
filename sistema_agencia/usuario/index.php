@@ -89,8 +89,8 @@ class UserController
             'administrador' => 'menu_rango_admin.php',
             'Manager' => 'menu_rango_admin.php',
             'manager' => 'menu_rango_admin.php',
-            'Dueno' => 'menu_rango_admin.php',
-            'dueno' => 'menu_rango_admin.php',
+            'Owner' => 'menu_rango_admin.php',
+            'owner' => 'menu_rango_admin.php',
             'Fundador' => 'menu_rango_admin.php',
             'fundador' => 'menu_rango_admin.php'
         ];
