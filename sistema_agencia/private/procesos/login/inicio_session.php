@@ -33,7 +33,8 @@ class UserLogin
             }
 
             $query = "SELECT r.id, r.usuario_registro, r.password_registro, r.rol_id, 
-                            a.rango_actual, r.ip_bloqueo, ro.nombre as rol_nombre
+                            a.rango_actual, r.ip_bloqueo, ro.nombre as rol_nombre,
+                            ro.nivel_acceso
                      FROM {$this->table} r
                      LEFT JOIN ascensos a ON r.codigo_time = a.codigo_time
                      LEFT JOIN roles ro ON r.rol_id = ro.id
@@ -55,6 +56,7 @@ class UserLogin
                     $_SESSION['username'] = $user['usuario_registro'];
                     $_SESSION['rol_id'] = $user['rol_id'];
                     $_SESSION['rol_nombre'] = $user['rol_nombre'];
+                    $_SESSION['nivel_acceso'] = $user['nivel_acceso'];
                     $_SESSION['rango'] = $user['rango_actual'] ?? 'Agente';
 
                     return [
@@ -101,5 +103,15 @@ if (checkUserPermission('modify_ascensos')) {
     // Permitir modificar ascensos
 } else {
     echo "No tienes permiso para realizar esta acción";
+}
+
+// Actualizar la función de verificación de permisos
+function checkUserTablePermission($tabla, $tipoPermiso = 'leer') {
+    if (!isset($_SESSION['user_id'])) {
+        return false;
+    }
+
+    $db = new Database();
+    return $db->checkTablePermission($_SESSION['user_id'], $tabla, $tipoPermiso);
 }
 ?>
