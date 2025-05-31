@@ -46,7 +46,7 @@
                                         <option value="administrador">Administrador</option>
                                         <option value="manager">Manager</option>
                                         <option value="fundador">Fundador</option>
-                                        <option value="dueno">Dueño</option>
+                                        <option value="owner">Dueño</option>
                                     </select>
                                 </div>
                             </div>
@@ -316,7 +316,7 @@
 
         handleRankChange(e) {
             const selectedRank = e.target.value;
-            const specialRanks = ['administrador', 'manager', 'fundador', 'dueno', 'junta directiva'];
+            const specialRanks = ['administrador', 'manager', 'fundador', 'owner', 'junta directiva'];
 
             // Manejar la visibilidad de la firma
             this.handleFirmaVisibility(selectedRank);
