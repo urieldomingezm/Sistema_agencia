@@ -1,15 +1,32 @@
 <?php
-// Agregar al inicio del archivo
+// Al inicio del archivo
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
-// First handle the login POST request before any output
+// Manejar la solicitud POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once(PROCESOS_LOGIN_PATH . 'inicio_session.php');
-    exit; // Stop execution after handling the POST request
+    
+    try {
+        $login = new UserLogin();
+        $result = $login->login($_POST['username'], $_POST['password']);
+        
+        error_log("Resultado del login: " . print_r($result, true));
+        
+        header('Content-Type: application/json');
+        echo json_encode($result);
+    } catch (Exception $e) {
+        error_log("Error en login.php: " . $e->getMessage());
+        header('Content-Type: application/json');
+        echo json_encode([
+            'success' => false, 
+            'message' => 'Error del sistema: ' . $e->getMessage()
+        ]);
+    }
+    exit;
 }
 
 // Only after handling POST, include the header and other content
