@@ -1,14 +1,15 @@
 <?php
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
 require_once(CONFIG_PATH . 'bd.php');
 
-class UserLogin
-{
+class UserLogin {
     private $conn;
     private $table = 'registro_usuario';
 
-    public function __construct()
-    {
+    public function __construct() {
         try {
             $database = new Database();
             $this->conn = $database->getConnection();
@@ -21,13 +22,8 @@ class UserLogin
         }
     }
 
-    public function login($username, $password)
-    {
+    public function login($username, $password) {
         try {
-            if (!isset($_SESSION)) {
-                session_start();
-            }
-            
             if (empty($username) || empty($password)) {
                 return ['success' => false, 'message' => 'Usuario y contraseña son requeridos'];
             }
@@ -107,6 +103,7 @@ class UserLogin
     }
 }
 
+// Mover el código de manejo de POST al final del archivo
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $login = new UserLogin();
