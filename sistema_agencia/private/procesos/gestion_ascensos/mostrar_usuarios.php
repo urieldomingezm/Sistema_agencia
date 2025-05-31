@@ -27,7 +27,7 @@ class AscensoManager {
                     ascensos a
                 JOIN
                     registro_usuario ru ON a.codigo_time = ru.codigo_time -- Join on codigo_time
-                WHERE a.rango_actual IN ('Agente', 'Seguridad', 'Técnico', 'Logística', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta Directiva')"; // Added WHERE clause back
+                WHERE a.rango_actual IN ('Agente', 'Seguridad', 'Técnico', 'Logística', 'Supervisor', 'Director', 'Presidente', 'Operativo')"; // Added WHERE clause back
 
         try {
             $stmt = $this->conn->prepare($sql);
