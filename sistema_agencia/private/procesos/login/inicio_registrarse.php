@@ -157,57 +157,69 @@ class UserRegistration
                 return ['success' => false, 'message' => 'Todos los campos son requeridos'];
             }
 
-            $ip = $this->getClientIP();
+            // Validar el formato del nombre
+            if (!preg_match('/^[a-zA-Z0-9]+$/', $habboName)) {
+                return ['success' => false, 'message' => 'El nombre solo puede contener letras y números'];
+            }
 
-            // 1. Verificar IP existente
+            $ip = $this->getClientIP();
+            error_log("IP del cliente: " . $ip); // Debug
+
+            // Verificar IP existente
             if ($this->checkExistingIP($ip)) {
                 $affected = $this->blockAccountsByIP($ip);
                 error_log("Bloqueadas $affected cuentas con IP $ip");
-                
-                $this->conn->commit();
-                return ['success' => false, 'message' => 'No se permiten múltiples registros. Cuentas bloqueadas.'];
+                return ['success' => false, 'message' => 'No se permiten múltiples registros'];
             }
 
-            // 3. Verificar nombre de Habbo - Corregido
-            $checkHabbo = "SELECT COUNT(*) as total FROM {$this->table} WHERE nombre_habbo = :habbo_name OR usuario_registro = :habbo_name";
+            // Verificar nombre de usuario
+            $checkHabbo = "SELECT COUNT(*) as total FROM {$this->table} 
+                          WHERE LOWER(nombre_habbo) = LOWER(:habbo_name) 
+                          OR LOWER(usuario_registro) = LOWER(:habbo_name)";
+            
             $stmtHabbo = $this->conn->prepare($checkHabbo);
-            $stmtHabbo->bindParam(':habbo_name', $habboName);
+            $stmtHabbo->bindValue(':habbo_name', strtolower($habboName));
             $stmtHabbo->execute();
             
-            $result = $stmtHabbo->fetch(PDO::FETCH_ASSOC);
-            if ($result['total'] > 0) {
+            if ($stmtHabbo->fetchColumn() > 0) {
                 $this->conn->rollBack();
-                return ['success' => false, 'message' => 'Nombre de Habbo ya registrado'];
+                return ['success' => false, 'message' => 'Nombre de usuario ya registrado'];
             }
 
-            // 4. Registrar nuevo usuario
+            // Generar código único
             $codigo_time = $this->generateUniqueCode();
+            error_log("Código generado: " . $codigo_time); // Debug
+
+            // Registrar usuario
             $query = "INSERT INTO {$this->table} 
-                     (usuario_registro, password_registro, nombre_habbo, rol_id, fecha_registro, ip_registro, codigo_time, ip_bloqueo) 
-                     VALUES (:habbo_name, :password, :habbo_name, 1, NOW(), :ip, :codigo_time, NULL)";
+                     (usuario_registro, password_registro, nombre_habbo, rol_id, fecha_registro, ip_registro, codigo_time) 
+                     VALUES (:username, :password, :habbo_name, 1, NOW(), :ip, :codigo_time)";
 
             $stmt = $this->conn->prepare($query);
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             
-            $stmt->bindParam(':habbo_name', $habboName);
-            $stmt->bindParam(':password', $hashedPassword);
-            $stmt->bindParam(':ip', $ip);
-            $stmt->bindParam(':codigo_time', $codigo_time);
+            $stmt->bindValue(':username', $habboName);
+            $stmt->bindValue(':password', $hashedPassword);
+            $stmt->bindValue(':habbo_name', $habboName);
+            $stmt->bindValue(':ip', $ip);
+            $stmt->bindValue(':codigo_time', $codigo_time);
 
             if (!$stmt->execute()) {
-                throw new Exception("Error al registrar usuario");
+                throw new Exception("Error al insertar usuario: " . implode(", ", $stmt->errorInfo()));
             }
 
             // Insertar registros por defecto
-            $this->insertDefaultRecords($codigo_time);
+            if (!$this->insertDefaultRecords($codigo_time)) {
+                throw new Exception("Error al insertar registros por defecto");
+            }
 
             $this->conn->commit();
             return ['success' => true, 'message' => '¡Registro exitoso!'];
 
         } catch (Exception $e) {
             $this->conn->rollBack();
-            error_log("Error en registro: " . $e->getMessage());
-            return ['success' => false, 'message' => 'Error al registrar usuario'];
+            error_log("Error detallado en registro: " . $e->getMessage());
+            return ['success' => false, 'message' => 'Error al registrar usuario: ' . $e->getMessage()];
         }
     }
 }
