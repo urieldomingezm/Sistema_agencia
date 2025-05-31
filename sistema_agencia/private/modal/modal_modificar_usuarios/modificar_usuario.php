@@ -316,7 +316,7 @@
 
         handleRankChange(e) {
             const selectedRank = e.target.value;
-            const specialRanks = ['administrador', 'manager', 'fundador', 'dueno', 'junta_directiva'];
+            const specialRanks = ['administrador', 'manager', 'fundador', 'dueno', 'junta directiva'];
 
             // Manejar la visibilidad de la firma
             this.handleFirmaVisibility(selectedRank);
