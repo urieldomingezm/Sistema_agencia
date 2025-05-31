@@ -1,4 +1,9 @@
 <?php
+// Agregar al inicio del archivo
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
 // First handle the login POST request before any output

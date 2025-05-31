@@ -34,7 +34,7 @@ class UserLogin
 
             $query = "SELECT r.id, r.usuario_registro, r.password_registro, r.rol_id, 
                             a.rango_actual, r.ip_bloqueo, ro.nombre as rol_nombre,
-                            ro.nivel_acceso
+                            COALESCE(ro.nivel_acceso, 1) as nivel_acceso
                      FROM {$this->table} r
                      LEFT JOIN ascensos a ON r.codigo_time = a.codigo_time
                      LEFT JOIN roles ro ON r.rol_id = ro.id
@@ -44,8 +44,12 @@ class UserLogin
             $stmt->bindParam(':username', $username);
             $stmt->execute();
 
+            // Agregar logging para depuración
+            error_log("Login attempt for user: " . $username);
+            
             if ($stmt->rowCount() > 0) {
                 $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                error_log("User data: " . print_r($user, true));
 
                 if ($user['ip_bloqueo'] !== null) {
                     return ['success' => false, 'message' => 'Cuenta bloqueada. Por favor, contacte al soporte.'];
@@ -69,7 +73,10 @@ class UserLogin
 
             return ['success' => false, 'message' => 'Usuario o contraseña incorrectos'];
         } catch (PDOException $e) {
-            error_log("Error en login: " . $e->getMessage());
+            error_log("Error detallado en login: " . $e->getMessage());
+            error_log("SQL State: " . $e->errorInfo[0]);
+            error_log("Error Code: " . $e->errorInfo[1]);
+            error_log("Error Message: " . $e->errorInfo[2]);
             return ['success' => false, 'message' => 'Error al iniciar sesión'];
         }
     }
