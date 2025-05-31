@@ -26,7 +26,7 @@ class Database {
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $exception) {
             error_log("Error de conexión: " . $exception->getMessage());
-            echo "Error de conexión a la base de datos.";
+            throw new Exception("Error de conexión a la base de datos");
         }
 
         return $this->conn;
@@ -84,5 +84,4 @@ class Database {
         }
     }
 }
-?>
 

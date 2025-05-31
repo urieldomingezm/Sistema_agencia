@@ -1,4 +1,6 @@
 <?php
+ob_start(); // Agregar esto al inicio absoluto del archivo
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
@@ -103,17 +105,20 @@ class UserLogin {
     }
 }
 
-// Mover el código de manejo de POST al final del archivo
+// Modificar la parte del manejo POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $login = new UserLogin();
         $result = $login->login($_POST['username'], $_POST['password']);
+        ob_clean(); // Limpiar cualquier salida anterior
         header('Content-Type: application/json');
         echo json_encode($result);
     } catch (Exception $e) {
+        ob_clean(); // Limpiar cualquier salida anterior
         header('Content-Type: application/json');
         echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
+    ob_end_flush();
     exit;
 }
 
