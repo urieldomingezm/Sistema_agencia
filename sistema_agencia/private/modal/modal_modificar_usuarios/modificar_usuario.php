@@ -42,7 +42,7 @@
                                         <option value="director">Director</option>
                                         <option value="presidente">Presidente</option>
                                         <option value="operativo">Operativo</option>
-                                        <option value="junta_directiva">Junta Directiva</option>
+                                        <option value="junta directiva">Junta Directiva</option>
                                         <option value="administrador">Administrador</option>
                                         <option value="manager">Manager</option>
                                         <option value="fundador">Fundador</option>
