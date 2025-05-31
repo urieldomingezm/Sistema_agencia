@@ -9,8 +9,8 @@ class Database {
     public function __construct() {
         $this->host = getenv('MYSQL_HOST') ?: 'localhost';
         $this->db_name = getenv('MYSQL_DATABASE') ?: 'sistema_agencia';
-        $this->username = getenv('MYSQL_USER') ?: 'usuarios_basicos';
-        $this->password = getenv('MYSQL_PASSWORD') ?: 'usuario1234';
+        $this->username = getenv('MYSQL_USER') ?: 'root';  // Cambiado de usuarios_basicos a root
+        $this->password = getenv('MYSQL_PASSWORD') ?: 'urielmedina7u7!';  // Nueva contraseña
 
         if (!$this->host || !$this->db_name || !$this->username || !$this->password) {
             error_log("Error: Algunas variables de entorno no están definidas.");
@@ -85,3 +85,4 @@ class Database {
     }
 }
 ?>
+
