@@ -113,7 +113,7 @@ class Navbar
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
               <?php
-              $maintenanceItems = ['Dar ascenso', 'Gestion ascenso'];
+              $maintenanceItems = []; // Aquí puedes definir los nombres de los items que están en mantenimiento
               ?>
               <?php foreach ($this->items as $index => $item): ?>
                 <?php if ($item['name'] !== 'Perfil'): ?>
