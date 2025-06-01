@@ -83,8 +83,6 @@ class GestionView
                 </div>
             </div>
 
-            <!-- Bootstrap JS Bundle with Popper -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
             <!-- Tu script personalizado -->
             <script src="/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js"></script>
         </body>
