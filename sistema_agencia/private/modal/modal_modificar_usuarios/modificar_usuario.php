@@ -97,15 +97,91 @@
             this.nuevaFirmaInput = document.getElementById('nuevaFirma');
             this.nuevoRangoSelect = document.getElementById('nuevoRango');
 
-            // Agregar palabras permitidas
+            // Definir misiones permitidas por nivel
+            this.allowedMissions = [
+                'SHN- Iniciado I',
+                'SHN- Novato H',
+                'SHN- Auxiliar G',
+                'SHN- Ayudante F',
+                'SHN- Junior E',
+                'SHN- Intermedio D',
+                'SHN- Avanzado C',
+                'SHN- Experto B',
+                'SHN- Jefe A'
+            ];
+
+            // Palabras permitidas solo para rangos especiales
             this.allowedWords = ['SHN', 'administrador', 'fundador', 'manager', 'dueño'];
 
+            // Rangos que requieren firma
+            this.specialRanks = ['administrador', 'manager', 'fundador', 'owner', 'junta directiva'];
+
+            this.initValidator();
             this.initModalEvents();
             this.initFormEvents();
             this.nuevoRangoSelect.addEventListener('change', (e) => this.handleRankChange(e));
 
             // Configuración de validación de palabras largas
             this.MAX_WORD_LENGTH = 19; // Máximo 19 caracteres por palabra
+        }
+
+        initValidator() {
+            this.validator = new JustValidate('#formModificarRango', {
+                errorFieldCssClass: 'is-invalid',
+                successFieldCssClass: 'is-valid',
+                focusInvalidField: true,
+                lockForm: true
+            });
+
+            this.validator
+                .addField('#nuevoRango', [
+                    {
+                        rule: 'required',
+                        errorMessage: 'El rango es requerido'
+                    }
+                ])
+                .addField('#nuevaMision', [
+                    {
+                        rule: 'required',
+                        errorMessage: 'La misión es requerida'
+                    },
+                    {
+                        rule: 'minLength',
+                        value: 12,
+                        errorMessage: 'La misión debe tener al menos 12 caracteres'
+                    },
+                    {
+                        validator: (value, fields) => {
+                            const rango = fields['#nuevoRango']?.value;
+                            if (this.specialRanks.includes(rango)) {
+                                // Validar palabras permitidas para rangos especiales
+                                const words = value.split(' ');
+                                return words.every(word => {
+                                    const normalizedWord = word.toLowerCase().replace(/[^a-zñ]/g, '');
+                                    return !normalizedWord || this.allowedWords.includes(normalizedWord);
+                                });
+                            } else {
+                                // Validar misión predefinida para rangos normales
+                                return this.allowedMissions.includes(value);
+                            }
+                        },
+                        errorMessage: 'Misión no válida para este rango'
+                    }
+                ])
+                .addField('#nuevaFirma', [
+                    {
+                        rule: 'required',
+                        errorMessage: 'La firma es requerida'
+                    },
+                    {
+                        rule: 'customRegexp',
+                        value: /^[A-Z0-9]{3}$/,
+                        errorMessage: 'La firma debe tener exactamente 3 caracteres (mayúsculas o números)'
+                    }
+                ])
+                .onSuccess((event) => {
+                    this.handleFormSubmit(event);
+                });
         }
 
         initModalEvents() {
@@ -314,55 +390,58 @@
 
         handleRankChange(e) {
             const selectedRank = e.target.value;
-            const specialRanks = ['administrador', 'manager', 'fundador', 'owner', 'junta directiva'];
 
             this.handleFirmaVisibility(selectedRank);
 
-            if (this.missionSelect) {
-                const selectedMission = this.missionSelect.value;
-                this.missionSelect.remove();
-                this.missionSelect = null;
-            }
-
-            if (specialRanks.includes(selectedRank)) {
-                this.nuevaMisionInput.type = 'text';
+            if (this.specialRanks.includes(selectedRank)) {
+                // Mostrar input de texto para rangos especiales
                 this.nuevaMisionInput.style.display = 'block';
-                this.nuevaMisionInput.value = this.misionBase || '';
+                if (this.missionSelect) {
+                    this.missionSelect.remove();
+                    this.missionSelect = null;
+                }
             } else {
+                // Mostrar select con misiones predefinidas
                 this.nuevaMisionInput.style.display = 'none';
-
-                this.missionSelect = document.createElement('select');
-                this.missionSelect.className = 'form-select';
-                this.missionSelect.id = 'nuevaMisionSelect';
-                this.missionSelect.name = 'nuevaMision';
-                this.missionSelect.required = true;
-
-                const emptyOption = document.createElement('option');
-                emptyOption.value = '';
-                emptyOption.textContent = 'Seleccionar';
-                this.missionSelect.appendChild(emptyOption);
-
-                fetch('/private/modal/modal_modificar_usuarios/data_rangos.php')
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data[selectedRank]) {
-                            data[selectedRank].forEach(mission => {
-                                const option = document.createElement('option');
-                                option.value = mission;
-                                option.textContent = mission;
-                                if (mission === this.misionBase) {
-                                    option.selected = true;
-                                }
-                                this.missionSelect.appendChild(option);
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error loading missions:', error);
-                    });
-
-                this.nuevaMisionInput.parentNode.insertBefore(this.missionSelect, this.nuevaMisionInput.nextSibling);
+                this.createMissionSelect(selectedRank);
             }
+
+            // Actualizar validación según el rango
+            this.validator.revalidateField('#nuevaMision');
+        }
+
+        createMissionSelect(selectedRank) {
+            this.missionSelect = document.createElement('select');
+            this.missionSelect.className = 'form-select';
+            this.missionSelect.id = 'nuevaMisionSelect';
+            this.missionSelect.name = 'nuevaMision';
+            this.missionSelect.required = true;
+
+            const emptyOption = document.createElement('option');
+            emptyOption.value = '';
+            emptyOption.textContent = 'Seleccionar';
+            this.missionSelect.appendChild(emptyOption);
+
+            fetch('/private/modal/modal_modificar_usuarios/data_rangos.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data[selectedRank]) {
+                        data[selectedRank].forEach(mission => {
+                            const option = document.createElement('option');
+                            option.value = mission;
+                            option.textContent = mission;
+                            if (mission === this.misionBase) {
+                                option.selected = true;
+                            }
+                            this.missionSelect.appendChild(option);
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading missions:', error);
+                });
+
+            this.nuevaMisionInput.parentNode.insertBefore(this.missionSelect, this.nuevaMisionInput.nextSibling);
         }
 
         // Helper methods for notifications

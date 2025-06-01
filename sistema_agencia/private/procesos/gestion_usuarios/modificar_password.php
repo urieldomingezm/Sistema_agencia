@@ -26,30 +26,33 @@ class ModificarPassword {
 
     public function actualizarPassword($usuarioId, $nuevaPassword, $usuarioModificador) {
         try {
+            $this->conn->beginTransaction(); // Iniciar transacción
+
             if (empty($usuarioId) || empty($nuevaPassword)) {
-                error_log("Error: ID de usuario o contraseña vacíos");
-                return false;
+                throw new Exception("ID de usuario o contraseña vacíos");
             }
 
             $hashedPassword = password_hash($nuevaPassword, PASSWORD_DEFAULT);
             
-            $checkQuery = "SELECT COUNT(*) FROM {$this->table} WHERE id = :id";
+            // Verificar que el usuario existe
+            $checkQuery = "SELECT nombre_habbo FROM {$this->table} WHERE id = :id";
             $checkStmt = $this->conn->prepare($checkQuery);
             $checkStmt->bindParam(':id', $usuarioId);
             $checkStmt->execute();
             
-            if ($checkStmt->fetchColumn() == 0) {
-                error_log("Error: Usuario con ID $usuarioId no encontrado");
-                return false;
+            if (!$checkStmt->fetch()) {
+                throw new Exception("Usuario no encontrado");
             }
 
-            // Establecer variables para el trigger usando el username de la sesión
-            $this->conn->exec("SET @usuario_modificador = '$usuarioModificador'");
-            $this->conn->exec("SET @ip_modificacion = '" . $_SERVER['REMOTE_ADDR'] . "'");
+            // Establecer variables para el trigger
+            $this->conn->exec("SET @usuario_modificador = " . $this->conn->quote($usuarioModificador));
+            $this->conn->exec("SET @ip_modificacion = " . $this->conn->quote($_SERVER['REMOTE_ADDR']));
 
+            // Actualizar la contraseña
             $query = "UPDATE {$this->table} SET 
                 password_registro = :password,
-                usuario_registro = :usuario_mod 
+                usuario_modificador = :usuario_mod,
+                fecha_modificacion = NOW()
             WHERE id = :id";
             
             $stmt = $this->conn->prepare($query);
@@ -57,49 +60,52 @@ class ModificarPassword {
             $stmt->bindParam(':id', $usuarioId);
             $stmt->bindParam(':usuario_mod', $usuarioModificador);
 
-            if ($stmt->execute()) {
-                error_log("Contraseña actualizada correctamente para el usuario ID: $usuarioId");
-                return true;
-            } else {
-                error_log("Error al ejecutar la consulta de actualización");
-                return false;
+            if (!$stmt->execute()) {
+                throw new Exception("Error al ejecutar la actualización");
             }
+
+            $this->conn->commit(); // Confirmar transacción
+            return true;
+
         } catch (Exception $e) {
+            $this->conn->rollBack(); // Revertir cambios en caso de error
             error_log("Error al actualizar contraseña: " . $e->getMessage());
-            return false;
+            throw $e;
         }
     }
 }
 
 // Modificamos la verificación de sesión en el POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (!isset($_SESSION['username'])) {
-        http_response_code(401);
-        echo json_encode(['success' => false, 'error' => 'No hay sesión activa']);
-        exit;
-    }
-
-    if (isset($_POST['usuario_id']) && isset($_POST['nueva_password'])) {
-        try {
-            $usuarioModificador = $_SESSION['username']; // Cambiamos a username
-            $modificarPassword = new ModificarPassword();
-            $resultado = $modificarPassword->actualizarPassword(
-                $_POST['usuario_id'], 
-                $_POST['nueva_password'],
-                $usuarioModificador
-            );
-            
-            if ($resultado) {
-                echo json_encode(['success' => true, 'message' => 'Contraseña actualizada correctamente']);
-            } else {
-                http_response_code(500);
-                echo json_encode(['success' => false, 'error' => 'Error al actualizar la contraseña']);
-            }
-        } catch (Exception $e) {
-            error_log("Excepción al procesar cambio de contraseña: " . $e->getMessage());
-            http_response_code(500);
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+    header('Content-Type: application/json');
+    
+    try {
+        if (!isset($_SESSION['username'])) {
+            throw new Exception('No hay sesión activa');
         }
+
+        if (!isset($_POST['usuario_id']) || !isset($_POST['nueva_password'])) {
+            throw new Exception('Datos incompletos');
+        }
+
+        $modificarPassword = new ModificarPassword();
+        $resultado = $modificarPassword->actualizarPassword(
+            $_POST['usuario_id'],
+            $_POST['nueva_password'],
+            $_SESSION['username']
+        );
+        
+        echo json_encode([
+            'success' => true, 
+            'message' => 'Contraseña actualizada correctamente'
+        ]);
+
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode([
+            'success' => false, 
+            'error' => $e->getMessage()
+        ]);
     }
 }
 ?>

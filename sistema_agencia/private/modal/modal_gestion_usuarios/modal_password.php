@@ -152,36 +152,39 @@ document.addEventListener('DOMContentLoaded', function() {
             // Enviar los datos mediante fetch
             fetch(PROCESO_CAMBIAR_PACTH + 'modificar_password.php', {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'include' // Agregar esto para incluir cookies de sesión
             })
-            .then(response => response.json())  // Cambiamos a response.json()
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
             .then(data => {
-                // Cerrar el modal
                 const modalElement = document.getElementById('modalCambiarPassword');
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
                 
-                // Verificar el success en la respuesta JSON
                 if (data.success) {
                     Swal.fire({
                         title: 'Éxito',
-                        text: data.message || 'Contraseña actualizada correctamente',
+                        text: data.message,
                         icon: 'success',
                         confirmButtonText: 'Entendido'
                     }).then(() => {
-                        // Recargar la página para actualizar los datos
                         window.location.reload();
                     });
                 } else {
-                    throw new Error(data.error || 'Error desconocido al actualizar la contraseña');
+                    throw new Error(data.error || 'Error al actualizar la contraseña');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
                 Swal.fire({
-                    title: 'Éxito',
-                    text: error.message || 'Contraseña actualizada correctamente',
-                    icon: 'success',
+                    title: 'Error',
+                    text: error.message,
+                    icon: 'error',
                     confirmButtonText: 'Entendido'
                 });
             });
