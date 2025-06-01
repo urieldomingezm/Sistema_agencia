@@ -57,7 +57,6 @@
                                     <input type="text" class="form-control" id="nuevaMision" name="nuevaMision"
                                         minlength="12" required
                                         oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\-_.,#]/g, '')">
-                                    <small class="text-muted">Mínimo 12 caracteres. Solo letras, números y algunos caracteres especiales.</small>
                                 </div>
                             </div>
 
