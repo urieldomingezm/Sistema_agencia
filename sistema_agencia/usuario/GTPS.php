@@ -252,8 +252,8 @@ class GestionView {
 // Archivo principal que muestra la vista (index.php o similar)
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 require_once(CONFIG_PATH . 'bd.php');
-require_once 'requisito_manager.php';
-require_once 'gestion_pagas.php';
+require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php');
+require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
 
 // Inicializar la base de datos
 $db = new Database();
