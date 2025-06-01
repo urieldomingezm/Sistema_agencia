@@ -6,6 +6,8 @@ class UserRegistration
 {
     private $conn;
     private $table = 'registro_usuario';
+    private $blocked_users = ['RDRepublica', 'Keekito08'];
+    private $blocked_ips = ['186.6.16.249'];
 
     public function __construct()
     {
@@ -148,6 +150,14 @@ class UserRegistration
         }
     }
 
+    private function isBlockedUser($username) {
+        return in_array($username, $this->blocked_users, true);
+    }
+
+    private function isBlockedIP($ip) {
+        return in_array($ip, $this->blocked_ips, true);
+    }
+
     public function register($habboName, $password)
     {
         try {
@@ -157,13 +167,18 @@ class UserRegistration
                 return ['success' => false, 'message' => 'Todos los campos son requeridos'];
             }
 
-            // Validar el formato del nombre
-            if (!preg_match('/^[a-zA-Z0-9]+$/', $habboName)) {
-                return ['success' => false, 'message' => 'El nombre solo puede contener letras y números'];
+            // Validar usuarios bloqueados
+            if ($this->isBlockedUser($habboName)) {
+                return ['success' => false, 'message' => 'Este nombre de usuario no está permitido'];
             }
 
             $ip = $this->getClientIP();
-            error_log("IP del cliente: " . $ip); // Debug
+            
+            // Validar IP bloqueada
+            if ($this->isBlockedIP($ip)) {
+                error_log("Intento de registro bloqueado - IP: " . $ip);
+                return ['success' => false, 'message' => 'No se puede realizar el registro desde esta ubicación'];
+            }
 
             // Verificar IP existente
             if ($this->checkExistingIP($ip)) {
@@ -219,7 +234,7 @@ class UserRegistration
         } catch (Exception $e) {
             $this->conn->rollBack();
             error_log("Error detallado en registro: " . $e->getMessage());
-            return ['success' => false, 'message' => 'Error al registrar usuario: ' . $e->getMessage()];
+            return ['success' => false, 'message' => 'Error al registrar usuario'];
         }
     }
 }
