@@ -42,22 +42,22 @@ if (isset($ascensoData['fecha_disponible_ascenso'])) {
     } else {
         // Parsear el tiempo en formato HH:MM:SS
         $tiempo = $ascensoData['fecha_disponible_ascenso'];
-        
+
         if (preg_match('/^(\d{2}):(\d{2}):(\d{2})$/', $tiempo, $matches)) {
             $horas = intval($matches[1]);
             $minutos = intval($matches[2]);
             $segundos = intval($matches[3]);
-            
+
             // Convertir a días si hay más de 24 horas
             $dias = 0;
             if ($horas >= 24) {
                 $dias = floor($horas / 24);
                 $horas = $horas % 24;
             }
-            
+
             // Construir descripción detallada
             $partesTiempo = [];
-            
+
             if ($dias > 0) {
                 $partesTiempo[] = $dias . ' día' . ($dias > 1 ? 's' : '');
             }
@@ -70,7 +70,7 @@ if (isset($ascensoData['fecha_disponible_ascenso'])) {
             if ($segundos > 0) {
                 $partesTiempo[] = $segundos . ' segundo' . ($segundos > 1 ? 's' : '');
             }
-            
+
             $siguienteAscenso = $ascensoData['fecha_disponible_ascenso'];
             $descripcionTiempo = 'Faltan ' . implode(', ', $partesTiempo);
         } else {
@@ -86,57 +86,73 @@ $sections = [
         ['Usuario', $personalData['nombre_habbo'] ?? 'N/A'],
         ['Código', $personalData['codigo_time'] ?? 'N/A'],
         ['Rango', $ascensoData['rango_actual'] ?? 'N/A', 'badge bg-primary'],
-        ['Membresía', isset($membresiaData['venta_titulo']) ? 
-            "{$membresiaData['venta_titulo']} - {$membresiaData['venta_estado']}" : 
-            'Sin membresía', 
-            isset($membresiaData['venta_estado']) && $membresiaData['venta_estado'] === 'activa' ? 
-            'badge bg-success' : 'badge bg-warning text-dark'
+        [
+            'Membresía',
+            isset($membresiaData['venta_titulo']) ?
+                "{$membresiaData['venta_titulo']} - {$membresiaData['venta_estado']}" :
+                'Sin membresía',
+            isset($membresiaData['venta_estado']) && $membresiaData['venta_estado'] === 'activa' ?
+                'badge bg-success' : 'badge bg-warning text-dark'
         ],
     ],
     'Pagos' => [
-        ['Estado Requisitos', !empty($requisitosData) ? 
-            ($requisitosData[0]['is_completed'] ? 'Completado' : 'Pendiente') : 
-            'Sin requisitos', 
-            !empty($requisitosData) ? 
-                ($requisitosData[0]['is_completed'] ? 'badge bg-success' : 'badge bg-warning') : 
+        [
+            'Estado Requisitos',
+            !empty($requisitosData) ?
+                ($requisitosData[0]['is_completed'] ? 'Completado' : 'Pendiente') :
+                'Sin requisitos',
+            !empty($requisitosData) ?
+                ($requisitosData[0]['is_completed'] ? 'badge bg-success' : 'badge bg-warning') :
                 'badge bg-secondary'
         ],
-        ['Último Pago', isset($pagasData[0]) ? 
-            "Recibió {$pagasData[0]['pagas_recibio']}c - {$pagasData[0]['pagas_motivo']}" : 
-            'Sin pagos previos',
-            isset($pagasData[0]) && $pagasData[0]['pagas_completo'] ? 
-            'badge bg-success' : 'badge bg-secondary'
+        [
+            'Último Pago',
+            isset($pagasData[0]) ?
+                "Recibió {$pagasData[0]['pagas_recibio']}c - {$pagasData[0]['pagas_motivo']}" :
+                'Sin pagos previos',
+            isset($pagasData[0]) && $pagasData[0]['pagas_completo'] ?
+                'badge bg-success' : 'badge bg-secondary'
         ],
-        ['Próximo Pago', !empty($requisitosData) && $requisitosData[0]['is_completed'] ? 
-            'Pendiente de recibir pago' : 'Complete los requisitos',
-            !empty($requisitosData) && $requisitosData[0]['is_completed'] ? 
-            'badge bg-info' : 'badge bg-warning'
+        [
+            'Próximo Pago',
+            !empty($requisitosData) && $requisitosData[0]['is_completed'] ?
+                'Pendiente de recibir pago' : 'Complete los requisitos',
+            !empty($requisitosData) && $requisitosData[0]['is_completed'] ?
+                'badge bg-info' : 'badge bg-warning'
         ],
     ],
     'Tiempo' => [
         ['Total Acumulado', $tiempoData['tiempo_acumulado'] ?? '00:00:00'],
         ['Tiempo Restado', $tiempoData['tiempo_restado'] ?? '00:00:00'],
-        ['Encargado', $tiempoData['tiempo_encargado_usuario'] ?? 'Sin asignar', 
+        [
+            'Encargado',
+            $tiempoData['tiempo_encargado_usuario'] ?? 'Sin asignar',
             $tiempoData['tiempo_encargado_usuario'] ? 'badge bg-info' : 'badge bg-secondary'
         ],
-        ['Estado', ucfirst($tiempoData['tiempo_status'] ?? 'inactivo'), 
+        [
+            'Estado',
+            ucfirst($tiempoData['tiempo_status'] ?? 'inactivo'),
             'badge text-white ' . getStatusColor($tiempoData['tiempo_status'] ?? 'inactivo')
         ]
     ],
     'Ascenso' => [
         ['Misión Actual', $ascensoData['mision_actual'] ?? 'Sin misión'],
-        ['Próximo Ascenso', 
-            $siguienteAscenso . ($descripcionTiempo ? '<br><small class="text-muted">' . $descripcionTiempo . '</small>' : ''), 
+        [
+            'Próximo Ascenso',
+            $siguienteAscenso . ($descripcionTiempo ? '<br><small class="text-muted">' . $descripcionTiempo . '</small>' : ''),
             'badge ' . ($siguienteAscenso === 'Disponible ahora' ? 'bg-success' : 'bg-info') . ' text-white'
         ],
-        ['Estado', 
-            ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 
-            'Disponible para ascender' : 'En Espera',
-            'badge text-white ' . 
-            (($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ? 
-            'bg-success' : 'bg-warning')
+        [
+            'Estado',
+            ($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ?
+                'Disponible para ascender' : 'En Espera',
+            'badge text-white ' .
+                (($ascensoData['estado_ascenso'] ?? 'pendiente') === 'disponible' ?
+                    'bg-success' : 'bg-warning')
         ],
-        ['Encargado', $ascensoData['usuario_encargado'] ?? 'Sin asignar',
+        [
+            'Encargado',
+            $ascensoData['usuario_encargado'] ?? 'Sin asignar',
             $ascensoData['usuario_encargado'] ? 'badge bg-info' : 'badge bg-secondary'
         ]
     ]
@@ -252,7 +268,8 @@ $sections = [
                         <span class="fw-bold">
                             <?php if (isset($item[2])): ?>
                                 <span class="<?= htmlspecialchars($item[2]) ?>">
-                                    <?= $item[1] // Nota: Aquí quitamos htmlspecialchars para permitir el HTML del <small> ?>
+                                    <?= $item[1] // Nota: Aquí quitamos htmlspecialchars para permitir el HTML del <small> 
+                                    ?>
                                 </span>
                             <?php else: ?>
                                 <?= htmlspecialchars($item[1]) ?>
