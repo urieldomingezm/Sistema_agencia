@@ -2,14 +2,14 @@
 // Asegurarnos de que no haya output antes de los headers
 ob_start();
 
-// Configuración de errores
+// Configuración de errores para desarrollo
 error_reporting(E_ALL);
-ini_set('display_errors', 0);
-ini_set('log_errors', 1);
-ini_set('error_log', '/var/log/php/password_errors.log'); // Cambiado a una ruta absoluta
+ini_set('display_errors', 1);
 
 // Función para manejar la respuesta JSON
 function sendJsonResponse($success, $message, $statusCode = 200) {
+    ob_clean(); // Limpiar cualquier salida anterior
+    header('Content-Type: application/json; charset=utf-8');
     http_response_code($statusCode);
     echo json_encode([
         'success' => $success,
@@ -25,13 +25,6 @@ try {
     if (!isset($_SESSION)) {
         session_start();
     }
-
-    // Log para debugging
-    error_log("[" . date('Y-m-d H:i:s') . "] Iniciando proceso de modificación de contraseña");
-    error_log("[" . date('Y-m-d H:i:s') . "] POST data: " . print_r($_POST, true));
-    error_log("[" . date('Y-m-d H:i:s') . "] Session data: " . print_r($_SESSION, true));
-
-    header('Content-Type: application/json; charset=utf-8');
 
     // Verificar sesión
     if (!isset($_SESSION['username'])) {
@@ -58,7 +51,6 @@ try {
 
     // Verificar conexión BD
     if (!isset($conn) || !($conn instanceof PDO)) {
-        error_log("[" . date('Y-m-d H:i:s') . "] Error de conexión: " . print_r($conn, true));
         sendJsonResponse(false, 'Error de conexión a la base de datos', 500);
     }
 
@@ -92,24 +84,21 @@ try {
         $stmt->bindParam(':usuario_mod', $_SESSION['username']);
 
         if (!$stmt->execute()) {
-            throw new PDOException('Error al ejecutar la actualización');
+            throw new PDOException('Error al ejecutar la actualización: ' . implode(', ', $stmt->errorInfo()));
         }
 
         if ($stmt->rowCount() === 0) {
-            throw new Exception('No se realizaron cambios');
+            throw new Exception('No se realizaron cambios en la base de datos');
         }
 
         $conn->commit();
-        error_log("[" . date('Y-m-d H:i:s') . "] Contraseña actualizada exitosamente para usuario ID: $usuarioId");
         sendJsonResponse(true, 'Contraseña actualizada correctamente');
 
     } catch (PDOException $e) {
         $conn->rollBack();
-        error_log("[" . date('Y-m-d H:i:s') . "] Error PDO: " . $e->getMessage());
         sendJsonResponse(false, 'Error en la base de datos: ' . $e->getMessage(), 500);
     }
 
 } catch (Exception $e) {
-    error_log("[" . date('Y-m-d H:i:s') . "] Error general: " . $e->getMessage());
-    sendJsonResponse(false, $e->getMessage(), 500);
+    sendJsonResponse(false, 'Error: ' . $e->getMessage(), 500);
 }
