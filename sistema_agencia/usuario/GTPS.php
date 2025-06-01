@@ -1,18 +1,22 @@
 <?php
-class GestionView {
+class GestionView
+{
     private $pagas;
     private $requisitos;
-    
-    public function __construct($pagas, $requisitos) {
+
+    public function __construct($pagas, $requisitos)
+    {
         $this->pagas = $pagas;
         $this->requisitos = $requisitos;
     }
-    
-    public function render() {
+
+    public function render()
+    {
         $counts = $this->calculateCounts();
-        ?>
+?>
         <!DOCTYPE html>
         <html lang="es">
+
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,20 +30,25 @@ class GestionView {
                 .nav-link.active {
                     opacity: 1 !important;
                 }
+
                 .nav-link:not(.active) {
                     opacity: 0.6 !important;
                 }
+
                 .nav-link:hover {
                     opacity: 0.8 !important;
                 }
+
                 .card {
                     transition: transform 0.2s;
                 }
+
                 .card:hover {
                     transform: translateY(-5px);
                 }
             </style>
         </head>
+
         <body>
             <div class="container py-4">
                 <div class="text-center mb-4">
@@ -49,7 +58,7 @@ class GestionView {
                 </div>
 
                 <?php $this->renderCards($counts); ?>
-                
+
                 <div class="container mt-4">
                     <div class="card shadow">
                         <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
@@ -63,7 +72,7 @@ class GestionView {
                                 </li>
                             </ul>
                         </div>
-                        
+
                         <div class="card-body">
                             <div class="tab-content" id="myTabContent">
                                 <?php $this->renderPagosTab(); ?>
@@ -79,14 +88,16 @@ class GestionView {
             <!-- Tu script personalizado -->
             <script src="/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js"></script>
         </body>
+
         </html>
-        <?php
+    <?php
     }
-    
-    private function calculateCounts() {
+
+    private function calculateCounts()
+    {
         $pendientes = 0;
         $aceptados = 0;
-        
+
         if (!empty($this->requisitos)) {
             foreach ($this->requisitos as $requisito) {
                 if ($requisito['is_completed'] == 0) {
@@ -96,7 +107,7 @@ class GestionView {
                 }
             }
         }
-        
+
         return [
             'pendientes' => $pendientes,
             'aceptados' => $aceptados,
@@ -104,8 +115,9 @@ class GestionView {
             'creditos' => (int)array_sum(array_column($this->pagas, 'pagas_recibio'))
         ];
     }
-    
-    private function renderCards($counts) {
+
+    private function renderCards($counts)
+    {
         $cards = [
             [
                 'color' => 'primary',
@@ -132,7 +144,7 @@ class GestionView {
                 'value' => $counts['aceptados']
             ]
         ];
-        ?>
+    ?>
         <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
             <?php foreach ($cards as $card): ?>
                 <div class="col">
@@ -150,11 +162,12 @@ class GestionView {
                 </div>
             <?php endforeach; ?>
         </div>
-        <?php
+    <?php
     }
-    
-    private function renderPagosTab() {
-        ?>
+
+    private function renderPagosTab()
+    {
+    ?>
         <div class="tab-pane fade show active" id="pagos-tab-pane" role="tabpanel" aria-labelledby="pagos-tab">
             <div class="table-responsive">
                 <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
@@ -166,6 +179,8 @@ class GestionView {
                             <th>Membresía</th>
                             <th>Requisito</th>
                             <th>Fecha</th>
+                            <th>Estatus</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -182,22 +197,36 @@ class GestionView {
                                         </span>
                                     </td>
                                     <td><?= isset($paga['pagas_fecha_registro']) ? htmlspecialchars(explode(' ', $paga['pagas_fecha_registro'])[0]) : '' ?></td>
+                                    <td>
+                                        <?php
+                                        $estatus = $paga['estatus'] ?? 'pendiente';
+                                        $clase = $estatus === 'completo' ? 'bg-success' : ($estatus === 'rechazado' ? 'bg-secondary' : 'bg-warning');
+                                        ?>
+                                        <span class="badge <?= $clase ?>"><?= ucfirst($estatus) ?></span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" onclick="verDetallesPago(<?= $paga['id'] ?? 0 ?>)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="6" class="text-center">No hay datos de pagos disponibles.</td>
+                                <td colspan="8" class="text-center">No hay datos de pagos disponibles.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-        <?php
+
+    <?php
     }
-    
-    private function renderRequisitosTab() {
-        ?>
+
+    private function renderRequisitosTab()
+    {
+    ?>
         <div class="tab-pane fade" id="requisitos-tab-pane" role="tabpanel" aria-labelledby="requisitos-tab">
             <div class="table-responsive">
                 <table id="cumplimientosTable" class="table table-bordered table-striped table-hover text-center mb-0">
@@ -245,7 +274,7 @@ class GestionView {
                 </table>
             </div>
         </div>
-        <?php
+<?php
     }
 }
 
