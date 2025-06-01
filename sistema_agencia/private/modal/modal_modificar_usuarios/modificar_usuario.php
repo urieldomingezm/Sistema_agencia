@@ -55,9 +55,9 @@
                                 <div class="mb-3">
                                     <label for="nuevaMision" class="form-label">Misión</label>
                                     <input type="text" class="form-control" id="nuevaMision" name="nuevaMision"
-                                        minlength="12" maxlength="50" required
-                                        oninput="this.value = this.value.replace(/\b\w{20,}\b/g, '')">
-                                    <small class="text-muted">Mínimo 12 caracteres, máximo 15. Palabras muy largas serán eliminadas.</small>
+                                        minlength="12" required
+                                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\-_.,#]/g, '')">
+                                    <small class="text-muted">Mínimo 12 caracteres. Solo letras, números y algunos caracteres especiales.</small>
                                 </div>
                             </div>
 
@@ -217,14 +217,9 @@
                 return false;
             }
 
-            if (nuevaMision.length > 15) {
-                this.showError('La misión no debe exceder los 15 caracteres.');
-                return false;
-            }
-
-            // Validar que no haya palabras demasiado largas
-            if (nuevaMision.split(/\s+/).some(word => word.length > this.MAX_WORD_LENGTH)) {
-                this.showError(`No se permiten palabras con más de ${this.MAX_WORD_LENGTH} caracteres.`);
+            // Validación de caracteres permitidos
+            if (!/^[a-zA-Z0-9\s\-_.,#]+$/.test(nuevaMision)) {
+                this.showError('La misión contiene caracteres no permitidos.');
                 return false;
             }
 
