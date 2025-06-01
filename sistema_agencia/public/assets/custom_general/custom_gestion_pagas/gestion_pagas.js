@@ -37,6 +37,19 @@ document.addEventListener('DOMContentLoaded', function() {
             previous: "Anterior"
         }
     });
+
+    // Añadir event listeners usando delegación de eventos
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.btn-success[onclick*="darPaga"]')) {
+            e.preventDefault();
+            const id = e.target.getAttribute('data-id');
+            darPaga(id);
+        } else if (e.target.matches('.btn-danger[onclick*="marcarNoRecibio"]')) {
+            e.preventDefault();
+            const id = e.target.getAttribute('data-id');
+            marcarNoRecibio(id);
+        }
+    });
 });
 
 document.addEventListener('click', function(e) {
@@ -178,13 +191,12 @@ function actualizarEstadoPaga(id, estado) {
                 icon: 'success',
                 confirmButtonColor: '#28a745'
             }).then(() => {
-                // Recargar la página para actualizar la tabla
                 location.reload();
             });
         } else {
             Swal.fire({
                 title: 'Error',
-                text: data.message || 'Hubo un error al actualizar el estado',
+                text: data.message || 'Error al actualizar el estado',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
@@ -194,7 +206,7 @@ function actualizarEstadoPaga(id, estado) {
         console.error('Error:', error);
         Swal.fire({
             title: 'Error',
-            text: 'Hubo un problema al conectar con el servidor',
+            text: 'Error de conexión',
             icon: 'error',
             confirmButtonColor: '#dc3545'
         });

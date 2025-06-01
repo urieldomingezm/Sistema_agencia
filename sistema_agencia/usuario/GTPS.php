@@ -191,10 +191,10 @@ class GestionView
                                     </td>
                                     <td>
                                         <?php if (empty($paga['estatus'])): ?>
-                                            <button class="btn btn-sm btn-success" onclick="darPaga(<?= $paga['id'] ?? 0 ?>)">
+                                            <button class="btn btn-sm btn-success" data-id="<?= $paga['pagas_id'] ?? 0 ?>">
                                                 Dar paga
                                             </button>
-                                            <button class="btn btn-sm btn-danger" onclick="marcarNoRecibio(<?= $paga['id'] ?? 0 ?>)">
+                                            <button class="btn btn-sm btn-danger" data-id="<?= $paga['pagas_id'] ?? 0 ?>">
                                                 No recibió
                                             </button>
                                         <?php else: ?>
