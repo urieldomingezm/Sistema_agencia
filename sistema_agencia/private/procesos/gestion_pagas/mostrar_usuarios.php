@@ -13,7 +13,17 @@ class GestionPagas
 
     public function obtenerPagas()
     {
-        $query = "SELECT pagas_usuario, pagas_recibio, pagas_motivo, pagas_completo, pagas_rango, pagas_descripcion, pagas_fecha_registro FROM gestion_pagas ORDER BY pagas_fecha_registro DESC";
+        $query = "
+        SELECT gp.*
+        FROM gestion_pagas gp
+        INNER JOIN (
+            SELECT pagas_usuario, MAX(pagas_fecha_registro) AS ultima_fecha
+            FROM gestion_pagas
+            GROUP BY pagas_usuario
+        ) ultimas
+        ON gp.pagas_usuario = ultimas.pagas_usuario AND gp.pagas_fecha_registro = ultimas.ultima_fecha
+        ORDER BY gp.pagas_fecha_registro DESC
+    ";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -23,5 +33,3 @@ class GestionPagas
 $db = new Database();
 $gestionPagas = new GestionPagas($db);
 $pagas = $gestionPagas->obtenerPagas();
-
-?>
