@@ -153,20 +153,21 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(PROCESO_CAMBIAR_PACTH + 'modificar_password.php', {
                 method: 'POST',
                 body: formData,
-                credentials: 'include' // Agregar esto para incluir cookies de sesión
+                credentials: 'include'
             })
-            .then(response => {
+            .then(async response => {
+                const data = await response.json();
                 if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
+                    throw new Error(data.error || 'Error en el servidor');
                 }
-                return response.json();
+                return data;
             })
             .then(data => {
                 const modalElement = document.getElementById('modalCambiarPassword');
                 const modal = bootstrap.Modal.getInstance(modalElement);
-                modal.hide();
                 
                 if (data.success) {
+                    modal.hide();
                     Swal.fire({
                         title: 'Éxito',
                         text: data.message,
