@@ -254,7 +254,6 @@ $items = [
   ['name' => 'Inicio', 'active' => true],
   ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
   ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias', 'Gestion de notificaciones', 'divider', 'Dar notificacion']],
-  ['name' => 'Gestion de usuarios', 'dropdown' => ['Gestionar usuarios']],
   ['name' => 'Ascensos', 'dropdown' => [
     'Gestion ascenso',
     'Ver mis ascensos',
