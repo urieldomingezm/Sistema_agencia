@@ -174,30 +174,24 @@ class BodyHome
             ],
             [
                 'id' => '6',
-                'name' => 'Keekit08',
-                'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Keekit08&headonly=1&head_direction=3&size=sl',
-                'rank' => 'Mi ratita de experimientos',
-            ],
-            [
-                'id' => '7',
                 'name' => 'juancBQ',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=juancBQ&headonly=1&head_direction=3&size=sl',
                 'rank' => 'Administrador',
             ],
             [
-                'id' => '8',
+                'id' => '7',
                 'name' => 'mutilla_',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=mutilla_&headonly=1&head_direction=3&size=sl',
                 'rank' => 'Administrador',
             ],
             [
-                'id' => '9',
+                'id' => '8',
                 'name' => 'Vanderlind',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Vanderlind&headonly=1&head_direction=3&size=sl',
                 'rank' => 'Administrador',
             ],
             [
-                'id' => '10',
+                'id' => '9',
                 'name' => 'maria51162',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=maria51162&headonly=1&head_direction=3&size=sl',
                 'rank' => 'Administradora',
