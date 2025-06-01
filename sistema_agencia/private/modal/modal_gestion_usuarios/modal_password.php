@@ -156,35 +156,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 credentials: 'include'
             })
             .then(async response => {
-                const data = await response.json();
-                if (!response.ok) {
-                    throw new Error(data.error || 'Error en el servidor');
+                const contentType = response.headers.get("content-type");
+                if (!contentType || !contentType.includes("application/json")) {
+                    // Si no es JSON, obtener el texto del error
+                    const text = await response.text();
+                    throw new Error('Respuesta no válida del servidor: ' + text);
                 }
-                return data;
+                return response.json();
             })
             .then(data => {
-                const modalElement = document.getElementById('modalCambiarPassword');
-                const modal = bootstrap.Modal.getInstance(modalElement);
-                
-                if (data.success) {
-                    modal.hide();
-                    Swal.fire({
-                        title: 'Éxito',
-                        text: data.message,
-                        icon: 'success',
-                        confirmButtonText: 'Entendido'
-                    }).then(() => {
-                        window.location.reload();
-                    });
-                } else {
+                if (!data.success) {
                     throw new Error(data.error || 'Error al actualizar la contraseña');
                 }
+
+                const modalElement = document.getElementById('modalCambiarPassword');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                modal.hide();
+                
+                Swal.fire({
+                    title: 'Éxito',
+                    text: data.message || 'Contraseña actualizada correctamente',
+                    icon: 'success',
+                    confirmButtonText: 'Entendido'
+                }).then(() => {
+                    window.location.reload();
+                });
             })
             .catch(error => {
                 console.error('Error:', error);
                 Swal.fire({
                     title: 'Error',
-                    text: error.message,
+                    text: error.message || 'Error al procesar la solicitud',
                     icon: 'error',
                     confirmButtonText: 'Entendido'
                 });
