@@ -1,5 +1,5 @@
 <?php
-
+// requisito_manager.php
 require_once(CONFIG_PATH . 'bd.php');
 
 class RequisitoManager
@@ -14,24 +14,29 @@ class RequisitoManager
     public function obtenerRequisitosPendientes()
     {
         $query = "
-        SELECT gr.*
+        SELECT 
+            gr.id,
+            gr.user AS user,
+            gr.requirement_name,
+            gr.times_as_encargado_count,
+            gr.ascensos_as_encargado_count,
+            gr.is_completed,
+            gr.last_updated
         FROM gestion_requisitos gr
         INNER JOIN (
-            SELECT user_codigo_time, MAX(last_updated) AS ultima_fecha
+            SELECT user, MAX(last_updated) AS ultima_fecha
             FROM gestion_requisitos
             WHERE is_completed = FALSE
-            GROUP BY user_codigo_time
+            GROUP BY user
         ) ultimos
-        ON gr.user_codigo_time = ultimos.user_codigo_time AND gr.last_updated = ultimos.ultima_fecha
+        ON gr.user = ultimos.user AND gr.last_updated = ultimos.ultima_fecha
         WHERE gr.is_completed = FALSE
         ORDER BY gr.last_updated DESC
-    ";
+        ";
+        
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-
-$db = new Database();
-$requisitoManager = new RequisitoManager($db);
-$requisitos = $requisitoManager->obtenerRequisitosPendientes();
+?>
