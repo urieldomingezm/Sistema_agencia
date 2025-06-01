@@ -25,66 +25,47 @@ class GestionView {
             <style>
                 .nav-link.active {
                     opacity: 1 !important;
-                    border-bottom: 2px solid #0d6efd !important;
                 }
                 .nav-link:not(.active) {
                     opacity: 0.6 !important;
                 }
-                .nav-link:hover:not(.active) {
+                .nav-link:hover {
                     opacity: 0.8 !important;
                 }
                 .card {
-                    transition: transform 0.2s, box-shadow 0.2s;
+                    transition: transform 0.2s;
                 }
                 .card:hover {
                     transform: translateY(-5px);
-                    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
-                }
-                .border-start {
-                    border-left-width: 4px !important;
-                }
-                .table-hover tbody tr:hover {
-                    background-color: rgba(13, 110, 253, 0.05);
-                }
-                .badge {
-                    font-size: 0.85em;
-                    padding: 0.35em 0.65em;
                 }
             </style>
         </head>
-        <body class="bg-light">
+        <body>
             <div class="container py-4">
                 <div class="text-center mb-4">
-                    <h1 class="text-primary fw-bold">
-                        <i class="bi bi-cash-stack me-2"></i>GESTIÓN DE PAGOS Y REQUISITOS
+                    <h1 class="text-primary">
+                        GESTION DE PAGOS USUARIOS Y REQUISITOS
                     </h1>
-                    <p class="text-muted">Administración de pagos a usuarios y verificación de requisitos</p>
                 </div>
 
                 <?php $this->renderCards($counts); ?>
                 
                 <div class="container mt-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-primary text-white">
-                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-                                <h5 class="mb-2 mb-md-0"><i class="bi bi-clipboard-data me-2"></i>Panel de Gestión</h5>
-                                <ul class="nav nav-tabs card-header-tabs mt-2 mt-md-0">
-                                    <li class="nav-item">
-                                        <button class="nav-link active text-white" id="pagos-tab" data-bs-toggle="tab" data-bs-target="#pagos-tab-pane" type="button">
-                                            <i class="bi bi-cash-coin me-1"></i> Derecho a pago
-                                        </button>
-                                    </li>
-                                    <li class="nav-item">
-                                        <button class="nav-link text-white" id="requisitos-tab" data-bs-toggle="tab" data-bs-target="#requisitos-tab-pane" type="button">
-                                            <i class="bi bi-hourglass-split me-1"></i> Pendientes por aceptar
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
+                    <div class="card shadow">
+                        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Gestión</h5>
+                            <ul class="nav nav-tabs card-header-tabs mt-2">
+                                <li class="nav-item mx-1">
+                                    <button class="nav-link active bg-dark text-white border-light" id="pagos-tab" data-bs-toggle="tab" data-bs-target="#pagos-tab-pane" type="button">Derecho a pago</button>
+                                </li>
+                                <li class="nav-item mx-1">
+                                    <button class="nav-link bg-dark text-white border-light" id="requisitos-tab" data-bs-toggle="tab" data-bs-target="#requisitos-tab-pane" type="button">Pendientes por acceptar</button>
+                                </li>
+                            </ul>
                         </div>
                         
-                        <div class="card-body p-0">
-                            <div class="tab-content p-3" id="myTabContent">
+                        <div class="card-body">
+                            <div class="tab-content" id="myTabContent">
                                 <?php $this->renderPagosTab(); ?>
                                 <?php $this->renderRequisitosTab(); ?>
                             </div>
@@ -95,41 +76,8 @@ class GestionView {
 
             <!-- Bootstrap JS Bundle with Popper -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-            <!-- Script personalizado con manejo de errores -->
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    // Verificar si el script existe antes de intentar cargarlo
-                    const scriptUrl = '/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js';
-                    
-                    fetch(scriptUrl, { method: 'HEAD' })
-                        .then(response => {
-                            if (response.ok) {
-                                const script = document.createElement('script');
-                                script.src = scriptUrl;
-                                document.body.appendChild(script);
-                            } else {
-                                console.warn('El script personalizado no se encontró en la ruta especificada.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error al verificar el script personalizado:', error);
-                        });
-                    
-                    // Manejo básico de botones si el script no carga
-                    setTimeout(() => {
-                        if (typeof customGestionHandlers === 'undefined') {
-                            console.log('Implementando manejo básico de botones...');
-                            document.querySelectorAll('.btn-completo, .btn-no-completo').forEach(btn => {
-                                btn.addEventListener('click', function() {
-                                    const id = this.getAttribute('data-id');
-                                    const action = this.classList.contains('btn-completo') ? 'completo' : 'no-completo';
-                                    alert(`Acción básica: Marcar ID ${id} como ${action}. En un entorno real, esto enviaría una petición al servidor.`);
-                                });
-                            });
-                        }
-                    }, 1000);
-                });
-            </script>
+            <!-- Tu script personalizado -->
+            <script src="/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js"></script>
         </body>
         </html>
         <?php
@@ -163,47 +111,40 @@ class GestionView {
                 'color' => 'primary',
                 'icon' => 'bi-people-fill',
                 'title' => 'Usuarios',
-                'value' => $counts['usuarios'],
-                'description' => 'Usuarios con derecho a pago'
+                'value' => $counts['usuarios']
             ],
             [
                 'color' => 'success',
                 'icon' => 'bi-currency-dollar',
                 'title' => 'Créditos',
-                'value' => number_format($counts['creditos']),
-                'description' => 'Total distribuidos'
+                'value' => $counts['creditos']
             ],
             [
                 'color' => 'warning',
-                'icon' => 'bi-clock-history',
-                'title' => 'Pendientes',
-                'value' => $counts['pendientes'],
-                'description' => 'Requisitos por revisar'
+                'icon' => 'bi-clock',
+                'title' => 'Pendiente',
+                'value' => $counts['pendientes']
             ],
             [
-                'color' => 'info',
-                'icon' => 'bi-check2-all',
-                'title' => 'Aceptados',
-                'value' => $counts['aceptados'],
-                'description' => 'Requisitos completados'
+                'color' => 'success',
+                'icon' => 'bi-check-circle',
+                'title' => 'Acceptado',
+                'value' => $counts['aceptados']
             ]
         ];
         ?>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 mb-4">
+        <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
             <?php foreach ($cards as $card): ?>
                 <div class="col">
-                    <div class="card h-100 border-start border-<?= $card['color'] ?> border-4 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <div class="bg-<?= $card['color'] ?> bg-opacity-10 p-3 rounded me-3">
-                                    <i class="bi <?= $card['icon'] ?> fs-3 text-<?= $card['color'] ?>"></i>
-                                </div>
-                                <div>
-                                    <h6 class="text-uppercase text-muted fw-semibold mb-1 small"><?= $card['title'] ?></h6>
-                                    <h2 class="mb-0 fw-bold"><?= $card['value'] ?></h2>
-                                </div>
+                    <div class="card border-start border-<?= $card['color'] ?> border-4 shadow-sm h-100">
+                        <div class="card-body d-flex align-items-center">
+                            <div class="bg-<?= $card['color'] ?> bg-opacity-10 p-3 rounded me-3">
+                                <i class="bi <?= $card['icon'] ?> fs-3 text-<?= $card['color'] ?>"></i>
                             </div>
-                            <p class="text-muted small mt-2 mb-0"><?= $card['description'] ?></p>
+                            <div>
+                                <h6 class="text-uppercase text-muted fw-semibold mb-2"><?= $card['title'] ?></h6>
+                                <h2 class="mb-0 fw-bold"><?= $card['value'] ?></h2>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -215,42 +156,42 @@ class GestionView {
     private function renderPagosTab() {
         ?>
         <div class="tab-pane fade show active" id="pagos-tab-pane" role="tabpanel" aria-labelledby="pagos-tab">
-            <?php if (!empty($this->pagas)): ?>
-                <div class="table-responsive">
-                    <table class="table table-hover table-bordered mb-0">
-                        <thead class="table-primary">
-                            <tr>
-                                <th class="text-nowrap"><i class="bi bi-person-fill me-1"></i>Usuario</th>
-                                <th class="text-nowrap"><i class="bi bi-star-fill me-1"></i>Rango</th>
-                                <th class="text-nowrap"><i class="bi bi-coin me-1"></i>Sueldo</th>
-                                <th class="text-nowrap"><i class="bi bi-award-fill me-1"></i>Membresía</th>
-                                <th class="text-nowrap"><i class="bi bi-list-check me-1"></i>Requisito</th>
-                                <th class="text-nowrap"><i class="bi bi-calendar-event me-1"></i>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            <div class="table-responsive">
+                <table id="pagasTable" class="table table-bordered table-striped table-hover text-center mb-0">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Rango</th>
+                            <th>Sueldo</th>
+                            <th>Membresía</th>
+                            <th>Requisito</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($this->pagas)): ?>
                             <?php foreach ($this->pagas as $paga): ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($paga['pagas_usuario'] ?? 'N/A') ?></td>
-                                    <td><?= htmlspecialchars($paga['pagas_rango'] ?? 'N/A') ?></td>
-                                    <td class="fw-bold"><?= number_format(htmlspecialchars($paga['pagas_recibio'] ?? 0)) ?> créditos</td>
-                                    <td><?= !empty($paga['venta_titulo']) ? htmlspecialchars($paga['venta_titulo']) : '<span class="text-muted">No tiene</span>' ?></td>
+                                    <td><?= htmlspecialchars($paga['pagas_usuario'] ?? '') ?></td>
+                                    <td><?= htmlspecialchars($paga['pagas_rango'] ?? '') ?></td>
+                                    <td><?= htmlspecialchars($paga['pagas_recibio'] ?? 0) ?> créditos</td>
+                                    <td><?= htmlspecialchars($paga['venta_titulo'] ?? 'No tiene') ?></td>
                                     <td>
-                                        <span class="badge rounded-pill <?= ($paga['pagas_completo'] ?? false) ? 'bg-success' : 'bg-danger' ?>">
+                                        <span class="badge <?= ($paga['pagas_completo'] ?? false) ? 'bg-success' : 'bg-danger' ?>">
                                             <?= ($paga['pagas_completo'] ?? false) ? 'Completo' : 'Pendiente' ?>
                                         </span>
                                     </td>
-                                    <td><?= isset($paga['pagas_fecha_registro']) ? date('d/m/Y', strtotime($paga['pagas_fecha_registro'])) : 'N/A' ?></td>
+                                    <td><?= isset($paga['pagas_fecha_registro']) ? htmlspecialchars(explode(' ', $paga['pagas_fecha_registro'])[0]) : '' ?></td>
                                 </tr>
                             <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <div class="alert alert-info mb-0">
-                    <i class="bi bi-info-circle-fill me-2"></i>No hay datos de pagos disponibles.
-                </div>
-            <?php endif; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="6" class="text-center">No hay datos de pagos disponibles.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <?php
     }
@@ -258,107 +199,73 @@ class GestionView {
     private function renderRequisitosTab() {
         ?>
         <div class="tab-pane fade" id="requisitos-tab-pane" role="tabpanel" aria-labelledby="requisitos-tab">
-            <?php if (!empty($this->requisitos)): ?>
-                <div class="table-responsive">
-                    <table class="table table-hover table-bordered mb-0">
-                        <thead class="table-warning">
-                            <tr>
-                                <th class="text-nowrap">#ID</th>
-                                <th class="text-nowrap"><i class="bi bi-person-fill me-1"></i>Usuario</th>
-                                <th class="text-nowrap"><i class="bi bi-list-check me-1"></i>Requisitos</th>
-                                <th class="text-nowrap"><i class="bi bi-clock-history me-1"></i>Tiempos</th>
-                                <th class="text-nowrap"><i class="bi bi-graph-up-arrow me-1"></i>Ascensos</th>
-                                <th class="text-nowrap"><i class="bi bi-check-circle me-1"></i>Estatus</th>
-                                <th class="text-nowrap"><i class="bi bi-gear-fill me-1"></i>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            <div class="table-responsive">
+                <table id="cumplimientosTable" class="table table-bordered table-striped table-hover text-center mb-0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Requisitos</th>
+                            <th>Tiempos</th>
+                            <th>Ascensos</th>
+                            <th>Estatus</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($this->requisitos)): ?>
                             <?php foreach ($this->requisitos as $requisito): ?>
                                 <tr>
-                                    <td>#<?= htmlspecialchars($requisito['id'] ?? 'N/A') ?></td>
-                                    <td><?= htmlspecialchars($requisito['user'] ?? 'N/A') ?></td>
-                                    <td><?= !empty($requisito['requirement_name']) ? htmlspecialchars($requisito['requirement_name']) : '<span class="text-muted">No disponible</span>' ?></td>
+                                    <td><?= htmlspecialchars($requisito['id'] ?? '') ?></td>
+                                    <td><?= htmlspecialchars($requisito['user'] ?? '') ?></td>
+                                    <td><?= !empty($requisito['requirement_name']) ? htmlspecialchars($requisito['requirement_name']) : 'no disponible' ?></td>
                                     <td><?= htmlspecialchars($requisito['times_as_encargado_count'] ?? 0) ?></td>
                                     <td><?= htmlspecialchars($requisito['ascensos_as_encargado_count'] ?? 0) ?></td>
                                     <td>
-                                        <span class="badge rounded-pill <?= ($requisito['is_completed'] ?? false) ? 'bg-success' : 'bg-warning' ?>">
+                                        <span class="badge <?= ($requisito['is_completed'] ?? false) ? 'bg-success' : 'bg-warning' ?>">
                                             <?= ($requisito['is_completed'] ?? false) ? 'Completado' : 'En espera' ?>
                                         </span>
                                     </td>
-                                    <td class="text-nowrap">
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-sm btn-success btn-completo flex-grow-1" data-id="<?= htmlspecialchars($requisito['id'] ?? '') ?>">
-                                                <i class="bi bi-check-lg me-1"></i>Completo
-                                            </button>
-                                            <button class="btn btn-sm btn-outline-danger btn-no-completo flex-grow-1" data-id="<?= htmlspecialchars($requisito['id'] ?? '') ?>">
-                                                <i class="bi bi-x-lg me-1"></i>No completo
-                                            </button>
-                                        </div>
+                                    <td>
+                                        <button class="btn btn-success btn-sm btn-completo" data-id="<?= htmlspecialchars($requisito['id'] ?? '') ?>">
+                                            Completo
+                                        </button>
+                                        <button class="btn btn-warning btn-sm btn-no-completo" data-id="<?= htmlspecialchars($requisito['id'] ?? '') ?>">
+                                            No completo
+                                        </button>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <div class="alert alert-warning mb-0">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>No hay datos de requisitos disponibles.
-                </div>
-            <?php endif; ?>
+                        <?php else: ?>
+                            <tr>
+                                <td colspan="8" class="text-center">No hay datos de requisitos disponibles.</td>
+                            </tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <?php
     }
 }
 
-// Uso seguro de las clases con verificación de existencia
-if (!class_exists('Database')) {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
-    require_once(CONFIG_PATH . 'bd.php');
-}
+// Archivo principal que muestra la vista (index.php o similar)
+require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+require_once(CONFIG_PATH . 'bd.php');
+require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php');
+require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
 
-if (!class_exists('GestionPagas') && file_exists(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php')) {
-    require_once(GESTION_PAGAS_PATCH . 'mostrar_usuarios.php');
-}
+// Inicializar la base de datos
+$db = new Database();
 
-if (!class_exists('RequisitoService') && file_exists(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php')) {
-    require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
-}
+// Corregir el nombre de la clase
+$requisitoService = new RequisitoService();
+$requisitos = $requisitoService->obtenerCumplimientos()['data'];
 
-// Definir DEBUG_MODE si no está definido
-if (!defined('DEBUG_MODE')) {
-    define('DEBUG_MODE', false);
-}
+$gestionPagas = new GestionPagas($db);
+$pagas = $gestionPagas->obtenerPagas();
 
-try {
-    // Inicializar la base de datos
-    $db = new Database();
-
-    // Obtener datos con manejo de errores
-    $requisitos = [];
-    $pagas = [];
-    
-    if (class_exists('RequisitoService')) {
-        $requisitoService = new RequisitoService();
-        $requisitosData = $requisitoService->obtenerCumplimientos();
-        $requisitos = $requisitosData['data'] ?? [];
-    }
-    
-    if (class_exists('GestionPagas')) {
-        $gestionPagas = new GestionPagas($db);
-        $pagas = $gestionPagas->obtenerPagas() ?: [];
-    }
-
-    // Mostrar la vista
-    $view = new GestionView($pagas, $requisitos);
-    $view->render();
-    
-} catch (Exception $e) {
-    // Manejo básico de errores
-    echo '<div class="alert alert-danger m-4">';
-    echo '<h4 class="alert-heading">Error al cargar la página</h4>';
-    echo '<p>Ocurrió un error al intentar cargar los datos. Por favor, inténtelo nuevamente más tarde.</p>';
-    if (defined('DEBUG_MODE') && DEBUG_MODE) {
-        echo '<hr><p class="mb-0 small text-muted">Detalles: ' . htmlspecialchars($e->getMessage()) . '</p>';
-    }
-    echo '</div>';
-}
+// Mostrar la vista
+$view = new GestionView($pagas, $requisitos);
+$view->render();
+?>
