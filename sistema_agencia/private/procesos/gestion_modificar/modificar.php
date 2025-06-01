@@ -20,7 +20,24 @@ header('Content-Type: application/json');
 class UserModifier {
     private $conn;
     private $blocked_words = ['hack', 'xxx', 'porn', 'sexo', 'puto', 'puta', 'mierda', 'pendejo'];
+    
+    // Palabras permitidas para rangos especiales
     private $allowed_words = ['SHN', 'administrador', 'fundador', 'manager', 'dueño'];
+    
+    // Misiones permitidas por nivel
+    private $allowed_missions = [
+        'SHN- Iniciado I',
+        'SHN- Novato H',
+        'SHN- Auxiliar G',
+        'SHN- Ayudante F',
+        'SHN- Junior E',
+        'SHN- Intermedio D',
+        'SHN- Avanzado C',
+        'SHN- Experto B',
+        'SHN- Jefe A'
+    ];
+
+    // Rangos válidos
     private $valid_ranks = [
         'agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 
         'director', 'presidente', 'operativo', 'junta directiva', 
@@ -31,7 +48,7 @@ class UserModifier {
         $this->conn = $dbConnection;
     }
 
-    private function validateInput($text) {
+    private function validateInput($text, $isSpecialRank = false) {
         // Convertir a minúsculas para comparación
         $lowerText = strtolower($text);
         
@@ -42,12 +59,23 @@ class UserModifier {
             }
         }
 
-        // Verificar palabras permitidas
-        $words = preg_split('/\s+/', $text);
-        foreach ($words as $word) {
-            $normalizedWord = strtolower(preg_replace('/[^a-zñ]/u', '', $word));
-            if ($normalizedWord && !in_array($normalizedWord, array_map('strtolower', $this->allowed_words))) {
-                throw new Exception('La palabra "' . $word . '" no está permitida en la misión');
+        // Remover la firma y el sufijo estándar para validar solo la misión
+        $misionBase = preg_replace('/ -[A-Z0-9]{3} -XDD #A$/', '', $text);
+        $misionBase = trim($misionBase);
+
+        if ($isSpecialRank) {
+            // Para rangos especiales, validar palabras permitidas
+            $words = preg_split('/\s+/', $misionBase);
+            foreach ($words as $word) {
+                $normalizedWord = strtolower(preg_replace('/[^a-zñ]/u', '', $word));
+                if ($normalizedWord && !in_array($normalizedWord, array_map('strtolower', $this->allowed_words))) {
+                    throw new Exception('La palabra "' . $word . '" no está permitida en la misión');
+                }
+            }
+        } else {
+            // Para rangos normales, validar contra lista de misiones
+            if (!in_array($misionBase, $this->allowed_missions)) {
+                throw new Exception('La misión "' . $misionBase . '" no está permitida');
             }
         }
 
@@ -61,12 +89,16 @@ class UserModifier {
                 throw new Exception('Rango no válido');
             }
 
+            // Determinar si es un rango especial
+            $rangosEspeciales = ['administrador', 'manager', 'fundador', 'owner', 'junta directiva'];
+            $isSpecialRank = in_array(strtolower($nuevoRango), $rangosEspeciales);
+
             // Validar misión
-            if (strlen($nuevaMision) < 12) {
-                throw new Exception('La misión debe tener al menos 12 caracteres');
+            if (empty($nuevaMision)) {
+                throw new Exception('La misión es requerida');
             }
             
-            $this->validateInput($nuevaMision);
+            $this->validateInput($nuevaMision, $isSpecialRank);
 
             // Validar firma para rangos que la requieren
             $rangosBasicos = ['agente', 'seguridad', 'tecnico', 'logistica'];
