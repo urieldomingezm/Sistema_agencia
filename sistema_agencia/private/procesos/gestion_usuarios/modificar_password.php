@@ -1,16 +1,38 @@
 <?php
-// Asegurarnos de que no haya output antes de los headers
+// Asegurarnos que no haya salida previa
+if (headers_sent($filename, $linenum)) {
+    // Si ya se enviaron headers, enviamos la respuesta como JSON puro
+    die(json_encode([
+        'success' => false,
+        'message' => 'Error de configuración del servidor',
+        'debug' => "Headers ya enviados en $filename:$linenum"
+    ]));
+}
+
+// Iniciar buffer de salida
 ob_start();
 
-// Configuración de errores para desarrollo
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Verificar si ya se incluyó el header
+if (!defined('HEADER_INCLUDED')) {
+    // Configuración básica
+    error_reporting(E_ALL);
+    ini_set('display_errors', 0);
+    
+    require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+    require_once(CONFIG_PATH . 'bd.php');
+}
 
 // Función para manejar la respuesta JSON
 function sendJsonResponse($success, $message, $statusCode = 200) {
-    ob_clean(); // Limpiar cualquier salida anterior
-    header('Content-Type: application/json; charset=utf-8');
-    http_response_code($statusCode);
+    // Limpiar cualquier salida previa
+    if (ob_get_length()) ob_clean();
+    
+    // Enviar headers solo si no se han enviado
+    if (!headers_sent()) {
+        header('Content-Type: application/json; charset=utf-8');
+        http_response_code($statusCode);
+    }
+    
     echo json_encode([
         'success' => $success,
         'message' => $message
@@ -19,9 +41,6 @@ function sendJsonResponse($success, $message, $statusCode = 200) {
 }
 
 try {
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
-    require_once(CONFIG_PATH . 'bd.php');
-
     if (!isset($_SESSION)) {
         session_start();
     }
