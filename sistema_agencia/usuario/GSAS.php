@@ -63,8 +63,13 @@ class GestionAscensos {
     }
 
     private function renderRow($ascenso) {
+        // Asegurarse de que los valores no sean null
+        $nombre_habbo = $ascenso['nombre_habbo'] ?? '';
+        $codigo = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'] ?? '';
+        $rango_actual = $ascenso['rango_actual'] ?? '';
+        $mision_actual = $ascenso['mision_actual'] ?? '';
+
         $estado = $this->getStatusBadge($ascenso['estado_ascenso']);
-        $codigo = $ascenso['id_ascenso'] ?? $ascenso['codigo_time'];
 
         $badgeStyle = '';
         switch (strtolower($ascenso['rango_actual'])) {
@@ -123,18 +128,22 @@ class GestionAscensos {
         return '<tr>
             <td class="text-start align-middle">
                 <div class="d-flex align-items-center">
-                    <img loading="lazy" class="me-2 rounded-circle" src="https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($ascenso['nombre_habbo']) . '&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="' . htmlspecialchars($ascenso['nombre_habbo']) . '" title="' . htmlspecialchars($ascenso['nombre_habbo']) . '" width="40" height="40">
+                    <img loading="lazy" class="me-2 rounded-circle" 
+                         src="https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($nombre_habbo) . '&amp;headonly=1&amp;head_direction=3&amp;size=m" 
+                         alt="' . htmlspecialchars($nombre_habbo) . '" 
+                         title="' . htmlspecialchars($nombre_habbo) . '" 
+                         width="40" height="40">
                     <div>
-                        <span class="fw-semibold" style="word-break: break-word;">' . htmlspecialchars($ascenso['nombre_habbo']) . '</span><br>
+                        <span class="fw-semibold" style="word-break: break-word;">' . htmlspecialchars($nombre_habbo) . '</span><br>
                         <small class="text-muted">ID: ' . htmlspecialchars($codigo) . '</small>
                     </div>
                 </div>
             </td>
             <td class="text-center align-middle">
-                <span class="badge" style="' . $badgeStyle . '">' . htmlspecialchars($ascenso['rango_actual']) . '</span>
+                <span class="badge" style="' . $badgeStyle . '">' . htmlspecialchars($rango_actual) . '</span>
             </td>
             <td class="text-center align-middle">' . $estado . '</td>
-            <td class="text-center align-middle">' . htmlspecialchars($ascenso['mision_actual']) . '</td>
+            <td class="text-center align-middle">' . htmlspecialchars($mision_actual) . '</td>
             <td class="text-center align-middle">' . $fechaDisponible . '</td>
             <td class="text-center align-middle">' . $this->renderActions($codigo) . '</td>
         </tr>';
