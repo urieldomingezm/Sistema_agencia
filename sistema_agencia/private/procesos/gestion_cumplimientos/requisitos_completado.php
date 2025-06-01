@@ -95,13 +95,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     
                     // Determinar el pago según el tipo de cumplimiento
                     if ($status === 'complete_all' && $rangoInfo) {
-                        $paga_recibio = (int)str_replace('c', '', $rangoInfo['total']);
+                        // Para complete_all, suma nómina + bonificación
+                        $nomina = (int)str_replace('c', '', $rangoInfo['nomina'] ?: '0');
+                        $bonificacion = (int)str_replace('c', '', $rangoInfo['bonificacion'] ?: '0');
+                        $paga_recibio = $nomina + $bonificacion;
                         $motivo = 'Cumplimiento total';
-                        $descripcion = "Recibió {$rangoInfo['total']} por cumplimiento total de requisitos";
+                        $descripcion = "Recibió {$paga_recibio}c por cumplimiento total (Nómina: {$rangoInfo['nomina']}, Bonificación: {$rangoInfo['bonificacion']})";
                     } elseif ($status === 'complete_bonus' && $rangoInfo) {
-                        $paga_recibio = (int)str_replace('c', '', $rangoInfo['nomina']);
-                        $motivo = 'Cumplimiento nómina';
-                        $descripcion = "Recibió {$rangoInfo['nomina']} por cumplimiento de nómina";
+                        // Para complete_bonus, solo la bonificación
+                        $paga_recibio = (int)str_replace('c', '', $rangoInfo['bonificacion'] ?: '0');
+                        $motivo = 'Cumplimiento bonificación';
+                        $descripcion = "Recibió {$rangoInfo['bonificacion']} por cumplimiento de bonificación";
                     } else {
                         $paga_recibio = 0;
                         $motivo = 'Sin pago';
