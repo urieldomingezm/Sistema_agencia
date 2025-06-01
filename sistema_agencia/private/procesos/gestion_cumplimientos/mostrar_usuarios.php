@@ -1,38 +1,51 @@
 <?php
 require_once(CONFIG_PATH . 'bd.php');
 
-$response = ['success' => false, 'message' => '', 'data' => []];
+class RequisitoService
+{
+    private $conn;
 
-try {
-    $database = new Database();
-    $conn = $database->getConnection();
+    public function __construct()
+    {
+        $db = new Database();
+        $this->conn = $db->getConnection();
 
-    if (!$conn) {
-        throw new Exception("No se pudo establecer la conexión con la base de datos.");
+        if (!$this->conn) {
+            throw new Exception("No se pudo establecer la conexión con la base de datos.");
+        }
     }
 
-    $query = "SELECT `id`, `user`, `requirement_name`, `times_as_encargado_count`, `ascensos_as_encargado_count`, `is_completed`, `last_updated` FROM `gestion_requisitos` WHERE 1";
+    public function obtenerCumplimientos()
+    {
+        $response = ['success' => false, 'message' => '', 'data' => []];
 
-    $stmt = $conn->prepare($query);
-    $stmt->execute();
+        try {
+            $query = "SELECT `id`, `user`, `requirement_name`, `times_as_encargado_count`, `ascensos_as_encargado_count`, `is_completed`, `last_updated`
+                      FROM `gestion_requisitos`";
 
-    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Asignar los resultados a la variable global para que CUMP.php pueda acceder a ellos
-    $GLOBALS['cumplimientos'] = $results;
+            $GLOBALS['cumplimientos'] = $resultados;
 
-    $response['success'] = true;
-    $response['message'] = 'Usuarios y requisitos obtenidos con éxito.';
-    $response['data'] = $results;
+            $response['success'] = true;
+            $response['message'] = 'Usuarios y requisitos obtenidos con éxito.';
+            $response['data'] = $resultados;
 
-} catch (PDOException $e) {
-    $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
-} catch (Exception $e) {
-    $response['message'] = 'Error general: ' . $e->getMessage();
-} finally {
-    if ($conn) {
-        $conn = null;
+        } catch (PDOException $e) {
+            $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
+        } catch (Exception $e) {
+            $response['message'] = 'Error general: ' . $e->getMessage();
+        } finally {
+            $this->cerrarConexion();
+        }
+
+        return $response;
+    }
+
+    private function cerrarConexion()
+    {
+        $this->conn = null;
     }
 }
-
-?>

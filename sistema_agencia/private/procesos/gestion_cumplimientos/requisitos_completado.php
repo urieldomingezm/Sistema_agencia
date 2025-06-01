@@ -9,6 +9,7 @@ if (!defined('CONFIG_PATH')) {
 }
 
 require_once(CONFIG_PATH . 'bd.php');
+require_once(__DIR__ . '/data_creditos_usuarios.php');
 
 header('Content-Type: application/json');
 
@@ -72,28 +73,68 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($stmtUpdate->execute()) {
                 if ($is_completed == 1) {
-                    $queryRango = "SELECT rango_actual FROM ascensos WHERE firma_usuario = :user ORDER BY fecha_ultimo_ascenso DESC LIMIT 1";
+                    // Obtener rango actual usando codigo_time
+                    $queryRango = "SELECT a.rango_actual 
+                                  FROM ascensos a 
+                                  INNER JOIN registro_usuario ru ON a.codigo_time = ru.codigo_time 
+                                  WHERE ru.usuario_registro = :user 
+                                  ORDER BY a.fecha_ultimo_ascenso DESC LIMIT 1";
                     $stmtRango = $conn->prepare($queryRango);
                     $stmtRango->bindParam(':user', $username, PDO::PARAM_STR);
                     $stmtRango->execute();
                     $rangoData = $stmtRango->fetch(PDO::FETCH_ASSOC);
-
+                    
                     $rango_actual = $rangoData ? $rangoData['rango_actual'] : 'Desconocido';
+                    
+                    // Buscar el rango en el array de rangos
+                    $rangoInfo = array_filter($rangos, function($r) use ($rango_actual) {
+                        return strtolower($r['rango']) === strtolower($rango_actual);
+                    });
+                    
+                    $rangoInfo = reset($rangoInfo); // Obtener el primer elemento
+                    
+                    // Determinar el pago según el tipo de cumplimiento
+                    if ($status === 'complete_all' && $rangoInfo) {
+                        $paga_recibio = (int)str_replace('c', '', $rangoInfo['total']);
+                        $motivo = 'Cumplimiento total';
+                        $descripcion = "Recibió {$rangoInfo['total']} por cumplimiento total de requisitos";
+                    } elseif ($status === 'complete_bonus' && $rangoInfo) {
+                        $paga_recibio = (int)str_replace('c', '', $rangoInfo['nomina']);
+                        $motivo = 'Cumplimiento nómina';
+                        $descripcion = "Recibió {$rangoInfo['nomina']} por cumplimiento de nómina";
+                    } else {
+                        $paga_recibio = 0;
+                        $motivo = 'Sin pago';
+                        $descripcion = "No aplica pago";
+                    }
 
-                    $queryInsertPaga = "INSERT INTO gestion_pagas (pagas_usuario, pagas_rango, pagas_recibio, pagas_motivo, pagas_completo, pagas_descripcion, pagas_fecha_registro)
-                                        VALUES (:usuario, :rango, :recibio, :motivo, :completo, :descripcion, NOW())";
+                    $queryInsertPaga = "INSERT INTO gestion_pagas (
+                        pagas_usuario, 
+                        pagas_rango, 
+                        pagas_recibio, 
+                        pagas_motivo, 
+                        pagas_completo, 
+                        pagas_descripcion, 
+                        pagas_fecha_registro
+                    ) VALUES (
+                        :usuario, 
+                        :rango, 
+                        :recibio, 
+                        :motivo, 
+                        :completo, 
+                        :descripcion, 
+                        NOW()
+                    )";
+                    
                     $stmtInsertPaga = $conn->prepare($queryInsertPaga);
-
-                    $motivo = null;
-                    $descripcion = null;
                     $completo_paga = 1;
 
                     $stmtInsertPaga->bindParam(':usuario', $username, PDO::PARAM_STR);
                     $stmtInsertPaga->bindParam(':rango', $rango_actual, PDO::PARAM_STR);
                     $stmtInsertPaga->bindParam(':recibio', $paga_recibio, PDO::PARAM_INT);
-                    $stmtInsertPaga->bindParam(':motivo', $motivo, PDO::PARAM_NULL);
+                    $stmtInsertPaga->bindParam(':motivo', $motivo, PDO::PARAM_STR);
                     $stmtInsertPaga->bindParam(':completo', $completo_paga, PDO::PARAM_INT);
-                    $stmtInsertPaga->bindParam(':descripcion', $descripcion, PDO::PARAM_NULL);
+                    $stmtInsertPaga->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
 
                     if ($stmtInsertPaga->execute()) {
                         $conn->commit();
@@ -116,8 +157,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn->rollBack();
             $response['message'] = 'Error de base de datos: ' . $e->getMessage();
         } catch (Exception $e) {
-             $conn->rollBack();
-             $response['message'] = 'Error en el servidor: ' . $e->getMessage();
+            $conn->rollBack();
+            $response['message'] = 'Error en el servidor: ' . $e->getMessage();
         }
     } else {
         $response['message'] = 'Parámetros incompletos.';
@@ -127,5 +168,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 echo json_encode($response);
-
-?>

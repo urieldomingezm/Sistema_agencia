@@ -9,114 +9,191 @@ if (!defined('CONFIG_PATH')) {
 
 require_once(CONFIG_PATH . 'bd.php');
 
-$response = ['success' => false, 'message' => ''];
-
-if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
-    $response['message'] = 'No has iniciado sesión o no se encontró tu nombre de usuario.';
-    echo json_encode($response);
-    exit;
-}
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    $response['message'] = 'Método no permitido.';
-    echo json_encode($response);
-    exit;
-}
-
-$username = $_SESSION['username'];
-
-if (!isset($_POST['requirement_name']) || !isset($_POST['type'])) {
-    $response['message'] = 'Parámetros requeridos faltantes (requirement_name o type).';
-    echo json_encode($response);
-    exit;
-}
-
-$posted_requirement_name = trim($_POST['requirement_name']);
-$type = trim($_POST['type']);
-
-$requirement_name = '';
-
-$count = 0;
-if (preg_match('/^(\d+)\s+(tiempos|ascensos)/', $posted_requirement_name, $matches)) {
-    $count = (int)$matches[1];
-} else {
-    error_log("Formato de requirement_name inesperado: " . $posted_requirement_name);
-}
-
-$count_column = '';
-$message_type = '';
-if ($type === 'tiempos') {
-    $count_column = 'times_as_encargado_count';
-    $message_type = 'Tiempos';
-} elseif ($type === 'ascensos') {
-    $count_column = 'ascensos_as_encargado_count';
-    $message_type = 'Ascensos';
-} else {
-    $response['message'] = 'Tipo de registro no válido.';
-    echo json_encode($response);
-    exit;
-}
-
-try {
-    $database = new Database();
-    $conn = $database->getConnection();
-
-    if (!$conn) {
-        throw new Exception("No se pudo establecer la conexión con la base de datos.");
+class RequirementManager {
+    private $database;
+    private $conn;
+    private $response;
+    
+    public function __construct() {
+        $this->response = ['success' => false, 'message' => ''];
+        $this->initializeDatabaseConnection();
     }
-
-    date_default_timezone_set('America/Mexico_City');
-    $now = new DateTime();
-    $startOfWeek = (clone $now)->modify('this week Monday')->format('Y-m-d 00:00:00');
-    $endOfWeek = (clone $now)->modify('this week Sunday')->format('Y-m-d 23:59:59');
-
-    $queryCheck = "SELECT id FROM gestion_requisitos
-                   WHERE user = :user
-                   AND last_updated BETWEEN :start_of_week AND :end_of_week";
-
-    $stmtCheck = $conn->prepare($queryCheck);
-    $stmtCheck->bindParam(':user', $username);
-    $stmtCheck->bindParam(':start_of_week', $startOfWeek);
-    $stmtCheck->bindParam(':end_of_week', $endOfWeek);
-    $stmtCheck->execute();
-    $existingRecord = $stmtCheck->fetch(PDO::FETCH_ASSOC);
-
-    if ($existingRecord) {
-        $query = "UPDATE gestion_requisitos
-                  SET requirement_name = :requirement_name, {$count_column} = :count, last_updated = NOW()
-                  WHERE id = :id";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':requirement_name', $requirement_name);
-        $stmt->bindParam(':count', $count, PDO::PARAM_INT);
-        $stmt->bindParam(':id', $existingRecord['id']);
-        $message = "Requisito semanal de {$message_type} actualizado con éxito.";
-    } else {
-        $query = "INSERT INTO gestion_requisitos (user, requirement_name, times_as_encargado_count, ascensos_as_encargado_count, is_completed, last_updated)
-                  VALUES (:user, :requirement_name, :times_count, :ascensos_count, FALSE, NOW())";
-        $stmt = $conn->prepare($query);
+    
+    private function initializeDatabaseConnection() {
+        try {
+            $this->database = new Database();
+            $this->conn = $this->database->getConnection();
+            
+            if (!$this->conn) {
+                throw new Exception("No se pudo establecer la conexión con la base de datos.");
+            }
+        } catch (Exception $e) {
+            $this->response['message'] = 'Error de conexión: ' . $e->getMessage();
+            $this->sendResponse();
+        }
+    }
+    
+    public function handleRequest() {
+        $this->validateSession();
+        $this->validateRequestMethod();
+        
+        $username = $_SESSION['username'];
+        $postedRequirementName = $this->sanitizeInput($_POST['requirement_name'] ?? '');
+        $type = $this->sanitizeInput($_POST['type'] ?? '');
+        
+        $this->validateRequiredParameters($postedRequirementName, $type);
+        
+        $count = $this->extractCountFromRequirement($postedRequirementName);
+        $config = $this->getConfigurationByType($type);
+        
+        $this->processRequirement($username, $postedRequirementName, $count, $config);
+        $this->sendResponse();
+    }
+    
+    private function validateSession() {
+        if (!isset($_SESSION['username']) || empty($_SESSION['username'])) {
+            $this->response['message'] = 'No has iniciado sesión o no se encontró tu nombre de usuario.';
+            $this->sendResponse();
+        }
+    }
+    
+    private function validateRequestMethod() {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            $this->response['message'] = 'Método no permitido.';
+            $this->sendResponse();
+        }
+    }
+    
+    private function sanitizeInput($input) {
+        return trim(htmlspecialchars($input, ENT_QUOTES, 'UTF-8'));
+    }
+    
+    private function validateRequiredParameters($requirementName, $type) {
+        if (empty($requirementName) || empty($type)) {
+            $this->response['message'] = 'Parámetros requeridos faltantes (requirement_name o type).';
+            $this->sendResponse();
+        }
+    }
+    
+    private function extractCountFromRequirement($postedRequirementName) {
+        if (preg_match('/^(\d+)\s+(tiempos|ascensos)/', $postedRequirementName, $matches)) {
+            return (int)$matches[1];
+        }
+        
+        error_log("Formato de requirement_name inesperado: " . $postedRequirementName);
+        return 0;
+    }
+    
+    private function getConfigurationByType($type) {
+        $validTypes = [
+            'tiempos' => [
+                'count_column' => 'times_as_encargado_count',
+                'message_type' => 'Tiempos'
+            ],
+            'ascensos' => [
+                'count_column' => 'ascensos_as_encargado_count',
+                'message_type' => 'Ascensos'
+            ]
+        ];
+        
+        if (!array_key_exists($type, $validTypes)) {
+            $this->response['message'] = 'Tipo de registro no válido.';
+            $this->sendResponse();
+        }
+        
+        return $validTypes[$type];
+    }
+    
+    private function getCurrentWeekRange() {
+        date_default_timezone_set('America/Mexico_City');
+        $now = new DateTime();
+        return [
+            'start' => (clone $now)->modify('this week Monday')->format('Y-m-d 00:00:00'),
+            'end' => (clone $now)->modify('this week Sunday')->format('Y-m-d 23:59:59')
+        ];
+    }
+    
+    private function findExistingRecord($username) {
+        $weekRange = $this->getCurrentWeekRange();
+        
+        $query = "SELECT id FROM gestion_requisitos
+                 WHERE user = :user
+                 AND last_updated BETWEEN :start_of_week AND :end_of_week";
+        
+        $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':user', $username);
-        $stmt->bindParam(':requirement_name', $requirement_name);
-
-        $times_count_val = ($type === 'tiempos') ? $count : 0;
-        $ascensos_count_val = ($type === 'ascensos') ? $count : 0;
-
-        $stmt->bindParam(':times_count', $times_count_val, PDO::PARAM_INT);
-        $stmt->bindParam(':ascensos_count', $ascensos_count_val, PDO::PARAM_INT);
-
-        $message = "Requisito semanal de {$message_type} registrado con éxito.";
+        $stmt->bindParam(':start_of_week', $weekRange['start']);
+        $stmt->bindParam(':end_of_week', $weekRange['end']);
+        $stmt->execute();
+        
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-    if ($stmt->execute()) {
-        $response['success'] = true;
-        $response['message'] = $message;
-    } else {
-        $response['message'] = "Error al procesar el requisito semanal de {$message_type} en la base de datos.";
+    
+    private function processRequirement($username, $requirementName, $count, $config) {
+        try {
+            $existingRecord = $this->findExistingRecord($username);
+            
+            if ($existingRecord) {
+                $this->updateExistingRecord($existingRecord['id'], $requirementName, $count, $config);
+            } else {
+                $this->insertNewRecord($username, $requirementName, $count, $config);
+            }
+        } catch (Exception $e) {
+            $this->response['message'] = 'Error en el servidor: ' . $e->getMessage();
+        }
     }
-
-} catch (Exception $e) {
-    $response['message'] = 'Error en el servidor: ' . $e->getMessage();
+    
+    private function updateExistingRecord($recordId, $requirementName, $count, $config) {
+        $query = "UPDATE gestion_requisitos
+                 SET requirement_name = :requirement_name, 
+                     {$config['count_column']} = :count, 
+                     last_updated = NOW()
+                 WHERE id = :id";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':requirement_name', $requirementName);
+        $stmt->bindParam(':count', $count, PDO::PARAM_INT);
+        $stmt->bindParam(':id', $recordId);
+        
+        if ($stmt->execute()) {
+            $this->response['success'] = true;
+            $this->response['message'] = "Requisito semanal de {$config['message_type']} actualizado con éxito.";
+        } else {
+            $this->response['message'] = "Error al actualizar el requisito semanal de {$config['message_type']}.";
+        }
+    }
+    
+    private function insertNewRecord($username, $requirementName, $count, $config) {
+        $query = "INSERT INTO gestion_requisitos 
+                 (user, requirement_name, times_as_encargado_count, ascensos_as_encargado_count, is_completed, last_updated)
+                 VALUES (:user, :requirement_name, :times_count, :ascensos_count, FALSE, NOW())";
+        
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user', $username);
+        $stmt->bindParam(':requirement_name', $requirementName);
+        
+        $timesCount = ($config['message_type'] === 'Tiempos') ? $count : 0;
+        $ascensosCount = ($config['message_type'] === 'Ascensos') ? $count : 0;
+        
+        $stmt->bindParam(':times_count', $timesCount, PDO::PARAM_INT);
+        $stmt->bindParam(':ascensos_count', $ascensosCount, PDO::PARAM_INT);
+        
+        if ($stmt->execute()) {
+            $this->response['success'] = true;
+            $this->response['message'] = "Requisito semanal de {$config['message_type']} registrado con éxito.";
+        } else {
+            $this->response['message'] = "Error al registrar el requisito semanal de {$config['message_type']}.";
+        }
+    }
+    
+    private function sendResponse() {
+        header('Content-Type: application/json');
+        echo json_encode($this->response);
+        exit;
+    }
 }
 
-echo json_encode($response);
-
+// Uso de la clase
+$requirementManager = new RequirementManager();
+$requirementManager->handleRequest();
 ?>
