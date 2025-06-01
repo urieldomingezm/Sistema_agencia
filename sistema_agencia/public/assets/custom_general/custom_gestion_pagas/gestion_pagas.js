@@ -123,3 +123,80 @@ function updateStatus(id, status) {
             });
         });
 }
+
+function darPaga(id) {
+    Swal.fire({
+        title: '¿Confirmar pago?',
+        text: '¿El usuario recibió los créditos correctamente?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#dc3545',
+        confirmButtonText: 'Sí, confirmar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            actualizarEstadoPaga(id, 'completo');
+        }
+    });
+}
+
+function marcarNoRecibio(id) {
+    Swal.fire({
+        title: '¿Marcar como no recibido?',
+        text: 'Esto indicará que el usuario no recibió el pago',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, marcar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            actualizarEstadoPaga(id, 'rechazado');
+        }
+    });
+}
+
+function actualizarEstadoPaga(id, estado) {
+    fetch('/private/procesos/gestion_pagas/actualizar_estado.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: id,
+            estado: estado
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                title: '¡Éxito!',
+                text: data.message,
+                icon: 'success',
+                confirmButtonColor: '#28a745'
+            }).then(() => {
+                // Recargar la página para actualizar la tabla
+                location.reload();
+            });
+        } else {
+            Swal.fire({
+                title: 'Error',
+                text: data.message || 'Hubo un error al actualizar el estado',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'Hubo un problema al conectar con el servidor',
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
+    });
+}
