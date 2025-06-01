@@ -258,9 +258,9 @@ require_once(PROCESOS_REQUERIMIENTOS_PACTH . 'mostrar_usuarios.php');
 // Inicializar la base de datos
 $db = new Database();
 
-// Obtener datos
-$requisitoManager = new RequisitoManager($db);
-$requisitos = $requisitoManager->obtenerRequisitosPendientes();
+// Corregir el nombre de la clase
+$requisitoService = new RequisitoService();
+$requisitos = $requisitoService->obtenerCumplimientos()['data'];
 
 $gestionPagas = new GestionPagas($db);
 $pagas = $gestionPagas->obtenerPagas();
