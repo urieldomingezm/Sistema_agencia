@@ -20,6 +20,7 @@ header('Content-Type: application/json');
 class UserModifier {
     private $conn;
     private $blocked_words = ['hack', 'xxx', 'porn', 'sexo', 'puto', 'puta', 'mierda', 'pendejo'];
+    private $allowed_words = ['SHN', 'administrador', 'fundador', 'manager', 'dueño'];
     private $valid_ranks = [
         'agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 
         'director', 'presidente', 'operativo', 'junta directiva', 
@@ -41,14 +42,12 @@ class UserModifier {
             }
         }
 
-        // Verificar caracteres especiales y longitud máxima de palabras
-        $words = explode(' ', $text);
+        // Verificar palabras permitidas
+        $words = preg_split('/\s+/', $text);
         foreach ($words as $word) {
-            if (strlen($word) > 20) {
-                throw new Exception('Las palabras no pueden exceder los 20 caracteres');
-            }
-            if (!preg_match('/^[a-zA-Z0-9\-_.,#]+$/', $word)) {
-                throw new Exception('El texto contiene caracteres no permitidos');
+            $normalizedWord = strtolower(preg_replace('/[^a-zñ]/u', '', $word));
+            if ($normalizedWord && !in_array($normalizedWord, array_map('strtolower', $this->allowed_words))) {
+                throw new Exception('La palabra "' . $word . '" no está permitida en la misión');
             }
         }
 

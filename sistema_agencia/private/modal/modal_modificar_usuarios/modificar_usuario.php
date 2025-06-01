@@ -97,6 +97,9 @@
             this.nuevaFirmaInput = document.getElementById('nuevaFirma');
             this.nuevoRangoSelect = document.getElementById('nuevoRango');
 
+            // Agregar palabras permitidas
+            this.allowedWords = ['SHN', 'administrador', 'fundador', 'manager', 'dueño'];
+
             this.initModalEvents();
             this.initFormEvents();
             this.nuevoRangoSelect.addEventListener('change', (e) => this.handleRankChange(e));
@@ -188,9 +191,16 @@
                 }
             });
 
-            // Validación en tiempo real para palabras largas
+            // Validación en tiempo real
             this.nuevaMisionInput.addEventListener('input', (e) => {
-                e.target.value = this.filterLongWords(e.target.value);
+                const words = e.target.value.split(' ');
+                const validatedWords = words.filter(word => {
+                    const normalizedWord = word.toLowerCase().replace(/[^a-zñ]/g, '');
+                    return !normalizedWord || this.allowedWords.some(allowed => 
+                        normalizedWord === allowed.toLowerCase()
+                    );
+                });
+                e.target.value = validatedWords.join(' ');
             });
         }
 
@@ -215,6 +225,19 @@
             if (!nuevaMision) {
                 this.showError('La misión es requerida.');
                 return false;
+            }
+
+            // Validar palabras permitidas
+            const words = nuevaMision.split(' ');
+            for (const word of words) {
+                const normalizedWord = word.toLowerCase().replace(/[^a-zñ]/g, '');
+                if (normalizedWord && 
+                    !this.allowedWords.some(allowed => 
+                        normalizedWord === allowed.toLowerCase()
+                    )) {
+                    this.showError(`La palabra "${word}" no está permitida en la misión.`);
+                    return false;
+                }
             }
 
             if (nuevaMision.length < 12) {
