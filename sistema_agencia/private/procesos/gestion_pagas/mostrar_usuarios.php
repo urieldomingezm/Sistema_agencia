@@ -15,7 +15,7 @@ class GestionPagas
     {
         $query = "
         SELECT 
-            gp.id,
+            gp.pagas_id as id,
             gp.pagas_usuario,
             gp.pagas_rango,
             gp.pagas_recibio,
