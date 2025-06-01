@@ -205,9 +205,16 @@ class GestionView
                                         <span class="badge <?= $clase ?>"><?= ucfirst($estatus) ?></span>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-primary" onclick="verDetallesPago(<?= $paga['id'] ?? 0 ?>)">
-                                            <i class="bi bi-eye"></i>
-                                        </button>
+                                        <?php if (empty($paga['pagas_completo'])): ?>
+                                            <button class="btn btn-sm btn-success" onclick="darPaga(<?= $paga['id'] ?? 0 ?>)">
+                                                Dar paga
+                                            </button>
+                                            <button class="btn btn-sm btn-danger" onclick="marcarNoRecibio(<?= $paga['id'] ?? 0 ?>)">
+                                                No recibió
+                                            </button>
+                                        <?php else: ?>
+                                            <span class="text-muted">Pago realizado</span>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
