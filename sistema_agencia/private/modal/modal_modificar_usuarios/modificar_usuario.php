@@ -27,7 +27,7 @@
 
                 <div class="border-top pt-3">
                     <h6 class="fw-bold text-primary mb-3">Modificar Campos</h6>
-                    <form id="formModificarRango">
+                    <form id="formModificarRango" novalidate>
                         <div class="row g-2">
                             <div class="col-md-4">
                                 <div class="mb-3">
@@ -54,18 +54,24 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="nuevaMision" class="form-label">Misión</label>
-                                    <input type="text" class="form-control" id="nuevaMision" name="nuevaMision"
-                                        minlength="12" required
-                                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s\-_.,#]/g, '')">
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="nuevaMision" 
+                                           name="nuevaMision"
+                                           data-validate-field="mision">
+                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
 
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label for="nuevaFirma" class="form-label">Firma (3 chars)</label>
-                                    <input type="text" class="form-control" id="nuevaFirma" name="nuevaFirma"
-                                        pattern="[A-Z0-9]{3}" title="3 caracteres alfanuméricos en mayúsculas"
-                                        maxlength="3" required>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="nuevaFirma" 
+                                           name="nuevaFirma"
+                                           data-validate-field="firma">
+                                    <div class="invalid-feedback"></div>
                                 </div>
                             </div>
                         </div>

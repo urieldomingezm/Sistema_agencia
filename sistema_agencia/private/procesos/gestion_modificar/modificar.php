@@ -41,9 +41,15 @@ class UserModifier {
             }
         }
 
-        // Verificar caracteres especiales
-        if (!preg_match('/^[a-zA-Z0-9\s\-_.,#]+$/', $text)) {
-            throw new Exception('El texto contiene caracteres no permitidos');
+        // Verificar caracteres especiales y longitud máxima de palabras
+        $words = explode(' ', $text);
+        foreach ($words as $word) {
+            if (strlen($word) > 20) {
+                throw new Exception('Las palabras no pueden exceder los 20 caracteres');
+            }
+            if (!preg_match('/^[a-zA-Z0-9\-_.,#]+$/', $word)) {
+                throw new Exception('El texto contiene caracteres no permitidos');
+            }
         }
 
         return true;
@@ -57,16 +63,20 @@ class UserModifier {
             }
 
             // Validar misión
-            if (strlen($nuevaMision) < 12 || strlen($nuevaMision) > 50) {
-                throw new Exception('La misión debe tener entre 12 y 50 caracteres');
+            if (strlen($nuevaMision) < 12) {
+                throw new Exception('La misión debe tener al menos 12 caracteres');
             }
+            
             $this->validateInput($nuevaMision);
 
             // Validar firma para rangos que la requieren
             $rangosBasicos = ['agente', 'seguridad', 'tecnico', 'logistica'];
             if (!in_array(strtolower($nuevoRango), $rangosBasicos)) {
-                if (!$nuevaFirma || !preg_match('/^[A-Z0-9]{3}$/', $nuevaFirma)) {
-                    throw new Exception('Firma inválida para el rango seleccionado');
+                if (!$nuevaFirma) {
+                    throw new Exception('La firma es requerida para este rango');
+                }
+                if (!preg_match('/^[A-Z0-9]{3}$/', $nuevaFirma)) {
+                    throw new Exception('El formato de la firma es inválido. Debe ser 3 caracteres alfanuméricos en mayúsculas');
                 }
             }
 
