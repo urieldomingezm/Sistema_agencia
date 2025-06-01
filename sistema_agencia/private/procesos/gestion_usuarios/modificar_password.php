@@ -1,123 +1,105 @@
 <?php
-// Asegurarnos que no haya salida previa
-if (headers_sent($filename, $linenum)) {
-    // Si ya se enviaron headers, enviamos la respuesta como JSON puro
-    die(json_encode([
-        'success' => false,
-        'message' => 'Error de configuración del servidor',
-        'debug' => "Headers ya enviados en $filename:$linenum"
-    ]));
+require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+require_once(CONFIG_PATH . 'bd.php');
+
+// Cambiamos la verificación de sesión
+if (!isset($_SESSION)) {
+    session_start();
 }
 
-// Iniciar buffer de salida
-ob_start();
+class ModificarPassword {
+    private $conn;
+    private $table = 'registro_usuario';
 
-// Verificar si ya se incluyó el header
-if (!defined('HEADER_INCLUDED')) {
-    // Configuración básica
-    error_reporting(E_ALL);
-    ini_set('display_errors', 0);
-    
-    require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
-    require_once(CONFIG_PATH . 'bd.php');
-}
-
-// Función para manejar la respuesta JSON
-function sendJsonResponse($success, $message, $statusCode = 200) {
-    // Limpiar cualquier salida previa
-    if (ob_get_length()) ob_clean();
-    
-    // Enviar headers solo si no se han enviado
-    if (!headers_sent()) {
-        header('Content-Type: application/json; charset=utf-8');
-        http_response_code($statusCode);
-    }
-    
-    echo json_encode([
-        'success' => $success,
-        'message' => $message
-    ]);
-    exit();
-}
-
-try {
-    if (!isset($_SESSION)) {
-        session_start();
+    public function __construct() {
+        try {
+            $database = new Database();
+            $this->conn = $database->getConnection();
+            if (!$this->conn) {
+                throw new Exception("Error de conexión a la base de datos");
+            }
+        } catch (Exception $e) {
+            error_log("Error en constructor ModificarPassword: " . $e->getMessage());
+            throw $e;
+        }
     }
 
-    // Verificar sesión
+    public function actualizarPassword($usuarioId, $nuevaPassword, $usuarioModificador) {
+        try {
+            if (empty($usuarioId) || empty($nuevaPassword)) {
+                error_log("Error: ID de usuario o contraseña vacíos");
+                return false;
+            }
+
+            $hashedPassword = password_hash($nuevaPassword, PASSWORD_DEFAULT);
+            
+            $checkQuery = "SELECT COUNT(*) FROM {$this->table} WHERE id = :id";
+            $checkStmt = $this->conn->prepare($checkQuery);
+            $checkStmt->bindParam(':id', $usuarioId);
+            $checkStmt->execute();
+            
+            if ($checkStmt->fetchColumn() == 0) {
+                error_log("Error: Usuario con ID $usuarioId no encontrado");
+                return false;
+            }
+
+            // Establecer variables para el trigger usando el username de la sesión
+            $this->conn->exec("SET @usuario_modificador = '$usuarioModificador'");
+            $this->conn->exec("SET @ip_modificacion = '" . $_SERVER['REMOTE_ADDR'] . "'");
+
+            $query = "UPDATE {$this->table} SET 
+                password_registro = :password,
+                usuario_registro = :usuario_mod 
+            WHERE id = :id";
+            
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':password', $hashedPassword);
+            $stmt->bindParam(':id', $usuarioId);
+            $stmt->bindParam(':usuario_mod', $usuarioModificador);
+
+            if ($stmt->execute()) {
+                error_log("Contraseña actualizada correctamente para el usuario ID: $usuarioId");
+                return true;
+            } else {
+                error_log("Error al ejecutar la consulta de actualización");
+                return false;
+            }
+        } catch (Exception $e) {
+            error_log("Error al actualizar contraseña: " . $e->getMessage());
+            return false;
+        }
+    }
+}
+
+// Modificamos la verificación de sesión en el POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['username'])) {
-        sendJsonResponse(false, 'No hay sesión activa', 401);
+        http_response_code(401);
+        echo json_encode(['success' => false, 'error' => 'No hay sesión activa']);
+        exit;
     }
 
-    // Verificar método
-    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        sendJsonResponse(false, 'Método no permitido', 405);
-    }
-
-    // Verificar datos POST
-    if (!isset($_POST['usuario_id']) || !isset($_POST['nueva_password'])) {
-        sendJsonResponse(false, 'Datos incompletos', 400);
-    }
-
-    // Sanitizar y validar datos
-    $usuarioId = filter_var($_POST['usuario_id'], FILTER_SANITIZE_NUMBER_INT);
-    $nuevaPassword = $_POST['nueva_password'];
-
-    if (empty($usuarioId) || empty($nuevaPassword)) {
-        sendJsonResponse(false, 'Datos inválidos', 400);
-    }
-
-    // Verificar conexión BD
-    if (!isset($conn) || !($conn instanceof PDO)) {
-        sendJsonResponse(false, 'Error de conexión a la base de datos', 500);
-    }
-
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Iniciar transacción
-    $conn->beginTransaction();
-
-    try {
-        // Verificar usuario
-        $checkStmt = $conn->prepare("SELECT id FROM registro_usuario WHERE id = ?");
-        $checkStmt->execute([$usuarioId]);
-        
-        if (!$checkStmt->fetch()) {
-            $conn->rollBack();
-            sendJsonResponse(false, 'Usuario no encontrado', 404);
+    if (isset($_POST['usuario_id']) && isset($_POST['nueva_password'])) {
+        try {
+            $usuarioModificador = $_SESSION['username']; // Cambiamos a username
+            $modificarPassword = new ModificarPassword();
+            $resultado = $modificarPassword->actualizarPassword(
+                $_POST['usuario_id'], 
+                $_POST['nueva_password'],
+                $usuarioModificador
+            );
+            
+            if ($resultado) {
+                echo json_encode(['success' => true, 'message' => 'Contraseña actualizada correctamente']);
+            } else {
+                http_response_code(500);
+                echo json_encode(['success' => false, 'error' => 'Error al actualizar la contraseña']);
+            }
+        } catch (Exception $e) {
+            error_log("Excepción al procesar cambio de contraseña: " . $e->getMessage());
+            http_response_code(500);
+            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
         }
-
-        // Actualizar contraseña
-        $hashedPassword = password_hash($nuevaPassword, PASSWORD_DEFAULT);
-        
-        $query = "UPDATE registro_usuario 
-                 SET password_registro = :password,
-                     usuario_modificador = :usuario_mod,
-                     fecha_modificacion = NOW()
-                 WHERE id = :id";
-
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':password', $hashedPassword);
-        $stmt->bindParam(':id', $usuarioId);
-        $stmt->bindParam(':usuario_mod', $_SESSION['username']);
-
-        if (!$stmt->execute()) {
-            throw new PDOException('Error al ejecutar la actualización: ' . implode(', ', $stmt->errorInfo()));
-        }
-
-        if ($stmt->rowCount() === 0) {
-            throw new Exception('No se realizaron cambios en la base de datos');
-        }
-
-        $conn->commit();
-        sendJsonResponse(true, 'Contraseña actualizada correctamente');
-
-    } catch (PDOException $e) {
-        $conn->rollBack();
-        sendJsonResponse(false, 'Error en la base de datos: ' . $e->getMessage(), 500);
     }
-
-} catch (Exception $e) {
-    sendJsonResponse(false, 'Error: ' . $e->getMessage(), 500);
 }
+?>

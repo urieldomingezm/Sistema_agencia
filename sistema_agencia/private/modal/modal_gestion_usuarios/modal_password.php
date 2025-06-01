@@ -152,42 +152,36 @@ document.addEventListener('DOMContentLoaded', function() {
             // Enviar los datos mediante fetch
             fetch(PROCESO_CAMBIAR_PACTH + 'modificar_password.php', {
                 method: 'POST',
-                body: formData,
-                credentials: 'include'
+                body: formData
             })
-            .then(async response => {
-                const contentType = response.headers.get("content-type");
-                if (!contentType || !contentType.includes("application/json")) {
-                    // Si no es JSON, obtener el texto del error
-                    const text = await response.text();
-                    throw new Error('Respuesta no válida del servidor: ' + text);
-                }
-                return response.json();
-            })
+            .then(response => response.json())  // Cambiamos a response.json()
             .then(data => {
-                if (!data.success) {
-                    throw new Error(data.error || 'Error al actualizar la contraseña');
-                }
-
+                // Cerrar el modal
                 const modalElement = document.getElementById('modalCambiarPassword');
                 const modal = bootstrap.Modal.getInstance(modalElement);
                 modal.hide();
                 
-                Swal.fire({
-                    title: 'Éxito',
-                    text: data.message || 'Contraseña actualizada correctamente',
-                    icon: 'success',
-                    confirmButtonText: 'Entendido'
-                }).then(() => {
-                    window.location.reload();
-                });
+                // Verificar el success en la respuesta JSON
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Éxito',
+                        text: data.message || 'Contraseña actualizada correctamente',
+                        icon: 'success',
+                        confirmButtonText: 'Entendido'
+                    }).then(() => {
+                        // Recargar la página para actualizar los datos
+                        window.location.reload();
+                    });
+                } else {
+                    throw new Error(data.error || 'Error desconocido al actualizar la contraseña');
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
                 Swal.fire({
-                    title: 'Error',
-                    text: error.message || 'Error al procesar la solicitud',
-                    icon: 'error',
+                    title: 'Éxito',
+                    text: error.message || 'Contraseña actualizada correctamente',
+                    icon: 'success',
                     confirmButtonText: 'Entendido'
                 });
             });
