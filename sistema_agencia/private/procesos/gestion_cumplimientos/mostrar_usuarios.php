@@ -20,17 +20,18 @@ class RequisitoService
         $response = ['success' => false, 'message' => '', 'data' => []];
 
         try {
-            // Solo muestra el registro más reciente por cada usuario
+            // Obtener el registro con mayor suma de tiempos + ascensos por usuario
             $query = "
                 SELECT gr.*
                 FROM gestion_requisitos gr
                 INNER JOIN (
-                    SELECT `user`, MAX(last_updated) AS max_update
+                    SELECT `user`, MAX(times_as_encargado_count + ascensos_as_encargado_count) AS max_total
                     FROM gestion_requisitos
                     GROUP BY `user`
-                ) latest
-                ON gr.user = latest.user AND gr.last_updated = latest.max_update
-                ORDER BY gr.last_updated DESC
+                ) mejores
+                ON gr.user = mejores.user
+                AND (gr.times_as_encargado_count + gr.ascensos_as_encargado_count) = mejores.max_total
+                ORDER BY gr.user ASC
             ";
 
             $stmt = $this->conn->prepare($query);
@@ -40,7 +41,7 @@ class RequisitoService
             $GLOBALS['cumplimientos'] = $resultados;
 
             $response['success'] = true;
-            $response['message'] = 'Usuarios únicos y requisitos obtenidos con éxito.';
+            $response['message'] = 'Registro más completo por usuario obtenido con éxito.';
             $response['data'] = $resultados;
 
         } catch (PDOException $e) {
