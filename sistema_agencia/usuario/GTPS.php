@@ -205,7 +205,7 @@ class GestionView
                                         <span class="badge <?= $clase ?>"><?= ucfirst($estatus) ?></span>
                                     </td>
                                     <td>
-                                        <?php if (empty($paga['pagas_completo'])): ?>
+                                        <?php if (empty($paga['estatus'])): ?>
                                             <button class="btn btn-sm btn-success" onclick="darPaga(<?= $paga['id'] ?? 0 ?>)">
                                                 Dar paga
                                             </button>
