@@ -17,67 +17,125 @@ if (!isset($_SESSION['username'])) {
 
 header('Content-Type: application/json');
 
-class UserModifier
-{
+class UserModifier {
     private $conn;
+    private $blocked_words = ['hack', 'xxx', 'porn', 'sexo', 'puto', 'puta', 'mierda', 'pendejo'];
+    private $valid_ranks = [
+        'agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 
+        'director', 'presidente', 'operativo', 'junta directiva', 
+        'administrador', 'manager', 'fundador', 'owner'
+    ];
 
-    public function __construct($dbConnection)
-    {
+    public function __construct($dbConnection) {
         $this->conn = $dbConnection;
     }
 
-    public function updateUser($userId, $nuevoRango, $nuevaMision, $nuevaFirma, $usuarioModificador)
-    {
-        if (!$userId || !$nuevoRango || !$nuevaMision) {
-            throw new Exception('Datos incompletos para la modificación');
-        }
-
-        $rangosBasicos = ['agente', 'seguridad', 'tecnico', 'logistica'];
-
-        // Si es un rango básico, la firma será NULL
-        if (in_array($nuevoRango, $rangosBasicos)) {
-            $nuevaFirma = null;
-        } else {
-            // Solo validar firma para rangos no básicos
-            if (!$nuevaFirma || !preg_match('/^[A-Z0-9]{3}$/', $nuevaFirma)) {
-                throw new Exception('Firma requerida o inválida para el rango seleccionado.');
+    private function validateInput($text) {
+        // Convertir a minúsculas para comparación
+        $lowerText = strtolower($text);
+        
+        // Verificar palabras bloqueadas
+        foreach ($this->blocked_words as $word) {
+            if (strpos($lowerText, $word) !== false) {
+                throw new Exception('El texto contiene palabras no permitidas');
             }
         }
 
-        $stmt = $this->conn->prepare("SELECT codigo_time FROM registro_usuario WHERE id = :id");
-        $stmt->execute([':id' => $userId]);
-        $registro = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$registro || !$registro['codigo_time']) {
-            throw new Exception('Código Time no encontrado para el ID de usuario: ' . $userId);
+        // Verificar caracteres especiales
+        if (!preg_match('/^[a-zA-Z0-9\s\-_.,#]+$/', $text)) {
+            throw new Exception('El texto contiene caracteres no permitidos');
         }
 
-        $codigoTime = $registro['codigo_time'];
+        return true;
+    }
 
-        // Establecer variables para el trigger
-        $this->conn->exec("SET @usuario_modificador = '$usuarioModificador'");
-        $this->conn->exec("SET @ip_modificacion = '" . $_SERVER['REMOTE_ADDR'] . "'");
+    public function updateUser($userId, $nuevoRango, $nuevaMision, $nuevaFirma, $usuarioModificador) {
+        try {
+            // Validar rango
+            if (!in_array(strtolower($nuevoRango), $this->valid_ranks)) {
+                throw new Exception('Rango no válido');
+            }
 
-        $stmt = $this->conn->prepare("UPDATE ascensos SET 
-            rango_actual = :rango,
-            mision_actual = :mision,
-            firma_usuario = :firma,
-            usuario_encargado = :usuario_mod
-        WHERE codigo_time = :codigo");
+            // Validar misión
+            if (strlen($nuevaMision) < 12 || strlen($nuevaMision) > 50) {
+                throw new Exception('La misión debe tener entre 12 y 50 caracteres');
+            }
+            $this->validateInput($nuevaMision);
 
-        $stmt->execute([
-            ':rango' => $nuevoRango,
-            ':mision' => $nuevaMision,
-            ':firma' => $nuevaFirma,
-            ':codigo' => $codigoTime,
-            ':usuario_mod' => $usuarioModificador
-        ]);
+            // Validar firma para rangos que la requieren
+            $rangosBasicos = ['agente', 'seguridad', 'tecnico', 'logistica'];
+            if (!in_array(strtolower($nuevoRango), $rangosBasicos)) {
+                if (!$nuevaFirma || !preg_match('/^[A-Z0-9]{3}$/', $nuevaFirma)) {
+                    throw new Exception('Firma inválida para el rango seleccionado');
+                }
+            }
 
-        if ($stmt->rowCount() === 0) {
-            throw new Exception('No se encontró registro de ascenso para actualizar con el Código Time: ' . $codigoTime);
+            // Obtener código_time del usuario
+            $stmt = $this->conn->prepare("SELECT codigo_time FROM registro_usuario WHERE id = :id");
+            $stmt->execute([':id' => $userId]);
+            $registro = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$registro) {
+                throw new Exception('Usuario no encontrado');
+            }
+
+            // Registrar la modificación
+            $this->conn->beginTransaction();
+
+            // Actualizar ascensos
+            $stmt = $this->conn->prepare("
+                UPDATE ascensos 
+                SET rango_actual = :rango,
+                    mision_actual = :mision,
+                    firma_usuario = :firma,
+                    usuario_encargado = :usuario_mod,
+                    fecha_modificacion = NOW()
+                WHERE codigo_time = :codigo
+            ");
+
+            $stmt->execute([
+                ':rango' => $nuevoRango,
+                ':mision' => $nuevaMision,
+                ':firma' => $nuevaFirma,
+                ':usuario_mod' => $usuarioModificador,
+                ':codigo' => $registro['codigo_time']
+            ]);
+
+            // Registrar en log de modificaciones
+            $stmt = $this->conn->prepare("
+                INSERT INTO log_modificaciones (
+                    codigo_time, 
+                    usuario_modificador, 
+                    ip_modificacion, 
+                    fecha_modificacion,
+                    detalle_modificacion
+                ) VALUES (
+                    :codigo,
+                    :usuario,
+                    :ip,
+                    NOW(),
+                    :detalle
+                )
+            ");
+
+            $stmt->execute([
+                ':codigo' => $registro['codigo_time'],
+                ':usuario' => $usuarioModificador,
+                ':ip' => $_SERVER['REMOTE_ADDR'],
+                ':detalle' => json_encode([
+                    'rango' => $nuevoRango,
+                    'mision' => $nuevaMision,
+                    'firma' => $nuevaFirma
+                ])
+            ]);
+
+            $this->conn->commit();
+            return ['success' => true, 'message' => 'Usuario actualizado correctamente'];
+
+        } catch (Exception $e) {
+            $this->conn->rollBack();
+            throw $e;
         }
-
-        return ['success' => true, 'message' => 'Usuario actualizado correctamente'];
     }
 }
 
