@@ -176,7 +176,7 @@ class BodyHome
                 'id' => '6',
                 'name' => 'Keekit08',
                 'image' => 'https://www.habbo.es/habbo-imaging/avatarimage?user=Keekit08&headonly=1&head_direction=3&size=sl',
-                'rank' => 'Administrador',
+                'rank' => 'Mi ratita de experimientos',
             ],
             [
                 'id' => '7',
