@@ -12,6 +12,14 @@ class AscensoTimeManager {
         $this->tiempoAscensoSegundosPorRango = $tiempoAscensoSegundosPorRango;
     }
 
+    public function formatearTiempoGrande($segundos) {
+        $horas = floor($segundos / 3600);
+        $minutos = floor(($segundos % 3600) / 60);
+        $segundos_restantes = $segundos % 60;
+        
+        return sprintf('%03d:%02d:%02d', $horas, $minutos, $segundos_restantes);
+    }
+
     public function verificarTiempoAscenso($id_ascenso, $auto_update = false) {
         $response = ['success' => false, 'message' => '', 'tiempo_disponible' => false];
 
@@ -64,17 +72,11 @@ class AscensoTimeManager {
                         'El tiempo requerido ha sido cumplido y el estado ha sido actualizado';
                     $response['tiempo_disponible'] = true;
                 } else {
-                    // Calcular tiempo restante
+                    // Calcular tiempo restante usando el nuevo método
                     $segundos_restantes = $segundos_requeridos - $tiempo_transcurrido;
-                    $tiempo_restante = sprintf(
-                        '%02d:%02d:%02d',
-                        floor($segundos_restantes / 3600),
-                        floor(($segundos_restantes % 3600) / 60),
-                        $segundos_restantes % 60
-                    );
+                    $tiempo_restante = $this->formatearTiempoGrande($segundos_restantes);
                     
                     // Actualizar fecha_disponible_ascenso con el tiempo restante
-                    // Solo actualizar en verificación manual o cada 3 minutos
                     if (!$auto_update || $minutos_trans % 3 === 0) {
                         $update_query = "UPDATE ascensos SET 
                             fecha_disponible_ascenso = :tiempo_restante
@@ -86,15 +88,18 @@ class AscensoTimeManager {
                         $update_stmt->execute();
                     }
                     
+                    $response['success'] = true; // Cambiado a true porque no es un error
                     $response['message'] = $auto_update ? 
                         'Actualización automática: ' . $tiempo_restante : 
                         'Tiempo restante: ' . $tiempo_restante;
                     $response['tiempo_disponible'] = false;
+                    $response['tiempo_restante'] = $tiempo_restante; // Agregar el tiempo restante a la respuesta
                 }
             } else {
                 $response['message'] = 'No se encontró el registro de ascenso';
             }
         } catch (PDOException $e) {
+            $response['success'] = false;
             $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
         }
 
