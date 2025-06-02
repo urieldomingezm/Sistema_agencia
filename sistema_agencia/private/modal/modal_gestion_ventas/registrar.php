@@ -12,7 +12,7 @@ class VentaRegistration
         'Membresía regla libre' => 25,
         'Membresía save' => 10,
         'Membresía silver' => 15,
-        'Membresía VIP' => 34
+        'Membresía VIP' => 15
     ];
 
     public function __construct()
