@@ -191,13 +191,13 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                 },
                 {
                     rule: 'maxLength',
-                    value: 13,
-                    errorMessage: 'No puede tener más de 13 caracteres'
+                    value: 15, // Aumentado a 15 para permitir nombres más largos
+                    errorMessage: 'No puede tener más de 15 caracteres'
                 },
                 {
                     rule: 'customRegexp',
-                    value: /^[a-zA-Z0-9]+$/,
-                    errorMessage: 'Solo letras y números permitidos'
+                    value: /^[a-zA-Z0-9\-]+$/, // Modificado para permitir guiones
+                    errorMessage: 'Solo letras, números y guiones permitidos'
                 },
                 {
                     rule: 'customRegexp',
