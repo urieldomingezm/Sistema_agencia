@@ -100,39 +100,35 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ 
                 id: id,
-                auto_update: false
+                auto_update: false // Flag para identificar verificación manual
             })
         })
         .then(response => response.json())
         .then(data => {
             Swal.close();
             if (data.success) {
-                if (data.tiempo_disponible) {
-                    Swal.fire({
-                        title: 'Éxito',
-                        text: data.message,
-                        icon: 'success',
-                        confirmButtonColor: '#198754'
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({
-                        title: 'Tiempo Restante',
-                        text: data.message,
-                        icon: 'info',
-                        confirmButtonColor: '#0dcaf0'
-                    });
-                }
+                Swal.fire({
+                    title: 'Éxito',
+                    text: data.message,
+                    icon: 'success',
+                    confirmButtonColor: '#198754'
+                }).then(() => {
+                    location.reload();
+                });
             } else {
-                throw new Error(data.message);
+                Swal.fire({
+                    title: 'Información',
+                    text: data.message,
+                    icon: 'info',
+                    confirmButtonColor: '#0dcaf0'
+                });
             }
         })
         .catch(error => {
             console.error('Error:', error);
             Swal.fire({
                 title: 'Error',
-                text: error.message || 'No se pudo verificar el tiempo',
+                text: 'No se pudo verificar el tiempo',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
