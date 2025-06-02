@@ -221,12 +221,6 @@ class UserController
                 'roles' => ['Web_master','agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'owner', 'Fundador', 'My_queen']
             ],
 
-            // Pages accessible by technical roles and above
-            'gestionar_usuarios' => [
-                'file' => 'GEUS.php',
-                'roles' => ['Web_master']
-            ],
-
             // Pages accessible by logistics and above
             'gestion_ascenso' => [
                 'file' => 'GSAS.php',
