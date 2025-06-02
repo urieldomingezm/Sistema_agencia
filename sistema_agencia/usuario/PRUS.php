@@ -98,26 +98,26 @@ $sections = [
     'Pagos' => [
         [
             'Estado Requisitos',
-            !empty($requisitosData) ?
+            !empty($requisitosData) && is_array($requisitosData[0]) ?
                 ($requisitosData[0]['is_completed'] ? 'Completado' : 'Pendiente') :
                 'Sin requisitos',
-            !empty($requisitosData) ?
+            !empty($requisitosData) && is_array($requisitosData[0]) ?
                 ($requisitosData[0]['is_completed'] ? 'badge bg-success' : 'badge bg-warning') :
                 'badge bg-secondary'
         ],
         [
             'Último Pago',
-            isset($pagasData[0]) ?
+            !empty($pagasData) && is_array($pagasData[0]) ?
                 "Recibió {$pagasData[0]['pagas_recibio']}c - {$pagasData[0]['pagas_motivo']}" :
                 'Sin pagos previos',
-            isset($pagasData[0]) && $pagasData[0]['pagas_completo'] ?
+            !empty($pagasData) && is_array($pagasData[0]) && $pagasData[0]['pagas_completo'] ?
                 'badge bg-success' : 'badge bg-secondary'
         ],
         [
             'Próximo Pago',
-            !empty($requisitosData) && $requisitosData[0]['is_completed'] ?
+            !empty($requisitosData) && is_array($requisitosData[0]) && $requisitosData[0]['is_completed'] ?
                 'Pendiente de recibir pago' : 'Complete los requisitos',
-            !empty($requisitosData) && $requisitosData[0]['is_completed'] ?
+            !empty($requisitosData) && is_array($requisitosData[0]) && $requisitosData[0]['is_completed'] ?
                 'badge bg-info' : 'badge bg-warning'
         ],
     ],
