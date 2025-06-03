@@ -156,7 +156,7 @@ $sections = [
             $ascensoData['usuario_encargado'] ? 'badge bg-info' : 'badge bg-secondary'
         ]
     ]
-};
+];
 ?>
 
 <div class="container-fluid p-0">
