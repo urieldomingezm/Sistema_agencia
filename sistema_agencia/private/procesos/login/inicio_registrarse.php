@@ -95,17 +95,21 @@ class UserRegistration
                 estado_ascenso, 
                 fecha_ultimo_ascenso,
                 fecha_disponible_ascenso,
-                es_recluta
+                es_recluta,
+                tiempo_requerido,      /* Agregado */
+                tiempo_transcurrido    /* Agregado */
             ) VALUES (
                 :codigo_time,
                 'Agente',          
                 'SHN- Iniciado I', 
                 NULL,
                 NULL,
-                'Ascendido',       
+                'en proceso',       
                 NOW(),
                 '00:10:00',       
-                1                   
+                1,
+                '00:10:00',        /* 10 minutos requeridos */
+                '00:00:00'         /* Tiempo inicial */
             )";
 
             $stmtAscensos = $this->conn->prepare($queryAscensos);
@@ -124,7 +128,8 @@ class UserRegistration
                 tiempo_transcurrido,
                 tiempo_encargado_usuario,
                 tiempo_fecha_registro,
-                tiempo_iniciado
+                tiempo_iniciado,
+                tiempo_objetivo      /* Agregado */
             ) VALUES (
                 :codigo_time,
                 'pausa',     
@@ -133,7 +138,8 @@ class UserRegistration
                 '00:00:00',
                 NULL,
                 NOW(),
-                '00:00:00'
+                '00:00:00',
+                '00:10:00'         /* 10 minutos objetivo */
             )";
 
             $stmtTiempo = $this->conn->prepare($queryTiempo);
