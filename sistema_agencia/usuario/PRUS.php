@@ -122,7 +122,15 @@ $sections = [
         ],
     ],
     'Tiempo' => [
-        ['Total Acumulado', $tiempoData['tiempo_acumulado'] ?? '00:00:00'],
+        [
+            'Total Acumulado', 
+            $tiempoData['tiempo_acumulado'] ?? '00:00:00',
+            '',
+            '<button onclick="verificarTiempoTranscurrido(\'' . ($personalData['codigo_time'] ?? '') . '\')" 
+         class="btn btn-sm btn-outline-primary ms-2">
+            <i class="bi bi-clock-history"></i>
+         </button>'
+        ],
         ['Tiempo Restado', $tiempoData['tiempo_restado'] ?? '00:00:00'],
         [
             'Encargado',
@@ -156,7 +164,7 @@ $sections = [
             $ascensoData['usuario_encargado'] ? 'badge bg-info' : 'badge bg-secondary'
         ]
     ]
-];
+};
 ?>
 
 <div class="container-fluid p-0">
@@ -331,3 +339,66 @@ function formatEstimatedTime($time)
 <head>
     <meta name="keywords" content="Requisitos de paga, ascensos y misiones para los usuarios como tambien traslados">
 </head>
+
+<script>
+function verificarTiempoTranscurrido(codigoTime) {
+    if (!codigoTime) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'No se encontró el código de tiempo'
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: 'Verificando tiempo...',
+        text: 'Por favor espera',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        willOpen: () => {
+            Swal.showLoading();
+        }
+    });
+
+    fetch('/private/procesos/gestion_tiempos/ver_tiempo_ajax.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            codigo_time: codigoTime
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            Swal.fire({
+                icon: 'info',
+                title: 'Tiempo Transcurrido',
+                html: `
+                    <div class="text-start">
+                        <p><strong>Tiempo Acumulado:</strong> ${data.tiempo_acumulado}</p>
+                        <p><strong>Tiempo Transcurrido:</strong> ${data.tiempo_transcurrido}</p>
+                        <p><strong>Tiempo Total:</strong> ${data.tiempo_total}</p>
+                    </div>
+                `,
+                confirmButtonColor: '#3085d6'
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: data.message || 'No se pudo obtener el tiempo transcurrido'
+            });
+        }
+    })
+    .catch(error => {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error al procesar la solicitud'
+        });
+    });
+}
+</script>
