@@ -6,8 +6,8 @@ class UserRegistration
 {
     private $conn;
     private $table = 'registro_usuario';
-    private $blocked_users = ['RDRepublica', 'Keekito08'];
-    private $blocked_ips = ['186.6.16.249'];
+    private $blocked_users = ['RDRepublica', 'Keekito08','lulu'];
+    private $blocked_ips = ['186.6.16.249','152.0.100.22'];
 
     public function __construct()
     {
