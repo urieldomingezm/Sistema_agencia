@@ -13,74 +13,92 @@ class AscensoTimeManager {
     }
 
     public function verificarTiempoAscenso($id_ascenso, $auto_update = false) {
+        $response = ['success' => false, 'message' => '', 'tiempo_disponible' => false];
+
         try {
-            // Obtener tiempo requerido y transcurrido
-            $query = "SELECT 
-                tiempo_requerido,
-                tiempo_transcurrido,
-                estado_ascenso
-            FROM ascensos 
-            WHERE id = :id";
+            $id_column = is_numeric($id_ascenso) ? 'ascenso_id' : 'codigo_time';
 
+            // Modificar la consulta para obtener también el rango_actual
+            $query = "SELECT fecha_ultimo_ascenso, fecha_disponible_ascenso, rango_actual 
+                     FROM ascensos 
+                     WHERE " . $id_column . " = :id_ascenso";
+            
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':id', $id_ascenso);
+            $stmt->bindParam(':id_ascenso', $id_ascenso);
             $stmt->execute();
-            
-            $ascenso = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if (!$ascenso) {
-                throw new Exception("Ascenso no encontrado");
-            }
 
-            // Convertir tiempos a segundos para comparación
-            $tiempo_req = $this->timeToSeconds($ascenso['tiempo_requerido']);
-            $tiempo_trans = $this->timeToSeconds($ascenso['tiempo_transcurrido']);
-            
-            if ($tiempo_trans >= $tiempo_req) {
-                // Actualizar estado si se cumplió el tiempo
-                $update = "UPDATE ascensos SET 
-                    estado_ascenso = 'disponible',
-                    fecha_disponible_ascenso = '00:00:00'
-                    WHERE id = :id";
+            $ascenso_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($ascenso_data) {
+                date_default_timezone_set('America/Mexico_City');
+                $hora_actual = new DateTime();
+                $fecha_disponible = new DateTime($ascenso_data['fecha_disponible_ascenso']);
+                $rango_actual = strtolower($ascenso_data['rango_actual']);
+
+                // Obtener el tiempo requerido para el rango actual
+                $tiempo_requerido = $this->tiempoAscensoSegundosPorRango[$rango_actual] ?? '00:00:00';
+                list($horas, $minutos, $segundos) = explode(':', $tiempo_requerido);
+                $segundos_requeridos = ($horas * 3600) + ($minutos * 60) + $segundos;
+
+                // Calcular el tiempo transcurrido desde el último ascenso
+                $fecha_ultimo = new DateTime($ascenso_data['fecha_ultimo_ascenso']);
+                $tiempo_transcurrido = $hora_actual->getTimestamp() - $fecha_ultimo->getTimestamp();
+                $dias_trans = floor($tiempo_transcurrido / 86400);
+                $horas_trans = floor(($tiempo_transcurrido % 86400) / 3600);
+                $minutos_trans = floor(($tiempo_transcurrido % 3600) / 60);
+                $segundos_trans = $tiempo_transcurrido % 60;
+
+                if ($tiempo_transcurrido >= $segundos_requeridos) {
+                    $update_query = "UPDATE ascensos SET 
+                        estado_ascenso = 'disponible',
+                        fecha_disponible_ascenso = '00:00:00'
+                        WHERE " . $id_column . " = :id_ascenso";
                     
-                $stmt = $this->conn->prepare($update);
-                $stmt->bindParam(':id', $id_ascenso);
-                $stmt->execute();
-                
-                return [
-                    'success' => true,
-                    'message' => 'Tiempo completado - Disponible para ascenso',
-                    'tiempo_disponible' => true
-                ];
+                    $update_stmt = $this->conn->prepare($update_query);
+                    $update_stmt->bindParam(':id_ascenso', $id_ascenso);
+                    $update_stmt->execute();
+
+                    $response['success'] = true;
+                    $response['message'] = $auto_update ? 
+                        'Actualización automática: Tiempo cumplido' : 
+                        'El tiempo requerido ha sido cumplido y el estado ha sido actualizado';
+                    $response['tiempo_disponible'] = true;
+                } else {
+                    // Calcular tiempo restante
+                    $segundos_restantes = $segundos_requeridos - $tiempo_transcurrido;
+                    $tiempo_restante = sprintf(
+                        '%02d:%02d:%02d',
+                        floor($segundos_restantes / 3600),
+                        floor(($segundos_restantes % 3600) / 60),
+                        $segundos_restantes % 60
+                    );
+                    
+                    // Actualizar fecha_disponible_ascenso con el tiempo restante
+                    // Solo actualizar en verificación manual o cada 3 minutos
+                    if (!$auto_update || $minutos_trans % 3 === 0) {
+                        $update_query = "UPDATE ascensos SET 
+                            fecha_disponible_ascenso = :tiempo_restante
+                            WHERE " . $id_column . " = :id_ascenso";
+                        
+                        $update_stmt = $this->conn->prepare($update_query);
+                        $update_stmt->bindParam(':tiempo_restante', $tiempo_restante);
+                        $update_stmt->bindParam(':id_ascenso', $id_ascenso);
+                        $update_stmt->execute();
+                    }
+                    
+                    $response['message'] = $auto_update ? 
+                        'Actualización automática: ' . $tiempo_restante : 
+                        'Tiempo restante: ' . $tiempo_restante;
+                    $response['tiempo_disponible'] = false;
+                }
             } else {
-                // Calcular tiempo restante
-                $segundos_restantes = $tiempo_req - $tiempo_trans;
-                $tiempo_restante = $this->secondsToTime($segundos_restantes);
-                
-                return [
-                    'success' => true,
-                    'message' => "Tiempo restante: $tiempo_restante",
-                    'tiempo_disponible' => false
-                ];
+                $response['message'] = 'No se encontró el registro de ascenso';
             }
-        } catch (Exception $e) {
-            return [
-                'success' => false,
-                'message' => $e->getMessage()
-            ];
+        } catch (PDOException $e) {
+            $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
         }
-    }
 
-    private function timeToSeconds($time) {
-        $parts = explode(':', $time);
-        return ($parts[0] * 3600) + ($parts[1] * 60) + $parts[2];
-    }
-
-    private function secondsToTime($seconds) {
-        $hours = floor($seconds / 3600);
-        $minutes = floor(($seconds % 3600) / 60);
-        $secs = $seconds % 60;
-        return sprintf('%02d:%02d:%02d', $hours, $minutes, $secs);
+        return $response;
     }
 }
 
