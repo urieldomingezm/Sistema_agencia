@@ -78,3 +78,27 @@ try {
 } catch (Exception $e) {
     echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
 }
+
+// En la sección de 'Tiempo' del array $sections
+'Tiempo' => [
+    [
+        'Total Acumulado', 
+        $tiempoData['tiempo_acumulado'] ?? '00:00:00',
+        '',
+        '<button onclick="verificarTiempoTranscurrido(\'' . ($personalData['codigo_time'] ?? '') . '\')" 
+         class="btn btn-sm btn-outline-primary ms-2">
+            <i class="bi bi-clock-history"></i>
+         </button>'
+    ],
+    ['Tiempo Restado', $tiempoData['tiempo_restado'] ?? '00:00:00'],
+    [
+        'Encargado',
+        $tiempoData['tiempo_encargado_usuario'] ?? 'Sin asignar',
+        $tiempoData['tiempo_encargado_usuario'] ? 'badge bg-info' : 'badge bg-secondary'
+    ],
+    [
+        'Estado',
+        ucfirst($tiempoData['tiempo_status'] ?? 'inactivo'),
+        'badge text-white ' . getStatusColor($tiempoData['tiempo_status'] ?? 'inactivo')
+    ]
+],
