@@ -27,21 +27,25 @@ class UserController
         $database = new Database();
         $this->conn = $database->getConnection();
         $this->loadUserRank();
-        
+
         // Verificar si es la primera vez que el usuario inicia sesión
-        if (!isset($_SESSION['interface_selected']) && 
-            in_array($this->userRango, ['Web_master', 'manager', 'Owner', 'Manager', 'Owner'])) {
+        if (
+            !isset($_SESSION['interface_selected']) &&
+            in_array($this->userRango, ['Web_master', 'manager', 'Owner', 'Manager', 'Owner'])
+        ) {
             $this->showInterfaceSelector();
             exit;
         }
-        
+
         // Si ya seleccionó interfaz administrativa, redirigir
-        if (isset($_SESSION['interface_selected']) && 
-            $_SESSION['interface_selected'] === 'admin') {
+        if (
+            isset($_SESSION['interface_selected']) &&
+            $_SESSION['interface_selected'] === 'admin'
+        ) {
             header('Location: /administrativo/index.php');
             exit;
         }
-        
+
         $this->loadMenu();
     }
 
@@ -221,61 +225,61 @@ class UserController
             // Pages accessible by all roles
             'inicio' => [
                 'file' => 'USR.php',
-                'roles' => ['Web_master','agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
             'ver_perfil' => [
                 'file' => 'PRUS.php',
-                'roles' => ['Web_master','agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
             'cerrar_session' => [
                 'file' => 'CRSS.php',
-                'roles' => ['Web_master','agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
             'requisitos_paga' => [
                 'file' => 'RQPG.php',
-                'roles' => ['Web_master','agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'agente', 'seguridad', 'tecnico', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
 
             // Pages accessible by logistics and above
             'gestion_ascenso' => [
                 'file' => 'GSAS.php',
-                'roles' => ['Web_master','logistica', 'supervisor', 'operativo', 'director', 'presidente', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Logistica', 'Supervisor', 'Operativo', 'Director', 'Presidente', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'logistica', 'supervisor', 'operativo', 'director', 'presidente', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Logistica', 'Supervisor', 'Operativo', 'Director', 'Presidente', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
-            
+
             // Pages for viewing personal time and promotions (accessible by logistics and above)
             'ver_mis_tiempos' => [
                 'file' => 'HIST.php',
-                'roles' => ['Web_master','logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
             'ver_mis_ascensos' => [
                 'file' => 'HISA.php',
-                'roles' => ['Web_master','logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'logistica', 'supervisor', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
 
             // Pages accessible by director and above
             'gestion_de_tiempo' => [
                 'file' => 'GSTM.php',
-                'roles' => ['Web_master','director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'director', 'presidente', 'operativo', 'junta directiva', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Director', 'Presidente', 'Operativo', 'Junta directiva', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
 
-            
+
 
             // Pages accessible only by administrators
             'gestion_de_pagas' => [
                 'file' => 'GTPS.php',
-                'roles' => ['Web_master','administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
             'gestion_de_notificaciones' => [
                 'file' => 'GTNT.php',
-                'roles' => ['Web_master','administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
             'ventas_membresias' => [
                 'file' => 'VTM.php',
-                'roles' => ['Web_master','administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
             'ventas_rangos_y_traslados' => [
                 'file' => 'VTR.php',
-                'roles' => ['Web_master','administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
+                'roles' => ['Web_master', 'administrador', 'manager', 'Owner', 'fundador', 'my_queen', 'Administrador', 'Manager', 'Owner', 'Fundador', 'My_queen']
             ],
         ];
 
@@ -308,16 +312,24 @@ class UserController
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Seleccionar Interfaz</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
             <style>
                 .interface-card {
                     cursor: pointer;
-                    transition: transform 0.3s;
+                    transition: transform 0.3s, border-color 0.3s;
+                    border: 2px solid transparent;
                 }
                 .interface-card:hover {
                     transform: translateY(-5px);
+                    border-color: #0d6efd;
                 }
-                .card-selected {
-                    border: 3px solid #0d6efd;
+                .card-body {
+                    padding: 2rem;
+                }
+                .icon-container {
+                    font-size: 3rem;
+                    color: #0d6efd;
+                    margin-bottom: 1rem;
                 }
             </style>
         </head>
@@ -333,18 +345,22 @@ class UserController
                             <div class="col-md-6 mb-3">
                                 <div class="card interface-card h-100" onclick="selectInterface(\'user\')">
                                     <div class="card-body text-center">
+                                        <div class="icon-container">
+                                            <i class="bi bi-person-circle"></i>
+                                        </div>
                                         <h5 class="card-title">Interfaz de Usuario</h5>
                                         <p class="card-text">Accede a las funciones estándar del sistema</p>
-                                        <i class="bi bi-person-circle display-4"></i>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="card interface-card h-100" onclick="selectInterface(\'admin\')">
                                     <div class="card-body text-center">
+                                        <div class="icon-container">
+                                            <i class="bi bi-gear-fill"></i>
+                                        </div>
                                         <h5 class="card-title">Interfaz Administrativa</h5>
                                         <p class="card-text">Accede a funciones avanzadas de administración</p>
-                                        <i class="bi bi-gear-fill display-4"></i>
                                     </div>
                                 </div>
                             </div>
@@ -355,32 +371,39 @@ class UserController
 
             <script>
             function selectInterface(type) {
-                // Almacenar la selección en sessionStorage
-                fetch("index.php", {
+                const formData = new FormData();
+                formData.append("interface", type);
+
+                fetch(window.location.href, {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: "interface=" + type
-                }).then(response => {
+                    body: formData,
+                    credentials: "same-origin"
+                })
+                .then(response => {
                     if (type === "admin") {
-                        window.location.href = "/administrativo/index.php";
+                        window.location.href = "' . htmlspecialchars(SITE_URL) . '/administrativo/index.php";
                     } else {
-                        window.location.href = "index.php";
+                        window.location.href = "' . htmlspecialchars(SITE_URL) . '/usuario/index.php";
                     }
-                }).catch(error => {
+                })
+                .catch(error => {
                     console.error("Error:", error);
+                    alert("Ocurrió un error al seleccionar la interfaz. Por favor, intenta nuevamente.");
                 });
             }
             </script>
         </body>
         </html>';
+        exit;
     }
 }
 
-// Agregar al principio del archivo, después de session_start()
+// Agregar al principio del archivo, justo después de los requires
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['interface'])) {
+    session_start();
     $_SESSION['interface_selected'] = $_POST['interface'];
+    header('Content-Type: application/json');
+    echo json_encode(['success' => true]);
     exit;
 }
 
@@ -433,4 +456,3 @@ $controller = new UserController();
         });
     </script>
 </body>
-
