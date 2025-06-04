@@ -13,7 +13,7 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background: #f8f5ff;
+        background: #fff;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -21,17 +21,17 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     }
 
     .card {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
         border-radius: 20px;
-        border: 2px solid #7b3ed1;
-        box-shadow: 0 10px 20px rgba(123, 62, 209, 0.2);
+        border: 2px solid #222;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
     }
 
     .card-header {
-        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
-        color: white;
+        background: #111;
+        color: #fff;
         border-radius: 20px 20px 0 0 !important;
-        border-bottom: 2px solid #ffffff;
+        border-bottom: 2px solid #fff;
         padding: 20px;
     }
 
@@ -39,27 +39,29 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
         border-radius: 10px;
         padding: 12px;
         border: 2px solid #e0e0e0;
+        background: #fff;
+        color: #111;
     }
 
     .form-control:focus {
-        border-color: #7b3ed1;
-        box-shadow: 0 0 0 0.25rem rgba(123, 62, 209, 0.25);
+        border-color: #111;
+        box-shadow: 0 0 0 0.25rem rgba(0,0,0,0.10);
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
+        background: #111;
         border: none;
         border-radius: 10px;
         padding: 12px 30px;
         font-weight: 600;
-        color: white;
+        color: #fff;
         transition: all 0.3s ease;
     }
 
     .btn-primary:hover {
-        background: linear-gradient(135deg, #5e2ca5 0%, #7b3ed1 100%);
+        background: #222;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(94, 44, 165, 0.3);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.10);
     }
 
     /* Add validation styles */
@@ -105,7 +107,6 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
     /* Ajustes para los mensajes de validación */
     .form-group {
         margin-bottom: 2rem;
-        /* Aumentado para dar espacio a los mensajes */
         position: relative;
     }
 
@@ -113,7 +114,6 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
         position: absolute;
         left: 0;
         top: 100%;
-        /* Cambiado de bottom a top */
         font-size: 0.75rem;
         color: #dc3545;
         margin-top: 0.25rem;

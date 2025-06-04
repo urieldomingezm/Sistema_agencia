@@ -36,7 +36,7 @@ require_once(TEMPLATES_PATH . 'header.php');
 <style>
     body {
         font-family: 'Poppins', sans-serif;
-        background: #f8f5ff;
+        background: #fff;
         min-height: 100vh;
         display: flex;
         align-items: center;
@@ -44,17 +44,17 @@ require_once(TEMPLATES_PATH . 'header.php');
     }
 
     .card {
-        background: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.98);
         border-radius: 20px;
-        border: 2px solid #7b3ed1;
-        box-shadow: 0 10px 20px rgba(123, 62, 209, 0.2);
+        border: 2px solid #222;
+        box-shadow: 0 10px 20px rgba(34, 34, 34, 0.08);
     }
 
     .card-header {
-        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
-        color: white;
+        background: #222;
+        color: #fff;
         border-radius: 20px 20px 0 0 !important;
-        border-bottom: 2px solid #ffffff;
+        border-bottom: 2px solid #fff;
         padding: 20px;
     }
 
@@ -62,32 +62,32 @@ require_once(TEMPLATES_PATH . 'header.php');
         border-radius: 10px;
         padding: 12px;
         border: 2px solid #e0e0e0;
+        background: #fff;
+        color: #222;
     }
 
     .form-control:focus {
-        border-color: #7b3ed1;
-        box-shadow: 0 0 0 0.25rem rgba(123, 62, 209, 0.25);
+        border-color: #222;
+        box-shadow: 0 0 0 0.25rem rgba(34, 34, 34, 0.08);
+        background: #fff;
+        color: #222;
     }
 
     .btn-primary {
-        background: linear-gradient(135deg, #7b3ed1 0%, #5e2ca5 100%);
+        background: #222;
         border: none;
         border-radius: 10px;
         padding: 12px 30px;
         font-weight: 600;
-        color: white;
+        color: #fff;
         transition: all 0.3s ease;
     }
 
     .btn-primary:hover {
-        background: linear-gradient(135deg, #5e2ca5 0%, #7b3ed1 100%);
+        background: #000;
+        color: #fff;
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(94, 44, 165, 0.3);
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
-        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(34, 34, 34, 0.15);
     }
 
     /* Validation styles */
@@ -105,7 +105,7 @@ require_once(TEMPLATES_PATH . 'header.php');
         border-color: #198754 !important;
     }
 
-    /* Estilos adicionales para responsividad */
+    /* Responsiveness */
     @media (max-width: 768px) {
         .container {
             padding: 15px;
@@ -117,11 +117,9 @@ require_once(TEMPLATES_PATH . 'header.php');
 
         .form-control {
             font-size: 16px;
-            /* Mejor legibilidad en móviles */
         }
     }
 
-    /* Mejoras en la alineación de campos */
     .form-group {
         margin-bottom: 1.5rem;
         position: relative;
@@ -143,6 +141,7 @@ require_once(TEMPLATES_PATH . 'header.php');
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
+        color: #222;
     }
 
     .input-group .form-control {
@@ -151,11 +150,14 @@ require_once(TEMPLATES_PATH . 'header.php');
 
     .input-group .btn-outline-secondary {
         border-left: none;
-        background: white;
+        background: #fff;
+        color: #222;
+        border-color: #e0e0e0;
     }
 
     .input-group .btn-outline-secondary:hover {
         background: #f8f9fa;
+        color: #000;
     }
 </style>
 
