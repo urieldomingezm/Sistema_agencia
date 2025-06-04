@@ -305,100 +305,89 @@ class UserController
 
     private function showInterfaceSelector()
     {
-        echo '<!DOCTYPE html>
-        <html lang="es">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Seleccionar Interfaz</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
-            <style>
-                .interface-card {
-                    cursor: pointer;
-                    transition: transform 0.3s, border-color 0.3s;
-                    border: 2px solid transparent;
-                }
-                .interface-card:hover {
-                    transform: translateY(-5px);
-                    border-color: #0d6efd;
-                }
-                .card-body {
-                    padding: 2rem;
-                }
-                .icon-container {
-                    font-size: 3rem;
-                    color: #0d6efd;
-                    margin-bottom: 1rem;
-                }
-            </style>
-        </head>
-        <body class="bg-light">
-            <div class="container mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div class="text-center mb-4">
-                            <h2>Bienvenido ' . htmlspecialchars($_SESSION['username']) . '</h2>
-                            <p>Por favor selecciona la interfaz que deseas utilizar</p>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <div class="card interface-card h-100" onclick="selectInterface(\'user\')">
-                                    <div class="card-body text-center">
-                                        <div class="icon-container">
-                                            <i class="bi bi-person-circle"></i>
-                                        </div>
-                                        <h5 class="card-title">Interfaz de Usuario</h5>
-                                        <p class="card-text">Accede a las funciones estándar del sistema</p>
-                                    </div>
+        echo '<div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="text-center mb-4">
+                    <h2>Bienvenido ' . htmlspecialchars($_SESSION['username']) . '</h2>
+                    <p>Por favor selecciona la interfaz que deseas utilizar</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card interface-card h-100" onclick="selectInterface(\'user\')">
+                            <div class="card-body text-center">
+                                <div class="icon-container">
+                                    <i class="bi bi-person-circle"></i>
                                 </div>
+                                <h5 class="card-title">Interfaz de Usuario</h5>
+                                <p class="card-text">Accede a las funciones estándar del sistema</p>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <div class="card interface-card h-100" onclick="selectInterface(\'admin\')">
-                                    <div class="card-body text-center">
-                                        <div class="icon-container">
-                                            <i class="bi bi-gear-fill"></i>
-                                        </div>
-                                        <h5 class="card-title">Interfaz Administrativa</h5>
-                                        <p class="card-text">Accede a funciones avanzadas de administración</p>
-                                    </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card interface-card h-100" onclick="selectInterface(\'admin\')">
+                            <div class="card-body text-center">
+                                <div class="icon-container">
+                                    <i class="bi bi-gear-fill"></i>
                                 </div>
+                                <h5 class="card-title">Interfaz Administrativa</h5>
+                                <p class="card-text">Accede a funciones avanzadas de administración</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <script>
-            function selectInterface(type) {
-                const formData = new FormData();
-                formData.append("interface", type);
+    <style>
+        .interface-card {
+            cursor: pointer;
+            transition: transform 0.3s, border-color 0.3s;
+            border: 2px solid transparent;
+        }
+        .interface-card:hover {
+            transform: translateY(-5px);
+            border-color: #0d6efd;
+        }
+        .card-body {
+            padding: 2rem;
+        }
+        .icon-container {
+            font-size: 3rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+    </style>
 
-                fetch(window.location.href, {
-                    method: "POST",
-                    body: formData,
-                    credentials: "same-origin"
-                })
-                .then(response => {
-                    if (type === "admin") {
-                        window.location.href = "' . htmlspecialchars(SITE_URL) . '/administrativo/index.php";
-                    } else {
-                        window.location.href = "' . htmlspecialchars(SITE_URL) . '/usuario/index.php";
-                    }
-                })
-                .catch(error => {
-                    console.error("Error:", error);
-                    alert("Ocurrió un error al seleccionar la interfaz. Por favor, intenta nuevamente.");
-                });
+    <script>
+    function selectInterface(type) {
+        const formData = new FormData();
+        formData.append("interface", type);
+
+        fetch(window.location.href, {
+            method: "POST",
+            body: formData,
+            credentials: "same-origin"
+        })
+        .then(response => {
+            if (type === "admin") {
+                window.location.href = "/administrativo/index.php";
+            } else {
+                window.location.href = "/usuario/index.php";
             }
-            </script>
-        </body>
-        </html>';
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("Ocurrió un error al seleccionar la interfaz. Por favor, intenta nuevamente.");
+        });
+    }
+    </script>';
         exit;
     }
 }
 
-// Agregar al principio del archivo, justo después de los requires
+// Agregar al principio del archivo, después de los requires iniciales
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['interface'])) {
     session_start();
     $_SESSION['interface_selected'] = $_POST['interface'];
