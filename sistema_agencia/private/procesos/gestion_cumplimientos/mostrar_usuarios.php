@@ -76,13 +76,14 @@ class RequisitoService
             // Obtener usuarios a los que se les tomó tiempo esta semana
             $query = "SELECT DISTINCT
                         ru_tomado.nombre_habbo as usuario_nombre,
-                        a.rango_actual as rango_usuario
+                        COALESCE(a.rango_actual, 'Sin rango') as rango_usuario
                      FROM historial_tiempos ht
                      INNER JOIN registro_usuario ru_tomado ON ru_tomado.codigo_time = ht.codigo_time
                      LEFT JOIN ascensos a ON a.codigo_time = ru_tomado.codigo_time 
                         AND a.es_recluta = 0
                      WHERE ht.tiempo_encargado_usuario = :nombre_habbo
-                     AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())";
+                     AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())
+                     GROUP BY ru_tomado.nombre_habbo, a.rango_actual";
         
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nombre_habbo', $usuario['nombre_habbo']);
@@ -105,18 +106,13 @@ class RequisitoService
             $stmt->execute();
             $ascensos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Log para depuración
-            error_log("Usuario encontrado: " . print_r($usuario, true));
-            error_log("Tiempos encontrados: " . count($tiempos));
-            error_log("Ascensos encontrados: " . count($ascensos));
-
             return [
                 'success' => true,
                 'data' => [
                     'usuario' => [
                         'nombre_habbo' => $usuario['nombre_habbo'],
-                        'tiempos_count' => $usuario['times_as_encargado_count'],
-                        'ascensos_count' => $usuario['ascensos_as_encargado_count']
+                        'tiempos_count' => count($tiempos), // Conteo real de tiempos de la semana
+                        'ascensos_count' => count($ascensos) // Conteo real de ascensos de la semana
                     ],
                     'tiempos' => $tiempos,
                     'ascensos' => $ascensos

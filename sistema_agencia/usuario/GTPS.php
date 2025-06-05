@@ -330,7 +330,7 @@ function verDetalles(id, tipo) {
                         html: `
                             <div class="mb-3">
                                 <strong>Usuario:</strong> ${data.data.usuario.nombre_habbo}<br>
-                                <strong>Total ${tipo} esta semana:</strong> ${total}
+                                <strong>Registros esta semana:</strong> ${total}
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover">
