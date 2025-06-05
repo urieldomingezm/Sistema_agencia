@@ -277,21 +277,6 @@ class GestionView
                 </table>
             </div>
         </div>
-
-        <!-- Modal para detalles -->
-        <div class="modal fade" id="detallesModal" data-bs-backdrop="static" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Detalles del Usuario</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="modalContent"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
 <?php
     }
 }
@@ -319,68 +304,77 @@ $view->render();
 
 <script>
 function verDetalles(id, tipo) {
-    const modalContent = document.getElementById('modalContent');
-    const detallesModal = new bootstrap.Modal(document.getElementById('detallesModal'));
-    
-    modalContent.innerHTML = `
-        <div class="text-center py-5">
-            <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Cargando...</span>
-            </div>
-        </div>`;
-    
-    detallesModal.show();
-
-    fetch('/private/procesos/gestion_cumplimientos/obtener_detalles.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: `id=${encodeURIComponent(id)}&tipo=${encodeURIComponent(tipo)}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
+    Swal.fire({
+        title: 'Cargando detalles...',
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        didOpen: () => {
+            Swal.showLoading();
             
-            modalContent.innerHTML = `
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>${tipo === 'tiempos' ? 'Encargado' : 'Rango'}</th>
-                                <th>Fecha</th>
-                                <th>${tipo === 'tiempos' ? 'Tiempo' : 'Estado'}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${items.map(item => `
-                                <tr>
-                                    <td>${item.encargado_nombre}</td>
-                                    <td>${tipo === 'tiempos' ? item.tiempo_fecha_registro : item.fecha_ultimo_ascenso}</td>
-                                    <td>
-                                        <span class="badge ${tipo === 'tiempos' ? 'bg-info' : getBadgeClass(item.estado_ascenso)}">
-                                            ${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado_ascenso}
-                                        </span>
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>`;
-        } else {
-            modalContent.innerHTML = `
-                <div class="alert alert-danger m-0">
-                    ${data.message || 'Error al cargar los detalles'}
-                </div>`;
+            fetch('/private/procesos/gestion_cumplimientos/obtener_detalles.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `id=${encodeURIComponent(id)}&tipo=${encodeURIComponent(tipo)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
+                    
+                    Swal.fire({
+                        title: `Detalles de ${tipo === 'tiempos' ? 'Tiempos' : 'Ascensos'}`,
+                        html: `
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>${tipo === 'tiempos' ? 'Encargado' : 'Rango'}</th>
+                                            <th>Fecha</th>
+                                            <th>${tipo === 'tiempos' ? 'Tiempo' : 'Estado'}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${items.map(item => `
+                                            <tr>
+                                                <td>${item.encargado_nombre}</td>
+                                                <td>${tipo === 'tiempos' ? item.tiempo_fecha_registro : item.fecha_ultimo_ascenso}</td>
+                                                <td>
+                                                    <span class="badge ${tipo === 'tiempos' ? 'bg-info' : getBadgeClass(item.estado_ascenso)}">
+                                                        ${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado_ascenso}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>`,
+                        width: '800px',
+                        confirmButtonText: 'Cerrar',
+                        confirmButtonColor: '#3085d6',
+                        customClass: {
+                            container: 'swal-wide',
+                            content: 'p-0'
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: data.message || 'Error al cargar los detalles'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al cargar los detalles'
+                });
+            });
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        modalContent.innerHTML = `
-            <div class="alert alert-danger m-0">
-                Error al cargar los detalles
-            </div>`;
     });
 }
 
