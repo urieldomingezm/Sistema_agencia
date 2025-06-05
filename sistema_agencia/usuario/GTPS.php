@@ -279,17 +279,20 @@ class GestionView
         </div>
 
         <!-- Modal para detalles -->
-        <div class="modal fade" id="detallesModal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
+        <div class="modal fade" id="detallesModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="detallesModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Detalles</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        <h5 class="modal-title" id="detallesModalLabel">Detalles</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body" id="detallesModalBody">
-                        <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Cargando...</span>
+                    <div class="modal-body p-3">
+                        <div class="d-flex justify-content-center align-items-center" id="modalLoader">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Cargando...</span>
+                            </div>
                         </div>
+                        <div id="modalContent" class="d-none"></div>
                     </div>
                 </div>
             </div>
@@ -321,29 +324,38 @@ $view->render();
 
 <script>
 function verDetalles(id, tipo) {
-    const modal = new bootstrap.Modal(document.getElementById('detallesModal'));
-    const modalBody = document.getElementById('detallesModalBody');
-    
-    modalBody.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
-    modal.show();
+    const modalLoader = document.getElementById('modalLoader');
+    const modalContent = document.getElementById('modalContent');
+    const detallesModal = new bootstrap.Modal(document.getElementById('detallesModal'));
 
+    // Reset modal state
+    modalLoader.classList.remove('d-none');
+    modalContent.classList.add('d-none');
+    modalContent.innerHTML = '';
+    
+    // Show modal
+    detallesModal.show();
+
+    // Fetch data
     fetch('/private/procesos/gestion_cumplimientos/obtener_detalles.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: `id=${id}&tipo=${tipo}`
+        body: `id=${encodeURIComponent(id)}&tipo=${encodeURIComponent(tipo)}`
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            let html = `<div class="card">
-                <div class="card-header">
-                    <h6 class="mb-0">Usuario: ${data.data.usuario.nombre_habbo}</h6>
-                </div>
-                <div class="card-body">
+            const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
+            
+            const content = `
+                <div class="card border-0">
+                    <div class="card-header bg-light">
+                        <h6 class="mb-0">Usuario: ${data.data.usuario.nombre_habbo}</h6>
+                    </div>
                     <div class="table-responsive">
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-striped table-hover mb-0">
                             <thead>
                                 <tr>
                                     <th>${tipo === 'tiempos' ? 'Encargado' : 'Rango'}</th>
@@ -351,26 +363,55 @@ function verDetalles(id, tipo) {
                                     <th>${tipo === 'tiempos' ? 'Tiempo' : 'Estado'}</th>
                                 </tr>
                             </thead>
-                            <tbody>`;
+                            <tbody>
+                                ${items.map(item => `
+                                    <tr>
+                                        <td>${item.encargado_nombre}</td>
+                                        <td>${tipo === 'tiempos' ? item.tiempo_fecha_registro : item.fecha_ultimo_ascenso}</td>
+                                        <td>
+                                            <span class="badge ${tipo === 'tiempos' ? 'bg-info' : getBadgeClass(item.estado_ascenso)}">
+                                                ${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado_ascenso}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
 
-            const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
-            items.forEach(item => {
-                html += `<tr>
-                    <td>${item.encargado_nombre}</td>
-                    <td>${tipo === 'tiempos' ? item.tiempo_fecha_registro : item.fecha_ultimo_ascenso}</td>
-                    <td>${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado_ascenso}</td>
-                </tr>`;
-            });
-
-            html += `</tbody></table></div></div></div>`;
-            modalBody.innerHTML = html;
+            modalLoader.classList.add('d-none');
+            modalContent.classList.remove('d-none');
+            modalContent.innerHTML = content;
         } else {
-            modalBody.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+            showError(data.message);
         }
     })
     .catch(error => {
-        modalBody.innerHTML = `<div class="alert alert-danger">Error al cargar los detalles</div>`;
         console.error('Error:', error);
+        showError('Error al cargar los detalles');
     });
+}
+
+function getBadgeClass(estado) {
+    switch (estado?.toLowerCase()) {
+        case 'completado': return 'bg-success';
+        case 'pendiente': return 'bg-warning';
+        case 'rechazado': return 'bg-danger';
+        default: return 'bg-secondary';
+    }
+}
+
+function showError(message) {
+    const modalLoader = document.getElementById('modalLoader');
+    const modalContent = document.getElementById('modalContent');
+    
+    modalLoader.classList.add('d-none');
+    modalContent.classList.remove('d-none');
+    modalContent.innerHTML = `
+        <div class="alert alert-danger d-flex align-items-center m-0" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <div>${message}</div>
+        </div>`;
 }
 </script>
