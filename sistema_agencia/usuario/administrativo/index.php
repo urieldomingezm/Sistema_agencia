@@ -349,23 +349,3 @@ require_once(TEMPLATES_PATH . 'footer.php');
         });
     });
 </script>
-
-<?php
-// Incluir modales y otros archivos necesarios para la interfaz administrativa
-require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');
-require_once(DAR_TIEMPO_PATCH . 'dar_tiempo.php');
-require_once(MODALES_MENU_PATH . 'modal_calcular.php');
-require_once(MODALES_MENU_PATH . 'modal_notifiacion.php');
-require_once(MODALES_MENU_PATH . 'modal_quejas.php');
-require_once(MODALES_MENU_PATH . 'modal_gestion_usuarios.php');
-require_once(MODALES_MENU_PATH . 'modal_modificar_usuarios.php');
-require_once(MODALES_MENU_PATH . 'modal_paga.php');
-require_once(MODALES_MENU_PATH . 'modal_venta_rangos.php');
-require_once(MODALES_MENU_PATH . 'modal_gestion_tiempo.php');
-require_once(MODALES_MENU_PATH . 'modal_gestion_ventas.php');
-require_once(MODALES_MENU_PATH . 'modal_ascensos.php');
-require_once(MODALES_MENU_PATH . 'modal_ayuda.php');
-require_once(MODALES_MENU_PATH . 'modal_mantenimiento.php');
-require_once(MODALES_MENU_PATH . 'moda_menus_ascender/modal_ascender.php');
-
-?>
