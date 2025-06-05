@@ -76,15 +76,13 @@ class RequisitoService
             // Obtener usuarios a los que se les tomó tiempo
             $query = "SELECT DISTINCT
                         ru_tomado.nombre_habbo as usuario_nombre,
-                        a.rango_actual as rango_usuario,
-                        ht.tiempo_fecha_registro as fecha
+                        a.rango_actual as rango_usuario
                      FROM historial_tiempos ht
                      INNER JOIN registro_usuario ru_tomado ON ru_tomado.codigo_time = ht.codigo_time
                      LEFT JOIN ascensos a ON a.codigo_time = ru_tomado.codigo_time 
                         AND a.es_recluta = 0
-                     WHERE ht.tiempo_encargado_usuario = :nombre_habbo
-                     ORDER BY ht.tiempo_fecha_registro DESC";
-            
+                     WHERE ht.tiempo_encargado_usuario = :nombre_habbo";
+        
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nombre_habbo', $usuario['nombre_habbo']);
             $stmt->execute();
@@ -93,15 +91,13 @@ class RequisitoService
             // Obtener usuarios ascendidos
             $query = "SELECT DISTINCT
                         ru_ascendido.nombre_habbo as usuario_nombre,
-                        ha.rango_actual as rango_usuario,
-                        ha.fecha_accion as fecha
+                        ha.rango_actual as rango_usuario
                      FROM historial_ascensos ha
                      INNER JOIN registro_usuario ru_ascendido ON ru_ascendido.codigo_time = ha.codigo_time
                      WHERE ha.usuario_encargado = :nombre_habbo
                         AND ha.accion = 'ascendido'
-                     GROUP BY ru_ascendido.nombre_habbo, ha.rango_actual
-                     ORDER BY MAX(ha.fecha_accion) DESC";
-            
+                     GROUP BY ru_ascendido.nombre_habbo, ha.rango_actual";
+        
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nombre_habbo', $usuario['nombre_habbo']);
             $stmt->execute();
