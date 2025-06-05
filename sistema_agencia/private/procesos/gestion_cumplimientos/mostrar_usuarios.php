@@ -94,14 +94,8 @@ class RequisitoService
     public function obtenerDetallesUsuario($id)
     {
         try {
-            // Obtener usuario directamente de registro_usuario
-            $query = "SELECT ru.nombre_habbo, ru.codigo_time
-                     FROM registro_usuario ru
-                     WHERE ru.nombre_habbo = (
-                         SELECT user 
-                         FROM gestion_requisitos 
-                         WHERE id = :id
-                     )";
+            // Obtener nombre de usuario directamente de gestion_requisitos
+            $query = "SELECT user as nombre_habbo FROM gestion_requisitos WHERE id = :id";
             
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $id);
