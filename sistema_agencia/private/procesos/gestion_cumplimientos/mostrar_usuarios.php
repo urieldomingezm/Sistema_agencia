@@ -73,33 +73,33 @@ class RequisitoService
                 return ['success' => false, 'message' => 'Usuario no encontrado'];
             }
 
-            // Obtener historial de tiempos de usuarios que este encargado tomó
+            // Obtener historial de tiempos
             $query = "SELECT 
-                        ht.tiempo_fecha_registro as fecha,
                         ru_usuario.nombre_habbo as usuario_nombre,
-                        a.rango_actual as rango_usuario
+                        a.rango_actual as rango_usuario,
+                        MAX(ht.tiempo_fecha_registro) as fecha
                      FROM historial_tiempos ht
                      LEFT JOIN registro_usuario ru_usuario ON ru_usuario.codigo_time = ht.codigo_time
                      LEFT JOIN ascensos a ON a.codigo_time = ru_usuario.codigo_time
                      WHERE ht.tiempo_encargado_usuario = :codigo_time
-                     GROUP BY ru_usuario.nombre_habbo
-                     ORDER BY ht.tiempo_fecha_registro DESC";
+                     GROUP BY ru_usuario.nombre_habbo, a.rango_actual
+                     ORDER BY MAX(ht.tiempo_fecha_registro) DESC";
             
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':codigo_time', $usuario['codigo_time']);
             $stmt->execute();
             $tiempos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Obtener historial de ascensos que realizó como encargado
+            // Obtener historial de ascensos
             $query = "SELECT 
-                        ha.fecha_accion as fecha,
                         ru_ascendido.nombre_habbo as usuario_nombre,
-                        ha.rango_actual as rango_usuario
+                        ha.rango_actual as rango_usuario,
+                        MAX(ha.fecha_accion) as fecha
                      FROM historial_ascensos ha
                      LEFT JOIN registro_usuario ru_ascendido ON ru_ascendido.codigo_time = ha.codigo_time
                      WHERE ha.usuario_encargado = :codigo_time
-                     GROUP BY ru_ascendido.nombre_habbo
-                     ORDER BY ha.fecha_accion DESC";
+                     GROUP BY ru_ascendido.nombre_habbo, ha.rango_actual
+                     ORDER BY MAX(ha.fecha_accion) DESC";
             
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':codigo_time', $usuario['codigo_time']);
