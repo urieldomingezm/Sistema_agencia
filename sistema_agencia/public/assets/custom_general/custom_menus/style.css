@@ -1,7 +1,7 @@
 .custom-navbar {
-    background: linear-gradient(135deg, #5e2ca5 0%, #4a2c91 100%);
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
     padding: 1rem;
-    box-shadow: 0 2px 15px rgba(94, 44, 165, 0.2);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
 }
 
 .accordion-item {
@@ -12,7 +12,7 @@
 
 .accordion-button {
     background: transparent;
-    color: #000; /* Cambiado a negro */
+    color: #000;
     font-weight: 500;
     border-radius: 8px;
     padding: 1rem;
@@ -21,13 +21,13 @@
 }
 
 .accordion-button:not(.collapsed) {
-    background: rgba(94, 44, 165, 0.25);
-    color: #000; /* Cambiado a negro */
+    background: rgba(0, 0, 0, 0.1);
+    color: #000;
     box-shadow: none;
 }
 
 .accordion-button:hover {
-    background: rgba(94, 44, 165, 0.2);
+    background: rgba(0, 0, 0, 0.08);
 }
 
 .accordion-button::after {
@@ -37,14 +37,14 @@
 .menu-link {
     display: block;
     padding: 0.75rem 1.5rem;
-    color: #000; /* Cambiado a negro */
+    color: #000;
     text-decoration: none;
     transition: all 0.3s ease;
 }
 
 .menu-link:hover {
-    background: rgba(94, 44, 165, 0.2);
-    color: #fff;
+    background: rgba(0, 0, 0, 0.08);
+    color: #000;
     text-decoration: none;
 }
 
@@ -72,18 +72,18 @@
 }
 
 .nav-link:hover {
-    background: rgba(94, 44, 165, 0.2);
+    background: rgba(0, 0, 0, 0.1);
     color: #fff !important;
 }
 
 .nav-link.active {
-    background: rgba(94, 44, 165, 0.25);
+    background: rgba(0, 0, 0, 0.15);
     color: #fff !important;
 }
 
 .dropdown-item:hover {
-    background: rgba(94, 44, 165, 0.1);
-    color: #fff;
+    background: rgba(0, 0, 0, 0.05);
+    color: #000;
 }
 
 .dropdown-menu {
@@ -91,19 +91,19 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border-radius: 12px;
     padding: 0.5rem;
-    background: #5e2ca5;
+    background: #fff;
 }
 
 .dropdown-item {
-    color: #fff;
+    color: #000;
     border-radius: 8px;
     padding: 0.5rem 1rem;
     transition: all 0.3s ease;
 }
 
 .dropdown-item:hover {
-    background: rgba(123, 62, 209, 0.1);
-    color: #fff;
+    background: rgba(0, 0, 0, 0.05);
+    color: #000;
 }
 
 .search-form {
@@ -114,8 +114,8 @@
     border-radius: 20px 0 0 20px;
     border: 2px solid #fff;
     border-right: none;
-    color: #fff;
-    background-color: rgba(94, 44, 165, 0.9);
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.9);
     height: 45px;
 }
 
@@ -123,8 +123,8 @@
     border-radius: 0 20px 20px 0;
     border: 2px solid #fff;
     border-left: none;
-    color: #fff;
-    background-color: rgba(123, 62, 209, 0.9);
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.9);
     padding: 0 20px;
     height: 45px;
     display: flex;
@@ -133,8 +133,8 @@
 }
 
 .search-form .btn:hover {
-    background-color: rgba(94, 44, 165, 0.1);
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #000;
 }
 
 .search-form .form-control:focus {
@@ -143,7 +143,7 @@
 }
 
 .search-form .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .search-form .input-group {
@@ -152,7 +152,7 @@
 }
 
 .offcanvas-header {
-    background: linear-gradient(135deg, #5e2ca5 0%, #4a2c91 100%);
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
     color: #fff;
 }
 
