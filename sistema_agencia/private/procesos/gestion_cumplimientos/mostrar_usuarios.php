@@ -94,11 +94,14 @@ class RequisitoService
     public function obtenerDetallesUsuario($id)
     {
         try {
-            // Obtener usuario desde gestion_requisitos
-            $query = "SELECT gr.*, ru.codigo_time, ru.nombre_habbo 
-                     FROM gestion_requisitos gr
-                     LEFT JOIN registro_usuario ru ON gr.user = ru.nombre_habbo
-                     WHERE gr.id = :id";
+            // Obtener usuario directamente de registro_usuario
+            $query = "SELECT ru.nombre_habbo, ru.codigo_time
+                     FROM registro_usuario ru
+                     WHERE ru.nombre_habbo = (
+                         SELECT user 
+                         FROM gestion_requisitos 
+                         WHERE id = :id
+                     )";
             
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $id);
@@ -118,8 +121,7 @@ class RequisitoService
                      LEFT JOIN ascensos a ON a.codigo_time = ru_tomado.codigo_time 
                         AND a.es_recluta = 0
                      WHERE ht.tiempo_encargado_usuario = :nombre_habbo
-                     AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())
-                     GROUP BY ru_tomado.nombre_habbo, a.rango_actual";
+                     AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())";
         
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nombre_habbo', $usuario['nombre_habbo']);
@@ -133,22 +135,26 @@ class RequisitoService
                      FROM historial_ascensos ha
                      INNER JOIN registro_usuario ru_ascendido ON ru_ascendido.codigo_time = ha.codigo_time
                      WHERE ha.usuario_encargado = :nombre_habbo
-                        AND ha.accion = 'ascendido'
-                        AND YEARWEEK(ha.fecha_accion) = YEARWEEK(NOW())
-                     GROUP BY ru_ascendido.nombre_habbo, ha.rango_actual";
+                     AND ha.accion = 'ascendido'
+                     AND YEARWEEK(ha.fecha_accion) = YEARWEEK(NOW())";
         
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nombre_habbo', $usuario['nombre_habbo']);
             $stmt->execute();
             $ascensos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+            // Log para depuración
+            error_log("Usuario encontrado: " . print_r($usuario, true));
+            error_log("Total tiempos: " . count($tiempos));
+            error_log("Total ascensos: " . count($ascensos));
+
             return [
                 'success' => true,
                 'data' => [
                     'usuario' => [
                         'nombre_habbo' => $usuario['nombre_habbo'],
-                        'tiempos_count' => count($tiempos), // Conteo real de tiempos de la semana
-                        'ascensos_count' => count($ascensos) // Conteo real de ascensos de la semana
+                        'tiempos_count' => count($tiempos),
+                        'ascensos_count' => count($ascensos)
                     ],
                     'tiempos' => $tiempos,
                     'ascensos' => $ascensos
