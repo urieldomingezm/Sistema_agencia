@@ -84,7 +84,7 @@ class AdminController {
                 'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
             ],
             'cerrar_session' => [
-                'file' => '../usuario/CRSS.php',
+                'file' => 'CRSS.php',
                 'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
             ]
         ];
