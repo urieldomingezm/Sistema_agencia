@@ -191,20 +191,19 @@ class GestionView
                                     <td>
                                         <?php if ($paga['pagas_motivo'] === 'Sin pago' || empty($paga['pagas_motivo'])): ?>
                                             <?php 
-                                            // Asegurarnos que pagas_id exista y sea un número
-                                            $pagaId = isset($paga['pagas_id']) ? (int)$paga['pagas_id'] : 0;
-                                            if ($pagaId > 0):
+                                            $nombreUsuario = htmlspecialchars($paga['pagas_usuario'] ?? '');
+                                            if (!empty($nombreUsuario)):
                                             ?>
                                                 <button class="btn btn-sm btn-success" 
-                                                        onclick="actualizarPago('<?= $pagaId ?>', 'recibido')">
+                                                        onclick="actualizarPago('<?= $nombreUsuario ?>', 'recibido')">
                                                     <i class="bi bi-check-circle"></i> Dar paga
                                                 </button>
                                                 <button class="btn btn-sm btn-danger" 
-                                                        onclick="actualizarPago('<?= $pagaId ?>', 'no_recibido')">
+                                                        onclick="actualizarPago('<?= $nombreUsuario ?>', 'no_recibido')">
                                                     <i class="bi bi-x-circle"></i> No recibió
                                                 </button>
                                             <?php else: ?>
-                                                <span class="badge bg-warning">ID no válido</span>
+                                                <span class="badge bg-warning">Usuario no válido</span>
                                             <?php endif; ?>
                                         <?php else: ?>
                                             <span class="badge bg-success">
@@ -386,15 +385,14 @@ $view->render();
         });
     }
 
-    function actualizarPago(id, tipo) {
-        // Convertir id a número y validar
-        const pagaId = parseInt(id);
-        if (isNaN(pagaId) || pagaId <= 0) {
-            console.error('ID no válido:', id);
+    function actualizarPago(usuario, tipo) {
+        // Validar usuario
+        if (!usuario) {
+            console.error('Usuario no válido:', usuario);
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'ID de pago no válido'
+                text: 'Usuario no válido'
             });
             return;
         }
@@ -402,14 +400,14 @@ $view->render();
         const config = {
             recibido: {
                 titulo: '¿Confirmar pago?',
-                texto: '¿Estás seguro de que quieres confirmar el pago?',
+                texto: `¿Estás seguro de que quieres confirmar el pago para ${usuario}?`,
                 icono: 'success',
                 confirmButtonText: 'Sí, confirmar pago',
                 motivo: 'Pago realizado'
             },
             no_recibido: {
                 titulo: '¿Confirmar no pago?',
-                texto: '¿Estás seguro de que quieres marcar como no recibido?',
+                texto: `¿Estás seguro de que quieres marcar como no recibido para ${usuario}?`,
                 icono: 'warning',
                 confirmButtonText: 'Sí, confirmar',
                 motivo: 'Sin pago'
@@ -443,7 +441,7 @@ $view->render();
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `id=${encodeURIComponent(id)}&motivo=${encodeURIComponent(opciones.motivo)}`
+                    body: `usuario=${encodeURIComponent(usuario)}&motivo=${encodeURIComponent(opciones.motivo)}`
                 })
                 .then(response => response.json())
                 .then(data => {
@@ -452,8 +450,8 @@ $view->render();
                             icon: 'success',
                             title: '¡Éxito!',
                             text: tipo === 'recibido' ? 
-                                'El pago ha sido confirmado correctamente.' : 
-                                'Se ha marcado como no recibido correctamente.',
+                                `El pago ha sido confirmado para ${usuario}.` : 
+                                `Se ha marcado como no recibido para ${usuario}.`,
                             showConfirmButton: true,
                             timer: 1500
                         }).then(() => {
