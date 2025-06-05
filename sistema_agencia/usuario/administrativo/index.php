@@ -5,363 +5,137 @@ require_once(TEMPLATES_PATH . 'header.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-class AdminController
-{
+class AdminController {
     private $conn;
     private $userRango;
 
-    public function __construct()
-    {
+    public function __construct() {
         if (!isset($_SESSION)) {
             session_start();
         }
 
+        // Verificar sesión y rango
         if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
-            echo "<script>window.location.href = '/login.php';</script>";
+            header('Location: /login.php');
             exit;
         }
 
+        // Conectar a la base de datos
         require_once(CONFIG_PATH . 'bd.php');
         $database = new Database();
         $this->conn = $database->getConnection();
         $this->loadUserRank();
-
-        // Verificar que el usuario tenga un rango permitido (solo Web_master, Fundador, Owner)
-        $allowedRoles = ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador'];
         
-        if (!in_array($this->userRango, $allowedRoles)) {
-            // Redirigir a la interfaz de usuario normal para rangos no permitidos
+        // Verificar si el usuario tiene permisos administrativos
+        $allowedRanks = ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master', 'web_master'];
+        if (!in_array($this->userRango, $allowedRanks)) {
             header('Location: /usuario/index.php');
             exit;
         }
 
-        $this->loadMenu();
+        $this->loadAdminMenu();
     }
 
-    private function loadUserRank()
-    {
+    private function loadUserRank() {
         try {
             $query = "SELECT a.rango_actual 
-                 FROM registro_usuario r
-                 JOIN ascensos a ON r.codigo_time = a.codigo_time
-                 WHERE r.id = :user_id";
+                     FROM registro_usuario r
+                     JOIN ascensos a ON r.codigo_time = a.codigo_time
+                     WHERE r.id = :user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':user_id', $_SESSION['user_id']);
             $stmt->execute();
 
             if ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                $this->userRango = $row['rango_actual'] ?? 'Agente';
-                $_SESSION['rango'] = $this->userRango;
-            } else {
-                $this->userRango = 'Agente';
+                $this->userRango = $row['rango_actual'];
                 $_SESSION['rango'] = $this->userRango;
             }
         } catch (PDOException $e) {
-            error_log("Error al obtener rango en AdminController: " . $e->getMessage());
-            $this->userRango = 'Agente';
-            $_SESSION['rango'] = $this->userRango;
+            error_log("Error al obtener rango: " . $e->getMessage());
         }
     }
 
-    private function loadMenu()
-    {
-        // Para la interfaz administrativa, siempre cargamos el menu_rango_web.php
-        if (!file_exists(MENU_PATH . 'menu_rango_web.php')) {
-            error_log('Error: No se encuentra el archivo del menú web');
-            echo '<div class="alert alert-danger">Error al cargar el menú. Contacte al administrador.</div>';
-            return;
-        }
-        require_once(MENU_PATH . 'menu_rango_web.php');
+    private function loadAdminMenu() {
+        require_once(MENU_PATH . 'menu_administrativo.php');
     }
 
-    public function handleSearch()
-    {
-        if (!isset($_GET['q']) || empty($_GET['q'])) {
-            return;
-        }
-
-        $query = strtolower(trim($_GET['q']));
-        $pages = [
-            // Páginas específicas para la interfaz administrativa
-            'gestion_de_usuarios' => 'gestion_usuarios',
-            'gestion_de_pagas' => 'gestion_de_pagas',
-            'gestion_de_notificaciones' => 'gestion_de_notificaciones',
-            'ventas_membresias' => 'ventas_membresias',
-            'ventas_rangos_y_traslados' => 'ventas_rangos_y_traslados',
-            'gestion_de_tiempo' => 'gestion_de_tiempo',
-            'gestion_ascenso' => 'gestion_ascenso',
-            'ver_perfil' => 'ver_perfil',
-            'cerrar_session' => 'cerrar_session',
-            'requisitos_paga' => 'requisitos_paga',
-            'ver_mis_tiempos' => 'ver_mis_tiempos',
-            'ver_mis_ascensos' => 'ver_mis_ascensos',
-            'inicio' => 'inicio'
-        ];
-
-        $results = [];
-        foreach ($pages as $fileKey => $title) {
-            // Construir la ruta completa del archivo PHP
-            $filePath = '';
-            if (in_array($fileKey, ['gestion_de_usuarios', 'gestion_de_pagas', 'gestion_de_notificaciones', 'ventas_membresias', 'ventas_rangos_y_traslados', 'gestion_de_tiempo', 'gestion_ascenso'])) {
-                $filePath = PROCESOS_PATH . str_replace('_', '/', $fileKey) . '.php';
-            } else if (in_array($fileKey, ['ver_perfil', 'cerrar_session', 'requisitos_paga', 'ver_mis_tiempos', 'ver_mis_ascensos', 'inicio'])) {
-                $filePath = USER_PATH . str_replace('_', '/', $fileKey) . '.php';
-            }
-            
-            if (file_exists($filePath)) {
-                $content = file_get_contents($filePath);
-                preg_match('/<meta name="keywords" content="([^"]+)"/', $content, $matches);
-
-                if (!empty($matches[1])) {
-                    $keywords = explode(',', strtolower($matches[1]));
-                    foreach ($keywords as $keyword) {
-                        similar_text($query, $keyword, $percentage);
-                        if ($percentage > 60 || strpos($keyword, $query) !== false) {
-                            $results[] = ['title' => $title, 'url' => 'index.php?page=' . urlencode($fileKey)];
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        $this->renderSearchResults($query, $results);
-    }
-
-    private function renderSearchResults($query, $results)
-    {
-        echo '<div class="search-results-container">';
-        echo '<div class="card shadow-lg border-0 rounded-lg">';
-        echo '<div class="card-header bg-gradient-primary">';
-        echo '<h4 class="text-white mb-0"><i class="bi bi-search me-2"></i>Resultados para: "' . htmlspecialchars($query) . '"</h4>';
-        echo '</div>';
-        echo '<div class="card-body">';
-
-        if (!empty($results)) {
-            $this->renderResultsList($results);
-        } else {
-            $this->renderNoResults();
-        }
-
-        echo '</div></div></div>';
-    }
-
-    private function renderResultsList($results)
-    {
-        echo '<div class="results-list">';
-        foreach ($results as $result) {
-            echo '<a href="' . $result['url'] . '" class="result-item">';
-            echo '<div class="d-flex align-items-center p-3 border-bottom transition-hover">';
-            echo '<i class="bi bi-link-45deg me-3 text-primary"></i>';
-            echo '<div>';
-            echo '<h5 class="mb-0">' . ucfirst(str_replace('_', ' ', $result['title'])) . '</h5>';
-            echo '</div>';
-            echo '<i class="bi bi-chevron-right ms-auto text-muted"></i>';
-            echo '</div>';
-            echo '</a>';
-        }
-        echo '</div>';
-    }
-
-    private function renderNoResults()
-    {
-        echo '<div class="text-center p-4">';
-        echo '<i class="bi bi-search-x fa-3x text-muted mb-3"></i>';
-        echo '<div class="alert alert-warning mb-0">';
-        echo '<h5 class="alert-heading">No se encontraron resultados</h5>';
-        echo '<p class="mb-0">Intenta con otros términos de búsqueda</p>';
-        echo '</div>';
-        echo '</div>';
-    }
-
-    private function loadDashboard()
-    {
-        try {
-            include_once('USR.php');
-        } catch (Exception $e) {
-            error_log('Error al cargar dashboard: ' . $e->getMessage());
-            echo '<div class="alert alert-danger">
-                <h4 class="alert-heading">Error</h4>
-                <p>No se pudo cargar el panel de control. Por favor contacte al administrador.</p>
-            </div>';
-        }
-    }
-
-    public function handlePageLoad()
-    {
+    public function handlePageLoad() {
         if (!isset($_GET['page'])) {
-            $this->loadDashboard();
+            include 'USR.php';
             return;
         }
 
         $page = $_GET['page'];
         $validPages = [
-            'inicio' => [
+            'dashboard' => [
                 'file' => 'USR.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
+                'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
             ],
-            'ver_perfil' => [
-                'file' => 'PRUS.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
+            'estadisticas' => [
+                'file' => 'estadisticas.php',
+                'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
+            ],
+            'configuracion' => [
+                'file' => 'configuracion.php',
+                'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
+            ],
+            'logs' => [
+                'file' => 'logs.php',
+                'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
             ],
             'cerrar_session' => [
-                'file' => 'CRSS.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
-            ],
-            'requisitos_paga' => [
-                'file' => 'RQPG.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
-            ],
-            'gestion_ascenso' => [
-                'file' => 'GSAS.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
-            ],
-            'ver_mis_tiempos' => [
-                'file' => 'HIST.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
-            ],
-            'gestion_de_tiempo' => [
-                'file' => 'GSTM.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
-            ],
-            'gestion_de_pagas' => [
-                'file' => 'GTPS.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
-            ],
-            'gestion_de_notificaciones' => [
-                'file' => 'GTNT.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
-            ],
-            'ventas_membresias' => [
-                'file' => 'VTM.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
-            ],
-            'ventas_rangos_y_traslados' => [
-                'file' => 'VTR.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador']
+                'file' => '../usuario/CRSS.php',
+                'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
             ]
         ];
 
         if (array_key_exists($page, $validPages) && in_array($this->userRango, $validPages[$page]['roles'])) {
-            if (file_exists($validPages[$page]['file'])) {
-                include $validPages[$page]['file'];
-            } else {
-                $this->renderError('Archivo no encontrado');
-            }
+            include $validPages[$page]['file'];
         } else {
             $this->renderAccessDenied();
         }
     }
 
-    private function renderError($message)
-    {
-        echo '<div class="alert alert-danger text-center mt-5">
-            <h4 class="alert-heading">Error</h4>
-            <p>' . htmlspecialchars($message) . '</p>
-            <p>Redirigiendo al inicio...</p>
-        </div>';
-        echo '<meta http-equiv="refresh" content="3;url=index.php">';
-    }
-
-    private function renderAccessDenied()
-    {
-        $rango = htmlspecialchars($this->userRango ?? 'Agente');
-        echo '<div class="alert alert-danger text-center mt-5">
-            <h4 class="alert-heading">Acceso Denegado</h4>
-            <p>No tienes los permisos necesarios para acceder a esta página.</p>
-            <p>Tu rango actual es: ' . $rango . '</p>
-            <p>Redirigiendo al inicio...</p>
-        </div>';
-        echo '<meta http-equiv="refresh" content="3;url=index.php">';
+    private function renderAccessDenied() {
+        echo '<div class="alert alert-danger text-center mt-5">';
+        echo '<h4 class="alert-heading">Acceso Denegado</h4>';
+        echo '<p>No tienes los permisos necesarios para acceder a esta sección administrativa.</p>';
+        echo '<p>Tu rango actual es: ' . htmlspecialchars($this->userRango) . '</p>';
+        echo '<a href="/usuario/index.php" class="btn btn-primary mt-3">Volver al área de usuario</a>';
+        echo '</div>';
     }
 }
 
 $controller = new AdminController();
-
-if (isset($_GET['q'])) {
-    $controller->handleSearch();
-} else {
-    $controller->handlePageLoad();
-}
-
-require_once(TEMPLATES_PATH . 'footer.php');
 ?>
 
-<script>
-    // Script para manejar la selección de interfaz
-    function selectInterface(interfaceType) {
-        fetch('/set_interface.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: 'interface=' + interfaceType
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    if (interfaceType === 'admin') {
-                        window.location.href = '/usuario/administrativo/index.php';
-                    } else {
-                        window.location.href = '/usuario/index.php';
-                    }
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
+<body>
+    <div class="page-container">
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col-12">
+                    <?php $controller->handlePageLoad(); ?>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    $(document).ready(function() {
-        // Lógica para resetear modales
-        $('#modificar_usuario, #dar_ascenso').on('hidden.bs.modal', function() {
-            $(this).find('form').trigger('reset');
+    <div id="loader-wrapper" class="loader-wrapper">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-ring-inner"></div>
+        </div>
+    </div>
 
-            if ($(this).find('.step').length > 0) {
-                $(this).find('.step').addClass('d-none');
-                $(this).find('.step:first').removeClass('d-none');
-            }
+    <?php require_once(TEMPLATES_PATH . 'footer.php'); ?>
 
-            $(this).find('.progress-bar').css('width', '0%');
-            $(this).find('button[id$="Btn"]').prop('disabled', false);
-            $(this).find('button[id="submitBtn"]').addClass('d-none');
-            $(this).find('button[id="nextBtn"]').removeClass('d-none');
-            $(this).find('#resultadoBusqueda').html('');
-
-            if (typeof currentStep !== 'undefined') {
-                currentStep = 1;
-            }
-
-            setTimeout(function() {
-                $(document).trigger('modal_reset');
-            }, 100);
+    <script>
+        window.addEventListener('load', function() {
+            const loader = document.getElementById('loader-wrapper');
+            loader.classList.add('fade-out');
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 300);
         });
-
-        $('.modal').on('show.bs.modal', function(e) {
-            var currentModalId = $(this).attr('id');
-
-            $('.modal').not(this).each(function() {
-                if ($(this).hasClass('show')) {
-                    var modalInstance = bootstrap.Modal.getInstance(this);
-                    if (modalInstance) {
-                        modalInstance.hide();
-                    }
-                }
-            });
-
-            window.activeModal = currentModalId;
-        });
-
-        $('[data-bs-toggle="modal"]').on('click', function(e) {
-            var targetModal = $(this).data('bs-target').replace('#', '');
-
-            if (window.activeModal && window.activeModal !== targetModal) {
-                var modalElement = document.getElementById(window.activeModal);
-                if (modalElement) {
-                    var modalInstance = bootstrap.Modal.getInstance(modalElement);
-                    if (modalInstance) {
-                        modalInstance.hide();
-                    }
-                }
-            }
-        });
-    });
-</script>
+    </script>
+</body>
