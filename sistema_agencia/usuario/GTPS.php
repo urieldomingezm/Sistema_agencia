@@ -71,7 +71,6 @@ class GestionView
                 </div>
             </div>
 
-            <!-- Tu script personalizado -->
             <script src="/public/assets/custom_general/custom_gestion_pagas/gestion_pagas.js"></script>
         </body>
 
@@ -240,8 +239,20 @@ class GestionView
                                     <td><?= htmlspecialchars($requisito['id'] ?? '') ?></td>
                                     <td><?= htmlspecialchars($requisito['user'] ?? '') ?></td>
                                     <td><?= !empty($requisito['requirement_name']) ? htmlspecialchars($requisito['requirement_name']) : 'no disponible' ?></td>
-                                    <td><?= htmlspecialchars($requisito['times_as_encargado_count'] ?? 0) ?></td>
-                                    <td><?= htmlspecialchars($requisito['ascensos_as_encargado_count'] ?? 0) ?></td>
+                                    <td>
+                                        <?= htmlspecialchars($requisito['times_as_encargado_count'] ?? 0) ?>
+                                        <button class="btn btn-info btn-sm ms-2" 
+                                                onclick="verDetalles('<?= htmlspecialchars($requisito['id'] ?? '') ?>', 'tiempos')">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <?= htmlspecialchars($requisito['ascensos_as_encargado_count'] ?? 0) ?>
+                                        <button class="btn btn-info btn-sm ms-2" 
+                                                onclick="verDetalles('<?= htmlspecialchars($requisito['id'] ?? '') ?>', 'ascensos')">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </td>
                                     <td>
                                         <span class="badge <?= ($requisito['is_completed'] ?? false) ? 'bg-success' : 'bg-warning' ?>">
                                             <?= ($requisito['is_completed'] ?? false) ? 'Completado' : 'En espera' ?>
@@ -264,6 +275,23 @@ class GestionView
                         <?php endif; ?>
                     </tbody>
                 </table>
+            </div>
+        </div>
+
+        <!-- Modal para detalles -->
+        <div class="modal fade" id="detallesModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalles</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body" id="detallesModalBody">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 <?php
@@ -290,3 +318,59 @@ $pagas = $gestionPagas->obtenerPagas();
 $view = new GestionView($pagas, $requisitos);
 $view->render();
 ?>
+
+<script>
+function verDetalles(id, tipo) {
+    const modal = new bootstrap.Modal(document.getElementById('detallesModal'));
+    const modalBody = document.getElementById('detallesModalBody');
+    
+    modalBody.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
+    modal.show();
+
+    fetch('/private/procesos/gestion_cumplimientos/obtener_detalles.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `id=${id}&tipo=${tipo}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            let html = `<div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Usuario: ${data.data.usuario.nombre_habbo}</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>${tipo === 'tiempos' ? 'Encargado' : 'Rango'}</th>
+                                    <th>Fecha</th>
+                                    <th>${tipo === 'tiempos' ? 'Tiempo' : 'Estado'}</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+
+            const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
+            items.forEach(item => {
+                html += `<tr>
+                    <td>${item.encargado_nombre}</td>
+                    <td>${tipo === 'tiempos' ? item.tiempo_fecha_registro : item.fecha_ultimo_ascenso}</td>
+                    <td>${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado_ascenso}</td>
+                </tr>`;
+            });
+
+            html += `</tbody></table></div></div></div>`;
+            modalBody.innerHTML = html;
+        } else {
+            modalBody.innerHTML = `<div class="alert alert-danger">${data.message}</div>`;
+        }
+    })
+    .catch(error => {
+        modalBody.innerHTML = `<div class="alert alert-danger">Error al cargar los detalles</div>`;
+        console.error('Error:', error);
+    });
+}
+</script>
