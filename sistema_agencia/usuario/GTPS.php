@@ -161,7 +161,7 @@ class GestionView
                             <th>Rango</th>
                             <th>Sueldo</th>
                             <th>Membresía</th>
-                            <th>Recibio pago</th>
+                            <th>Requisito</th>
                             <th>Fecha</th>
                             <th>Estatus</th>
                             <th>Acciones</th>
