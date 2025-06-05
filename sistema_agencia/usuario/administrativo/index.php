@@ -66,6 +66,11 @@ class AdminController
     private function loadMenu()
     {
         // Para la interfaz administrativa, siempre cargamos el menu_rango_web.php
+        if (!file_exists(MENU_PATH . 'menu_rango_web.php')) {
+            error_log('Error: No se encuentra el archivo del menú web');
+            echo '<div class="alert alert-danger">Error al cargar el menú. Contacte al administrador.</div>';
+            return;
+        }
         require_once(MENU_PATH . 'menu_rango_web.php');
     }
 
@@ -180,55 +185,51 @@ class AdminController
         $page = $_GET['page'];
         $validPages = [
             'inicio' => [
-                'file' => USER_PATH . 'USR.php',
+                'file' => 'USR.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'ver_perfil' => [
-                'file' => USER_PATH . 'PRUS.php',
+                'file' => 'PRUS.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'cerrar_session' => [
-                'file' => USER_PATH . 'CRSS.php',
+                'file' => 'CRSS.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'requisitos_paga' => [
-                'file' => USER_PATH . 'RQPG.php',
+                'file' => 'RQPG.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'gestion_ascenso' => [
-                'file' => USER_PATH . 'GSAS.php',
+                'file' => 'GSAS.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'ver_mis_tiempos' => [
-                'file' => USER_PATH . 'HIST.php',
+                'file' => 'HIST.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'ver_mis_ascensos' => [
-                'file' => USER_PATH . 'HISA.php',
+                'file' => 'HISA.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'gestion_de_tiempo' => [
-                'file' => USER_PATH . 'GSTM.php',
+                'file' => 'GSTM.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'gestion_de_pagas' => [
-                'file' => USER_PATH . 'GTPS.php',
+                'file' => 'GTPS.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'gestion_de_notificaciones' => [
-                'file' => USER_PATH . 'GTNT.php',
+                'file' => 'GTNT.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'ventas_membresias' => [
-                'file' => USER_PATH . 'VTM.php',
+                'file' => 'VTM.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
             'ventas_rangos_y_traslados' => [
-                'file' => USER_PATH . 'VTR.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
-            ],
-            'gestion_de_usuarios' => [
-                'file' => PROCESOS_PATH . 'gestion_usuarios/gestion_usuarios.php',
+                'file' => 'VTR.php',
                 'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
             ],
         ];
@@ -242,8 +243,16 @@ class AdminController
 
     private function loadDashboard()
     {
-        // Cargar el dashboard de inicio (USR.php)
-        include USER_PATH . 'USR.php';
+        // Primero intentamos cargar USR.php
+        $dashboardFile = 'USR.php';
+        
+        if (!file_exists($dashboardFile)) {
+            error_log('Error: No se encuentra el archivo USR.php');
+            echo '<div class="alert alert-danger">Error al cargar el dashboard. Contacte al administrador.</div>';
+            return;
+        }
+        
+        require_once($dashboardFile);
     }
 
     private function renderAccessDenied()
