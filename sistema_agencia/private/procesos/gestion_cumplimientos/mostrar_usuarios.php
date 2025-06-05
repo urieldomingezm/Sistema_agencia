@@ -73,7 +73,7 @@ class RequisitoService
                 return ['success' => false, 'message' => 'Usuario no encontrado'];
             }
 
-            // Obtener usuarios a los que se les tomó tiempo
+            // Obtener usuarios a los que se les tomó tiempo esta semana
             $query = "SELECT DISTINCT
                         ru_tomado.nombre_habbo as usuario_nombre,
                         a.rango_actual as rango_usuario
@@ -81,14 +81,15 @@ class RequisitoService
                      INNER JOIN registro_usuario ru_tomado ON ru_tomado.codigo_time = ht.codigo_time
                      LEFT JOIN ascensos a ON a.codigo_time = ru_tomado.codigo_time 
                         AND a.es_recluta = 0
-                     WHERE ht.tiempo_encargado_usuario = :nombre_habbo";
+                     WHERE ht.tiempo_encargado_usuario = :nombre_habbo
+                     AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())";
         
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nombre_habbo', $usuario['nombre_habbo']);
             $stmt->execute();
             $tiempos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Obtener usuarios ascendidos
+            // Obtener usuarios ascendidos esta semana
             $query = "SELECT DISTINCT
                         ru_ascendido.nombre_habbo as usuario_nombre,
                         ha.rango_actual as rango_usuario
@@ -96,6 +97,7 @@ class RequisitoService
                      INNER JOIN registro_usuario ru_ascendido ON ru_ascendido.codigo_time = ha.codigo_time
                      WHERE ha.usuario_encargado = :nombre_habbo
                         AND ha.accion = 'ascendido'
+                        AND YEARWEEK(ha.fecha_accion) = YEARWEEK(NOW())
                      GROUP BY ru_ascendido.nombre_habbo, ha.rango_actual";
         
             $stmt = $this->conn->prepare($query);
