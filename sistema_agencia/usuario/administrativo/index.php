@@ -174,10 +174,22 @@ class AdminController
         echo '</div>';
     }
 
+    private function loadDashboard()
+    {
+        try {
+            include_once('USR.php');
+        } catch (Exception $e) {
+            error_log('Error al cargar dashboard: ' . $e->getMessage());
+            echo '<div class="alert alert-danger">
+                <h4 class="alert-heading">Error</h4>
+                <p>No se pudo cargar el panel de control. Por favor contacte al administrador.</p>
+            </div>';
+        }
+    }
+
     public function handlePageLoad()
     {
         if (!isset($_GET['page'])) {
-            // Cargar el dashboard de inicio por defecto
             $this->loadDashboard();
             return;
         }
@@ -186,85 +198,81 @@ class AdminController
         $validPages = [
             'inicio' => [
                 'file' => 'USR.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'ver_perfil' => [
                 'file' => 'PRUS.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'cerrar_session' => [
                 'file' => 'CRSS.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'requisitos_paga' => [
                 'file' => 'RQPG.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'gestion_ascenso' => [
                 'file' => 'GSAS.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'ver_mis_tiempos' => [
                 'file' => 'HIST.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
-            ],
-            'ver_mis_ascensos' => [
-                'file' => 'HISA.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'gestion_de_tiempo' => [
                 'file' => 'GSTM.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'gestion_de_pagas' => [
                 'file' => 'GTPS.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'gestion_de_notificaciones' => [
                 'file' => 'GTNT.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'ventas_membresias' => [
                 'file' => 'VTM.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
+                'roles' => ['Web_master', 'Owner', 'Fundador']
             ],
             'ventas_rangos_y_traslados' => [
                 'file' => 'VTR.php',
-                'roles' => ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador']
-            ],
+                'roles' => ['Web_master', 'Owner', 'Fundador']
+            ]
         ];
 
         if (array_key_exists($page, $validPages) && in_array($this->userRango, $validPages[$page]['roles'])) {
-            include $validPages[$page]['file'];
+            if (file_exists($validPages[$page]['file'])) {
+                include $validPages[$page]['file'];
+            } else {
+                $this->renderError('Archivo no encontrado');
+            }
         } else {
             $this->renderAccessDenied();
         }
     }
 
-    private function loadDashboard()
+    private function renderError($message)
     {
-        // Primero intentamos cargar USR.php
-        $dashboardFile = 'USR.php';
-        
-        if (!file_exists($dashboardFile)) {
-            error_log('Error: No se encuentra el archivo USR.php');
-            echo '<div class="alert alert-danger">Error al cargar el dashboard. Contacte al administrador.</div>';
-            return;
-        }
-        
-        require_once($dashboardFile);
+        echo '<div class="alert alert-danger text-center mt-5">
+            <h4 class="alert-heading">Error</h4>
+            <p>' . htmlspecialchars($message) . '</p>
+            <p>Redirigiendo al inicio...</p>
+        </div>';
+        echo '<meta http-equiv="refresh" content="3;url=index.php">';
     }
 
     private function renderAccessDenied()
     {
-        $rango = $this->userRango ?? 'Agente';
-        echo '<div class="alert alert-danger text-center mt-5">';
-        echo '<h4 class="alert-heading">Acceso Denegado</h4>';
-        echo '<p>No tienes los permisos necesarios para acceder a esta página o la página no existe.</p>';
-        echo '<p>Tu rango actual es: ' . htmlspecialchars($rango) . '</p>';
-        echo '<p>Redirigiendo a la página principal...</p>';
-        echo '</div>';
-        echo '<meta http-equiv="refresh" content="3;url=/usuario/administrativo/index.php">';
+        $rango = htmlspecialchars($this->userRango ?? 'Agente');
+        echo '<div class="alert alert-danger text-center mt-5">
+            <h4 class="alert-heading">Acceso Denegado</h4>
+            <p>No tienes los permisos necesarios para acceder a esta página.</p>
+            <p>Tu rango actual es: ' . $rango . '</p>
+            <p>Redirigiendo al inicio...</p>
+        </div>';
+        echo '<meta http-equiv="refresh" content="3;url=index.php">';
     }
 }
 
