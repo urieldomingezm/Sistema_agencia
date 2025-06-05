@@ -189,15 +189,17 @@ class GestionView
                                         <span class="badge <?= $clase ?>"><?= ucfirst($estatus) ?></span>
                                     </td>
                                     <td>
-                                        <?php if (empty($paga['estatus'])): ?>
-                                            <button class="btn btn-sm btn-success" onclick="actualizarPago(<?= $paga['pagas_id'] ?>, 'recibido')">
-                                                Dar paga
+                                        <?php if ($paga['pagas_motivo'] === 'Sin pago' || empty($paga['pagas_motivo'])): ?>
+                                            <button class="btn btn-sm btn-success" onclick="actualizarPago(<?= htmlspecialchars($paga['pagas_id']) ?>, 'recibido')">
+                                                <i class="bi bi-check-circle"></i> Dar paga
                                             </button>
-                                            <button class="btn btn-sm btn-danger" onclick="actualizarPago(<?= $paga['pagas_id'] ?>, 'no_recibido')">
-                                                No recibió
+                                            <button class="btn btn-sm btn-danger" onclick="actualizarPago(<?= htmlspecialchars($paga['pagas_id']) ?>, 'no_recibido')">
+                                                <i class="bi bi-x-circle"></i> No recibió
                                             </button>
                                         <?php else: ?>
-                                            <span class="text-muted">Pago realizado</span>
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-check-circle-fill"></i> Pago realizado
+                                            </span>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -375,31 +377,39 @@ $view->render();
     }
 
     function actualizarPago(id, tipo) {
-        let titulo, texto, icono;
-        if (tipo === 'recibido') {
-            titulo = '¿Confirmar pago?';
-            texto = '¿Estás seguro de que el usuario recibió el pago?';
-            icono = 'success';
-        } else {
-            titulo = '¿Confirmar no pago?';
-            texto = '¿Estás seguro de que el usuario no recibió el pago?';
-            icono = 'warning';
-        }
+        const config = {
+            recibido: {
+                titulo: '¿Confirmar pago?',
+                texto: '¿Estás seguro de que quieres confirmar el pago?',
+                icono: 'success',
+                confirmButtonText: 'Sí, confirmar pago',
+                motivo: 'Pago realizado'
+            },
+            no_recibido: {
+                titulo: '¿Confirmar no pago?',
+                texto: '¿Estás seguro de que quieres marcar como no recibido?',
+                icono: 'warning',
+                confirmButtonText: 'Sí, confirmar',
+                motivo: 'Sin pago'
+            }
+        };
+
+        const opciones = config[tipo];
 
         Swal.fire({
-            title: titulo,
-            text: texto,
-            icon: icono,
+            title: opciones.titulo,
+            text: opciones.texto,
+            icon: opciones.icono,
             showCancelButton: true,
             confirmButtonColor: tipo === 'recibido' ? '#28a745' : '#dc3545',
             cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Sí, confirmar',
+            confirmButtonText: opciones.confirmButtonText,
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                    title: 'Actualizando...',
-                    text: 'Por favor espera...',
+                    title: 'Procesando...',
+                    html: 'Por favor espera mientras se actualiza el pago...',
                     allowOutsideClick: false,
                     didOpen: () => {
                         Swal.showLoading();
@@ -411,33 +421,36 @@ $view->render();
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `id=${id}&motivo=${tipo === 'recibido' ? 'Pago realizado' : 'Sin pago'}`
+                    body: `id=${encodeURIComponent(id)}&motivo=${encodeURIComponent(opciones.motivo)}`
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         Swal.fire({
-                            title: '¡Éxito!',
-                            text: tipo === 'recibido' ? 'Pago confirmado correctamente' : 'Se ha marcado como no recibido',
                             icon: 'success',
-                            confirmButtonText: 'Ok'
+                            title: '¡Éxito!',
+                            text: tipo === 'recibido' ? 
+                                'El pago ha sido confirmado correctamente.' : 
+                                'Se ha marcado como no recibido correctamente.',
+                            showConfirmButton: true,
+                            timer: 1500
                         }).then(() => {
                             location.reload();
                         });
                     } else {
                         Swal.fire({
+                            icon: 'error',
                             title: 'Error',
-                            text: data.message || 'Ocurrió un error al actualizar el pago',
-                            icon: 'error'
+                            text: data.message || 'Hubo un error al procesar el pago',
                         });
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     Swal.fire({
+                        icon: 'error',
                         title: 'Error',
-                        text: 'Error al procesar la solicitud',
-                        icon: 'error'
+                        text: 'Hubo un error al procesar la solicitud',
                     });
                 });
             }
