@@ -58,15 +58,11 @@ class RequisitoService
     public function obtenerDetallesUsuario($id)
     {
         try {
-            // Obtener información del usuario
-            $query = "SELECT ru.nombre_habbo, ru.codigo_time,
-                            COUNT(DISTINCT gt.tiempo_id) as total_tiempos,
-                            COUNT(DISTINCT a.ascenso_id) as total_ascensos
-                     FROM registro_usuario ru
-                     LEFT JOIN gestion_tiempo gt ON ru.codigo_time = gt.codigo_time
-                     LEFT JOIN ascensos a ON ru.codigo_time = a.codigo_time
-                     WHERE ru.id = :id
-                     GROUP BY ru.id";
+            // Primero obtener el usuario desde gestion_requisitos
+            $query = "SELECT gr.user, ru.nombre_habbo, ru.codigo_time
+                     FROM gestion_requisitos gr
+                     LEFT JOIN registro_usuario ru ON gr.user = ru.nombre_habbo
+                     WHERE gr.id = :id";
             
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':id', $id);
@@ -78,28 +74,39 @@ class RequisitoService
             }
 
             // Obtener detalles de tiempos
-            $query = "SELECT gt.*, ru.nombre_habbo as encargado_nombre 
+            $query = "SELECT 
+                        gt.*,
+                        ru_encargado.nombre_habbo as encargado_nombre 
                      FROM gestion_tiempo gt
-                     LEFT JOIN registro_usuario ru ON gt.tiempo_encargado_usuario = ru.codigo_time
-                     WHERE gt.codigo_time = :codigo_time
+                     LEFT JOIN registro_usuario ru_usuario ON ru_usuario.codigo_time = gt.codigo_time
+                     LEFT JOIN registro_usuario ru_encargado ON ru_encargado.codigo_time = gt.tiempo_encargado_usuario
+                     WHERE ru_usuario.nombre_habbo = :nombre_habbo
                      ORDER BY gt.tiempo_fecha_registro DESC";
             
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':codigo_time', $usuario['codigo_time']);
+            $stmt->bindParam(':nombre_habbo', $usuario['user']);
             $stmt->execute();
             $tiempos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             // Obtener detalles de ascensos
-            $query = "SELECT a.*, ru.nombre_habbo as encargado_nombre 
+            $query = "SELECT 
+                        a.*,
+                        ru_encargado.nombre_habbo as encargado_nombre 
                      FROM ascensos a
-                     LEFT JOIN registro_usuario ru ON a.usuario_encargado = ru.codigo_time
-                     WHERE a.codigo_time = :codigo_time
+                     LEFT JOIN registro_usuario ru_usuario ON ru_usuario.codigo_time = a.codigo_time
+                     LEFT JOIN registro_usuario ru_encargado ON ru_encargado.codigo_time = a.usuario_encargado
+                     WHERE ru_usuario.nombre_habbo = :nombre_habbo
                      ORDER BY a.fecha_ultimo_ascenso DESC";
             
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':codigo_time', $usuario['codigo_time']);
+            $stmt->bindParam(':nombre_habbo', $usuario['user']);
             $stmt->execute();
             $ascensos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Agregar logs para debug
+            error_log("Usuario encontrado: " . print_r($usuario, true));
+            error_log("Tiempos encontrados: " . count($tiempos));
+            error_log("Ascensos encontrados: " . count($ascensos));
 
             return [
                 'success' => true,
@@ -110,6 +117,7 @@ class RequisitoService
                 ]
             ];
         } catch (Exception $e) {
+            error_log("Error en obtenerDetallesUsuario: " . $e->getMessage());
             return ['success' => false, 'message' => $e->getMessage()];
         }
     }
