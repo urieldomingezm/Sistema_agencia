@@ -16,24 +16,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn = $db->getConnection();
 
         $query = "UPDATE gestion_pagas 
-                 SET pagas_motivo = :motivo,
-                     pagas_completo = :completo 
+                 SET pagas_motivo = :motivo
                  WHERE pagas_id = :id";
         
         $stmt = $conn->prepare($query);
-        $completo = ($motivo === 'Pago realizado') ? 1 : 0;
-        
         $stmt->bindParam(':motivo', $motivo);
-        $stmt->bindParam(':completo', $completo);
         $stmt->bindParam(':id', $id);
 
         if ($stmt->execute()) {
             echo json_encode(['success' => true]);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Error al actualizar']);
+            echo json_encode(['success' => false, 'message' => 'Error al actualizar el pago']);
         }
+
     } catch (Exception $e) {
-        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
     }
     exit;
 }

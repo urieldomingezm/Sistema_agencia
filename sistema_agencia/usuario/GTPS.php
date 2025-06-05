@@ -375,14 +375,21 @@ $view->render();
     }
 
     function actualizarPago(id, tipo) {
-        const titulo = tipo === 'recibido' ? 'Confirmar pago' : 'Confirmar no pago';
-        const texto = tipo === 'recibido' ? '¿Estás seguro que quieres confirmar el pago?' : '¿Estás seguro que quieres marcar como no recibido?';
-        const motivo = tipo === 'recibido' ? 'Pago realizado' : 'Sin pago';
+        let titulo, texto, icono;
+        if (tipo === 'recibido') {
+            titulo = '¿Confirmar pago?';
+            texto = '¿Estás seguro de que el usuario recibió el pago?';
+            icono = 'success';
+        } else {
+            titulo = '¿Confirmar no pago?';
+            texto = '¿Estás seguro de que el usuario no recibió el pago?';
+            icono = 'warning';
+        }
 
         Swal.fire({
             title: titulo,
             text: texto,
-            icon: 'warning',
+            icon: icono,
             showCancelButton: true,
             confirmButtonColor: tipo === 'recibido' ? '#28a745' : '#dc3545',
             cancelButtonColor: '#6c757d',
@@ -390,41 +397,38 @@ $view->render();
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {
-                // Mostrar loading
                 Swal.fire({
                     title: 'Actualizando...',
+                    text: 'Por favor espera...',
                     allowOutsideClick: false,
                     didOpen: () => {
                         Swal.showLoading();
                     }
                 });
 
-                // Realizar la actualización
                 fetch('/private/procesos/gestion_pagas/actualizar_pago.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                     },
-                    body: `id=${id}&motivo=${motivo}`
+                    body: `id=${id}&motivo=${tipo === 'recibido' ? 'Pago realizado' : 'Sin pago'}`
                 })
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
                         Swal.fire({
-                            title: 'Éxito',
-                            text: 'El estado del pago ha sido actualizado',
+                            title: '¡Éxito!',
+                            text: tipo === 'recibido' ? 'Pago confirmado correctamente' : 'Se ha marcado como no recibido',
                             icon: 'success',
-                            confirmButtonColor: '#3085d6'
+                            confirmButtonText: 'Ok'
                         }).then(() => {
-                            // Recargar la página para ver los cambios
                             location.reload();
                         });
                     } else {
                         Swal.fire({
                             title: 'Error',
-                            text: data.message || 'Error al actualizar el pago',
-                            icon: 'error',
-                            confirmButtonColor: '#3085d6'
+                            text: data.message || 'Ocurrió un error al actualizar el pago',
+                            icon: 'error'
                         });
                     }
                 })
@@ -433,8 +437,7 @@ $view->render();
                     Swal.fire({
                         title: 'Error',
                         text: 'Error al procesar la solicitud',
-                        icon: 'error',
-                        confirmButtonColor: '#3085d6'
+                        icon: 'error'
                     });
                 });
             }
