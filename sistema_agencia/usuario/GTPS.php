@@ -15,27 +15,27 @@ class GestionView
         $counts = $this->calculateCounts();
 ?>
 
-            <style>
-                .nav-link.active {
-                    opacity: 1 !important;
-                }
+        <style>
+            .nav-link.active {
+                opacity: 1 !important;
+            }
 
-                .nav-link:not(.active) {
-                    opacity: 0.6 !important;
-                }
+            .nav-link:not(.active) {
+                opacity: 0.6 !important;
+            }
 
-                .nav-link:hover {
-                    opacity: 0.8 !important;
-                }
+            .nav-link:hover {
+                opacity: 0.8 !important;
+            }
 
-                .card {
-                    transition: transform 0.2s;
-                }
+            .card {
+                transition: transform 0.2s;
+            }
 
-                .card:hover {
-                    transform: translateY(-5px);
-                }
-            </style>
+            .card:hover {
+                transform: translateY(-5px);
+            }
+        </style>
 
         <body>
             <div class="container py-4">
@@ -190,10 +190,10 @@ class GestionView
                                     </td>
                                     <td>
                                         <?php if (empty($paga['estatus'])): ?>
-                                            <button class="btn btn-sm btn-success" data-id="<?= $paga['pagas_id'] ?? 0 ?>">
+                                            <button class="btn btn-sm btn-success" onclick="actualizarPago(<?= $paga['pagas_id'] ?>, 'recibido')">
                                                 Dar paga
                                             </button>
-                                            <button class="btn btn-sm btn-danger" data-id="<?= $paga['pagas_id'] ?? 0 ?>">
+                                            <button class="btn btn-sm btn-danger" onclick="actualizarPago(<?= $paga['pagas_id'] ?>, 'no_recibido')">
                                                 No recibió
                                             </button>
                                         <?php else: ?>
@@ -241,15 +241,15 @@ class GestionView
                                     <td><?= !empty($requisito['requirement_name']) ? htmlspecialchars($requisito['requirement_name']) : 'no disponible' ?></td>
                                     <td>
                                         <?= htmlspecialchars($requisito['times_as_encargado_count'] ?? 0) ?>
-                                        <button class="btn btn-info btn-sm ms-2" 
-                                                onclick="verDetalles('<?= htmlspecialchars($requisito['id'] ?? '') ?>', 'tiempos')">
+                                        <button class="btn btn-info btn-sm ms-2"
+                                            onclick="verDetalles('<?= htmlspecialchars($requisito['id'] ?? '') ?>', 'tiempos')">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                     </td>
                                     <td>
                                         <?= htmlspecialchars($requisito['ascensos_as_encargado_count'] ?? 0) ?>
-                                        <button class="btn btn-info btn-sm ms-2" 
-                                                onclick="verDetalles('<?= htmlspecialchars($requisito['id'] ?? '') ?>', 'ascensos')">
+                                        <button class="btn btn-info btn-sm ms-2"
+                                            onclick="verDetalles('<?= htmlspecialchars($requisito['id'] ?? '') ?>', 'ascensos')">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                     </td>
@@ -303,31 +303,31 @@ $view->render();
 ?>
 
 <script>
-function verDetalles(id, tipo) {
-    Swal.fire({
-        title: 'Cargando detalles...',
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-            Swal.showLoading();
-            
-            fetch('/private/procesos/gestion_cumplimientos/obtener_detalles.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `id=${encodeURIComponent(id)}&tipo=${encodeURIComponent(tipo)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
-                    const titulo = tipo === 'tiempos' ? 'Tiempos como Encargado' : 'Ascensos Realizados';
-                    const total = tipo === 'tiempos' ? data.data.usuario.tiempos_count : data.data.usuario.ascensos_count;
-                    
-                    Swal.fire({
-                        title: titulo,
-                        html: `
+    function verDetalles(id, tipo) {
+        Swal.fire({
+            title: 'Cargando detalles...',
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            didOpen: () => {
+                Swal.showLoading();
+
+                fetch('/private/procesos/gestion_cumplimientos/obtener_detalles.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `id=${encodeURIComponent(id)}&tipo=${encodeURIComponent(tipo)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
+                            const titulo = tipo === 'tiempos' ? 'Tiempos como Encargado' : 'Ascensos Realizados';
+                            const total = tipo === 'tiempos' ? data.data.usuario.tiempos_count : data.data.usuario.ascensos_count;
+
+                            Swal.fire({
+                                title: titulo,
+                                html: `
                             <div class="mb-3">
                                 <strong>Usuario:</strong> ${data.data.usuario.nombre_habbo}<br>
                                 <strong>Registros esta semana:</strong> ${total}
@@ -350,27 +350,94 @@ function verDetalles(id, tipo) {
                                     </tbody>
                                 </table>
                             </div>`,
-                        width: '600px',
-                        confirmButtonText: 'Cerrar',
+                                width: '600px',
+                                confirmButtonText: 'Cerrar',
+                                confirmButtonColor: '#3085d6'
+                            });
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: data.message
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error al cargar los detalles'
+                        });
+                    });
+            }
+        });
+    }
+
+    function actualizarPago(id, tipo) {
+        const titulo = tipo === 'recibido' ? 'Confirmar pago' : 'Confirmar no pago';
+        const texto = tipo === 'recibido' ? '¿Estás seguro que quieres confirmar el pago?' : '¿Estás seguro que quieres marcar como no recibido?';
+        const motivo = tipo === 'recibido' ? 'Pago realizado' : 'Sin pago';
+
+        Swal.fire({
+            title: titulo,
+            text: texto,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: tipo === 'recibido' ? '#28a745' : '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Sí, confirmar',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mostrar loading
+                Swal.fire({
+                    title: 'Actualizando...',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // Realizar la actualización
+                fetch('/private/procesos/gestion_pagas/actualizar_pago.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `id=${id}&motivo=${motivo}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: 'El estado del pago ha sido actualizado',
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6'
+                        }).then(() => {
+                            // Recargar la página para ver los cambios
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.message || 'Error al actualizar el pago',
+                            icon: 'error',
+                            confirmButtonColor: '#3085d6'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Error al procesar la solicitud',
+                        icon: 'error',
                         confirmButtonColor: '#3085d6'
                     });
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: data.message
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al cargar los detalles'
                 });
-            });
-        }
-    });
-}
+            }
+        });
+    }
 </script>
