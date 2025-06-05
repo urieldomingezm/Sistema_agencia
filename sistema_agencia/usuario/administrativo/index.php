@@ -35,14 +35,6 @@ class AdminController
             exit;
         }
 
-        // Si el usuario viene de la interfaz de usuario y no ha seleccionado la administrativa
-        if (isset($_SESSION['interface_selected']) && $_SESSION['interface_selected'] === 'user') {
-            // Redirigir a la interfaz administrativa si no se ha seleccionado
-            $_SESSION['interface_selected'] = 'admin';
-            header('Location: /usuario/administrativo/index.php');
-            exit;
-        }
-
         $this->loadMenu();
     }
 
@@ -180,8 +172,8 @@ class AdminController
     public function handlePageLoad()
     {
         if (!isset($_GET['page'])) {
-            // Página por defecto para administradores
-            include USER_PATH . 'USR.php'; 
+            // Cargar el dashboard de inicio por defecto
+            $this->loadDashboard();
             return;
         }
 
@@ -248,6 +240,12 @@ class AdminController
         }
     }
 
+    private function loadDashboard()
+    {
+        // Cargar el dashboard de inicio (USR.php)
+        include USER_PATH . 'USR.php';
+    }
+
     private function renderAccessDenied()
     {
         $rango = $this->userRango ?? 'Agente';
@@ -257,7 +255,7 @@ class AdminController
         echo '<p>Tu rango actual es: ' . htmlspecialchars($rango) . '</p>';
         echo '<p>Redirigiendo a la página principal...</p>';
         echo '</div>';
-        echo '<meta http-equiv="refresh" content="3;url=/usuario/index.php">';
+        echo '<meta http-equiv="refresh" content="3;url=/usuario/administrativo/index.php">';
     }
 }
 
