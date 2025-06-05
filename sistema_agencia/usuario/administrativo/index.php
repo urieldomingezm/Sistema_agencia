@@ -26,10 +26,12 @@ class AdminController
         $this->conn = $database->getConnection();
         $this->loadUserRank();
 
-        // Verificar que el usuario tenga un rango administrativo permitido
+        // Verificar que el usuario tenga un rango permitido (solo Web_master, Fundador, Owner)
         $allowedRoles = ['Web_master', 'Owner', 'Fundador', 'web_master', 'owner', 'fundador'];
+        
         if (!in_array($this->userRango, $allowedRoles)) {
-            $this->renderAccessDenied();
+            // Redirigir a la interfaz de usuario normal para rangos no permitidos
+            header('Location: /usuario/index.php');
             exit;
         }
 
@@ -96,7 +98,7 @@ class AdminController
             'requisitos_paga' => 'requisitos_paga',
             'ver_mis_tiempos' => 'ver_mis_tiempos',
             'ver_mis_ascensos' => 'ver_mis_ascensos',
-            'inicio' => 'inicio' // Puede ser útil para volver al dashboard admin
+            'inicio' => 'inicio'
         ];
 
         $results = [];
@@ -109,7 +111,6 @@ class AdminController
                 $filePath = USER_PATH . str_replace('_', '/', $fileKey) . '.php';
             }
             
-            // Asegurarse de que el archivo existe antes de intentar leerlo
             if (file_exists($filePath)) {
                 $content = file_get_contents($filePath);
                 preg_match('/<meta name="keywords" content="([^"]+)"/', $content, $matches);
@@ -256,7 +257,7 @@ class AdminController
         echo '<p>Tu rango actual es: ' . htmlspecialchars($rango) . '</p>';
         echo '<p>Redirigiendo a la página principal...</p>';
         echo '</div>';
-        echo '<meta http-equiv="refresh" content="3;url=/usuario/index.php">'; // Redirigir a la interfaz de usuario
+        echo '<meta http-equiv="refresh" content="3;url=/usuario/index.php">';
     }
 }
 
@@ -295,7 +296,7 @@ require_once(TEMPLATES_PATH . 'footer.php');
     }
 
     $(document).ready(function() {
-        // Lógica para resetear modales, similar a usuario/index.php
+        // Lógica para resetear modales
         $('#modificar_usuario, #dar_ascenso').on('hidden.bs.modal', function() {
             $(this).find('form').trigger('reset');
 
