@@ -191,11 +191,11 @@ class GestionView
                                     <td>
                                         <?php if ($paga['pagas_motivo'] === 'Sin pago' || empty($paga['pagas_motivo'])): ?>
                                             <button class="btn btn-sm btn-success" 
-                                                    onclick="actualizarPago('<?= htmlspecialchars((string)($paga['pagas_id'] ?? '')) ?>', 'recibido')">
+                                                    onclick="actualizarPago(<?= (int)$paga['pagas_id'] ?>, 'recibido')">
                                                 <i class="bi bi-check-circle"></i> Dar paga
                                             </button>
                                             <button class="btn btn-sm btn-danger" 
-                                                    onclick="actualizarPago('<?= htmlspecialchars((string)($paga['pagas_id'] ?? '')) ?>', 'no_recibido')">
+                                                    onclick="actualizarPago(<?= (int)$paga['pagas_id'] ?>, 'no_recibido')">
                                                 <i class="bi bi-x-circle"></i> No recibió
                                             </button>
                                         <?php else: ?>
@@ -379,6 +379,17 @@ $view->render();
     }
 
     function actualizarPago(id, tipo) {
+        // Validación adicional
+        if (!id) {
+            console.error('ID no válido:', id);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'ID de pago no válido'
+            });
+            return;
+        }
+
         const config = {
             recibido: {
                 titulo: '¿Confirmar pago?',
