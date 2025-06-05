@@ -1,13 +1,20 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');?>
 
-
 <body class="bg-light">
     <div class="container-fluid">
-        <div class="row flex-nowrap">            
+        <div class="row flex-nowrap">
+            
             <!-- Main Content -->
             <div class="col py-3">
                 <div class="container-fluid">
-                   
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2><i class="bi bi-speedometer2"></i> Panel Administrativo</h2>
+                        <div>
+                            <span class="badge bg-primary"><i class="bi bi-calendar"></i> <?php echo date('d/m/Y'); ?></span>
+                        </div>
+                    </div>
+                    
                     <!-- Stats Cards -->
                     <div class="row g-4 mb-4">
                         <div class="col-md-6 col-lg-3">
@@ -200,6 +207,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- Charts Script -->
     <script>
