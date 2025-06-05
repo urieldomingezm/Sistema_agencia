@@ -135,3 +135,59 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+
+   document.addEventListener('DOMContentLoaded', function() {
+    // Configuración para la tabla de disponibles
+    const tableConfig = {
+        searchable: true,
+        perPage: 5,
+        perPageSelect: [5, 10, 25, 50, 100],
+        labels: {
+            placeholder: "Buscar...",
+            perPage: "registros por página",
+            noRows: "No se encontraron registros",
+            info: "Mostrando {start} a {end} de {rows} registros",
+            loading: "Cargando...",
+            infoFiltered: " (filtrado de {rows} registros totales)",
+            next: "Siguiente",
+            previous: "Anterior"
+        }
+    };
+
+    // Inicializar solo la tabla de disponibles
+    if (document.getElementById("ascensosDisponiblesTable")) {
+        new simpleDatatables.DataTable("#ascensosDisponiblesTable", tableConfig);
+    }
+
+    // Botón de ascender y verificar tiempo (using event delegation)
+    document.addEventListener('click', function(e) {
+        if (e.target.matches('.ascender-btn')) {
+            const id = e.target.dataset.id;
+            
+            // Get the modal element and the input field for the user code
+            const darAscensoModal = new bootstrap.Modal(document.getElementById('dar_ascenso_modal'));
+            const codigoTimeAscensoInput = document.getElementById('codigoTimeAscenso');
+
+            // Set the user code in the input field
+            if (codigoTimeAscensoInput) {
+                codigoTimeAscensoInput.value = id;
+            }
+
+            // Open the modal
+            darAscensoModal.show();
+
+            // Optionally, trigger the search automatically after setting the code
+            // You might need to find the search button element and trigger its click event
+            const buscarUsuarioAscensoBtn = document.getElementById('buscarUsuarioAscenso');
+            if (buscarUsuarioAscensoBtn) {
+                 buscarUsuarioAscensoBtn.click();
+            }
+
+        } else if (e.target.matches('.verificar-tiempo-btn')) {
+            const id = e.target.closest('button').dataset.id;
+            verificarTiempoAscenso(id);
+        }
+    });
+
+});
