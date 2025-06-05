@@ -190,10 +190,12 @@ class GestionView
                                     </td>
                                     <td>
                                         <?php if ($paga['pagas_motivo'] === 'Sin pago' || empty($paga['pagas_motivo'])): ?>
-                                            <button class="btn btn-sm btn-success" onclick="actualizarPago(<?= htmlspecialchars($paga['pagas_id']) ?>, 'recibido')">
+                                            <button class="btn btn-sm btn-success" 
+                                                    onclick="actualizarPago(<?= htmlspecialchars((string)($paga['pagas_id'] ?? '')) ?>, 'recibido')">
                                                 <i class="bi bi-check-circle"></i> Dar paga
                                             </button>
-                                            <button class="btn btn-sm btn-danger" onclick="actualizarPago(<?= htmlspecialchars($paga['pagas_id']) ?>, 'no_recibido')">
+                                            <button class="btn btn-sm btn-danger" 
+                                                    onclick="actualizarPago(<?= htmlspecialchars((string)($paga['pagas_id'] ?? '')) ?>, 'no_recibido')">
                                                 <i class="bi bi-x-circle"></i> No recibió
                                             </button>
                                         <?php else: ?>
