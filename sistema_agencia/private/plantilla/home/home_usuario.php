@@ -50,20 +50,6 @@ class BodyHome
                     <i class="bi bi-star-fill me-2 text-warning"></i> Agencia Shein <i class="bi bi-star-fill ms-2 text-warning"></i>
                 </h1>
                 <p class="lead mb-4 fs-5">Bienvenido <?= $username ?></p>
-                <div class="alert alert-warning mb-0 alert-dismissible fade show">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <div>
-                        <strong>¡Aviso Importante!</strong> Se han realizado mejoras al sistema - Versión 20.0
-                        <ul class="mb-0 mt-2 text-start small">
-                            <li>Optimización en el sistema de tiempos y conteo de usuarios</li>
-                            <li>Mejoras en el formato de misiones y firmas por rango</li>
-                            <li>Correcciones en la visualización de datos en acordeones</li>
-                            <li>Actualización en la interfaz de modificación de usuarios</li>
-                        </ul>
-                        <small class="d-block text-muted mt-2">Si encuentras algún problema, por favor repórtalo en nuestro buzón de quejas.</small>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
             </div>
         </header>
     <?php
