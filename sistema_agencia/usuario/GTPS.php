@@ -337,8 +337,7 @@ function verDetalles(id, tipo) {
                                     <thead>
                                         <tr>
                                             <th>Usuario</th>
-                                            <th>${tipo === 'tiempos' ? 'Rango' : 'Nuevo Rango'}</th>
-                                            <th>${tipo === 'tiempos' ? 'Tiempo' : 'Estado'}</th>
+                                            <th>Rango</th>
                                             <th>Fecha</th>
                                         </tr>
                                     </thead>
@@ -346,19 +345,14 @@ function verDetalles(id, tipo) {
                                         ${items.map(item => `
                                             <tr>
                                                 <td>${item.usuario_nombre}</td>
-                                                <td>${tipo === 'tiempos' ? item.rango : item.rango_actual}</td>
-                                                <td>
-                                                    <span class="badge ${getBadgeClass(tipo === 'tiempos' ? 'tiempo' : item.estado)}">
-                                                        ${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado}
-                                                    </span>
-                                                </td>
+                                                <td>${item.rango_usuario}</td>
                                                 <td>${new Date(item.fecha).toLocaleString()}</td>
                                             </tr>
                                         `).join('')}
                                     </tbody>
                                 </table>
                             </div>`,
-                        width: '800px',
+                        width: '600px',
                         confirmButtonText: 'Cerrar',
                         confirmButtonColor: '#3085d6'
                     });
@@ -380,14 +374,5 @@ function verDetalles(id, tipo) {
             });
         }
     });
-}
-
-function getBadgeClass(estado) {
-    switch (estado?.toLowerCase()) {
-        case 'completado': return 'bg-success';
-        case 'pendiente': return 'bg-warning';
-        case 'rechazado': return 'bg-danger';
-        default: return 'bg-secondary';
-    }
 }
 </script>

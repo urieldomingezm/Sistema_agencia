@@ -58,7 +58,7 @@ class RequisitoService
     public function obtenerDetallesUsuario($id)
     {
         try {
-            // Obtener usuario y sus contadores desde gestion_requisitos
+            // Obtener usuario desde gestion_requisitos
             $query = "SELECT gr.*, ru.codigo_time, ru.nombre_habbo 
                      FROM gestion_requisitos gr
                      LEFT JOIN registro_usuario ru ON gr.user = ru.nombre_habbo
@@ -70,21 +70,19 @@ class RequisitoService
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$usuario) {
-                error_log("No se encontró el usuario con ID: " . $id);
                 return ['success' => false, 'message' => 'Usuario no encontrado'];
             }
 
-            // Obtener historial de tiempos
+            // Obtener historial de tiempos de usuarios que este encargado tomó
             $query = "SELECT 
-                        ht.*,
-                        ru_encargado.nombre_habbo as encargado_nombre,
+                        ht.tiempo_fecha_registro as fecha,
                         ru_usuario.nombre_habbo as usuario_nombre,
-                        a.rango_actual
+                        a.rango_actual as rango_usuario
                      FROM historial_tiempos ht
                      LEFT JOIN registro_usuario ru_usuario ON ru_usuario.codigo_time = ht.codigo_time
-                     LEFT JOIN registro_usuario ru_encargado ON ru_encargado.codigo_time = ht.tiempo_encargado_usuario
-                     LEFT JOIN ascensos a ON a.codigo_time = ru_usuario.codigo_time AND a.es_recluta = 0
+                     LEFT JOIN ascensos a ON a.codigo_time = ru_usuario.codigo_time
                      WHERE ht.tiempo_encargado_usuario = :codigo_time
+                     GROUP BY ru_usuario.nombre_habbo
                      ORDER BY ht.tiempo_fecha_registro DESC";
             
             $stmt = $this->conn->prepare($query);
@@ -92,25 +90,21 @@ class RequisitoService
             $stmt->execute();
             $tiempos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Obtener historial de ascensos
+            // Obtener historial de ascensos que realizó como encargado
             $query = "SELECT 
-                        ha.*,
+                        ha.fecha_accion as fecha,
                         ru_ascendido.nombre_habbo as usuario_nombre,
-                        ru_encargado.nombre_habbo as encargado_nombre
+                        ha.rango_actual as rango_usuario
                      FROM historial_ascensos ha
                      LEFT JOIN registro_usuario ru_ascendido ON ru_ascendido.codigo_time = ha.codigo_time
-                     LEFT JOIN registro_usuario ru_encargado ON ru_encargado.codigo_time = ha.usuario_encargado
                      WHERE ha.usuario_encargado = :codigo_time
+                     GROUP BY ru_ascendido.nombre_habbo
                      ORDER BY ha.fecha_accion DESC";
             
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':codigo_time', $usuario['codigo_time']);
             $stmt->execute();
             $ascensos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            error_log("Detalles encontrados para usuario: " . $usuario['nombre_habbo']);
-            error_log("Tiempos como encargado: " . count($tiempos));
-            error_log("Ascensos realizados: " . count($ascensos));
 
             return [
                 'success' => true,
@@ -120,22 +114,8 @@ class RequisitoService
                         'tiempos_count' => $usuario['times_as_encargado_count'],
                         'ascensos_count' => $usuario['ascensos_as_encargado_count']
                     ],
-                    'tiempos' => array_map(function($tiempo) {
-                        return [
-                            'usuario_nombre' => $tiempo['usuario_nombre'],
-                            'rango' => $tiempo['rango_actual'],
-                            'tiempo_acumulado' => $tiempo['tiempo_acumulado'],
-                            'fecha' => $tiempo['tiempo_fecha_registro']
-                        ];
-                    }, $tiempos),
-                    'ascensos' => array_map(function($ascenso) {
-                        return [
-                            'usuario_nombre' => $ascenso['usuario_nombre'],
-                            'rango_actual' => $ascenso['rango_actual'],
-                            'estado' => $ascenso['estado_ascenso'],
-                            'fecha' => $ascenso['fecha_accion']
-                        ];
-                    }, $ascensos)
+                    'tiempos' => $tiempos,
+                    'ascensos' => $ascensos
                 ]
             ];
         } catch (Exception $e) {
