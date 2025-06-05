@@ -190,14 +190,22 @@ class GestionView
                                     </td>
                                     <td>
                                         <?php if ($paga['pagas_motivo'] === 'Sin pago' || empty($paga['pagas_motivo'])): ?>
-                                            <button class="btn btn-sm btn-success" 
-                                                    onclick="actualizarPago(<?= (int)$paga['pagas_id'] ?>, 'recibido')">
-                                                <i class="bi bi-check-circle"></i> Dar paga
-                                            </button>
-                                            <button class="btn btn-sm btn-danger" 
-                                                    onclick="actualizarPago(<?= (int)$paga['pagas_id'] ?>, 'no_recibido')">
-                                                <i class="bi bi-x-circle"></i> No recibió
-                                            </button>
+                                            <?php 
+                                            // Asegurarnos que pagas_id exista y sea un número
+                                            $pagaId = isset($paga['pagas_id']) ? (int)$paga['pagas_id'] : 0;
+                                            if ($pagaId > 0):
+                                            ?>
+                                                <button class="btn btn-sm btn-success" 
+                                                        onclick="actualizarPago('<?= $pagaId ?>', 'recibido')">
+                                                    <i class="bi bi-check-circle"></i> Dar paga
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" 
+                                                        onclick="actualizarPago('<?= $pagaId ?>', 'no_recibido')">
+                                                    <i class="bi bi-x-circle"></i> No recibió
+                                                </button>
+                                            <?php else: ?>
+                                                <span class="badge bg-warning">ID no válido</span>
+                                            <?php endif; ?>
                                         <?php else: ?>
                                             <span class="badge bg-success">
                                                 <i class="bi bi-check-circle-fill"></i> Pago realizado
@@ -379,8 +387,9 @@ $view->render();
     }
 
     function actualizarPago(id, tipo) {
-        // Validación adicional
-        if (!id) {
+        // Convertir id a número y validar
+        const pagaId = parseInt(id);
+        if (isNaN(pagaId) || pagaId <= 0) {
             console.error('ID no válido:', id);
             Swal.fire({
                 icon: 'error',
