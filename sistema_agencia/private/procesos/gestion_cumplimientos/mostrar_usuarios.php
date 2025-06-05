@@ -20,36 +20,60 @@ class RequisitoService
         $response = ['success' => false, 'message' => '', 'data' => []];
 
         try {
-            // Obtener el registro con mayor suma de tiempos + ascensos por usuario
+            // Obtener conteos de la semana actual por usuario
             $query = "
-                SELECT gr.*
-                FROM gestion_requisitos gr
-                INNER JOIN (
-                    SELECT `user`, MAX(times_as_encargado_count + ascensos_as_encargado_count) AS max_total
-                    FROM gestion_requisitos
-                    GROUP BY `user`
-                ) mejores
-                ON gr.user = mejores.user
-                AND (gr.times_as_encargado_count + gr.ascensos_as_encargado_count) = mejores.max_total
-                ORDER BY gr.user ASC
+                SELECT 
+                    ru.nombre_habbo as user,
+                    ru.id,
+                    COALESCE(tiempos.times_count, 0) as times_as_encargado_count,
+                    COALESCE(ascensos.ascensos_count, 0) as ascensos_as_encargado_count,
+                    CONCAT(
+                        CASE 
+                            WHEN tiempos.times_count > 0 THEN CONCAT(tiempos.times_count, ' tiempos tomados')
+                            ELSE '0 tiempos'
+                        END,
+                        ' y ',
+                        CASE 
+                            WHEN ascensos.ascensos_count > 0 THEN CONCAT(ascensos.ascensos_count, ' ascensos')
+                            ELSE '0 ascensos'
+                        END,
+                        ' esta semana'
+                    ) as requirement_name,
+                    0 as is_completed
+                FROM registro_usuario ru
+                LEFT JOIN (
+                    SELECT 
+                        tiempo_encargado_usuario,
+                        COUNT(DISTINCT codigo_time) as times_count
+                    FROM historial_tiempos 
+                    WHERE YEARWEEK(tiempo_fecha_registro) = YEARWEEK(NOW())
+                    GROUP BY tiempo_encargado_usuario
+                ) tiempos ON tiempos.tiempo_encargado_usuario = ru.nombre_habbo
+                LEFT JOIN (
+                    SELECT 
+                        usuario_encargado,
+                        COUNT(DISTINCT codigo_time) as ascensos_count
+                    FROM historial_ascensos 
+                    WHERE YEARWEEK(fecha_accion) = YEARWEEK(NOW())
+                    AND accion = 'ascendido'
+                    GROUP BY usuario_encargado
+                ) ascensos ON ascensos.usuario_encargado = ru.nombre_habbo
+                WHERE tiempos.times_count > 0 OR ascensos.ascensos_count > 0
+                ORDER BY (COALESCE(tiempos.times_count, 0) + COALESCE(ascensos.ascensos_count, 0)) DESC
             ";
 
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $GLOBALS['cumplimientos'] = $resultados;
-
             $response['success'] = true;
-            $response['message'] = 'Registro más completo por usuario obtenido con éxito.';
+            $response['message'] = 'Registros de la semana obtenidos con éxito.';
             $response['data'] = $resultados;
 
         } catch (PDOException $e) {
             $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
         } catch (Exception $e) {
             $response['message'] = 'Error general: ' . $e->getMessage();
-        } finally {
-            $this->cerrarConexion();
         }
 
         return $response;
