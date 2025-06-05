@@ -279,20 +279,15 @@ class GestionView
         </div>
 
         <!-- Modal para detalles -->
-        <div class="modal fade" id="detallesModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="detallesModalLabel" aria-hidden="true">
+        <div class="modal fade" id="detallesModal" data-bs-backdrop="static" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="detallesModalLabel">Detalles</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h5 class="modal-title">Detalles del Usuario</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body p-3">
-                        <div class="d-flex justify-content-center align-items-center" id="modalLoader">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Cargando...</span>
-                            </div>
-                        </div>
-                        <div id="modalContent" class="d-none"></div>
+                    <div class="modal-body">
+                        <div id="modalContent"></div>
                     </div>
                 </div>
             </div>
@@ -324,19 +319,18 @@ $view->render();
 
 <script>
 function verDetalles(id, tipo) {
-    const modalLoader = document.getElementById('modalLoader');
     const modalContent = document.getElementById('modalContent');
     const detallesModal = new bootstrap.Modal(document.getElementById('detallesModal'));
-
-    // Reset modal state
-    modalLoader.classList.remove('d-none');
-    modalContent.classList.add('d-none');
-    modalContent.innerHTML = '';
     
-    // Show modal
+    modalContent.innerHTML = `
+        <div class="text-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>`;
+    
     detallesModal.show();
 
-    // Fetch data
     fetch('/private/procesos/gestion_cumplimientos/obtener_detalles.php', {
         method: 'POST',
         headers: {
@@ -349,47 +343,44 @@ function verDetalles(id, tipo) {
         if (data.success) {
             const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
             
-            const content = `
-                <div class="card border-0">
-                    <div class="card-header bg-light">
-                        <h6 class="mb-0">Usuario: ${data.data.usuario.nombre_habbo}</h6>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover mb-0">
-                            <thead>
+            modalContent.innerHTML = `
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>${tipo === 'tiempos' ? 'Encargado' : 'Rango'}</th>
+                                <th>Fecha</th>
+                                <th>${tipo === 'tiempos' ? 'Tiempo' : 'Estado'}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${items.map(item => `
                                 <tr>
-                                    <th>${tipo === 'tiempos' ? 'Encargado' : 'Rango'}</th>
-                                    <th>Fecha</th>
-                                    <th>${tipo === 'tiempos' ? 'Tiempo' : 'Estado'}</th>
+                                    <td>${item.encargado_nombre}</td>
+                                    <td>${tipo === 'tiempos' ? item.tiempo_fecha_registro : item.fecha_ultimo_ascenso}</td>
+                                    <td>
+                                        <span class="badge ${tipo === 'tiempos' ? 'bg-info' : getBadgeClass(item.estado_ascenso)}">
+                                            ${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado_ascenso}
+                                        </span>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                ${items.map(item => `
-                                    <tr>
-                                        <td>${item.encargado_nombre}</td>
-                                        <td>${tipo === 'tiempos' ? item.tiempo_fecha_registro : item.fecha_ultimo_ascenso}</td>
-                                        <td>
-                                            <span class="badge ${tipo === 'tiempos' ? 'bg-info' : getBadgeClass(item.estado_ascenso)}">
-                                                ${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado_ascenso}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
+                            `).join('')}
+                        </tbody>
+                    </table>
                 </div>`;
-
-            modalLoader.classList.add('d-none');
-            modalContent.classList.remove('d-none');
-            modalContent.innerHTML = content;
         } else {
-            showError(data.message);
+            modalContent.innerHTML = `
+                <div class="alert alert-danger m-0">
+                    ${data.message || 'Error al cargar los detalles'}
+                </div>`;
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        showError('Error al cargar los detalles');
+        modalContent.innerHTML = `
+            <div class="alert alert-danger m-0">
+                Error al cargar los detalles
+            </div>`;
     });
 }
 
@@ -400,18 +391,5 @@ function getBadgeClass(estado) {
         case 'rechazado': return 'bg-danger';
         default: return 'bg-secondary';
     }
-}
-
-function showError(message) {
-    const modalLoader = document.getElementById('modalLoader');
-    const modalContent = document.getElementById('modalContent');
-    
-    modalLoader.classList.add('d-none');
-    modalContent.classList.remove('d-none');
-    modalContent.innerHTML = `
-        <div class="alert alert-danger d-flex align-items-center m-0" role="alert">
-            <i class="bi bi-exclamation-triangle-fill me-2"></i>
-            <div>${message}</div>
-        </div>`;
 }
 </script>
