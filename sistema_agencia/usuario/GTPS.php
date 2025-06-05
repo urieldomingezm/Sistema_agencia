@@ -322,29 +322,37 @@ function verDetalles(id, tipo) {
             .then(data => {
                 if (data.success) {
                     const items = tipo === 'tiempos' ? data.data.tiempos : data.data.ascensos;
+                    const titulo = tipo === 'tiempos' ? 'Tiempos como Encargado' : 'Ascensos Realizados';
+                    const total = tipo === 'tiempos' ? data.data.usuario.tiempos_count : data.data.usuario.ascensos_count;
                     
                     Swal.fire({
-                        title: `Detalles de ${tipo === 'tiempos' ? 'Tiempos' : 'Ascensos'}`,
+                        title: titulo,
                         html: `
+                            <div class="mb-3">
+                                <strong>Usuario:</strong> ${data.data.usuario.nombre_habbo}<br>
+                                <strong>Total ${tipo}:</strong> ${total}
+                            </div>
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-striped table-hover">
                                     <thead>
                                         <tr>
-                                            <th>${tipo === 'tiempos' ? 'Encargado' : 'Rango'}</th>
-                                            <th>Fecha</th>
+                                            <th>Usuario</th>
+                                            <th>${tipo === 'tiempos' ? 'Rango' : 'Nuevo Rango'}</th>
                                             <th>${tipo === 'tiempos' ? 'Tiempo' : 'Estado'}</th>
+                                            <th>Fecha</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         ${items.map(item => `
                                             <tr>
-                                                <td>${item.encargado_nombre}</td>
-                                                <td>${tipo === 'tiempos' ? item.tiempo_fecha_registro : item.fecha_ultimo_ascenso}</td>
+                                                <td>${item.usuario_nombre}</td>
+                                                <td>${tipo === 'tiempos' ? item.rango : item.rango_actual}</td>
                                                 <td>
-                                                    <span class="badge ${tipo === 'tiempos' ? 'bg-info' : getBadgeClass(item.estado_ascenso)}">
-                                                        ${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado_ascenso}
+                                                    <span class="badge ${getBadgeClass(tipo === 'tiempos' ? 'tiempo' : item.estado)}">
+                                                        ${tipo === 'tiempos' ? item.tiempo_acumulado : item.estado}
                                                     </span>
                                                 </td>
+                                                <td>${new Date(item.fecha).toLocaleString()}</td>
                                             </tr>
                                         `).join('')}
                                     </tbody>
@@ -352,17 +360,13 @@ function verDetalles(id, tipo) {
                             </div>`,
                         width: '800px',
                         confirmButtonText: 'Cerrar',
-                        confirmButtonColor: '#3085d6',
-                        customClass: {
-                            container: 'swal-wide',
-                            content: 'p-0'
-                        }
+                        confirmButtonColor: '#3085d6'
                     });
                 } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: data.message || 'Error al cargar los detalles'
+                        text: data.message
                     });
                 }
             })

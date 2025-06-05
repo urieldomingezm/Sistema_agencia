@@ -58,8 +58,8 @@ class RequisitoService
     public function obtenerDetallesUsuario($id)
     {
         try {
-            // Primero obtener el usuario desde gestion_requisitos
-            $query = "SELECT gr.user, ru.nombre_habbo, ru.codigo_time
+            // Obtener usuario y sus contadores desde gestion_requisitos
+            $query = "SELECT gr.*, ru.codigo_time, ru.nombre_habbo 
                      FROM gestion_requisitos gr
                      LEFT JOIN registro_usuario ru ON gr.user = ru.nombre_habbo
                      WHERE gr.id = :id";
@@ -70,55 +70,77 @@ class RequisitoService
             $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$usuario) {
+                error_log("No se encontró el usuario con ID: " . $id);
                 return ['success' => false, 'message' => 'Usuario no encontrado'];
             }
 
-            // Obtener detalles de tiempos
+            // Obtener historial de tiempos
             $query = "SELECT 
-                        gt.*,
-                        ru_encargado.nombre_habbo as encargado_nombre 
-                     FROM gestion_tiempo gt
-                     LEFT JOIN registro_usuario ru_usuario ON ru_usuario.codigo_time = gt.codigo_time
-                     LEFT JOIN registro_usuario ru_encargado ON ru_encargado.codigo_time = gt.tiempo_encargado_usuario
-                     WHERE ru_usuario.nombre_habbo = :nombre_habbo
-                     ORDER BY gt.tiempo_fecha_registro DESC";
+                        ht.*,
+                        ru_encargado.nombre_habbo as encargado_nombre,
+                        ru_usuario.nombre_habbo as usuario_nombre,
+                        a.rango_actual
+                     FROM historial_tiempos ht
+                     LEFT JOIN registro_usuario ru_usuario ON ru_usuario.codigo_time = ht.codigo_time
+                     LEFT JOIN registro_usuario ru_encargado ON ru_encargado.codigo_time = ht.tiempo_encargado_usuario
+                     LEFT JOIN ascensos a ON a.codigo_time = ru_usuario.codigo_time AND a.es_recluta = 0
+                     WHERE ht.tiempo_encargado_usuario = :codigo_time
+                     ORDER BY ht.tiempo_fecha_registro DESC";
             
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':nombre_habbo', $usuario['user']);
+            $stmt->bindParam(':codigo_time', $usuario['codigo_time']);
             $stmt->execute();
             $tiempos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Obtener detalles de ascensos
+            // Obtener historial de ascensos
             $query = "SELECT 
-                        a.*,
-                        ru_encargado.nombre_habbo as encargado_nombre 
-                     FROM ascensos a
-                     LEFT JOIN registro_usuario ru_usuario ON ru_usuario.codigo_time = a.codigo_time
-                     LEFT JOIN registro_usuario ru_encargado ON ru_encargado.codigo_time = a.usuario_encargado
-                     WHERE ru_usuario.nombre_habbo = :nombre_habbo
-                     ORDER BY a.fecha_ultimo_ascenso DESC";
+                        ha.*,
+                        ru_ascendido.nombre_habbo as usuario_nombre,
+                        ru_encargado.nombre_habbo as encargado_nombre
+                     FROM historial_ascensos ha
+                     LEFT JOIN registro_usuario ru_ascendido ON ru_ascendido.codigo_time = ha.codigo_time
+                     LEFT JOIN registro_usuario ru_encargado ON ru_encargado.codigo_time = ha.usuario_encargado
+                     WHERE ha.usuario_encargado = :codigo_time
+                     ORDER BY ha.fecha_accion DESC";
             
             $stmt = $this->conn->prepare($query);
-            $stmt->bindParam(':nombre_habbo', $usuario['user']);
+            $stmt->bindParam(':codigo_time', $usuario['codigo_time']);
             $stmt->execute();
             $ascensos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Agregar logs para debug
-            error_log("Usuario encontrado: " . print_r($usuario, true));
-            error_log("Tiempos encontrados: " . count($tiempos));
-            error_log("Ascensos encontrados: " . count($ascensos));
+            error_log("Detalles encontrados para usuario: " . $usuario['nombre_habbo']);
+            error_log("Tiempos como encargado: " . count($tiempos));
+            error_log("Ascensos realizados: " . count($ascensos));
 
             return [
                 'success' => true,
                 'data' => [
-                    'usuario' => $usuario,
-                    'tiempos' => $tiempos,
-                    'ascensos' => $ascensos
+                    'usuario' => [
+                        'nombre_habbo' => $usuario['nombre_habbo'],
+                        'tiempos_count' => $usuario['times_as_encargado_count'],
+                        'ascensos_count' => $usuario['ascensos_as_encargado_count']
+                    ],
+                    'tiempos' => array_map(function($tiempo) {
+                        return [
+                            'usuario_nombre' => $tiempo['usuario_nombre'],
+                            'rango' => $tiempo['rango_actual'],
+                            'tiempo_acumulado' => $tiempo['tiempo_acumulado'],
+                            'fecha' => $tiempo['tiempo_fecha_registro']
+                        ];
+                    }, $tiempos),
+                    'ascensos' => array_map(function($ascenso) {
+                        return [
+                            'usuario_nombre' => $ascenso['usuario_nombre'],
+                            'rango_actual' => $ascenso['rango_actual'],
+                            'estado' => $ascenso['estado_ascenso'],
+                            'fecha' => $ascenso['fecha_accion']
+                        ];
+                    }, $ascensos)
                 ]
             ];
         } catch (Exception $e) {
             error_log("Error en obtenerDetallesUsuario: " . $e->getMessage());
-            return ['success' => false, 'message' => $e->getMessage()];
+            return ['success' => false, 'message' => 'Error al obtener detalles: ' . $e->getMessage()];
         }
     }
 
