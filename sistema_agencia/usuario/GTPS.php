@@ -240,14 +240,24 @@ class GestionView
                                     <td><?= htmlspecialchars($requisito['user'] ?? '') ?></td>
                                     <td><?= !empty($requisito['requirement_name']) ? htmlspecialchars($requisito['requirement_name']) : 'no disponible' ?></td>
                                     <td>
-                                        <?= htmlspecialchars($requisito['times_as_encargado_count'] ?? 0) ?>
+                                        <?php 
+                                            $tiempos_count = $requisito['times_as_encargado_count'] ?? 0;
+                                        ?>
+                                        <span class="badge bg-<?= $tiempos_count > 0 ? 'primary' : 'secondary' ?>">
+                                            <?= $tiempos_count ?>
+                                        </span>
                                         <button class="btn btn-info btn-sm ms-2" 
                                                 onclick="verDetalles('<?= htmlspecialchars($requisito['id'] ?? '') ?>', 'tiempos')">
                                             <i class="bi bi-eye"></i>
                                         </button>
                                     </td>
                                     <td>
-                                        <?= htmlspecialchars($requisito['ascensos_as_encargado_count'] ?? 0) ?>
+                                        <?php 
+                                            $ascensos_count = $requisito['ascensos_as_encargado_count'] ?? 0;
+                                        ?>
+                                        <span class="badge bg-<?= $ascensos_count > 0 ? 'success' : 'secondary' ?>">
+                                            <?= $ascensos_count ?>
+                                        </span>
                                         <button class="btn btn-info btn-sm ms-2" 
                                                 onclick="verDetalles('<?= htmlspecialchars($requisito['id'] ?? '') ?>', 'ascensos')">
                                             <i class="bi bi-eye"></i>

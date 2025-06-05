@@ -20,36 +20,72 @@ class RequisitoService
         $response = ['success' => false, 'message' => '', 'data' => []];
 
         try {
-            // Obtener el registro con mayor suma de tiempos + ascensos por usuario
             $query = "
-                SELECT gr.*
-                FROM gestion_requisitos gr
-                INNER JOIN (
-                    SELECT `user`, MAX(times_as_encargado_count + ascensos_as_encargado_count) AS max_total
-                    FROM gestion_requisitos
-                    GROUP BY `user`
-                ) mejores
-                ON gr.user = mejores.user
-                AND (gr.times_as_encargado_count + gr.ascensos_as_encargado_count) = mejores.max_total
-                ORDER BY gr.user ASC
-            ";
+                SELECT 
+                    ru.nombre_habbo as user,
+                    ru.id,
+                    (
+                        SELECT COUNT(DISTINCT ht.codigo_time)
+                        FROM historial_tiempos ht
+                        WHERE ht.tiempo_encargado_usuario = ru.nombre_habbo
+                        AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())
+                    ) as times_as_encargado_count,
+                    (
+                        SELECT COUNT(DISTINCT ha.codigo_time)
+                        FROM historial_ascensos ha
+                        WHERE ha.usuario_encargado = ru.nombre_habbo
+                        AND ha.accion = 'ascendido'
+                        AND YEARWEEK(ha.fecha_accion) = YEARWEEK(NOW())
+                    ) as ascensos_as_encargado_count,
+                    CONCAT(
+                        'Esta semana: ',
+                        (
+                            SELECT COUNT(DISTINCT ht.codigo_time)
+                            FROM historial_tiempos ht
+                            WHERE ht.tiempo_encargado_usuario = ru.nombre_habbo
+                            AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())
+                        ),
+                        ' tiempos y ',
+                        (
+                            SELECT COUNT(DISTINCT ha.codigo_time)
+                            FROM historial_ascensos ha
+                            WHERE ha.usuario_encargado = ru.nombre_habbo
+                            AND ha.accion = 'ascendido'
+                            AND YEARWEEK(ha.fecha_accion) = YEARWEEK(NOW())
+                        ),
+                        ' ascensos'
+                    ) as requirement_name,
+                    0 as is_completed
+                FROM registro_usuario ru
+                WHERE EXISTS (
+                    SELECT 1 FROM historial_tiempos ht 
+                    WHERE ht.tiempo_encargado_usuario = ru.nombre_habbo
+                    AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())
+                )
+                OR EXISTS (
+                    SELECT 1 FROM historial_ascensos ha 
+                    WHERE ha.usuario_encargado = ru.nombre_habbo
+                    AND YEARWEEK(ha.fecha_accion) = YEARWEEK(NOW())
+                )
+                ORDER BY (
+                    SELECT COUNT(*) FROM historial_tiempos ht 
+                    WHERE ht.tiempo_encargado_usuario = ru.nombre_habbo
+                    AND YEARWEEK(ht.tiempo_fecha_registro) = YEARWEEK(NOW())
+                ) + (
+                    SELECT COUNT(*) FROM historial_ascensos ha 
+                    WHERE ha.usuario_encargado = ru.nombre_habbo
+                    AND YEARWEEK(ha.fecha_accion) = YEARWEEK(NOW())
+                ) DESC";
 
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            $GLOBALS['cumplimientos'] = $resultados;
-
             $response['success'] = true;
-            $response['message'] = 'Registro más completo por usuario obtenido con éxito.';
             $response['data'] = $resultados;
 
-        } catch (PDOException $e) {
-            $response['message'] = 'Error en la base de datos: ' . $e->getMessage();
         } catch (Exception $e) {
-            $response['message'] = 'Error general: ' . $e->getMessage();
-        } finally {
-            $this->cerrarConexion();
+            $response['message'] = 'Error: ' . $e->getMessage();
         }
 
         return $response;
