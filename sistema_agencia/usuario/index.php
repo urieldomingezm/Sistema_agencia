@@ -319,8 +319,8 @@ class UserController
                                 <div class="icon-container">
                                     <i class="bi bi-person-circle"></i>
                                 </div>
-                                <h5 class="card-title">Interfaz de Usuario</h5>
-                                <p class="card-text">Accede a las funciones estándar del sistema</p>
+                                <h5 class="card-title">Gestion de usuarios</h5>
+                                <p class="card-text">Accede a las funciones estandar del sistema como ascender, tomar tiempo, registrar ventas ect</p>
                             </div>
                         </div>
                     </div>
@@ -330,8 +330,8 @@ class UserController
                                 <div class="icon-container">
                                     <i class="bi bi-gear-fill"></i>
                                 </div>
-                                <h5 class="card-title">Interfaz Administrativa</h5>
-                                <p class="card-text">Accede a funciones avanzadas de administración</p>
+                                <h5 class="card-title">Administraccion</h5>
+                                <p class="card-text">Accede a funciones avanzadas para cambiar contraseñas, misiones, rangos etc.</p>
                             </div>
                         </div>
                     </div>
