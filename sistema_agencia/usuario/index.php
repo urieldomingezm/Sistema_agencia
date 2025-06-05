@@ -42,7 +42,7 @@ class UserController
             isset($_SESSION['interface_selected']) &&
             $_SESSION['interface_selected'] === 'admin'
         ) {
-            header('Location: /administrativo/index.php');
+            header('Location: /usuario/administrativo/index.php');
             exit;
         }
 
@@ -372,7 +372,7 @@ class UserController
         })
         .then(response => {
             if (type === "admin") {
-                window.location.href = "/administrativo/index.php";
+                window.location.href = "/usuario/administrativo/index.php";
             } else {
                 window.location.href = "/usuario/index.php";
             }
