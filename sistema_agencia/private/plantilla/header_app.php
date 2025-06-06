@@ -1,43 +1,25 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title><?php echo isset($pageTitle) ? $pageTitle : 'Agencia Shein APP'; ?></title>
-
-
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
-    <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/framework7@6.3.0/css/framework7.bundle.min.css">
     <style>
-        ion-content {
-            --overflow: auto;
-            --offset-top: 56px;
-            --offset-bottom: 56px;
-        }
-
-        html,
-        body {
+        html, body {
             height: 100%;
+            margin: 0;
+            padding: 0;
         }
-
-        ion-app {
-            min-height: 100%;
+        .page {
+            min-height: 100vh;
         }
     </style>
 </head>
-
-<body class="ion-padding" color="dark">
-    <ion-app>
-
-        <ion-header>
-            <ion-toolbar color="dark">
-                <ion-title><?php echo isset($pageTitle) ? $pageTitle : 'Agencia Shein APP'; ?></ion-title>
-                <ion-buttons slot="end">
-                    <ion-button color="light">
-                        <ion-icon slot="icon-only" name="notifications"></ion-icon>
-                    </ion-button>
-                </ion-buttons>
-            </ion-toolbar>
-        </ion-header>
+<body>
+    <div class="page">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="title"><?php echo isset($pageTitle) ? $pageTitle : 'Agencia Shein APP'; ?></div>
+            </div>
+        </div>

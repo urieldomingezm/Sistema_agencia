@@ -37,11 +37,11 @@ $controller = new AppController();
 $contentFile = $controller->loadContent();
 ?>
 
-<ion-content fullscreen="true">
-    <div class="inner-scroll">
+<div class="page-content">
+    <div class="content-block">
         <?php require_once($contentFile); ?>
     </div>
-</ion-content>
+</div>
 
 <?php
 require_once(TABS_APP_PATH . 'tab_bajos.php');

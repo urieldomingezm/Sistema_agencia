@@ -133,3 +133,15 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/framework7@6.3.0/js/framework7.bundle.min.js"></script>
+<script>
+    var app = new Framework7({
+        theme: 'md',
+        routes: [
+            // Define tus rutas aquí
+        ]
+    });
+</script>
+</body>
+</html>
