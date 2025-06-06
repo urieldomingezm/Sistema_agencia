@@ -56,11 +56,14 @@ class AppController
             $pageConfig = $this->validPages[$page];
 
             if ($pageConfig['roles'][0] === 'all' || in_array($this->userRango, $pageConfig['roles'])) {
+                // Use the correct path for profile page
+                if ($page === 'perfil') {
+                    return APP_PATH . $pageConfig['file'];
+                }
                 return BIENVENIDA_APP_PATH . $pageConfig['file'];
             }
         }
 
-        // Página por defecto si no tiene permisos
         return BIENVENIDA_APP_PATH . 'home_inicio.php';
     }
 
