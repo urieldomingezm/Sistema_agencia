@@ -18,7 +18,7 @@ class AdminNavbar
   {
     require_once(PROCESOS_NOTIFICACIONES_PACTH . 'get_notifications.php');
 ?>
-    <nav class="admin-navbar navbar navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand text-white" href="index.php">
           <img src="/public/assets/custom_general/custom_menus/icono.ico" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;" alt="Icono de Sistema">
@@ -62,9 +62,9 @@ class AdminNavbar
                 <?php endif; ?>
               </button>
 
-              <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
                 <li>
-                  <h6 class="dropdown-header text-white">Notificaciones</h6>
+                  <h6 class="dropdown-header">Notificaciones</h6>
                 </li>
 
                 <?php if (!empty($userNotifications)): ?>
@@ -78,7 +78,7 @@ class AdminNavbar
                   <?php endforeach; ?>
                 <?php else: ?>
                   <li>
-                    <span class="dropdown-item text-white">No tienes notificaciones</span>
+                    <span class="dropdown-item">No tienes notificaciones</span>
                   </li>
                 <?php endif; ?>
 
@@ -100,21 +100,21 @@ class AdminNavbar
           </button>
         </div>
 
-        <div class="offcanvas offcanvas-end bg-dark text-white" id="offcanvasNavbar">
-          <div class="offcanvas-header">
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+          <div class="offcanvas-header bg-dark text-white">
             <h5 class="offcanvas-title">
               Panel Administrativo
             </h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
           </div>
 
-          <div class="offcanvas-body">
-            <div class="accordion accordion-flush" id="menuAccordion">
+          <div class="offcanvas-body p-0">
+            <div class="accordion" id="menuAccordion">
               <?php foreach ($this->items as $index => $item): ?>
-                <div class="accordion-item bg-dark border-secondary">
+                <div class="accordion-item border-0">
                   <?php if (isset($item['dropdown'])): ?>
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed bg-dark text-white" type="button"
+                      <button class="accordion-button collapsed" type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#collapse<?= $index ?>"
                         aria-expanded="false">
@@ -122,28 +122,28 @@ class AdminNavbar
                         <?= $item['name'] ?>
                       </button>
                     </h2>
-                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse bg-dark"
+                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse"
                       data-bs-parent="#menuAccordion">
                       <div class="accordion-body p-0">
                         <ul class="list-unstyled mb-0">
                           <?php foreach ($item['dropdown'] as $dropdownItem): ?>
                             <?php if (is_array($dropdownItem) && isset($dropdownItem['submenu'])): ?>
-                              <!-- Elemento con submenú (tercer nivel) -->
+                              <!-- Elemento con submenú (segundo nivel) -->
                               <li class="dropdown-submenu">
-                                <a class="menu-link dropdown-toggle text-white d-block px-3 py-2" href="#" data-bs-toggle="collapse" 
+                                <a class="menu-link dropdown-toggle d-block px-3 py-2" href="#" data-bs-toggle="collapse" 
                                   data-bs-target="#submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>">
                                   <i class="<?= $this->getDropdownIcon($dropdownItem['name']) ?> me-2"></i>
                                   <?= $dropdownItem['name'] ?>
                                   <i class="bi bi-chevron-right float-end"></i>
                                 </a>
-                                <div id="submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>" class="collapse bg-secondary bg-opacity-10">
+                                <div id="submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>" class="collapse bg-light">
                                   <ul class="list-unstyled ps-3">
                                     <?php foreach ($dropdownItem['submenu'] as $subItem): ?>
                                       <?php if ($subItem == 'divider'): ?>
-                                        <li><hr class="dropdown-divider mx-1 border-secondary"></li>
+                                        <li><hr class="dropdown-divider mx-1"></li>
                                       <?php else: ?>
                                         <li>
-                                          <a class="menu-link text-white d-block px-3 py-2" href="<?= $this->getItemUrl($subItem) ?>">
+                                          <a class="menu-link d-block px-3 py-2" href="<?= $this->getItemUrl($subItem) ?>">
                                             <i class="<?= $this->getDropdownIcon($subItem) ?> me-2"></i>
                                             <?= $subItem ?>
                                           </a>
@@ -154,11 +154,11 @@ class AdminNavbar
                                 </div>
                               </li>
                             <?php elseif ($dropdownItem == 'divider'): ?>
-                              <li><hr class="dropdown-divider mx-3 border-secondary"></li>
+                              <li><hr class="dropdown-divider mx-3"></li>
                             <?php else: ?>
-                              <!-- Elemento normal (segundo nivel) -->
+                              <!-- Elemento normal (primer nivel) -->
                               <li>
-                                <a class="menu-link text-white d-block px-3 py-2" href="<?= $this->getItemUrl($dropdownItem) ?>">
+                                <a class="menu-link d-block px-3 py-2" href="<?= $this->getItemUrl($dropdownItem) ?>">
                                   <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
                                   <?= $dropdownItem ?>
                                 </a>
@@ -170,7 +170,7 @@ class AdminNavbar
                     </div>
                   <?php else: ?>
                     <h2 class="accordion-header">
-                      <a class="accordion-button bg-dark text-white" href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
+                      <a class="accordion-button" href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
                         <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
                         <?= $item['name'] ?>
                       </a>
@@ -180,9 +180,9 @@ class AdminNavbar
               <?php endforeach; ?>
             </div>
 
-            <form class="search-form mt-3" role="search" method="GET" action="/admin/index.php">
+            <form class="search-form mt-3 px-3" role="search" method="GET" action="/admin/index.php">
               <div class="input-group">
-                <input type="search" class="form-control bg-secondary bg-opacity-10 text-white border-secondary" name="q"
+                <input type="search" class="form-control" name="q"
                   placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">
                   <i class="bi bi-search"></i>
@@ -302,7 +302,7 @@ class AdminNavbar
   }
 }
 
-// Configuración del menú con 3 niveles
+// Configuración del menú con 2 niveles
 $adminItems = [
   ['name' => 'Dashboard'],
   ['name' => 'Usuarios', 'dropdown' => [
