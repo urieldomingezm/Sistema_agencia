@@ -58,4 +58,11 @@ define('CUSTOM_HOME_PATH', PUBLIC_PATH . 'assets/custom_general/custom_home/');
 define('CUSTOM_HOME_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_home/css/');
 define('CUSTOM_HOME_JS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_home/js/');
 define('CUSTOM_RADIO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_radio/');
+
+// APP
+
+define('TEMPLATES_APP_PATH', PRIVATE_PATH . 'plantilla/');
+define('TABS_APP_PATH', PRIVATE_PATH . 'tabs/');
+
+
 ?>
