@@ -56,7 +56,7 @@
 <ion-footer>
   <ion-tabs>
     <ion-tab-bar slot="bottom">
-      <ion-tab-button tab="inicio">
+      <ion-tab-button tab="inicio" href="?page=inicio">
         <ion-icon name="home"></ion-icon>
         <ion-label>Inicio</ion-label>
       </ion-tab-button>
@@ -66,7 +66,7 @@
         <ion-label>Perfil</ion-label>
       </ion-tab-button>
       
-      <ion-tab-button tab="notificaciones">
+      <ion-tab-button tab="notificaciones" href="?page=notificaciones">
         <ion-icon name="notifications"></ion-icon>
         <ion-label>Notificaciones</ion-label>
         <ion-badge color="danger">2</ion-badge>
