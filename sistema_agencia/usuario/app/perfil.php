@@ -1,19 +1,20 @@
+<br>
+
 <ion-app>
-  <!-- Contenido -->
-  <ion-content fullscreen="true" color="light">
+  <ion-content fullscreen="true" color="light" class="perfil-content">
     <!-- Avatar y bienvenida -->
-    <div class="ion-text-center ion-padding">
-      <ion-avatar style="width: 120px; height: 120px; margin: auto;">
+    <div class="ion-text-center ion-padding perfil-header">
+      <ion-avatar class="perfil-avatar">
         <img src="https://i.pravatar.cc/300" alt="Avatar de usuario">
       </ion-avatar>
       <ion-text color="primary">
         <h1 class="ion-no-margin">Usuario Ejemplo</h1>
       </ion-text>
-      <ion-badge color="medium">Agente</ion-badge>
+      <ion-badge color="medium" class="perfil-badge">Agente</ion-badge>
     </div>
 
     <!-- Datos del perfil -->
-    <ion-list lines="full" color="light">
+    <ion-list lines="full" class="perfil-list">
       <ion-item>
         <ion-icon name="mail" slot="start" color="primary"></ion-icon>
         <ion-label>Correo Electrónico</ion-label>
@@ -40,7 +41,7 @@
     </ion-list>
 
     <!-- Botón de configuración -->
-    <ion-grid class="ion-padding">
+    <ion-grid class="ion-padding perfil-grid">
       <ion-row>
         <ion-col size="12">
           <ion-button expand="block" fill="outline" color="primary">
@@ -51,27 +52,50 @@
       </ion-row>
     </ion-grid>
   </ion-content>
-
-  <!-- Footer con tabs -->
-  <ion-footer>
-    <ion-tabs>
-      <ion-tab-bar slot="bottom" color="dark">
-        <ion-tab-button tab="inicio" href="?page=inicio">
-          <ion-icon name="home"></ion-icon>
-          <ion-label>Inicio</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="perfil" selected>
-          <ion-icon name="person"></ion-icon>
-          <ion-label>Perfil</ion-label>
-        </ion-tab-button>
-
-        <ion-tab-button tab="notificaciones" href="?page=notificaciones">
-          <ion-icon name="notifications"></ion-icon>
-          <ion-label>Notificaciones</ion-label>
-          <ion-badge color="danger">2</ion-badge>
-        </ion-tab-button>
-      </ion-tab-bar>
-    </ion-tabs>
-  </ion-footer>
 </ion-app>
+
+<!-- CSS personalizado solo para el perfil -->
+<style>
+  .perfil-content {
+    --background: #fefefe;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .perfil-header {
+    background: linear-gradient(to bottom right, #f0f4ff, #dbeafe);
+    border-radius: 0 0 20px 20px;
+    padding-bottom: 2rem;
+  }
+
+  .perfil-avatar {
+    width: 120px;
+    height: 120px;
+    border: 4px solid #3b82f6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin: auto;
+  }
+
+  .perfil-badge {
+    margin-top: 0.5rem;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+
+  .perfil-list ion-item {
+    --padding-start: 16px;
+    --inner-padding-end: 12px;
+    --min-height: 56px;
+  }
+
+  .perfil-list ion-icon {
+    font-size: 22px;
+    color: #3b82f6;
+  }
+
+  .perfil-grid ion-button {
+    border-radius: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+</style>
