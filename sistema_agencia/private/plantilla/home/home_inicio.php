@@ -5,7 +5,6 @@ class BodyHome
     public function render()
     {
         echo '<body class="d-flex flex-column h-100 bg-light" data-bs-theme="light">';
-        $this->renderThemeToggle();
         $this->renderLoader();
         $this->renderHeader();
         $this->renderAboutSection();
@@ -17,20 +16,6 @@ class BodyHome
         $this->renderFooter();
         $this->renderThemeScript();
         echo '</body>';
-    }
-
-    private function renderThemeToggle()
-    {
-        echo '<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-            <div class="btn-group shadow" role="group">
-                <button type="button" class="btn btn-light theme-toggle" data-theme="light">
-                    <i class="bi bi-sun-fill"></i>
-                </button>
-                <button type="button" class="btn btn-dark theme-toggle" data-theme="dark">
-                    <i class="bi bi-moon-fill"></i>
-                </button>
-            </div>
-        </div>';
     }
 
     private function renderLoader()
