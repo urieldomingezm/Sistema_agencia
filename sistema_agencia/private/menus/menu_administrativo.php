@@ -18,7 +18,7 @@ class AdminNavbar
   {
     require_once(PROCESOS_NOTIFICACIONES_PACTH . 'get_notifications.php');
 ?>
-    <nav class="admin-navbar navbar fixed-top">
+    <nav class="admin-navbar navbar navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand text-white" href="index.php">
           <img src="/public/assets/custom_general/custom_menus/icono.ico" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;" alt="Icono de Sistema">
@@ -62,7 +62,7 @@ class AdminNavbar
                 <?php endif; ?>
               </button>
 
-              <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
+              <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
                 <li>
                   <h6 class="dropdown-header text-white">Notificaciones</h6>
                 </li>
@@ -100,8 +100,8 @@ class AdminNavbar
           </button>
         </div>
 
-        <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
-          <div class="offcanvas-header text-white">
+        <div class="offcanvas offcanvas-end bg-dark text-white" id="offcanvasNavbar">
+          <div class="offcanvas-header">
             <h5 class="offcanvas-title">
               Panel Administrativo
             </h5>
@@ -109,12 +109,12 @@ class AdminNavbar
           </div>
 
           <div class="offcanvas-body">
-            <div class="accordion" id="menuAccordion">
+            <div class="accordion accordion-flush" id="menuAccordion">
               <?php foreach ($this->items as $index => $item): ?>
-                <div class="accordion-item">
+                <div class="accordion-item bg-dark border-secondary">
                   <?php if (isset($item['dropdown'])): ?>
                     <h2 class="accordion-header">
-                      <button class="accordion-button collapsed" type="button"
+                      <button class="accordion-button collapsed bg-dark text-white" type="button"
                         data-bs-toggle="collapse"
                         data-bs-target="#collapse<?= $index ?>"
                         aria-expanded="false">
@@ -122,7 +122,7 @@ class AdminNavbar
                         <?= $item['name'] ?>
                       </button>
                     </h2>
-                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse"
+                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse bg-dark"
                       data-bs-parent="#menuAccordion">
                       <div class="accordion-body p-0">
                         <ul class="list-unstyled mb-0">
@@ -130,20 +130,20 @@ class AdminNavbar
                             <?php if (is_array($dropdownItem) && isset($dropdownItem['submenu'])): ?>
                               <!-- Elemento con submenú (tercer nivel) -->
                               <li class="dropdown-submenu">
-                                <a class="menu-link dropdown-toggle" href="#" data-bs-toggle="collapse" 
+                                <a class="menu-link dropdown-toggle text-white d-block px-3 py-2" href="#" data-bs-toggle="collapse" 
                                   data-bs-target="#submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>">
                                   <i class="<?= $this->getDropdownIcon($dropdownItem['name']) ?> me-2"></i>
                                   <?= $dropdownItem['name'] ?>
                                   <i class="bi bi-chevron-right float-end"></i>
                                 </a>
-                                <div id="submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>" class="collapse">
+                                <div id="submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>" class="collapse bg-secondary bg-opacity-10">
                                   <ul class="list-unstyled ps-3">
                                     <?php foreach ($dropdownItem['submenu'] as $subItem): ?>
                                       <?php if ($subItem == 'divider'): ?>
-                                        <li><hr class="dropdown-divider mx-1"></li>
+                                        <li><hr class="dropdown-divider mx-1 border-secondary"></li>
                                       <?php else: ?>
                                         <li>
-                                          <a class="menu-link" href="<?= $this->getItemUrl($subItem) ?>">
+                                          <a class="menu-link text-white d-block px-3 py-2" href="<?= $this->getItemUrl($subItem) ?>">
                                             <i class="<?= $this->getDropdownIcon($subItem) ?> me-2"></i>
                                             <?= $subItem ?>
                                           </a>
@@ -154,11 +154,11 @@ class AdminNavbar
                                 </div>
                               </li>
                             <?php elseif ($dropdownItem == 'divider'): ?>
-                              <li><hr class="dropdown-divider mx-3"></li>
+                              <li><hr class="dropdown-divider mx-3 border-secondary"></li>
                             <?php else: ?>
                               <!-- Elemento normal (segundo nivel) -->
                               <li>
-                                <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
+                                <a class="menu-link text-white d-block px-3 py-2" href="<?= $this->getItemUrl($dropdownItem) ?>">
                                   <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
                                   <?= $dropdownItem ?>
                                 </a>
@@ -170,7 +170,7 @@ class AdminNavbar
                     </div>
                   <?php else: ?>
                     <h2 class="accordion-header">
-                      <a class="accordion-button" href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
+                      <a class="accordion-button bg-dark text-white" href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
                         <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
                         <?= $item['name'] ?>
                       </a>
@@ -182,7 +182,7 @@ class AdminNavbar
 
             <form class="search-form mt-3" role="search" method="GET" action="/admin/index.php">
               <div class="input-group">
-                <input type="search" class="form-control" name="q"
+                <input type="search" class="form-control bg-secondary bg-opacity-10 text-white border-secondary" name="q"
                   placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">
                   <i class="bi bi-search"></i>
@@ -194,7 +194,48 @@ class AdminNavbar
       </div>
     </nav>
 
-   
+    <!-- Script para manejar los submenús -->
+    <script>
+      $(document).ready(function() {
+        // Manejar la apertura/cierre de submenús
+        $('.dropdown-submenu a.dropdown-toggle').on('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          var target = $(this).data('bs-target');
+          $(target).collapse('toggle');
+          
+          // Rotar el icono de flecha
+          $(this).find('.bi-chevron-right').toggleClass('rotate-90');
+        });
+        
+        // Cerrar otros submenús cuando se abre uno nuevo
+        $('.dropdown-submenu .collapse').on('show.bs.collapse', function() {
+          $('.dropdown-submenu .collapse').not(this).collapse('hide');
+        });
+        
+        // Manejar modales
+        $('.modal').on('show.bs.modal', function(e) {
+          var currentModalId = $(this).attr('id');
+          
+          $('.modal').not(this).each(function() {
+            if ($(this).hasClass('show')) {
+              var modalInstance = bootstrap.Modal.getInstance(this);
+              if (modalInstance) {
+                modalInstance.hide();
+              }
+            }
+          });
+          
+          window.activeModal = currentModalId;
+        });
+        
+        // Rotación de iconos
+        $('.accordion-button').on('click', function() {
+          $(this).find('.bi').toggleClass('rotate-180');
+        });
+      });
+    </script>
 <?php
   }
 
@@ -320,46 +361,3 @@ $adminItems = [
 $navbar = new AdminNavbar('Panel Administrativo', $adminItems);
 $navbar->render();
 ?>
-
-<!-- Script para manejar los submenús -->
-<script>
-  $(document).ready(function() {
-    // Manejar la apertura/cierre de submenús
-    $('.dropdown-submenu a.dropdown-toggle').on('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      
-      var target = $(this).data('bs-target');
-      $(target).collapse('toggle');
-      
-      // Rotar el icono de flecha
-      $(this).find('.bi-chevron-right').toggleClass('rotate-90');
-    });
-    
-    // Cerrar otros submenús cuando se abre uno nuevo
-    $('.dropdown-submenu .collapse').on('show.bs.collapse', function() {
-      $('.dropdown-submenu .collapse').not(this).collapse('hide');
-    });
-    
-    // Manejar modales
-    $('.modal').on('show.bs.modal', function(e) {
-      var currentModalId = $(this).attr('id');
-      
-      $('.modal').not(this).each(function() {
-        if ($(this).hasClass('show')) {
-          var modalInstance = bootstrap.Modal.getInstance(this);
-          if (modalInstance) {
-            modalInstance.hide();
-          }
-        }
-      });
-      
-      window.activeModal = currentModalId;
-    });
-    
-    // Rotación de iconos
-    $('.accordion-button').on('click', function() {
-      $(this).find('.bi').toggleClass('rotate-180');
-    });
-  });
-</script>
