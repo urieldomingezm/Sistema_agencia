@@ -34,3 +34,9 @@
         </ion-tab-button>
     </ion-tab-bar>
 </ion-tabs>
+<?php if (in_array($controller->getUserRango(), ['Logistica', 'Supervisor', 'Director'])): ?>
+<ion-tab-button tab="tiempos" href="?page=tiempos">
+    <ion-icon name="time"></ion-icon>
+    <ion-label>Tiempos</ion-label>
+</ion-tab-button>
+<?php endif; ?>
