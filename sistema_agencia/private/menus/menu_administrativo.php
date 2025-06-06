@@ -194,45 +194,7 @@ class AdminNavbar
       </div>
     </nav>
 
-    <style>
-      .admin-navbar {
-        background-color: #2c3e50;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      }
-      
-      .admin-navbar .dropdown-submenu .menu-link {
-        padding: 0.5rem 1rem;
-        display: flex;
-        align-items: center;
-      }
-      
-      .admin-navbar .dropdown-submenu .collapse {
-        background-color: rgba(255, 255, 255, 0.05);
-      }
-      
-      .menu-link {
-        padding: 0.5rem 1rem;
-        display: block;
-        color: #f8f9fa;
-        text-decoration: none;
-        transition: all 0.3s;
-      }
-      
-      .menu-link:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #fff;
-      }
-      
-      .accordion-button:not(.collapsed) {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: #fff;
-      }
-      
-      .accordion-item {
-        background-color: transparent;
-        border-color: rgba(255, 255, 255, 0.1);
-      }
-    </style>
+   
 <?php
   }
 
@@ -401,19 +363,3 @@ $navbar->render();
     });
   });
 </script>
-
-<style>
-  .rotate-90 {
-    transform: rotate(90deg);
-    transition: transform 0.3s ease;
-  }
-  
-  .rotate-180 {
-    transform: rotate(180deg);
-    transition: transform 0.3s ease;
-  }
-  
-  .accordion-button::after {
-    display: none; /* Ocultar el icono por defecto de Bootstrap */
-  }
-</style>
