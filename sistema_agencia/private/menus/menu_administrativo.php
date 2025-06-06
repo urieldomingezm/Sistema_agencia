@@ -18,7 +18,7 @@ class AdminNavbar
   {
     require_once(PROCESOS_NOTIFICACIONES_PACTH . 'get_notifications.php');
 ?>
-    <nav class="navbar navbar-dark bg-dark fixed-top">
+    <nav class="custom-navbar navbar navbar-dark bg-dark fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand text-white" href="index.php">
           <img src="/public/assets/custom_general/custom_menus/icono.ico" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;" alt="Icono de Sistema">
