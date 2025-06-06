@@ -129,28 +129,32 @@ class AdminNavbar
                           <?php foreach ($item['dropdown'] as $dropdownItem): ?>
                             <?php if (is_array($dropdownItem) && isset($dropdownItem['submenu'])): ?>
                               <!-- Elemento con submenú (segundo nivel) -->
-                              <li class="dropdown-submenu">
-                                <a class="menu-link dropdown-toggle d-block px-3 py-2" href="#" data-bs-toggle="collapse" 
-                                  data-bs-target="#submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>">
-                                  <i class="<?= $this->getDropdownIcon($dropdownItem['name']) ?> me-2"></i>
-                                  <?= $dropdownItem['name'] ?>
-                                  <i class="bi bi-chevron-right float-end"></i>
-                                </a>
-                                <div id="submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>" class="collapse bg-light">
-                                  <ul class="list-unstyled ps-3">
-                                    <?php foreach ($dropdownItem['submenu'] as $subItem): ?>
-                                      <?php if ($subItem == 'divider'): ?>
-                                        <li><hr class="dropdown-divider mx-1"></li>
-                                      <?php else: ?>
-                                        <li>
-                                          <a class="menu-link d-block px-3 py-2" href="<?= $this->getItemUrl($subItem) ?>">
-                                            <i class="<?= $this->getDropdownIcon($subItem) ?> me-2"></i>
-                                            <?= $subItem ?>
-                                          </a>
-                                        </li>
-                                      <?php endif; ?>
-                                    <?php endforeach; ?>
-                                  </ul>
+                              <li class="accordion-subitem">
+                                <h3 class="accordion-header">
+                                  <button class="accordion-button collapsed" type="button" 
+                                    data-bs-toggle="collapse" 
+                                    data-bs-target="#submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>">
+                                    <i class="<?= $this->getDropdownIcon($dropdownItem['name']) ?> me-2"></i>
+                                    <?= $dropdownItem['name'] ?>
+                                  </button>
+                                </h3>
+                                <div id="submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>" class="accordion-collapse collapse" data-bs-parent="#collapse<?= $index ?>">
+                                  <div class="accordion-body p-0 bg-light">
+                                    <ul class="list-unstyled ps-3">
+                                      <?php foreach ($dropdownItem['submenu'] as $subItem): ?>
+                                        <?php if ($subItem == 'divider'): ?>
+                                          <li><hr class="dropdown-divider mx-1"></li>
+                                        <?php else: ?>
+                                          <li>
+                                            <a class="menu-link d-block px-3 py-2" href="<?= $this->getItemUrl($subItem) ?>">
+                                              <i class="<?= $this->getDropdownIcon($subItem) ?> me-2"></i>
+                                              <?= $subItem ?>
+                                            </a>
+                                          </li>
+                                        <?php endif; ?>
+                                      <?php endforeach; ?>
+                                    </ul>
+                                  </div>
                                 </div>
                               </li>
                             <?php elseif ($dropdownItem == 'divider'): ?>
@@ -194,26 +198,49 @@ class AdminNavbar
       </div>
     </nav>
 
-    <!-- Script para manejar los submenús -->
+    <!-- Estilos personalizados para los acordeones -->
+    <style>
+      .accordion-button:not(.collapsed) {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: inherit;
+      }
+      
+      .accordion-button:focus {
+        box-shadow: none;
+        border-color: rgba(0, 0, 0, 0.125);
+      }
+      
+      .accordion-item {
+        background-color: transparent;
+      }
+      
+      .accordion-body {
+        background-color: rgba(0, 0, 0, 0.03);
+      }
+      
+      .accordion-subitem .accordion-button {
+        padding: 0.5rem 1.25rem;
+        font-size: 0.9rem;
+      }
+      
+      .accordion-subitem .accordion-body {
+        padding: 0;
+      }
+      
+      .menu-link {
+        color: #212529;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      
+      .menu-link:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+    </style>
+
+    <!-- Script para manejar los acordeones -->
     <script>
       $(document).ready(function() {
-        // Manejar la apertura/cierre de submenús
-        $('.dropdown-submenu a.dropdown-toggle').on('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          var target = $(this).data('bs-target');
-          $(target).collapse('toggle');
-          
-          // Rotar el icono de flecha
-          $(this).find('.bi-chevron-right').toggleClass('rotate-90');
-        });
-        
-        // Cerrar otros submenús cuando se abre uno nuevo
-        $('.dropdown-submenu .collapse').on('show.bs.collapse', function() {
-          $('.dropdown-submenu .collapse').not(this).collapse('hide');
-        });
-        
         // Manejar modales
         $('.modal').on('show.bs.modal', function(e) {
           var currentModalId = $(this).attr('id');
@@ -228,11 +255,6 @@ class AdminNavbar
           });
           
           window.activeModal = currentModalId;
-        });
-        
-        // Rotación de iconos
-        $('.accordion-button').on('click', function() {
-          $(this).find('.bi').toggleClass('rotate-180');
         });
       });
     </script>
@@ -279,7 +301,17 @@ class AdminNavbar
       'Ajustes del sistema' => 'bi bi-sliders',
       'Backup' => 'bi bi-database-check',
       'Logs de actividad' => 'bi bi-journal-text',
-      'Ver todos' => 'bi bi-list-ul'
+      'Ver todos' => 'bi bi-list-ul',
+      'Lista de usuarios' => 'bi bi-list-ul',
+      'Agregar usuario' => 'bi bi-person-plus',
+      'Modificar usuario' => 'bi bi-person-check',
+      'Reporte de usuarios' => 'bi bi-file-earmark-text',
+      'Administración' => 'bi bi-tools',
+      'Reporte de membresías' => 'bi bi-file-earmark-text',
+      'Gestión' => 'bi bi-tools',
+      'Reporte de rangos' => 'bi bi-file-earmark-text',
+      'Estadísticas financieras' => 'bi bi-calculator',
+      'Reportes personalizados' => 'bi bi-file-earmark-bar-graph'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
