@@ -1,11 +1,11 @@
-
 <?php
 
 class BodyHome
 {
     public function render()
     {
-        echo '<body class="d-flex flex-column h-100 bg-light">';
+        echo '<body class="d-flex flex-column h-100 bg-light" data-bs-theme="light">';
+        $this->renderThemeToggle();
         $this->renderLoader();
         $this->renderHeader();
         $this->renderAboutSection();
@@ -14,7 +14,23 @@ class BodyHome
         $this->renderBlogSection();
         $this->renderHabboPlatesSection();
         $this->renderEventsSection();
+        $this->renderFooter();
+        $this->renderThemeScript();
         echo '</body>';
+    }
+
+    private function renderThemeToggle()
+    {
+        echo '<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div class="btn-group shadow" role="group">
+                <button type="button" class="btn btn-light theme-toggle" data-theme="light">
+                    <i class="bi bi-sun-fill"></i>
+                </button>
+                <button type="button" class="btn btn-dark theme-toggle" data-theme="dark">
+                    <i class="bi bi-moon-fill"></i>
+                </button>
+            </div>
+        </div>';
     }
 
     private function renderLoader()
@@ -132,17 +148,17 @@ class BodyHome
 
     private function renderHeader()
     {
-        echo '<main class="flex-shrink-0">';
-        echo '<header class="bg-gradient-primary text-white py-5">';
-        echo '<div class="container text-center">';
-        echo '<h1 class="display-4 fw-bold mb-3">';
-        echo '<i class="bi bi-stars me-2"></i>Agencia Shein<i class="bi bi-stars ms-2"></i>';
-        echo '</h1>';
-        echo '<p class="lead mb-4">La mejor comunidad de Habbo Hotel</p>';
-        echo '<a href="/login.php" class="btn btn-light btn-lg rounded-pill px-4">¡Únete ahora!</a>';
-        echo '</div>';
-        echo '</header>';
-        echo '</main>';
+        echo '<main class="flex-shrink-0">
+            <header class="bg-dark text-white py-5">
+                <div class="container text-center">
+                    <h1 class="display-4 fw-bold mb-3">
+                        <i class="bi bi-stars me-2"></i>Agencia Shein<i class="bi bi-stars ms-2"></i>
+                    </h1>
+                    <p class="lead mb-4">La mejor comunidad de Habbo Hotel</p>
+                    <a href="/login.php" class="btn btn-outline-light btn-lg rounded-pill px-4">¡Únete ahora!</a>
+                </div>
+            </header>
+        </main>';
     }
 
     private function renderTeamSection()
@@ -198,25 +214,26 @@ class BodyHome
             ],
         ];
 
-        echo '<section class="team-section py-3 py-md-5" style="background: #ffffff;">';
-        echo '<div class="container">';
-        echo '<h2 class="text-center mb-3 mb-md-5" style="color: #2541b2; font-weight: 700; font-size: clamp(1.2rem, 4vw, 1.8rem);">';
-        echo '<i class="bi bi-people-fill me-2" style="color: #4a6bff;"></i>';
-        echo 'Nuestro Equipo';
-        echo '<i class="bi bi-people-fill ms-2" style="color: #4a6bff;"></i>';
-        echo '</h2>';
-        echo '<div class="row justify-content-center g-2 g-md-3">';
+        echo '<section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark-emphasis">
+                    <i class="bi bi-people-fill me-2"></i>
+                    Nuestro Equipo
+                    <i class="bi bi-people-fill ms-2"></i>
+                </h2>
+                <div class="row justify-content-center g-4">';
 
         foreach ($teamMembers as $member) {
-            echo '<div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-2 mb-md-3 text-center">';
-            echo '<div style="display: inline-block; width: 100%; max-width: 100px;">';
-            echo '<img src="' . $member['image'] . '" alt="Avatar de Habbo de ' . htmlspecialchars($member['name']) . '" style="width: 100%; height: auto; aspect-ratio: 1/1; border-radius: 50%; object-fit: cover; border: 2px solid #4a6bff;">';
-            echo '<div class="mt-1 mt-md-2">';
-            echo '<div style="color: #2541b2; font-weight: 600; font-size: clamp(0.6rem, 2vw, 0.8rem); word-break: break-word;">' . $member['name'] . '</div>';
-            echo '<div style="color: #4a6bff; font-size: clamp(0.5rem, 1.8vw, 0.7rem);">' . $member['rank'] . '</div>';
-            echo '</div>';
-            echo '</div>';
-            echo '</div>';
+            echo '<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-body text-center">
+                        <img src="' . $member['image'] . '" alt="Avatar de ' . htmlspecialchars($member['name']) . '" 
+                             class="img-fluid rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover; border: 2px solid #212529;">
+                        <h5 class="card-title mb-1">' . $member['name'] . '</h5>
+                        <small class="text-muted">' . $member['rank'] . '</small>
+                    </div>
+                </div>
+            </div>';
         }
 
         echo '</div></div></section>';
@@ -230,55 +247,57 @@ class BodyHome
             ['title' => 'Carrera de Obstáculos', 'description' => 'Supera todos los obstáculos en el menor tiempo posible', 'date' => '29 de Marzo, 2025', 'image' => 'https://api.a0.dev/assets/image?text=Habbo%20obstacle%20course%20with%20traps%20and%20challenges&aspect=16:9'],
         ];
 
-        echo '<section style="background: #f8f9fa; padding: 50px 0;">';
-        echo '<div class="container text-center">';
-        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px;"><i class="bi bi-calendar-event me-2"></i>Próximos Eventos<i class="bi bi-calendar-event ms-2"></i></h2>';
-        echo '<div class="row">';
+        echo '<section class="py-5 bg-body-tertiary">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark-emphasis">
+                    <i class="bi bi-calendar-event me-2"></i>Próximos Eventos<i class="bi bi-calendar-event ms-2"></i>
+                </h2>
+                <div class="row g-4">';
 
         foreach ($events as $event) {
-            echo '<div class="col-md-4 mb-4">';
-            echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%; transition: all 0.3s ease;">';
-            echo '<img src="' . $event['image'] . '" alt="' . htmlspecialchars($event['title']) . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
-            echo '<h3 style="color: #2541b2; font-weight: 600;">' . $event['title'] . '</h3>';
-            echo '<p style="color: #555; margin: 15px 0;">' . $event['description'] . '</p>';
-            echo '<span style="background: linear-gradient(45deg, #4a6bff, #2541b2); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 500;">📅 ' . $event['date'] . '</span>';
-            echo '</div>';
-            echo '</div>';
+            echo '<div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <img src="' . $event['image'] . '" class="card-img-top" alt="' . htmlspecialchars($event['title']) . '" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 class="card-title h5">' . $event['title'] . '</h3>
+                        <p class="card-text">' . $event['description'] . '</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <small class="text-body-secondary"><i class="bi bi-calendar-date me-1"></i>' . $event['date'] . '</small>
+                    </div>
+                </div>
+            </div>';
         }
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
+
+        echo '</div></div></section>';
     }
 
     private function renderAboutSection()
     {
-        echo '<section style="background: #ffffff; padding: 50px 0;">';
-        echo '<div class="container">';
-        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-info-circle me-2"></i>Sobre Nosotros<i class="bi bi-info-circle ms-2"></i></h2>';
-        echo '<div class="row">';
-        echo '<div class="col-md-6">';
-        echo '<img src="https://i.postimg.cc/267B81Gt/agencia2.webp" alt="Imagen de la comunidad Agencia Shein en Habbo" style="width: 100%; border-radius: 15px;" class="d-none d-md-block">';
-        echo '</div>';
-        echo '<div class="col-md-6">';
-        echo '<h3 style="color: #2541b2; font-weight: 600;">Nuestra Historia</h3>';
-        echo '<p style="color: #555;">Agencia Shein es una comunidad vibrante en Habbo Hotel que se dedica a crear experiencias únicas para nuestros usuarios. Desde nuestro inicio en 2025, hemos crecido hasta convertirnos en una de las agencias más reconocidas en el mundo de Habbo.</p>';
-        echo '<h3 style="color: #2541b2; font-weight: 600; margin-top: 30px;">Nuestra Misión</h3>';
-        echo '<p style="color: #555;">Nuestro objetivo es proporcionar un espacio seguro y divertido donde los usuarios puedan interactuar, participar en eventos emocionantes y desarrollar sus habilidades dentro del juego.</p>';
-        echo '</div>';
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
+        echo '<section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark-emphasis">
+                    <i class="bi bi-info-circle me-2"></i>Sobre Nosotros<i class="bi bi-info-circle ms-2"></i>
+                </h2>
+                <div class="row align-items-center">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <img src="https://i.postimg.cc/267B81Gt/agencia2.webp" alt="Imagen de la comunidad Agencia Shein en Habbo" 
+                             class="img-fluid rounded shadow">
+                    </div>
+                    <div class="col-md-6">
+                        <h3 class="h4 mb-3">Nuestra Historia</h3>
+                        <p class="text-body-secondary">Agencia Shein es una comunidad vibrante en Habbo Hotel que se dedica a crear experiencias únicas para nuestros usuarios. Desde nuestro inicio en 2025, hemos crecido hasta convertirnos en una de las agencias más reconocidas en el mundo de Habbo.</p>
+                        
+                        <h3 class="h4 mt-4 mb-3">Nuestra Misión</h3>
+                        <p class="text-body-secondary">Nuestro objetivo es proporcionar un espacio seguro y divertido donde los usuarios puedan interactuar, participar en eventos emocionantes y desarrollar sus habilidades dentro del juego.</p>
+                    </div>
+                </div>
+            </div>
+        </section>';
     }
 
     private function renderBlogSection()
     {
-        echo '<section style="background: #ffffff; padding: 50px 0;">';
-        echo '<div class="container">';
-        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-newspaper me-2"></i>Blog<i class="bi bi-newspaper ms-2"></i></h2>';
-
-        echo '<div class="mb-5">';
-        echo '<div class="row">';
-
         $noticias = [
             [
                 'title' => 'Nuevas Actualizaciones',
@@ -297,29 +316,33 @@ class BodyHome
             ]
         ];
 
+        echo '<section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark-emphasis">
+                    <i class="bi bi-newspaper me-2"></i>Blog<i class="bi bi-newspaper ms-2"></i>
+                </h2>
+                <div class="row g-4">';
+
         foreach ($noticias as $noticia) {
-            echo '<div class="col-md-4 mb-4">';
-            echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%;">';
-            echo '<img src="' . $noticia['image'] . '" alt="' . htmlspecialchars($noticia['title']) . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
-            echo '<h4 style="color: #2541b2; font-weight: 600;">' . $noticia['title'] . '</h4>';
-            echo '<p style="color: #555;">' . $noticia['description'] . '</p>';
-            echo '<a href="#" style="background: linear-gradient(45deg, #4a6bff, #2541b2); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 500; text-decoration: none;">Leer más</a>';
-            echo '</div>';
-            echo '</div>';
+            echo '<div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <img src="' . $noticia['image'] . '" class="card-img-top" alt="' . htmlspecialchars($noticia['title']) . '" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 class="card-title h5">' . $noticia['title'] . '</h3>
+                        <p class="card-text">' . $noticia['description'] . '</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <a href="#" class="btn btn-outline-dark btn-sm">Leer más</a>
+                    </div>
+                </div>
+            </div>';
         }
 
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
+        echo '</div></div></section>';
     }
 
     private function renderHabboPlatesSection()
     {
-        echo '<section style="background: #f8f9fa; padding: 50px 0;">';
-        echo '<div class="container">';
-        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;"><i class="bi bi-award me-2"></i>Nuevas Placas de Habbo<i class="bi bi-award ms-2"></i></h2>';
-        echo '<div class="row">';
-
         $plates = [
             [
                 'name' => 'Placa de Oro',
@@ -341,105 +364,171 @@ class BodyHome
             ]
         ];
 
+        echo '<section class="py-5 bg-body-tertiary">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark-emphasis">
+                    <i class="bi bi-award me-2"></i>Nuevas Placas de Habbo<i class="bi bi-award ms-2"></i>
+                </h2>
+                <div class="row g-4">';
+
         foreach ($plates as $plate) {
-            echo '<div class="col-md-4 mb-4">';
-            echo '<div style="background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05); height: 100%; transition: all 0.3s ease;">';
-            echo '<img src="' . $plate['image'] . '" alt="' . htmlspecialchars($plate['name']) . '" style="width: 100%; height: 180px; border-radius: 15px; object-fit: cover; margin-bottom: 20px;">';
-            echo '<h3 style="color: #2541b2; font-weight: 600;">' . $plate['name'] . '</h3>';
-            echo '<p style="color: #555; margin: 15px 0;">' . $plate['description'] . '</p>';
-            echo '<span style="background: linear-gradient(45deg, #4a6bff, #2541b2); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 500;">📅 ' . $plate['release_date'] . '</span>';
-            echo '</div>';
-            echo '</div>';
+            echo '<div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <img src="' . $plate['image'] . '" class="card-img-top" alt="' . htmlspecialchars($plate['name']) . '" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 class="card-title h5">' . $plate['name'] . '</h3>
+                        <p class="card-text">' . $plate['description'] . '</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0">
+                        <small class="text-body-secondary"><i class="bi bi-calendar-date me-1"></i>' . $plate['release_date'] . '</small>
+                    </div>
+                </div>
+            </div>';
         }
 
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
+        echo '</div></div></section>';
     }
 
     private function renderVideosSection()
     {
-        echo '<section style="background: #ffffff; padding: 50px 0;">';
-        echo '<div class="container">';
-        echo '<h2 style="color: #2541b2; font-weight: 700; margin-bottom: 40px; text-align: center;">';
-        echo '<i class="bi bi-play-circle-fill me-2"></i>Videos<i class="bi bi-play-circle-fill ms-2"></i>';
-        echo '</h2>';
-        echo '<div class="row justify-content-center">';
-        echo '<div id="videosCarousel" class="carousel slide" data-bs-ride="carousel">';
-        echo '<div class="carousel-inner">';
-        
-        // Grupo 1 (activo)
-        echo '<div class="carousel-item active">';
-        echo '<div class="row justify-content-center">';
-        
-        // Video 1
-        echo '<div class="col-md-6 col-lg-5 mb-4">';
-        echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 100%;">';
-        echo '<div style="background: #f8f9fa; border-radius: 10px; aspect-ratio: 16/9; margin-bottom: 15px;">';
-        echo '<iframe width="100%" height="100%" src="https://www.youtube.com/embed/g0ZMA5vAgyc?si=N5r-RrN_iGGh-LdH" title="YouTube video player" frameborder="0" allowfullscreen style="border-radius: 10px;"></iframe>';
-        echo '</div>';
-        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 10px; text-align: center; font-size: 1.2rem;">Video tutorial 1</h3>';
-        echo '<p style="color: #555; text-align: center; font-size: 0.9rem;">Aprende las funcionalidades de nuestra web</p>';
-        echo '</div>';
-        echo '</div>';
-        
-        // Video 2
-        echo '<div class="col-md-6 col-lg-5 mb-4">';
-        echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 100%;">';
-        echo '<div style="background: #f8f9fa; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">';
-        echo '<i class="bi bi-play-circle" style="font-size: 36px; color: #2541b2;"></i>';
-        echo '</div>';
-        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 10px; text-align: center; font-size: 1.2rem;">Video tutorial 2</h3>';
-        echo '<p style="color: #555; text-align: center; font-size: 0.9rem;">Gestionar pagos, tiempos y ascensos</p>';
-        echo '</div>';
-        echo '</div>';
-        
-        echo '</div>';
-        echo '</div>';
-        
-        // Grupo 2 (para futuros videos)
-        echo '<div class="carousel-item">';
-        echo '<div class="row justify-content-center">';
-        
-        // Video 3 (placeholder)
-        echo '<div class="col-md-6 col-lg-5 mb-4">';
-        echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 100%;">';
-        echo '<div style="background: #f8f9fa; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">';
-        echo '<i class="bi bi-play-circle" style="font-size: 36px; color: #2541b2;"></i>';
-        echo '</div>';
-        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 10px; text-align: center; font-size: 1.2rem;">Video tutorial 3</h3>';
-        echo '<p style="color: #555; text-align: center; font-size: 0.9rem;">Próximamente</p>';
-        echo '</div>';
-        echo '</div>';
-        
-        // Video 4 (placeholder)
-        echo '<div class="col-md-6 col-lg-5 mb-4">';
-        echo '<div style="background: white; padding: 15px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); height: 100%;">';
-        echo '<div style="background: #f8f9fa; border-radius: 10px; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">';
-        echo '<i class="bi bi-play-circle" style="font-size: 36px; color: #2541b2;"></i>';
-        echo '</div>';
-        echo '<h3 style="color: #2541b2; font-weight: 600; margin-bottom: 10px; text-align: center; font-size: 1.2rem;">Video tutorial 4</h3>';
-        echo '<p style="color: #555; text-align: center; font-size: 0.9rem;">Próximamente</p>';
-        echo '</div>';
-        echo '</div>';
-        
-        echo '</div>';
-        echo '</div>';
-        
-        // Controles del carrusel
-        echo '<button class="carousel-control-prev" type="button" data-bs-target="#videosCarousel" data-bs-slide="prev" style="filter: brightness(0); width: 5%;">';
-        echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
-        echo '<span class="visually-hidden">Previous</span>';
-        echo '</button>';
-        echo '<button class="carousel-control-next" type="button" data-bs-target="#videosCarousel" data-bs-slide="next" style="filter: brightness(0); width: 5%;">';
-        echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
-        echo '<span class="visually-hidden">Next</span>';
-        echo '</button>';
-        
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
+        echo '<section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-5 text-dark-emphasis">
+                    <i class="bi bi-play-circle-fill me-2"></i>Videos<i class="bi bi-play-circle-fill ms-2"></i>
+                </h2>
+                
+                <div class="row justify-content-center">
+                    <div id="videosCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            
+                            <div class="carousel-item active">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="ratio ratio-16x9">
+                                                <iframe src="https://www.youtube.com/embed/g0ZMA5vAgyc?si=N5r-RrN_iGGh-LdH" 
+                                                        title="YouTube video player" frameborder="0" 
+                                                        allowfullscreen></iframe>
+                                            </div>
+                                            <div class="card-body">
+                                                <h3 class="h5">Video tutorial 1</h3>
+                                                <p class="text-body-secondary">Aprende las funcionalidades de nuestra web</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="ratio ratio-16x9 bg-body-tertiary d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-play-circle-fill" style="font-size: 3rem;"></i>
+                                            </div>
+                                            <div class="card-body">
+                                                <h3 class="h5">Video tutorial 2</h3>
+                                                <p class="text-body-secondary">Gestionar pagos, tiempos y ascensos</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="carousel-item">
+                                <div class="row justify-content-center">
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="ratio ratio-16x9 bg-body-tertiary d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-play-circle-fill" style="font-size: 3rem;"></i>
+                                            </div>
+                                            <div class="card-body">
+                                                <h3 class="h5">Video tutorial 3</h3>
+                                                <p class="text-body-secondary">Próximamente</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-6 mb-4">
+                                        <div class="card border-0 shadow-sm h-100">
+                                            <div class="ratio ratio-16x9 bg-body-tertiary d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-play-circle-fill" style="font-size: 3rem;"></i>
+                                            </div>
+                                            <div class="card-body">
+                                                <h3 class="h5">Video tutorial 4</h3>
+                                                <p class="text-body-secondary">Próximamente</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button class="carousel-control-prev" type="button" data-bs-target="#videosCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#videosCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon bg-dark rounded-circle p-3" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>';
+    }
+
+    private function renderFooter()
+    {
+        echo '<footer class="mt-auto bg-dark text-white py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <h3 class="h5">Agencia Shein</h3>
+                        <p class="small text-body-secondary">La mejor comunidad de Habbo Hotel</p>
+                    </div>
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <h3 class="h5">Enlaces</h3>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-decoration-none text-body-secondary">Inicio</a></li>
+                            <li><a href="#" class="text-decoration-none text-body-secondary">Sobre Nosotros</a></li>
+                            <li><a href="#" class="text-decoration-none text-body-secondary">Contacto</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h3 class="h5">Redes Sociales</h3>
+                        <div class="d-flex gap-3">
+                            <a href="#" class="text-decoration-none text-body-secondary"><i class="bi bi-twitter"></i></a>
+                            <a href="#" class="text-decoration-none text-body-secondary"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="text-decoration-none text-body-secondary"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="text-decoration-none text-body-secondary"><i class="bi bi-discord"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4 text-body-secondary">
+                <div class="text-center small text-body-secondary">
+                    &copy; 2025 Agencia Shein. Todos los derechos reservados.
+                </div>
+            </div>
+        </footer>';
+    }
+
+    private function renderThemeScript()
+    {
+        echo '<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Comprobar preferencia del usuario
+            const preferredTheme = localStorage.getItem("theme") || "light";
+            document.body.setAttribute("data-bs-theme", preferredTheme);
+            
+            // Configurar botones del toggle
+            document.querySelectorAll(".theme-toggle").forEach(button => {
+                button.addEventListener("click", function() {
+                    const theme = this.getAttribute("data-theme");
+                    document.body.setAttribute("data-bs-theme", theme);
+                    localStorage.setItem("theme", theme);
+                });
+            });
+        });
+        </script>';
     }
 }
+
 $bodyHome = new BodyHome();
 $bodyHome->render();
