@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($pageTitle) ? $pageTitle : 'Agencia Shein APP'; ?></title>
     
-    <!-- Ionic CDN -->
+
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
 </head>
 <body class="ion-padding" color="dark">
     <ion-app>
-        <!-- Header con color dark (oscuro) -->
+
         <ion-header>
             <ion-toolbar color="dark">
                 <ion-title><?php echo isset($pageTitle) ? $pageTitle : 'Agencia Shein APP'; ?></ion-title>
