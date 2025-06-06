@@ -13,7 +13,6 @@ class BodyHome
         $this->renderBlogSection();
         $this->renderHabboPlatesSection();
         $this->renderEventsSection();
-        $this->renderFooter();
         $this->renderThemeScript();
         echo '</body>';
     }
@@ -457,41 +456,6 @@ class BodyHome
                 </div>
             </div>
         </section>';
-    }
-
-    private function renderFooter()
-    {
-        echo '<footer class="mt-auto bg-dark text-white py-4">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 mb-4 mb-md-0">
-                        <h3 class="h5">Agencia Shein</h3>
-                        <p class="small text-body-secondary">La mejor comunidad de Habbo Hotel</p>
-                    </div>
-                    <div class="col-md-4 mb-4 mb-md-0">
-                        <h3 class="h5">Enlaces</h3>
-                        <ul class="list-unstyled">
-                            <li><a href="#" class="text-decoration-none text-body-secondary">Inicio</a></li>
-                            <li><a href="#" class="text-decoration-none text-body-secondary">Sobre Nosotros</a></li>
-                            <li><a href="#" class="text-decoration-none text-body-secondary">Contacto</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4">
-                        <h3 class="h5">Redes Sociales</h3>
-                        <div class="d-flex gap-3">
-                            <a href="#" class="text-decoration-none text-body-secondary"><i class="bi bi-twitter"></i></a>
-                            <a href="#" class="text-decoration-none text-body-secondary"><i class="bi bi-facebook"></i></a>
-                            <a href="#" class="text-decoration-none text-body-secondary"><i class="bi bi-instagram"></i></a>
-                            <a href="#" class="text-decoration-none text-body-secondary"><i class="bi bi-discord"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <hr class="my-4 text-body-secondary">
-                <div class="text-center small text-body-secondary">
-                    &copy; 2025 Agencia Shein. Todos los derechos reservados.
-                </div>
-            </div>
-        </footer>';
     }
 
     private function renderThemeScript()
