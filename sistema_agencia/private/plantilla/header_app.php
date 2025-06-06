@@ -12,54 +12,42 @@
     
     <style>
         :root {
-            --ion-color-primary: #000000;  /* Negro como color primario */
+            --ion-color-primary: #000000;
             --ion-color-primary-rgb: 0,0,0;
-            --ion-color-primary-contrast: #ffffff; /* Texto blanco */
+            --ion-color-primary-contrast: #ffffff;
             --ion-color-primary-contrast-rgb: 255,255,255;
             --ion-color-primary-shade: #000000;
             --ion-color-primary-tint: #1a1a1a;
             
-            --ion-background-color: #121212; /* Fondo oscuro */
-            --ion-text-color: #ffffff; /* Texto blanco */
-            --ion-item-background: #1e1e1e; /* Fondo de items oscuro */
+            --ion-color-secondary: #ffffff;
+            --ion-color-secondary-rgb: 255,255,255;
+            --ion-color-secondary-contrast: #000000;
+            --ion-color-secondary-contrast-rgb: 0,0,0;
+            --ion-color-secondary-shade: #e0e0e0;
+            --ion-color-secondary-tint: #ffffff;
+            
+            --ion-background-color: #000000;
+            --ion-text-color: #ffffff;
+            --ion-item-background: #121212;
         }
         
         ion-tab-bar {
             --background: var(--ion-color-primary);
             --color-selected: white;
             --color: rgba(255, 255, 255, 0.7);
-            border-top: 1px solid #333; /* Borde superior para separar */
+            border-top: 1px solid #333;
         }
         
         .custom-card {
-            margin: 16px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            background: #1e1e1e; /* Fondo de tarjetas oscuro */
-            color: white; /* Texto blanco en tarjetas */
-        }
-        
-        .avatar-large {
-            width: 80px;
-            height: 80px;
-            border: 2px solid #333;
-        }
-        
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 16px 16px 8px;
-            color: #ffffff; /* Texto blanco */
+            background: #121212;
+            color: white;
+            border: 1px solid #333;
         }
         
         ion-item {
-            --background: #1e1e1e; /* Fondo oscuro para items */
-            --color: #ffffff; /* Texto blanco */
-            --border-color: #333; /* Borde más suave */
-        }
-        
-        ion-list {
-            background: transparent; /* Fondo transparente para listas */
+            --background: #121212;
+            --color: #ffffff;
+            --border-color: #333;
         }
     </style>
 </head>
