@@ -17,29 +17,23 @@
             </div>
         </div>
         
-        <div class="item-content">
-            <div class="item-media"><i class="icon f7-icons">calendar</i></div>
-            <div class="item-inner">
-                <div class="item-title">Fecha de Ingreso</div>
-                <div class="item-after">15/03/2023</div>
-            </div>
-        </div>
+        <ion-item>
+            <ion-icon name="calendar" slot="start" color="primary"></ion-icon>
+            <ion-label>Fecha de Ingreso</ion-label>
+            <ion-note slot="end">15/03/2023</ion-note>
+        </ion-item>
 
-        <div class="item-content">
-            <div class="item-media"><i class="icon f7-icons">clock</i></div>
-            <div class="item-inner">
-                <div class="item-title">Tiempo Total</div>
-                <div class="item-after">245 horas</div>
-            </div>
-        </div>
+        <ion-item>
+            <ion-icon name="time" slot="start" color="primary"></ion-icon>
+            <ion-label>Tiempo Total</ion-label>
+            <ion-note slot="end">245 horas</ion-note>
+        </ion-item>
 
-        <div class="item-content">
-            <div class="item-media"><i class="icon f7-icons">trophy</i></div>
-            <div class="item-inner">
-                <div class="item-title">Último Ascenso</div>
-                <div class="item-after">Hace 2 meses</div>
-            </div>
-        </div>
+        <ion-item>
+            <ion-icon name="trophy" slot="start" color="primary"></ion-icon>
+            <ion-label>Último Ascenso</ion-label>
+            <ion-note slot="end">Hace 2 meses</ion-note>
+        </ion-item>
     </div>
 </div>
 
