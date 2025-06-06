@@ -44,13 +44,13 @@ class BodyHome
     {
         $username = htmlspecialchars($this->userData['username']);
     ?>
-        <header class="bg-primary text-white py-4 mb-4 shadow">
+        <header class="bg-dark text-white py-4 mb-4 shadow">
             <div class="container text-center">
                 <h1 class="display-5 mb-3 fw-bold">
                     <i class="bi bi-star-fill me-2 text-warning"></i> Agencia Shein <i class="bi bi-star-fill ms-2 text-warning"></i>
                 </h1>
                 <p class="lead mb-4 fs-5">Bienvenido <?= $username ?></p>
-                <div class="alert alert-warning mb-0 alert-dismissible fade show">
+                <div class="alert alert-dark mb-0 alert-dismissible fade show">
                     <i class="bi bi-exclamation-triangle-fill me-2"></i>
                     <div>
                         <strong>¡Actualización del Sistema!</strong>
@@ -92,16 +92,16 @@ class BodyHome
         }
 
     ?>
-        <section class="py-5 bg-light">
+        <section class="py-5 bg-secondary bg-opacity-10">
             <div class="container">
-                <h2 class="text-center mb-5 display-6 fw-bold">
+                <h2 class="text-center mb-5 display-6 fw-bold text-white">
                     <i class="bi bi-trophy-fill me-2 text-warning"></i> Top 3 Encargados <i class="bi bi-trophy-fill ms-2 text-warning"></i>
                 </h2>
                 <div class="row g-4 justify-content-center">
                     <?php if (!empty($formattedTopUsers)): ?>
                         <?php foreach ($formattedTopUsers as $user): ?>
                             <div class="col-12 col-md-4">
-                                <div class="card h-100 border-0 shadow-sm">
+                                <div class="card h-100 border-0 shadow-sm bg-dark text-white">
                                     <div class="card-body text-center p-4">
                                         <i class="bi bi-trophy-fill display-4 mb-3" style="color: <?= $user['icon_color'] ?>"></i>
                                         <div class="mb-3">
@@ -116,7 +116,7 @@ class BodyHome
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="col-12">
-                            <div class="alert alert-info text-center">
+                            <div class="alert alert-dark text-center text-white">
                                 No hay datos disponibles para mostrar el top de encargados.
                             </div>
                         </div>
@@ -136,21 +136,21 @@ class BodyHome
         ];
 
     ?>
-        <section class="py-5 bg-white">
+        <section class="py-5 bg-dark">
             <div class="container">
-                <h2 class="text-center mb-5 display-6 fw-bold">
+                <h2 class="text-center mb-5 display-6 fw-bold text-white">
                     <i class="bi bi-newspaper me-2 text-primary"></i> Noticias <i class="bi bi-newspaper ms-2 text-primary"></i>
                 </h2>
                 <div class="row g-4">
                     <?php foreach ($events as $event): ?>
                         <div class="col-12 col-md-6 col-lg-4">
-                            <div class="card h-100 border-0 shadow-sm">
+                            <div class="card h-100 border-0 shadow-sm bg-secondary text-white">
                                 <img src="<?= $event['image'] ?>" class="card-img-top" style="height: 180px; object-fit: cover;" alt="<?= htmlspecialchars($event['title']) ?>">
                                 <div class="card-body">
                                     <h3 class="card-title h5 fw-bold"><?= $event['title'] ?></h3>
-                                    <p class="card-text text-muted"><?= $event['description'] ?></p>
+                                    <p class="card-text text-white-50"><?= $event['description'] ?></p>
                                 </div>
-                                <div class="card-footer bg-transparent border-top-0">
+                                <div class="card-footer bg-dark border-top-0">
                                     <span class="badge bg-success rounded-pill"><?= $event['date'] ?></span>
                                 </div>
                             </div>
@@ -208,9 +208,9 @@ class BodyHome
         ];
 
     ?>
-        <section class="py-5 bg-light">
+        <section class="py-5 bg-secondary bg-opacity-10">
             <div class="container">
-                <h2 class="text-center mb-5 display-6 fw-bold">
+                <h2 class="text-center mb-5 display-6 fw-bold text-white">
                     <i class="bi bi-clock-history me-2 text-primary"></i> Horarios de Pago <i class="bi bi-clock-history ms-2 text-primary"></i>
                 </h2>
                 <div id="paydayCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -223,7 +223,7 @@ class BodyHome
                                 <div class="row g-4 justify-content-center">
                                     <?php foreach ($chunk as $country): ?>
                                         <div class="col-md-4">
-                                            <div class="card h-100 border-0 shadow-sm">
+                                            <div class="card h-100 border-0 shadow-sm bg-dark text-white">
                                                 <div class="card-body text-center">
                                                     <img src="<?= $country['flag'] ?>" class="img-fluid mb-3" style="height: 80px;" alt="<?= htmlspecialchars($country['name']) ?>">
                                                     <h3 class="h5 fw-bold"><?= $country['name'] ?></h3>
@@ -239,11 +239,11 @@ class BodyHome
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev" style="filter: brightness(0);">
+                    <button class="carousel-control-prev" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#paydayCarousel" data-bs-slide="next" style="filter: brightness(0);">
+                    <button class="carousel-control-next" type="button" data-bs-target="#paydayCarousel" data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
@@ -294,10 +294,10 @@ class BodyHome
             ],
         ];
 
-        echo '<section style="background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important; padding: 10px 0;">';
+        echo '<section class="py-5 bg-dark">';
         echo '<div class="container text-center">';
-        echo '<h2 style="color: #333; font-weight: bold; font-size: 1.5rem;"><i class="bi bi-gem me-1"></i> Membresías Disponibles <i class="bi bi-gem me-1"></i></h2>';
-        echo '<p style="color: #666; font-size: 1rem;">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
+        echo '<h2 class="text-white mb-4 display-6 fw-bold"><i class="bi bi-gem me-2 text-primary"></i> Membresías Disponibles <i class="bi bi-gem ms-2 text-primary"></i></h2>';
+        echo '<p class="text-white-50 mb-5">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
         echo '<div id="membershipCarousel" class="carousel slide" data-bs-ride="carousel">';
         echo '<div class="carousel-inner">';
 
@@ -308,11 +308,11 @@ class BodyHome
 
             foreach ($chunk as $membership) {
                 echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
-                echo '<div style="background: white; padding: 20px; border-radius: 15px; box-shadow: 0px 5px 10px rgba(0,0,0,0.2); transition: transform 0.3s;">';
-                echo '<img src="' . $membership['image'] . '" style="width: 100%; height: 150px; border-radius: 10px; object-fit: cover; margin-bottom: 15px;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
-                echo '<h3 style="color: #333;">' . $membership['title'] . '</h3>';
-                echo '<p style="color: #008080; font-weight: bold;">' . $membership['benefits'] . '</p>';
-                echo '<div style="background: #FFD700; color: #333; padding: 8px 15px; border-radius: 20px; display: inline-block; font-weight: bold; margin-top: 10px;">';
+                echo '<div class="bg-secondary text-white p-4 rounded-3 shadow h-100">';
+                echo '<img src="' . $membership['image'] . '" class="img-fluid rounded mb-3" style="height: 150px; object-fit: cover;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
+                echo '<h3 class="h5 fw-bold">' . $membership['title'] . '</h3>';
+                echo '<p class="text-white-50">' . $membership['benefits'] . '</p>';
+                echo '<div class="badge bg-warning text-dark rounded-pill py-2 px-3 mt-2">';
                 echo '<i class="bi bi-coin me-2"></i>' . $membership['price'];
                 echo '</div>';
                 echo '</div>';
@@ -324,11 +324,11 @@ class BodyHome
         }
 
         echo '</div>';
-        echo '<button class="carousel-control-prev" type="button" data-bs-target="#membershipCarousel" data-bs-slide="prev" style="filter: brightness(0);">';
+        echo '<button class="carousel-control-prev" type="button" data-bs-target="#membershipCarousel" data-bs-slide="prev">';
         echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
         echo '<span class="visually-hidden">Previous</span>';
         echo '</button>';
-        echo '<button class="carousel-control-next" type="button" data-bs-target="#membershipCarousel" data-bs-slide="next" style="filter: brightness(0);">';
+        echo '<button class="carousel-control-next" type="button" data-bs-target="#membershipCarousel" data-bs-slide="next">';
         echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
         echo '<span class="visually-hidden">Next</span>';
         echo '</button>';
