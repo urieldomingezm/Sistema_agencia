@@ -62,6 +62,7 @@ define('CUSTOM_RADIO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_radi
 // APP
 
 define('TEMPLATES_APP_PATH', PRIVATE_PATH . 'plantilla/');
+define('BIENVENIDA_APP_PATH', PRIVATE_PATH . 'plantilla/home_app/');
 define('TABS_APP_PATH', PRIVATE_PATH . 'tabs/');
 
 
