@@ -1,12 +1,10 @@
 <?php
-$pageTitle = "Agencia Shein APP - Inicio";
+$pageTitle = "Agencia Shein APP";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 require_once(TEMPLATES_APP_PATH . 'header_app.php');
 ?>
 
-<!-- Contenido principal -->
 <ion-content>
-    <!-- Aquí iría el contenido dinámico que cambia según la tab seleccionada -->
     <?php
     require_once(BIENVENIDA_APP_PATH . 'home_inicio.php');
     ?>
