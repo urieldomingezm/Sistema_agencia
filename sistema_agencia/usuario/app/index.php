@@ -63,6 +63,11 @@ class AppController
         // Página por defecto si no tiene permisos
         return BIENVENIDA_APP_PATH . 'home_inicio.php';
     }
+
+    public function getUserRango()
+    {
+        return $this->userRango;
+    }
 }
 
 $controller = new AppController();

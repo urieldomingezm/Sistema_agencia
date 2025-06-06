@@ -21,7 +21,7 @@
             </ion-tab-button>
             
             <!-- Tiempos (solo para ciertos rangos) -->
-            <?php if (in_array($controller->userRango, ['Logistica', 'Supervisor', 'Director'])): ?>
+            <?php if (in_array($controller->getUserRango(), ['Logistica', 'Supervisor', 'Director'])): ?>
             <ion-tab-button tab="tiempos" href="?page=tiempos">
                 <ion-icon name="time"></ion-icon>
                 <ion-label>Tiempos</ion-label>
