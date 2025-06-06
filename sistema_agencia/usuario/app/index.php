@@ -23,7 +23,7 @@ class AppController
 
             if ($pageConfig['roles'][0] === 'all') {
                 if ($page === 'perfil') {
-                    return APP_PATH . $pageConfig['file'];
+                    return $pageConfig['file']; // Ahora usará la ruta relativa
                 }
                 return BIENVENIDA_APP_PATH . $pageConfig['file'];
             }
