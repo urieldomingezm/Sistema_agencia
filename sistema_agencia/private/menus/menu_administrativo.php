@@ -1,5 +1,5 @@
 <?php
-class Navbar
+class AdminNavbar
 {
   private $brand;
   private $items;
@@ -16,13 +16,12 @@ class Navbar
 
   public function render()
   {
-
     require_once(PROCESOS_NOTIFICACIONES_PACTH . 'get_notifications.php');
 ?>
-    <nav class="custom-navbar navbar fixed-top">
+    <nav class="admin-navbar navbar fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand text-white" href="index.php">
-          <img src="/public/assets/custom_general/custom_menus/icono.ico" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;" alt="Icono de Agencia Shein">
+          <img src="/public/assets/custom_general/custom_menus/icono.ico" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-right: 10px;" alt="Icono de Sistema">
           <?= $this->brand ?>
         </a>
 
@@ -31,9 +30,9 @@ class Navbar
             <!-- Botón de usuario -->
             <div class="dropdown">
               <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center position-relative" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle me-1"></i>
+                <i class="bi bi-person-gear me-1"></i>
                 <span class="d-none d-sm-inline">
-                  <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Usuario"; ?>
+                  <?php echo isset($_SESSION["usuario"]) ? $_SESSION["usuario"] : "Admin"; ?>
                 </span>
                 <span class="d-inline d-sm-none">
                   <?php
@@ -45,16 +44,16 @@ class Navbar
                       $nombre = $_SESSION["usuario"];
                       echo strlen($nombre) > 6 ? substr($nombre, 0, 6) . "..." : $nombre;
                     } else {
-                      echo "Usuario";
+                      echo "Admin";
                     }
                   } else {
                     $userNotifications = [];
-                    echo "Usuario";
+                    echo "Admin";
                   }
                   ?>
                 </span>
 
-                <!-- Icono de campana con badge dinámico -->
+                <!-- Icono de notificaciones -->
                 <?php if (!empty($userNotifications)): ?>
                   <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     <?php echo count($userNotifications); ?>
@@ -86,16 +85,15 @@ class Navbar
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person me-2"></i> <span class="d-none d-sm-inline">Ver perfil</span><span class="d-inline d-sm-none">Perfil</span></a></li>
+                <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person-lines-fill me-2"></i> Perfil</a></li>
+                <li><a class="dropdown-item py-2" href="index.php?page=configuracion"><i class="bi bi-gear-fill me-2"></i> Configuración</a></li>
                 <li>
                   <hr class="dropdown-divider my-1">
                 </li>
-                <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> <span class="d-none d-sm-inline">Cerrar sesión</span><span class="d-inline d-sm-none">Salir</span></a></li>
+                <li><a class="dropdown-item py-2" href="index.php?page=cerrar_session"><i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión</a></li>
               </ul>
             </div>
-
           </div>
-
 
           <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-label="Abrir menú">
             <i class="bi bi-list text-white"></i>
@@ -105,70 +103,84 @@ class Navbar
         <div class="offcanvas offcanvas-end" id="offcanvasNavbar">
           <div class="offcanvas-header text-white">
             <h5 class="offcanvas-title">
-              Menú Principal
+              Panel Administrativo
             </h5>
             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
           </div>
 
           <div class="offcanvas-body">
             <div class="accordion" id="menuAccordion">
-              <?php
-              $maintenanceItems = ['Vender rangos'];
-              ?>
               <?php foreach ($this->items as $index => $item): ?>
-                <?php if ($item['name'] !== 'Perfil'): ?>
-                  <div class="accordion-item">
-                    <?php if (isset($item['dropdown'])): ?>
-                      <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapse<?= $index ?>"
-                          aria-expanded="false">
-                          <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
-                          <?= $item['name'] ?>
-                        </button>
-                      </h2>
-                      <div id="collapse<?= $index ?>" class="accordion-collapse collapse"
-                        data-bs-parent="#menuAccordion">
-                        <div class="accordion-body p-0">
-                          <ul class="list-unstyled mb-0">
-                            <?php foreach ($item['dropdown'] as $dropdownItem): ?>
-                              <?php if ($dropdownItem == 'divider'): ?>
-                                <li>
-                                  <hr class="dropdown-divider mx-3">
-                                </li>
-                              <?php else: ?>
-                                <li>
-                                  <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
-                                    <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
-                                    <?= $dropdownItem ?>
-                                    <?php
-                                    if (in_array($dropdownItem, $maintenanceItems)) {
-                                      echo ' <span class="badge bg-warning text-dark ms-1">Mantenimiento</span>';
-                                    }
-                                    ?>
-                                  </a>
-                                </li>
-                              <?php endif; ?>
-                            <?php endforeach; ?>
-                          </ul>
-                        </div>
+                <div class="accordion-item">
+                  <?php if (isset($item['dropdown'])): ?>
+                    <h2 class="accordion-header">
+                      <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapse<?= $index ?>"
+                        aria-expanded="false">
+                        <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
+                        <?= $item['name'] ?>
+                      </button>
+                    </h2>
+                    <div id="collapse<?= $index ?>" class="accordion-collapse collapse"
+                      data-bs-parent="#menuAccordion">
+                      <div class="accordion-body p-0">
+                        <ul class="list-unstyled mb-0">
+                          <?php foreach ($item['dropdown'] as $dropdownItem): ?>
+                            <?php if (is_array($dropdownItem) && isset($dropdownItem['submenu'])): ?>
+                              <!-- Elemento con submenú (tercer nivel) -->
+                              <li class="dropdown-submenu">
+                                <a class="menu-link dropdown-toggle" href="#" data-bs-toggle="collapse" 
+                                  data-bs-target="#submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>">
+                                  <i class="<?= $this->getDropdownIcon($dropdownItem['name']) ?> me-2"></i>
+                                  <?= $dropdownItem['name'] ?>
+                                  <i class="bi bi-chevron-right float-end"></i>
+                                </a>
+                                <div id="submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>" class="collapse">
+                                  <ul class="list-unstyled ps-3">
+                                    <?php foreach ($dropdownItem['submenu'] as $subItem): ?>
+                                      <?php if ($subItem == 'divider'): ?>
+                                        <li><hr class="dropdown-divider mx-1"></li>
+                                      <?php else: ?>
+                                        <li>
+                                          <a class="menu-link" href="<?= $this->getItemUrl($subItem) ?>">
+                                            <i class="<?= $this->getDropdownIcon($subItem) ?> me-2"></i>
+                                            <?= $subItem ?>
+                                          </a>
+                                        </li>
+                                      <?php endif; ?>
+                                    <?php endforeach; ?>
+                                  </ul>
+                                </div>
+                              </li>
+                            <?php elseif ($dropdownItem == 'divider'): ?>
+                              <li><hr class="dropdown-divider mx-3"></li>
+                            <?php else: ?>
+                              <!-- Elemento normal (segundo nivel) -->
+                              <li>
+                                <a class="menu-link" href="<?= $this->getItemUrl($dropdownItem) ?>">
+                                  <i class="<?= $this->getDropdownIcon($dropdownItem) ?> me-2"></i>
+                                  <?= $dropdownItem ?>
+                                </a>
+                              </li>
+                            <?php endif; ?>
+                          <?php endforeach; ?>
+                        </ul>
                       </div>
-                    <?php else: ?>
-                      <h2 class="accordion-header">
-                        <a class="accordion-button"
-                          href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
-                          <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
-                          <?= $item['name'] ?>
-                        </a>
-                      </h2>
-                    <?php endif; ?>
-                  </div>
-                <?php endif; ?>
+                    </div>
+                  <?php else: ?>
+                    <h2 class="accordion-header">
+                      <a class="accordion-button" href="index.php?page=<?= strtolower(str_replace(' ', '_', $item['name'])) ?>">
+                        <i class="<?= $this->getMenuIcon($item['name']) ?> me-2"></i>
+                        <?= $item['name'] ?>
+                      </a>
+                    </h2>
+                  <?php endif; ?>
+                </div>
               <?php endforeach; ?>
             </div>
 
-            <form class="search-form mt-3" role="search" method="GET" action="/usuario/index.php">
+            <form class="search-form mt-3" role="search" method="GET" action="/admin/index.php">
               <div class="input-group">
                 <input type="search" class="form-control" name="q"
                   placeholder="<?= $this->searchPlaceholder ?>" aria-label="Search">
@@ -182,21 +194,59 @@ class Navbar
       </div>
     </nav>
 
+    <style>
+      .admin-navbar {
+        background-color: #2c3e50;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+      
+      .admin-navbar .dropdown-submenu .menu-link {
+        padding: 0.5rem 1rem;
+        display: flex;
+        align-items: center;
+      }
+      
+      .admin-navbar .dropdown-submenu .collapse {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+      
+      .menu-link {
+        padding: 0.5rem 1rem;
+        display: block;
+        color: #f8f9fa;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+      
+      .menu-link:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+      
+      .accordion-button:not(.collapsed) {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+      
+      .accordion-item {
+        background-color: transparent;
+        border-color: rgba(255, 255, 255, 0.1);
+      }
+    </style>
 <?php
   }
 
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Inicio' => 'bi bi-house-door-fill',
-      'Perfil' => 'bi bi-person-fill',
-      'Informacion' => 'bi bi-info-circle-fill',
-      'Ascensos' => 'bi bi-arrow-up-circle-fill',
-      'Tiempos' => 'bi bi-clock-fill',
-      'Ventas' => 'bi bi-cart-fill',
-      'Paga' => 'bi bi-wallet2',
-      'Gestion de usuarios' => 'bi bi-people-fill',
-      'Rangos' => 'bi bi-award-fill'
+      'Dashboard' => 'bi bi-speedometer2',
+      'Usuarios' => 'bi bi-people-fill',
+      'Membresías' => 'bi bi-person-badge-fill',
+      'Rangos' => 'bi bi-award-fill',
+      'Pagos' => 'bi bi-credit-card-fill',
+      'Reportes' => 'bi bi-graph-up',
+      'Configuración' => 'bi bi-gear-fill',
+      'Auditoría' => 'bi bi-clipboard2-data-fill'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -204,27 +254,29 @@ class Navbar
   private function getDropdownIcon($itemName)
   {
     $icons = [
-      'Ver perfil' => 'bi bi-person-circle',
-      'Cerrar session' => 'bi bi-box-arrow-right',
-      'Requisitos paga' => 'bi bi-list-check',
-      'Calcular rango' => 'bi bi-calculator-fill',
-      'Gestion de tiempo' => 'bi bi-clock-fill',
-      'Gestion ascenso' => 'bi bi-people-fill',
-      'Ventas membresias' => 'bi bi-person-badge-fill',
-      'Gestion de pagas' => 'bi bi-wallet2',
-      'Grafico total de pagas' => 'bi bi-pie-chart-fill',
-      'Gestionar usuarios' => 'bi bi-gear-fill',
-      'Vender membresias' => 'bi bi-tags-fill',
-      'Vender rangos' => 'bi bi-award-fill',
-      'Ventas rangos y traslados' => 'bi bi-star-fill',
-      'Dar ascenso' => 'bi bi-arrow-up-square-fill',
-      'Tomar tiempo' => 'bi bi-stopwatch-fill',
-      'Modificar usuario' => 'bi bi-pencil-square',
-      'Ver mis tiempos' => 'bi bi-clock-history',
-      'Ver mis ascensos' => 'bi bi-graph-up',
-      'Quejas y sugerencias' => 'bi bi-chat-left-text-fill',
-      'Gestion de notificaciones' => 'bi bi-bell-fill',
-      'Dar notificacion' => 'bi bi-envelope-plus-fill'
+      'Ver perfil' => 'bi bi-person-lines-fill',
+      'Configuración' => 'bi bi-gear-fill',
+      'Cerrar sesión' => 'bi bi-box-arrow-right',
+      'Gestión de usuarios' => 'bi bi-person-gear',
+      'Roles y permisos' => 'bi bi-shield-lock',
+      'Cambio de contraseñas' => 'bi bi-key-fill',
+      'Tipos de membresía' => 'bi bi-card-list',
+      'Ventas' => 'bi bi-cash-stack',
+      'Renovaciones' => 'bi bi-arrow-repeat',
+      'Historial' => 'bi bi-clock-history',
+      'Catálogo de rangos' => 'bi bi-collection',
+      'Asignación' => 'bi bi-person-plus',
+      'Promociones' => 'bi bi-percent',
+      'Traslados' => 'bi bi-arrow-left-right',
+      'Registro de pagos' => 'bi bi-journal-check',
+      'Reporte de ingresos' => 'bi bi-pie-chart-fill',
+      'Transacciones' => 'bi bi-arrow-left-right',
+      'Estadísticas' => 'bi bi-bar-chart-line-fill',
+      'Exportar datos' => 'bi bi-file-earmark-excel',
+      'Ajustes del sistema' => 'bi bi-sliders',
+      'Backup' => 'bi bi-database-check',
+      'Logs de actividad' => 'bi bi-journal-text',
+      'Ver todos' => 'bi bi-list-ul'
     ];
     return $icons[$itemName] ?? 'bi bi-circle-fill';
   }
@@ -232,14 +284,11 @@ class Navbar
   private function getItemUrl($item)
   {
     $modalItems = [
-      'Calcular rango' => '#" data-bs-toggle="modal" data-bs-target="#modalCalcular',
-      'Vender membresias y rangos' => '#" data-bs-toggle="modal" data-bs-target="#modalrangos',
-      'Dar ascenso' => '#" data-bs-toggle="modal" data-bs-target="#dar_ascenso_modal',
-      'Tomar tiempo' => '#" data-bs-toggle="modal" data-bs-target="#dar_tiempo_modal',
-      'Vender membresias' => '#" data-bs-toggle="modal" data-bs-target="#registrarVentaModal',
-      'Vender rangos' => '#" data-bs-toggle="modal" data-bs-target="#venta_rangos',
-      'Quejas y sugerencias' => '#" data-bs-toggle="modal" data-bs-target="#modalQuejasSugerencias',
-      'Dar notificacion' => '#" data-bs-toggle="modal" data-bs-target="#modalNotificacion',
+      'Agregar usuario' => '#" data-bs-toggle="modal" data-bs-target="#modalAgregarUsuario',
+      'Cambiar contraseña' => '#" data-bs-toggle="modal" data-bs-target="#modalCambiarPassword',
+      'Nueva membresía' => '#" data-bs-toggle="modal" data-bs-target="#modalNuevaMembresia',
+      'Registrar pago' => '#" data-bs-toggle="modal" data-bs-target="#modalRegistrarPago',
+      'Asignar rango' => '#" data-bs-toggle="modal" data-bs-target="#modalAsignarRango'
     ];
 
     if (isset($modalItems[$item])) {
@@ -250,64 +299,90 @@ class Navbar
   }
 }
 
-$items = [
-  ['name' => 'Inicio', 'active' => true],
-  ['name' => 'Perfil', 'dropdown' => ['Ver perfil', 'Cerrar session']],
-  ['name' => 'Informacion', 'dropdown' => ['Requisitos paga', 'Calcular rango', 'Quejas y sugerencias', 'Gestion de notificaciones', 'divider', 'Dar notificacion']],
-  ['name' => 'Ascensos', 'dropdown' => [
-    'Gestion ascenso',
-    'Ver mis ascensos',
+// Configuración del menú con 3 niveles
+$adminItems = [
+  ['name' => 'Dashboard'],
+  ['name' => 'Usuarios', 'dropdown' => [
+    ['name' => 'Gestión de usuarios', 'id' => 'gestion', 'submenu' => [
+      'Lista de usuarios',
+      'Agregar usuario',
+      'Modificar usuario',
+      'Cambio de contraseñas',
+      'divider',
+      'Roles y permisos'
+    ]],
     'divider',
-    'Dar ascenso'
+    'Reporte de usuarios'
   ]],
-  ['name' => 'Tiempos', 'dropdown' => [
-    'Gestion de tiempo',
-    'Ver mis tiempos',
+  ['name' => 'Membresías', 'dropdown' => [
+    ['name' => 'Administración', 'id' => 'membresias', 'submenu' => [
+      'Tipos de membresía',
+      'Ventas',
+      'Renovaciones',
+      'Historial'
+    ]],
     'divider',
-    'Tomar tiempo'
+    'Reporte de membresías'
   ]],
-  ['name' => 'Ventas', 'dropdown' => [
-    'Ventas membresias',
-    'Ventas rangos y traslados',
+  ['name' => 'Rangos', 'dropdown' => [
+    ['name' => 'Gestión', 'id' => 'rangos', 'submenu' => [
+      'Catálogo de rangos',
+      'Asignación',
+      'Promociones',
+      'Traslados'
+    ]],
     'divider',
-    'Vender membresias',
-    'Vender rangos'
+    'Reporte de rangos'
   ]],
-  ['name' => 'Paga', 'dropdown' => ['Gestion de pagas']], // Eliminado 'Cumplimiento de pagas'
+  ['name' => 'Pagos', 'dropdown' => [
+    ['name' => 'Transacciones', 'id' => 'pagos', 'submenu' => [
+      'Registro de pagos',
+      'Reporte de ingresos',
+      'Transacciones'
+    ]],
+    'divider',
+    'Estadísticas financieras'
+  ]],
+  ['name' => 'Reportes', 'dropdown' => [
+    'Estadísticas',
+    'Exportar datos',
+    'Reportes personalizados'
+  ]],
+  ['name' => 'Configuración', 'dropdown' => [
+    'Ajustes del sistema',
+    'Backup',
+    'Logs de actividad'
+  ]]
 ];
 
-$navbar = new Navbar('Agencia Shein', $items);
+$navbar = new AdminNavbar('Panel Administrativo', $adminItems);
 $navbar->render();
 ?>
 
+<!-- Script para manejar los submenús -->
 <script>
   $(document).ready(function() {
-    $('#modificar_usuario, #dar_ascenso').on('hidden.bs.modal', function() {
-      $(this).find('form').trigger('reset');
-
-      if ($(this).find('.step').length > 0) {
-        $(this).find('.step').addClass('d-none');
-        $(this).find('.step:first').removeClass('d-none');
-      }
-
-      $(this).find('.progress-bar').css('width', '0%');
-      $(this).find('button[id$="Btn"]').prop('disabled', false);
-      $(this).find('button[id="submitBtn"]').addClass('d-none');
-      $(this).find('button[id="nextBtn"]').removeClass('d-none');
-      $(this).find('#resultadoBusqueda').html('');
-
-      if (typeof currentStep !== 'undefined') {
-        currentStep = 1;
-      }
-
-      setTimeout(function() {
-        $(document).trigger('modal_reset');
-      }, 100);
+    // Manejar la apertura/cierre de submenús
+    $('.dropdown-submenu a.dropdown-toggle').on('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      var target = $(this).data('bs-target');
+      $(target).collapse('toggle');
+      
+      // Rotar el icono de flecha
+      $(this).find('.bi-chevron-right').toggleClass('rotate-90');
     });
-
+    
+    // Cerrar otros submenús cuando se abre uno nuevo
+    $('.dropdown-submenu .collapse').on('show.bs.collapse', function() {
+      $('.dropdown-submenu .collapse').not(this).collapse('hide');
+    });
+    
+    // Manejar modales
     $('.modal').on('show.bs.modal', function(e) {
       var currentModalId = $(this).attr('id');
-
+      
       $('.modal').not(this).each(function() {
         if ($(this).hasClass('show')) {
           var modalInstance = bootstrap.Modal.getInstance(this);
@@ -316,96 +391,29 @@ $navbar->render();
           }
         }
       });
-
+      
       window.activeModal = currentModalId;
     });
-
-    $('[data-bs-toggle="modal"]').on('click', function(e) {
-      var targetModal = $(this).data('bs-target').replace('#', '');
-
-      if (window.activeModal && window.activeModal !== targetModal) {
-        var modalElement = document.getElementById(window.activeModal);
-        if (modalElement) {
-          var modalInstance = bootstrap.Modal.getInstance(modalElement);
-          if (modalInstance) {
-            modalInstance.hide();
-          }
-        }
-      }
+    
+    // Rotación de iconos
+    $('.accordion-button').on('click', function() {
+      $(this).find('.bi').toggleClass('rotate-180');
     });
   });
 </script>
 
-<?php
-echo "<!-- Separador -->";
-require_once(DAR_ASCENSO_PATCH . 'dar_ascenso.php');
-require_once(DAR_TIEMPO_PATCH . 'dar_tiempo.php');
-echo "<!-- Separador -->";
-require_once(MODALES_MENU_PATH . 'modal_calcular.php');
-require_once(MODALES_MENU_PATH . 'modal_notifiacion.php');
-require_once(MODALES_MENU_PATH . 'modal_quejas.php');
-echo "<!-- Separador -->";
-require_once(MODAL_GESTION_VENTAS_RANGOS_PACH . 'venta_rangos.php');
-require_once(GESTION_RENOVAR_VENTA_PATCH . 'registrar_venta.php');
-?>
-
-<script>
-  $(document).ready(function() {
-    $('#modificar_usuario, #dar_ascenso').on('hidden.bs.modal', function() {
-      $(this).find('form').trigger('reset');
-
-      if ($(this).find('.step').length > 0) {
-        $(this).find('.step').addClass('d-none');
-        $(this).find('.step:first').removeClass('d-none');
-      }
-
-      $(this).find('.progress-bar').css('width', '0%');
-      $(this).find('button[id$="Btn"]').prop('disabled', false);
-      $(this).find('button[id="submitBtn"]').addClass('d-none');
-      $(this).find('button[id="nextBtn"]').removeClass('d-none');
-      $(this).find('#resultadoBusqueda').html('');
-
-      if (typeof currentStep !== 'undefined') {
-        currentStep = 1;
-      }
-
-      setTimeout(function() {
-        $(document).trigger('modal_reset');
-      }, 100);
-    });
-
-    $('.modal').on('show.bs.modal', function(e) {
-      var currentModalId = $(this).attr('id');
-
-      $('.modal').not(this).each(function() {
-        if ($(this).hasClass('show')) {
-          var modalInstance = bootstrap.Modal.getInstance(this);
-          if (modalInstance) {
-            modalInstance.hide();
-          }
-        }
-      });
-
-      window.activeModal = currentModalId;
-    });
-
-    $('[data-bs-toggle="modal"]').on('click', function(e) {
-      var targetModal = $(this).data('bs-target').replace('#', '');
-
-      if (window.activeModal && window.activeModal !== targetModal) {
-        var modalElement = document.getElementById(window.activeModal);
-        if (modalElement) {
-          var modalInstance = bootstrap.Modal.getInstance(modalElement);
-          if (modalInstance) {
-            modalInstance.hide();
-          }
-        }
-      }
-    });
-
-    $('#notificationDropdown').on('click', function() {
-      $(this).find('.badge').hide();
-    });
-
-  });
-</script>
+<style>
+  .rotate-90 {
+    transform: rotate(90deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .rotate-180 {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .accordion-button::after {
+    display: none; /* Ocultar el icono por defecto de Bootstrap */
+  }
+</style>
