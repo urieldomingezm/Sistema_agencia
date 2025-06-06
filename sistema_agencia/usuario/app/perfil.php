@@ -1,5 +1,3 @@
-<br>
-
 <ion-app>
   <ion-content fullscreen="true" color="light" class="perfil-content">
     <!-- Avatar y bienvenida -->
@@ -40,17 +38,6 @@
       </ion-item>
     </ion-list>
 
-    <!-- Botón de configuración -->
-    <ion-grid class="ion-padding perfil-grid">
-      <ion-row>
-        <ion-col size="12">
-          <ion-button expand="block" fill="outline" color="primary">
-            <ion-icon name="settings" slot="start"></ion-icon>
-            Configuración
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
   </ion-content>
 </ion-app>
 
