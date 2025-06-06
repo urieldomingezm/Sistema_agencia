@@ -126,7 +126,7 @@ class UserController
                             <i class="bi bi-gear-fill"></i>
                         </div>
                         <h5 class="card-title">Administración</h5>
-                        <p class="card-text">Funciones avanzadas de gestión</p>
+                        <p class="card-text">Funciones avanzadas de gestión de usuarios, despidos, pagas, cambios de ascensos ect</p>
                     </div>
                 </div>
               </div>';
