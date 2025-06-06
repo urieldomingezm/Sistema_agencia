@@ -4,8 +4,10 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 require_once(TEMPLATES_APP_PATH . 'header_app.php');
 ?>
 
-<ion-content fullscreen="true" scroll-y="true">
-    <?php require_once(BIENVENIDA_APP_PATH . 'home_inicio.php'); ?>
+<ion-content fullscreen="true">
+    <div class="inner-scroll">
+        <?php require_once(BIENVENIDA_APP_PATH . 'home_inicio.php'); ?>
+    </div>
 </ion-content>
 
 <?php
