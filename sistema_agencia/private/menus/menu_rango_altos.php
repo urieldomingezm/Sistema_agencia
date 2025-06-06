@@ -65,7 +65,7 @@ class Navbar
 
               <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
                 <li>
-                  <h6 class="dropdown-header text-white">Notificaciones</h6>
+                  <h6 class="dropdown-header text-black">Notificaciones</h6>
                 </li>
 
                 <?php if (!empty($userNotifications)): ?>
