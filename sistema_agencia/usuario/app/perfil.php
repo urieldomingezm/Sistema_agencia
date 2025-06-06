@@ -8,11 +8,19 @@
   <ion-content color="dark">
     <ion-card color="dark">
       <ion-card-header>
-        <ion-avatar>
-          <img src="https://i.pravatar.cc/300" alt="Avatar de usuario">
-        </ion-avatar>
-        <ion-card-title>Usuario Ejemplo</ion-card-title>
-        <ion-badge color="medium">Agente</ion-badge>
+        <ion-grid>
+          <ion-row class="ion-justify-content-center">
+            <ion-avatar>
+              <img src="https://i.pravatar.cc/300" alt="Avatar de usuario">
+            </ion-avatar>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-card-title>Usuario Ejemplo</ion-card-title>
+          </ion-row>
+          <ion-row class="ion-justify-content-center">
+            <ion-badge color="medium">Agente</ion-badge>
+          </ion-row>
+        </ion-grid>
       </ion-card-header>
     </ion-card>
 
@@ -44,7 +52,7 @@
 
     <ion-grid>
       <ion-row>
-        <ion-col>
+        <ion-col size="12">
           <ion-button expand="block" fill="outline" color="light">
             <ion-icon name="settings" slot="start"></ion-icon>
             Configuración
