@@ -181,6 +181,8 @@ class UserController
             .then(response => {
                 if (type === "admin") {
                     window.location.href = "/usuario/administrativo/index.php";
+                } else if (type === "app") {
+                    window.location.href = "/usuario/app/index.php";
                 } else {
                     window.location.href = "/usuario/index.php";
                 }
