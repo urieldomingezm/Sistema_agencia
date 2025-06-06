@@ -1,4 +1,4 @@
-<ion-content class="ion-padding" color="light">
+<ion-content fullscreen="true" scroll-y="true">
     <!-- Header con imagen de fondo -->
     <div class="ion-text-center ion-margin-bottom">
         <ion-avatar class="ion-margin-auto" style="width: 120px; height: 120px;">
