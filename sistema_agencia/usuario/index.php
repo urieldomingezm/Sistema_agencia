@@ -27,8 +27,14 @@ class UserController
         $this->loadUserRank();
 
         if (!isset($_SESSION['interface_selected'])) {
-            if (in_array($this->userRango, ['Web_master', 'manager',  'manager', 'Owner'])) {
-                $this->showInterfaceSelector();
+            // Rangos administrativos (mostrar 3 opciones)
+            if (in_array($this->userRango, ['Web_master', 'manager', 'Owner', 'Administrador', 'Fundador', 'My_queen'])) {
+                $this->showInterfaceSelector(true);
+                exit;
+            }
+            // Rangos operativos (mostrar solo 2 opciones)
+            elseif (in_array($this->userRango, ['Agente', 'Seguridad', 'Tecnico', 'Logistica', 'Supervisor', 'Director', 'Presidente', 'Operativo', 'Junta directiva'])) {
+                $this->showInterfaceSelector(false);
                 exit;
             }
             $_SESSION['interface_selected'] = 'user';
@@ -85,6 +91,106 @@ class UserController
 
         $menuFile = $menuMap[$this->userRango] ?? 'menu_rango_bajos.php';
         require_once(MENU_PATH . $menuFile);
+    }
+
+    private function showInterfaceSelector($showAdminOption)
+    {
+        echo '<div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="text-center mb-4">
+                        <h2>Bienvenido ' . htmlspecialchars($_SESSION['username']) . '</h2>
+                        <p>Por favor selecciona la interfaz que deseas utilizar</p>
+                    </div>
+                    <div class="row justify-content-center">';
+
+        // Opción de Escritorio (siempre visible)
+        echo '<div class="col-md-' . ($showAdminOption ? '4' : '6') . ' mb-3">
+                <div class="card interface-card h-100" onclick="selectInterface(\'user\')">
+                    <div class="card-body text-center">
+                        <div class="icon-container">
+                            <i class="bi bi-laptop"></i>
+                        </div>
+                        <h5 class="card-title">Escritorio</h5>
+                        <p class="card-text">Interfaz completa para computadoras</p>
+                    </div>
+                </div>
+              </div>';
+
+        // Opción de Administración (solo para rangos altos)
+        if ($showAdminOption) {
+            echo '<div class="col-md-4 mb-3">
+                <div class="card interface-card h-100" onclick="selectInterface(\'admin\')">
+                    <div class="card-body text-center">
+                        <div class="icon-container">
+                            <i class="bi bi-gear-fill"></i>
+                        </div>
+                        <h5 class="card-title">Administración</h5>
+                        <p class="card-text">Funciones avanzadas de gestión</p>
+                    </div>
+                </div>
+              </div>';
+        }
+
+        // Opción de Móvil (siempre visible)
+        echo '<div class="col-md-' . ($showAdminOption ? '4' : '6') . ' mb-3">
+                <div class="card interface-card h-100" onclick="selectInterface(\'app\')">
+                    <div class="card-body text-center">
+                        <div class="icon-container">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <h5 class="card-title">Aplicación</h5>
+                        <p class="card-text">Versión móvil optimizada (estado de pruebas)</p>
+                    </div>
+                </div>
+              </div>';
+
+        echo '</div></div></div>';
+
+        // Estilos y script
+        echo '<style>
+            .interface-card {
+                cursor: pointer;
+                transition: transform 0.3s, border-color 0.3s;
+                border: 2px solid transparent;
+            }
+            .interface-card:hover {
+                transform: translateY(-5px);
+                border-color: #0d6efd;
+            }
+            .card-body {
+                padding: 2rem;
+            }
+            .icon-container {
+                font-size: 3rem;
+                color: #0d6efd;
+                margin-bottom: 1rem;
+            }
+        </style>
+
+        <script>
+        function selectInterface(type) {
+            const formData = new FormData();
+            formData.append("interface", type);
+
+            fetch(window.location.href, {
+                method: "POST",
+                body: formData,
+                credentials: "same-origin"
+            })
+            .then(response => {
+                if (type === "admin") {
+                    window.location.href = "/usuario/administrativo/index.php";
+                } else {
+                    window.location.href = "/usuario/index.php";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Ocurrió un error al seleccionar la interfaz. Por favor, intenta nuevamente.");
+            });
+        }
+        </script>';
     }
 
     public function handleSearch()
@@ -321,7 +427,6 @@ class UserController
         ];
     }
 
-
     private function renderAccessDenied()
     {
         $rango = $this->userRango ?? 'Agente';
@@ -332,99 +437,6 @@ class UserController
             <p>Redirigiendo a la página principal...</p>
         </div>
         <meta http-equiv="refresh" content="3;url=index.php">';
-    }
-
-    private function showInterfaceSelector()
-    {
-        echo '<div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-8">
-                    <div class="text-center mb-4">
-                        <h2>Bienvenido ' . htmlspecialchars($_SESSION['username']) . '</h2>
-                        <p>Por favor selecciona la interfaz que deseas utilizar</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <div class="card interface-card h-100" onclick="selectInterface(\'user\')">
-                                <div class="card-body text-center">
-                                    <div class="icon-container">
-                                        <i class="bi bi-laptop"></i>
-                                    </div>
-                                    <h5 class="card-title">Escritorio</h5>
-                                    <p class="card-text">Interfaz completa para computadoras</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card interface-card h-100" onclick="selectInterface(\'admin\')">
-                                <div class="card-body text-center">
-                                    <div class="icon-container">
-                                        <i class="bi bi-gear-fill"></i>
-                                    </div>
-                                    <h5 class="card-title">Administración</h5>
-                                    <p class="card-text">Funciones avanzadas de gestión</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <div class="card interface-card h-100" onclick="selectInterface(\'app\')">
-                                <div class="card-body text-center">
-                                    <div class="icon-container">
-                                        <i class="bi bi-phone"></i>
-                                    </div>
-                                    <h5 class="card-title">Aplicación</h5>
-                                    <p class="card-text">Versión móvil optimizada</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <style>
-            .interface-card {
-                cursor: pointer;
-                transition: transform 0.3s, border-color 0.3s;
-                border: 2px solid transparent;
-            }
-            .interface-card:hover {
-                transform: translateY(-5px);
-                border-color: #0d6efd;
-            }
-            .card-body {
-                padding: 2rem;
-            }
-            .icon-container {
-                font-size: 3rem;
-                color: #0d6efd;
-                margin-bottom: 1rem;
-            }
-        </style>
-
-        <script>
-        function selectInterface(type) {
-            const formData = new FormData();
-            formData.append("interface", type);
-
-            fetch(window.location.href, {
-                method: "POST",
-                body: formData,
-                credentials: "same-origin"
-            })
-            .then(response => {
-                if (type === "admin") {
-                    window.location.href = "/usuario/administrativo/index.php";
-                } else {
-                    window.location.href = "/usuario/index.php";
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Ocurrió un error al seleccionar la interfaz. Por favor, intenta nuevamente.");
-            });
-        }
-        </script>';
     }
 }
 
