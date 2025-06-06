@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aplicación Móvil Completa</title>
     
     <!-- Ionic CDN -->
@@ -18,8 +18,6 @@
             --ion-color-primary-contrast-rgb: 255,255,255;
             --ion-color-primary-shade: #3171e0;
             --ion-color-primary-tint: #4c8dff;
-            --ion-safe-area-top: 20px;
-            --ion-safe-area-bottom: 20px;
         }
         
         ion-tab-bar {
@@ -44,72 +42,6 @@
             font-weight: bold;
             margin: 16px 16px 8px;
             color: var(--ion-color-primary);
-        }
-        
-        /* Mejoras para responsividad */
-        @media (max-width: 576px) {
-            .custom-card {
-                margin: 8px;
-            }
-            
-            .avatar-large {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .section-title {
-                font-size: 1rem;
-                margin: 12px 12px 6px;
-            }
-            
-            ion-slides {
-                --bullet-background: var(--ion-color-primary);
-                --bullet-background-active: var(--ion-color-primary-shade);
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .custom-card {
-                max-width: 600px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            
-            ion-slides {
-                max-width: 80%;
-                margin: 0 auto;
-            }
-        }
-        
-        /* Ajustes para pantallas muy pequeñas */
-        @media (max-width: 360px) {
-            ion-tab-button {
-                --padding-start: 4px;
-                --padding-end: 4px;
-                font-size: 0.8rem;
-            }
-            
-            ion-tab-button ion-icon {
-                font-size: 1.2rem;
-            }
-        }
-        
-        /* Asegurar que el contenido no quede detrás del header o tab bar */
-        ion-content {
-            --padding-top: 16px;
-            --padding-bottom: 80px;
-        }
-        
-        /* Mejoras para las tarjetas de noticias */
-        ion-slide ion-card {
-            height: 100%;
-            margin: 0 8px;
-        }
-        
-        ion-slide img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
         }
     </style>
 </head>
@@ -163,8 +95,8 @@
                     
                     <div class="section-title">Noticias recientes</div>
                     
-                    <ion-slides pager="true" options="{slidesPerView: 'auto', spaceBetween: 10, centeredSlides: true}">
-                        <ion-slide style="width: 85%;">
+                    <ion-slides pager="true" options="{slidesPerView: 1.2, spaceBetween: 10, centeredSlides: true}">
+                        <ion-slide>
                             <ion-card>
                                 <img src="https://via.placeholder.com/300x150?text=Noticia+1" />
                                 <ion-card-header>
@@ -176,7 +108,7 @@
                                 </ion-card-content>
                             </ion-card>
                         </ion-slide>
-                        <ion-slide style="width: 85%;">
+                        <ion-slide>
                             <ion-card>
                                 <img src="https://via.placeholder.com/300x150?text=Noticia+2" />
                                 <ion-card-header>
@@ -185,18 +117,6 @@
                                 </ion-card-header>
                                 <ion-card-content>
                                     Únete a nuestro próximo evento en línea.
-                                </ion-card-content>
-                            </ion-card>
-                        </ion-slide>
-                        <ion-slide style="width: 85%;">
-                            <ion-card>
-                                <img src="https://via.placeholder.com/300x150?text=Noticia+3" />
-                                <ion-card-header>
-                                    <ion-card-subtitle>Consejo</ion-card-subtitle>
-                                    <ion-card-title>Tips para usar la app</ion-card-title>
-                                </ion-card-header>
-                                <ion-card-content>
-                                    Aprende a sacarle el máximo provecho a todas las funciones.
                                 </ion-card-content>
                             </ion-card>
                         </ion-slide>
@@ -369,25 +289,6 @@
             tabs.addEventListener('ionTabsWillChange', (ev) => {
                 console.log('Cambiando a tab:', ev.detail.tab);
             });
-            
-            // Ajustar dinámicamente el tamaño de los slides
-            function adjustSlides() {
-                const slides = document.querySelector('ion-slides');
-                if (slides) {
-                    const width = window.innerWidth;
-                    const slideWidth = Math.min(width * 0.85, 400); // Máximo 400px
-                    document.querySelectorAll('ion-slide').forEach(slide => {
-                        slide.style.width = `${slideWidth}px`;
-                    });
-                    
-                    // Actualizar opciones de los slides
-                    slides.update();
-                }
-            }
-            
-            // Ejecutar al cargar y al cambiar el tamaño de la ventana
-            adjustSlides();
-            window.addEventListener('resize', adjustSlides);
         });
     </script>
 </body>
