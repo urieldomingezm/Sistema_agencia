@@ -1,11 +1,4 @@
 <ion-app>
-  <!-- Header -->
-  <ion-header>
-    <ion-toolbar color="dark">
-      <ion-title>Mi Perfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <!-- Contenido -->
   <ion-content fullscreen="true" color="light">
     <!-- Avatar y bienvenida -->
