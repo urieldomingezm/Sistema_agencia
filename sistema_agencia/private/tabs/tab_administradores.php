@@ -25,7 +25,7 @@
 
     <!-- Ascender -->
     <li class="flex-1">
-      <a href="#" aria-label="Ascender persona" class="flex flex-col items-center text-gray-500 hover:text-indigo-600 transition-all duration-300" onclick="showAscensoModal()">
+      <a href="#" aria-label="Ascender persona" class="flex flex-col items-center text-gray-500 hover:text-indigo-600 transition-all duration-300" data-bs-toggle="modal" data-bs-target="#dar_ascenso_modal">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M5 12h14M12 5l7 7-7 7" />
