@@ -29,7 +29,7 @@
   <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
   <div class="container mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center gap-4">
-      <span class="text-xl font-bold">Agencia Shein APP</span>
+      <span class="text-xl font-bold">Agencia Shein</span>
     </div>
     <div class="flex items-center gap-4">
       <!-- Botón de modo oscuro (solo diseño, sin funcionalidad) -->
@@ -39,7 +39,7 @@
           <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.54 6.36l-.7-.7M6.16 6.16l-.7-.7m12.02 0l-.7.7M6.16 17.84l-.7.7" />
           <circle cx="12" cy="12" r="5" />
         </svg>
-        <span>Modo Oscuro</span>
+        <span>Modo</span>
       </button>
 
       <!-- Botón Cambiar a escritorio -->
@@ -49,7 +49,7 @@
           <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
           <path d="M16 3h-8v4h8V3z" />
         </svg>
-        <span>escritorio</span>
+        <span>Escritorio</span>
       </button>
     </div>
   </div>
