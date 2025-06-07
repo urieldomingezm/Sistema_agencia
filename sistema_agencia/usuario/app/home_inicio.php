@@ -102,14 +102,4 @@
     </ul>
   </div>
 
-  <!-- Banner promocional -->
-  <div class="mt-10 bg-indigo-600 text-white rounded-xl p-6 text-center shadow-lg select-none">
-    <h2 class="text-xl font-extrabold flex items-center justify-center gap-3 tracking-wide">
-      <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L17 22l-5-3-5 3 1.5-8.5L2 9h7z" /></svg>
-      Premium Fansite
-    </h2>
-    <p class="text-sm mt-3 font-semibold">Desbloquea todas las herramientas avanzadas</p>
-    <button class="mt-5 border border-white px-5 py-2 rounded-lg font-bold hover:bg-white hover:text-indigo-600 transition">Subir de nivel</button>
-  </div>
-
 </div>

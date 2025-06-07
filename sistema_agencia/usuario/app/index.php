@@ -6,6 +6,25 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Pantalla de carga (loading) con Tailwind CSS
+echo '
+<div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50">
+  <svg class="w-12 h-12 text-indigo-600 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" >
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+  </svg>
+</div>
+
+<script>
+  window.addEventListener("load", function() {
+    const loader = document.getElementById("loading-screen");
+    if(loader) {
+      loader.style.display = "none";
+    }
+  });
+</script>
+';
+
 require_once(TEMPLATES_APP_PATH . 'header_app.php');
 
 class AppController {
