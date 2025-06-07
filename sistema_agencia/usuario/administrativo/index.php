@@ -1,7 +1,13 @@
 <?php
-// Move session_start() to the very beginning
+// Session handling at the very beginning
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
+}
+
+// Check session before any output
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
+    header('Location: /login.php');
+    exit;
 }
 
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
