@@ -1,4 +1,4 @@
-<main class="w-full min-h-screen bg-gray-50 px-4 py-6 overflow-y-auto">
+
   <!-- Header con avatar -->
   <div class="text-center mb-6">
     <div class="w-28 h-28 mx-auto rounded-full bg-gray-200 overflow-hidden mb-4">
@@ -115,4 +115,4 @@
     <p class="text-sm mt-2">Desbloquea todas las funciones premium</p>
     <button class="mt-4 border border-white px-4 py-2 rounded-md hover:bg-white hover:text-indigo-600 transition">Actualizar ahora</button>
   </div>
-</main>
+
