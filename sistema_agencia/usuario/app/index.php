@@ -33,10 +33,11 @@ class AppController {
             require_once(BIENVENIDA_APP_PATH . 'home_inicio.php');
         }
 
-        require_once(TABS_APP_PATH . 'tab_bajos.php');
+        
     }
 }
 
 new AppController();
+require_once(TABS_APP_PATH . 'tab_bajos.php');
 require_once(TEMPLATES_APP_PATH . 'footer_app.php');
 ?>
