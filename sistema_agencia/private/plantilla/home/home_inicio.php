@@ -638,11 +638,6 @@ class BodyHome
                     </div>
                 </div>
                 
-                <div class="text-center mt-4">
-                    <a href="#" class="btn btn-outline-primary btn-lg px-4">
-                        <i class="bi bi-collection-play me-2"></i>Ver todos los tutoriales
-                    </a>
-                </div>
             </div>
         </section>';
     }
