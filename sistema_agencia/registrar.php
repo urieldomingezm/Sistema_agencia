@@ -7,7 +7,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 require_once(TEMPLATES_PATH . 'header.php');
-require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
 ?>
 
 <style>
@@ -135,7 +134,6 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                     </div>
                     <div class="card-body p-3 p-sm-4">
                         <form id="registrationForm" method="post">
-                            <!-- Eliminar este bloque -->
                             <div class="mb-3">
                                 <label class="form-label"><i class="bi bi-person-badge-fill"></i> Nombre de habbo</label>
                                 <input type="text" class="form-control form-control-sm" name="habboName" required>
@@ -191,12 +189,12 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                 },
                 {
                     rule: 'maxLength',
-                    value: 15, // Aumentado a 15 para permitir nombres más largos
+                    value: 15,
                     errorMessage: 'No puede tener más de 15 caracteres'
                 },
                 {
                     rule: 'customRegexp',
-                    value: /^[a-zA-Z0-9\-]+$/, // Modificado para permitir guiones
+                    value: /^[a-zA-Z0-9\-]+$/,
                     errorMessage: 'Solo letras, números y guiones permitidos'
                 },
                 {
@@ -258,7 +256,6 @@ require_once(PROCESOS_LOGIN_PATH . 'inicio_registrarse.php');
                                         .then(() => {
                                             if (data.success) window.location.href = 'login.php';
                                         });
-
                                 });
                         });
                 });

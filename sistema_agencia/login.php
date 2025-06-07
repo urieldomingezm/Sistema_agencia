@@ -57,7 +57,7 @@ require_once(TEMPLATES_PATH . 'header.php');
                 <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                     <div class="card-header bg-primary text-white py-4">
                         <div class="text-center">
-                            <h3 class="mb-0 fw-bold">👋 ¡Bienvenido de nuevo!</h3>
+                            <h3 class="mb-0 fw-bold">¡Bienvenido de nuevo!</h3>
                             <p class="mb-0">Ingresa tus credenciales para continuar</p>
                         </div>
                     </div>
