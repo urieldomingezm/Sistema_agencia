@@ -77,16 +77,5 @@
       </div>
     </section>
 
-    <!-- Botón editar -->
-    <div class="p-6 border-t border-blue-200">
-      <button class="w-full md:w-auto px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition duration-300 flex items-center justify-center mx-auto shadow-lg">
-        <i data-lucide="edit-3" class="w-5 h-5 mr-2"></i> Editar Perfil
-      </button>
-    </div>
-
   </div>
 </div>
-
-<script>
-  lucide.createIcons();
-</script>
