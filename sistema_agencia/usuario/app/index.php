@@ -31,7 +31,9 @@ class AppController {
 
     private function loadUserRank() {
         try {
-            $query = "SELECT a.rango_actual FROM registro_usuario r JOIN ascensos a ON r.codigo_time = a.codigo_time WHERE r.id = :user_id";
+            $query = "SELECT a.rango_actual FROM registro_usuario r 
+                      JOIN ascensos a ON r.codigo_time = a.codigo_time 
+                      WHERE r.id = :user_id";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':user_id', $_SESSION['user_id']);
             $stmt->execute();
@@ -43,7 +45,8 @@ class AppController {
         }
     }
 
-    private function getTabFile() {
+    // CAMBIO: Este método ahora es público
+    public function getTabFile() {
         $tabMap = [
             'Agente' => 'tab_bajos.php',
             'Seguridad' => 'tab_bajos.php',
@@ -79,10 +82,10 @@ class AppController {
     }
 }
 
-// Create instance first
+// Crear instancia
 $app = new AppController();
 
-// Then use the instance to call methods
+// Llamar método público sin error
 require_once(TABS_APP_PATH . $app->getTabFile());
 require_once(TEMPLATES_APP_PATH . 'footer_app.php');
 ?>
