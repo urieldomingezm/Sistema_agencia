@@ -23,6 +23,15 @@
     <li>
       <a href="?page=cerrar_session" class="flex flex-col items-center text-gray-500 hover:text-indigo-600 transition-all duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+        <span class="text-xs mt-1">Cambiar a escritorio</span>
+      </a>
+    </li>
+
+    <li>
+      <a href="?page=cerrar_session" class="flex flex-col items-center text-gray-500 hover:text-indigo-600 transition-all duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
         </svg>
         <span class="text-xs mt-1">Cerrar session</span>
