@@ -7,7 +7,6 @@ class BodyHome
         echo '<body class="d-flex flex-column h-100 bg-light" data-bs-theme="light">';
         $this->renderLoader();
         $this->renderHeader();
-        $this->renderAboutSection();
         $this->renderVideosSection();
         $this->renderTeamSection();
         $this->renderBlogSection();
@@ -326,57 +325,6 @@ class BodyHome
                     <a href="#" class="btn btn-outline-primary btn-lg px-4">
                         <i class="bi bi-list-ul me-2"></i>Ver todos los eventos
                     </a>
-                </div>
-            </div>
-        </section>';
-    }
-
-    private function renderAboutSection()
-    {
-        echo '<section class="py-5" id="about">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <h2 class="display-5 fw-bold text-primary mb-3">
-                        <i class="bi bi-info-circle me-2"></i>Sobre Nosotros
-                    </h2>
-                    <p class="lead text-muted">Descubre lo que hace especial a nuestra comunidad</p>
-                </div>
-                <div class="row align-items-center g-5">
-                    <div class="col-md-6 mb-4 mb-md-0">
-                        <div class="rounded shadow overflow-hidden">
-                            <img src="https://i.postimg.cc/267B81Gt/agencia2.webp" alt="Imagen de la comunidad Agencia Shein en Habbo" 
-                                 class="img-fluid w-100">
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="ps-lg-4">
-                            <div class="mb-4">
-                                <h3 class="h4 fw-bold mb-3 text-primary">
-                                    <i class="bi bi-hourglass-split me-2"></i>Nuestra Historia
-                                </h3>
-                                <p class="text-body-secondary">Agencia Shein es una comunidad vibrante en Habbo Hotel que se dedica a crear experiencias únicas para nuestros usuarios. Desde nuestro inicio en 2025, hemos crecido hasta convertirnos en una de las agencias más reconocidas en el mundo de Habbo.</p>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <h3 class="h4 fw-bold mb-3 text-primary">
-                                    <i class="bi bi-bullseye me-2"></i>Nuestra Misión
-                                </h3>
-                                <p class="text-body-secondary">Nuestro objetivo es proporcionar un espacio seguro y divertido donde los usuarios puedan interactuar, participar en eventos emocionantes y desarrollar sus habilidades dentro del juego.</p>
-                            </div>
-                            
-                            <div class="bg-light p-4 rounded border">
-                                <h4 class="h5 fw-bold mb-3">
-                                    <i class="bi bi-star-fill text-warning me-2"></i>¿Por qué unirte?
-                                </h4>
-                                <ul class="list-unstyled">
-                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Comunidad activa y amigable</li>
-                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Eventos exclusivos semanales</li>
-                                    <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Sistema de recompensas</li>
-                                    <li><i class="bi bi-check-circle-fill text-success me-2"></i>Soporte y ayuda constante</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>';
