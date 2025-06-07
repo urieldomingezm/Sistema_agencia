@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-function mostrarAlerta($titulo, $mensaje, $tipo = 'error') {
+function mostrarAlerta($titulo, $mensaje, $tipo = 'error')
+{
     $_SESSION['swal'] = [
         'titulo' => $titulo,
         'mensaje' => $mensaje,
@@ -9,7 +10,8 @@ function mostrarAlerta($titulo, $mensaje, $tipo = 'error') {
     ];
 }
 
-function verificarSesion() {
+function verificarSesion()
+{
     if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
         mostrarAlerta('Acceso no autorizado', 'Debes iniciar sesión para acceder a esta sección');
         header('Location: /index.php');
@@ -17,9 +19,10 @@ function verificarSesion() {
     }
 }
 
-function bloquearAcceso($ruta) {
+function bloquearAcceso($ruta)
+{
     $rutasBloqueadas = ['/private/', '/public/', '/base-datos/'];
-    
+
     if (in_array($ruta, $rutasBloqueadas)) {
         mostrarAlerta('Acceso restringido', 'No tienes permiso para acceder a esta ruta');
         header('Location: /index.php');
@@ -30,10 +33,11 @@ function bloquearAcceso($ruta) {
 $rutaActual = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Verificar sesión para rutas de usuario
-if (strpos($rutaActual, '/usuario/') === 0) {
+if (strpos($rutaActual, '/usuario/') === 0 || 
+    strpos($rutaActual, '/usuario/administrativo/') === 0 ||
+    strpos($rutaActual, '/usuario/app/') === 0) {
     verificarSesion();
 }
 
 // Bloquear acceso a rutas restringidas
 bloquearAcceso($rutaActual);
-?>
