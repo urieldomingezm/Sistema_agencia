@@ -131,8 +131,8 @@ class AdminNavbar
                               <!-- Elemento con submenú (segundo nivel) -->
                               <li class="accordion-subitem">
                                 <h3 class="accordion-header">
-                                  <button class="accordion-button collapsed" type="button" 
-                                    data-bs-toggle="collapse" 
+                                  <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse"
                                     data-bs-target="#submenu-<?= $index ?>-<?= $dropdownItem['id'] ?>">
                                     <i class="<?= $this->getDropdownIcon($dropdownItem['name']) ?> me-2"></i>
                                     <?= $dropdownItem['name'] ?>
@@ -143,7 +143,9 @@ class AdminNavbar
                                     <ul class="list-unstyled ps-3">
                                       <?php foreach ($dropdownItem['submenu'] as $subItem): ?>
                                         <?php if ($subItem == 'divider'): ?>
-                                          <li><hr class="dropdown-divider mx-1"></li>
+                                          <li>
+                                            <hr class="dropdown-divider mx-1">
+                                          </li>
                                         <?php else: ?>
                                           <li>
                                             <a class="menu-link d-block px-3 py-2" href="<?= $this->getItemUrl($subItem) ?>">
@@ -158,7 +160,9 @@ class AdminNavbar
                                 </div>
                               </li>
                             <?php elseif ($dropdownItem == 'divider'): ?>
-                              <li><hr class="dropdown-divider mx-3"></li>
+                              <li>
+                                <hr class="dropdown-divider mx-3">
+                              </li>
                             <?php else: ?>
                               <!-- Elemento normal (primer nivel) -->
                               <li>
@@ -204,35 +208,35 @@ class AdminNavbar
         background-color: rgba(255, 255, 255, 0.05);
         color: inherit;
       }
-      
+
       .accordion-button:focus {
         box-shadow: none;
         border-color: rgba(0, 0, 0, 0.125);
       }
-      
+
       .accordion-item {
         background-color: transparent;
       }
-      
+
       .accordion-body {
         background-color: rgba(0, 0, 0, 0.03);
       }
-      
+
       .accordion-subitem .accordion-button {
         padding: 0.5rem 1.25rem;
         font-size: 0.9rem;
       }
-      
+
       .accordion-subitem .accordion-body {
         padding: 0;
       }
-      
+
       .menu-link {
         color: #212529;
         text-decoration: none;
         transition: all 0.2s;
       }
-      
+
       .menu-link:hover {
         background-color: rgba(0, 0, 0, 0.05);
       }
@@ -244,7 +248,7 @@ class AdminNavbar
         // Manejar modales
         $('.modal').on('show.bs.modal', function(e) {
           var currentModalId = $(this).attr('id');
-          
+
           $('.modal').not(this).each(function() {
             if ($(this).hasClass('show')) {
               var modalInstance = bootstrap.Modal.getInstance(this);
@@ -253,7 +257,7 @@ class AdminNavbar
               }
             }
           });
-          
+
           window.activeModal = currentModalId;
         });
       });
@@ -378,10 +382,11 @@ $adminItems = [
     'divider',
     'Estadísticas financieras'
   ]],
-  ['name' => 'Reportes', 'dropdown' => [
-    'Estadísticas',
-    'Exportar datos',
-    'Reportes personalizados'
+  ['name' => 'Interfaz', 'dropdown' => [
+    'Anuncios',
+    'Membresias',
+    'Horarios',
+    'Noticias'
   ]],
   ['name' => 'Configuración', 'dropdown' => [
     'Ajustes del sistema',

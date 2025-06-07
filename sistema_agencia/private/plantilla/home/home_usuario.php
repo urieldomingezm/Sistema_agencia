@@ -44,21 +44,12 @@ class BodyHome
     {
         $username = htmlspecialchars($this->userData['username']);
     ?>
-        <header class="bg-dark text-white py-4 mb-4 shadow">
+        <header class="bg-primary text-white py-4 mb-4 shadow">
             <div class="container text-center">
                 <h1 class="display-5 mb-3 fw-bold">
                     <i class="bi bi-star-fill me-2 text-warning"></i> Agencia Shein <i class="bi bi-star-fill ms-2 text-warning"></i>
                 </h1>
                 <p class="lead mb-4 fs-5">Bienvenido <?= $username ?></p>
-                <div class="alert alert-dark mb-0 alert-dismissible fade show">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    <div>
-                        <strong>¡Actualización del Sistema!</strong>
-                        <p class="mb-2 mt-1">Se ha implementado el sistema de pagos semanales y actualización de rangos.</p>
-                        <small class="text-muted">Ver. 20.1</small>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
             </div>
         </header>
     <?php
@@ -92,7 +83,7 @@ class BodyHome
         }
 
     ?>
-        <section class="py-5 bg-secondary bg-opacity-10">
+        <section class="py-5 bg-info bg-opacity-25">
             <div class="container">
                 <h2 class="text-center mb-5 display-6 fw-bold text-white">
                     <i class="bi bi-trophy-fill me-2 text-warning"></i> Top 3 Encargados <i class="bi bi-trophy-fill ms-2 text-warning"></i>
@@ -101,22 +92,22 @@ class BodyHome
                     <?php if (!empty($formattedTopUsers)): ?>
                         <?php foreach ($formattedTopUsers as $user): ?>
                             <div class="col-12 col-md-4">
-                                <div class="card h-100 border-0 shadow-sm bg-dark text-white">
+                                <div class="card h-100 border-0 shadow-sm bg-primary text-white">
                                     <div class="card-body text-center p-4">
                                         <i class="bi bi-trophy-fill display-4 mb-3" style="color: <?= $user['icon_color'] ?>"></i>
                                         <div class="mb-3">
                                             <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" class="rounded-circle mb-2 img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
                                             <h3 class="h4 mb-0 fw-bold"><?= htmlspecialchars($user['name']) ?></h3>
                                         </div>
-                                        <p class="text-muted mb-2"><?= htmlspecialchars($user['rank']) ?></p>
-                                        <span class="badge bg-primary rounded-pill fs-5"><?= htmlspecialchars($user['score']) ?> Acciones</span>
+                                        <p class="text-white-50 mb-2"><?= htmlspecialchars($user['rank']) ?></p>
+                                        <span class="badge bg-info text-dark rounded-pill fs-5"><?= htmlspecialchars($user['score']) ?> Acciones</span>
                                     </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="col-12">
-                            <div class="alert alert-dark text-center text-white">
+                            <div class="alert alert-primary text-center text-white">
                                 No hay datos disponibles para mostrar el top de encargados.
                             </div>
                         </div>
@@ -136,21 +127,21 @@ class BodyHome
         ];
 
     ?>
-        <section class="py-5 bg-dark">
+        <section class="py-5 bg-primary">
             <div class="container">
                 <h2 class="text-center mb-5 display-6 fw-bold text-white">
-                    <i class="bi bi-newspaper me-2 text-primary"></i> Noticias <i class="bi bi-newspaper ms-2 text-primary"></i>
+                    <i class="bi bi-newspaper me-2 text-info"></i> Noticias <i class="bi bi-newspaper ms-2 text-info"></i>
                 </h2>
                 <div class="row g-4">
                     <?php foreach ($events as $event): ?>
                         <div class="col-12 col-md-6 col-lg-4">
-                            <div class="card h-100 border-0 shadow-sm bg-secondary text-white">
+                            <div class="card h-100 border-0 shadow-sm bg-info text-white">
                                 <img src="<?= $event['image'] ?>" class="card-img-top" style="height: 180px; object-fit: cover;" alt="<?= htmlspecialchars($event['title']) ?>">
                                 <div class="card-body">
                                     <h3 class="card-title h5 fw-bold"><?= $event['title'] ?></h3>
                                     <p class="card-text text-white-50"><?= $event['description'] ?></p>
                                 </div>
-                                <div class="card-footer bg-dark border-top-0">
+                                <div class="card-footer bg-primary border-top-0">
                                     <span class="badge bg-success rounded-pill"><?= $event['date'] ?></span>
                                 </div>
                             </div>
@@ -208,7 +199,7 @@ class BodyHome
         ];
 
     ?>
-        <section class="py-5 bg-secondary bg-opacity-10">
+        <section class="py-5 bg-info bg-opacity-25">
             <div class="container">
                 <h2 class="text-center mb-5 display-6 fw-bold text-white">
                     <i class="bi bi-clock-history me-2 text-primary"></i> Horarios de Pago <i class="bi bi-clock-history ms-2 text-primary"></i>
@@ -223,12 +214,12 @@ class BodyHome
                                 <div class="row g-4 justify-content-center">
                                     <?php foreach ($chunk as $country): ?>
                                         <div class="col-md-4">
-                                            <div class="card h-100 border-0 shadow-sm bg-dark text-white">
+                                            <div class="card h-100 border-0 shadow-sm bg-primary text-white">
                                                 <div class="card-body text-center">
                                                     <img src="<?= $country['flag'] ?>" class="img-fluid mb-3" style="height: 80px;" alt="<?= htmlspecialchars($country['name']) ?>">
                                                     <h3 class="h5 fw-bold"><?= $country['name'] ?></h3>
                                                     <div class="d-flex align-items-center justify-content-center mt-3">
-                                                        <i class="bi bi-clock-fill me-2 text-primary"></i>
+                                                        <i class="bi bi-clock-fill me-2 text-info"></i>
                                                         <span class="fs-5 fw-bold"><?= $country['paytime'] ?></span>
                                                     </div>
                                                 </div>
@@ -294,9 +285,9 @@ class BodyHome
             ],
         ];
 
-        echo '<section class="py-5 bg-dark">';
+        echo '<section class="py-5 bg-primary">';
         echo '<div class="container text-center">';
-        echo '<h2 class="text-white mb-4 display-6 fw-bold"><i class="bi bi-gem me-2 text-primary"></i> Membresías Disponibles <i class="bi bi-gem ms-2 text-primary"></i></h2>';
+        echo '<h2 class="text-white mb-4 display-6 fw-bold"><i class="bi bi-gem me-2 text-info"></i> Membresías Disponibles <i class="bi bi-gem ms-2 text-info"></i></h2>';
         echo '<p class="text-white-50 mb-5">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
         echo '<div id="membershipCarousel" class="carousel slide" data-bs-ride="carousel">';
         echo '<div class="carousel-inner">';
@@ -308,7 +299,7 @@ class BodyHome
 
             foreach ($chunk as $membership) {
                 echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
-                echo '<div class="bg-secondary text-white p-4 rounded-3 shadow h-100">';
+                echo '<div class="bg-info text-white p-4 rounded-3 shadow h-100">';
                 echo '<img src="' . $membership['image'] . '" class="img-fluid rounded mb-3" style="height: 150px; object-fit: cover;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
                 echo '<h3 class="h5 fw-bold">' . $membership['title'] . '</h3>';
                 echo '<p class="text-white-50">' . $membership['benefits'] . '</p>';
