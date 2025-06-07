@@ -1,6 +1,12 @@
 <?php
 $pageTitle = "Agencia Shein APP";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
+
+// Start session before any output
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once(TEMPLATES_APP_PATH . 'header_app.php');
 
 class AppController {
@@ -73,8 +79,10 @@ class AppController {
     }
 }
 
-new AppController();
+// Create instance first
+$app = new AppController();
 
-require_once(TABS_APP_PATH . $this->getTabFile());
+// Then use the instance to call methods
+require_once(TABS_APP_PATH . $app->getTabFile());
 require_once(TEMPLATES_APP_PATH . 'footer_app.php');
 ?>
