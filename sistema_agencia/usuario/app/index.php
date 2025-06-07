@@ -2,7 +2,6 @@
 $pageTitle = "Agencia Shein APP";
 require_once($_SERVER['DOCUMENT_ROOT'] . '/config.php');
 
-// Start session before any output
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -82,10 +81,8 @@ class AppController {
     }
 }
 
-// Crear instancia
 $app = new AppController();
 
-// Llamar método público sin error
 require_once(TABS_APP_PATH . $app->getTabFile());
 require_once(TEMPLATES_APP_PATH . 'footer_app.php');
 ?>
