@@ -21,15 +21,6 @@
     </li>
 
     <li>
-      <a href="?page=tiempos" class="flex flex-col items-center text-gray-500 hover:text-indigo-600 transition-all duration-300">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span class="text-xs mt-1">Tiempos</span>
-      </a>
-    </li>
-
-    <li>
       <a href="?page=cerrar_session" class="flex flex-col items-center text-gray-500 hover:text-indigo-600 transition-all duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v2m0 8v2m6-6h2M4 12H2m15.364-4.636l1.414-1.414M6.343 17.657l-1.414 1.414m12.728 0l-1.414-1.414M6.343 6.343L4.929 7.757" />
