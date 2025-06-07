@@ -441,6 +441,15 @@ class BodyHome
                 </div>
             </div>';
         }
+
+        echo '</div>
+                <div class="text-center mt-4">
+                    <a href="#" class="btn btn-primary btn-lg px-4">
+                        <i class="bi bi-journal-text me-2"></i>Ver todas las noticias
+                    </a>
+                </div>
+            </div>
+        </section>';
     }
 
     private function renderHabboPlatesSection()
@@ -496,6 +505,11 @@ class BodyHome
                                 <i class="bi bi-calendar-date me-1"></i>' . $plate['release_date'] . '
                             </span>
                         </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-top-0 text-center">
+                        <button class="btn btn-sm btn-outline-light rounded-pill">
+                            <i class="bi bi-info-circle me-1"></i>Cómo obtenerla
+                        </button>
                     </div>
                 </div>
             </div>';
@@ -624,6 +638,11 @@ class BodyHome
                     </div>
                 </div>
                 
+                <div class="text-center mt-4">
+                    <a href="#" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="bi bi-collection-play me-2"></i>Ver todos los tutoriales
+                    </a>
+                </div>
             </div>
         </section>';
     }
