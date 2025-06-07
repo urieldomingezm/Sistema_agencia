@@ -21,16 +21,6 @@
             <div class="flex items-center space-x-4">
                 <span class="text-xl font-bold">Agencia Shein</span>
             </div>
-            <div class="hidden md:flex space-x-6">
-                <a href="#" class="hover:text-gray-300 transition">Inicio</a>
-                <a href="#" class="hover:text-gray-300 transition">Perfil</a>
-                <a href="#" class="hover:text-gray-300 transition">Configuración</a>
-            </div>
-            <button class="md:hidden focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
         </div>
     </nav>
 
