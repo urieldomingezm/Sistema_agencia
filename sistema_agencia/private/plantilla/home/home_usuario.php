@@ -171,21 +171,11 @@ class BodyHome
                                     <h3 class="card-title h5 fw-bold text-primary"><?= $event['title'] ?></h3>
                                     <p class="card-text text-muted"><?= $event['description'] ?></p>
                                 </div>
-                                <div class="card-footer bg-transparent border-top-0">
-                                    <button class="btn btn-outline-primary w-100">
-                                        <i class="bi bi-info-circle me-2"></i>Más información
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
                 </div>
                 
-                <div class="text-center mt-4">
-                    <a href="#" class="btn btn-primary px-4 py-2">
-                        <i class="bi bi-arrow-right-circle me-2"></i>Ver todos los eventos
-                    </a>
-                </div>
             </div>
         </section>
     <?php
