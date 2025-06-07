@@ -15,7 +15,7 @@ $descripcionTiempo = $ascensoData['fecha_disponible_ascenso'] === '00:00:00' ?
     'Ya puedes solicitar tu ascenso' : 'Faltan ' . formatEstimatedTime($siguienteAscenso);
 ?>
 
-<div class="min-h-screen bg-gradient-to-b from-blue-100 via-blue-50 to-white p-4 md:p-8 flex flex-col justify-center antialiased font-sans">
+<div class="min-h-screen bg-gradient-to-b from-blue-100 via-blue-50 to-white dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-4 md:p-8 flex flex-col justify-center antialiased font-sans">
   <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-blue-200">
 
     <!-- Header -->

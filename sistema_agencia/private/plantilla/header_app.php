@@ -32,10 +32,22 @@
       <span class="text-xl font-bold">Agencia Shein</span>
     </div>
     <div class="flex items-center gap-4">
-      <!-- Botón de modo oscuro (solo diseño, sin funcionalidad) -->
-      <button class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-sm px-4 py-2 rounded-full transition select-none">
-        <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2"
-          viewBox="0 0 24 24">
+      <script>
+      function toggleDarkMode() {
+        const html = document.documentElement;
+        html.classList.toggle('dark');
+        localStorage.setItem('darkMode', html.classList.contains('dark'));
+      }
+      
+      // Aplicar el modo guardado al cargar
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.documentElement.classList.add('dark');
+      }
+      </script>
+      
+      <!-- Modificar el botón existente -->
+      <button onclick="toggleDarkMode()" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-sm px-4 py-2 rounded-full transition select-none">
+        <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.54 6.36l-.7-.7M6.16 6.16l-.7-.7m12.02 0l-.7.7M6.16 17.84l-.7.7" />
           <circle cx="12" cy="12" r="5" />
         </svg>

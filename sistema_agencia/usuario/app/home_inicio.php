@@ -1,5 +1,5 @@
 <!-- Contenedor principal azul -->
-<div class="max-w-md mx-auto p-4 bg-gradient-to-b from-blue-100 via-cyan-100 to-indigo-100 rounded-xl shadow-lg">
+<div class="max-w-md mx-auto p-4 bg-gradient-to-b from-blue-100 via-cyan-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 rounded-xl shadow-lg">
 
   <!-- Encabezado con avatar estilo Habbo -->
   <div class="text-center mb-6">
