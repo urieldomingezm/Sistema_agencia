@@ -57,10 +57,7 @@
 
   <!-- Contenido principal con margen superior -->
   <main class="pt-4 pb-20">
-    <div class="container mx-auto px-4">
-      <h1 class="text-2xl font-bold">Bienvenido</h1>
-    </div>
-  </main>
+
 
   <script>
     function toggleDarkMode() {
