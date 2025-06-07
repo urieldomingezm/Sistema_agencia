@@ -16,8 +16,7 @@ $descripcionTiempo = $ascensoData['fecha_disponible_ascenso'] === '00:00:00' ?
 ?>
 
 <div class="min-h-screen bg-gradient-to-b from-blue-100 via-blue-50 to-white dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 p-4 md:p-8 flex flex-col justify-center antialiased font-sans">
-  <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-blue-200">
-
+  <div class="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden border border-blue-200 dark:border-gray-700">
     <!-- Header -->
     <header class="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-center relative">
       <div class="w-28 h-28 md:w-32 md:h-32 mx-auto rounded-full border-4 border-white overflow-hidden shadow-lg bg-gradient-to-tr from-blue-300 via-indigo-400 to-blue-500">
