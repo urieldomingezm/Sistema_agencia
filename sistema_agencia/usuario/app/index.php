@@ -6,7 +6,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Pantalla de carga (loading) con Tailwind CSS
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['username'])) {
+    echo "<script>window.location.href = '/login.php';</script>";
+    exit;
+}
+
 echo '
 <div id="loading-screen" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-90 z-50">
   <svg class="w-12 h-12 text-indigo-600 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" >
