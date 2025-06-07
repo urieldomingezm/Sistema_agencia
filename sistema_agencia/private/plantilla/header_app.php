@@ -26,12 +26,23 @@
 <body class="bg-gray-100">
     <!-- Navbar negro -->
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-4">
-                <span class="text-xl font-bold">Agencia Shein</span>
-            </div>
-        </div>
-    </nav>
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center gap-4">
+        <span class="text-xl font-bold">Agencia Shein</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <!-- Botón de modo oscuro (solo diseño, sin funcionalidad) -->
+        <button class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-sm px-4 py-2 rounded-full transition select-none">
+          <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.54 6.36l-.7-.7M6.16 6.16l-.7-.7m12.02 0l-.7.7M6.16 17.84l-.7.7" />
+            <circle cx="12" cy="12" r="5" />
+          </svg>
+          <span>Modo Oscuro</span>
+        </button>
+      </div>
+    </div>
+  </nav>
 
     <!-- Contenido principal con margen superior -->
     <main class="pt-4 pb-20">
