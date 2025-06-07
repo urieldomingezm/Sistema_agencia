@@ -45,17 +45,6 @@
       </a>
     </li>
 
-    <!-- Más -->
-    <li class="flex-1">
-      <a href="?page=escritorio" aria-label="Más opciones" class="flex flex-col items-center text-gray-500 hover:text-indigo-600 transition-all duration-300">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M12 6v6l4 2M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
-        </svg>
-        <span class="text-[10px] mt-1">Más</span>
-      </a>
-    </li>
-
     <!-- Salir -->
     <li class="flex-1">
       <a href="?page=cerrar_session" aria-label="Cerrar sesión" class="flex flex-col items-center text-gray-500 hover:text-red-500 transition-all duration-300">
