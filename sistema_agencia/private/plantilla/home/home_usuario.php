@@ -44,12 +44,16 @@ class BodyHome
     {
         $username = htmlspecialchars($this->userData['username']);
     ?>
-        <header class="bg-primary text-white py-4 mb-4 shadow">
+        <header class="bg-primary text-white py-5 mb-4 shadow">
             <div class="container text-center">
-                <h1 class="display-5 mb-3 fw-bold">
+                <h1 class="display-4 mb-3 fw-bold">
                     <i class="bi bi-star-fill me-2 text-warning"></i> Agencia Shein <i class="bi bi-star-fill ms-2 text-warning"></i>
                 </h1>
-                <p class="lead mb-4 fs-5">Bienvenido <?= $username ?></p>
+                <p class="lead mb-0 fs-4">
+                    <span class="badge bg-light text-primary rounded-pill px-3 py-2">
+                        <i class="bi bi-person-circle me-2"></i>Bienvenido <?= $username ?>
+                    </span>
+                </p>
             </div>
         </header>
     <?php
@@ -61,54 +65,71 @@ class BodyHome
 
         try {
             $topManager = new TopEncargados();
-            $topUsers = $topManager->getTopEncargados(3); // Limitar a 3 resultados
+            $topUsers = $topManager->getTopEncargados(3);
         } catch (Exception $e) {
             error_log("Error al obtener el top de encargados: " . $e->getMessage());
         }
 
         $formattedTopUsers = [];
-        $rankColors = ['#FFD700', '#C0C0C0', '#CD7F32'];
+        $rankColors = ['bg-warning text-dark', 'bg-secondary', 'bg-danger'];
+        $rankIcons = ['bi-trophy-fill', 'bi-award-fill', 'bi-medal-fill'];
         $rankNames = ['1er Lugar', '2do Lugar', '3er Lugar'];
 
         foreach ($topUsers as $index => $user) {
-            // Solo procesar los primeros 3 lugares
             if ($index < 3) {
                 $formattedTopUsers[] = [
                     'name' => $user['usuario'],
-                    'rank' => $rankNames[$index], // Usar nombres fijos
+                    'rank' => $rankNames[$index],
                     'score' => $user['total_acciones'],
-                    'icon_color' => $rankColors[$index]
+                    'badge_class' => $rankColors[$index],
+                    'icon' => $rankIcons[$index]
                 ];
             }
         }
 
     ?>
-        <section class="py-5 bg-info bg-opacity-25">
+        <section class="py-5 bg-light">
             <div class="container">
-                <h2 class="text-center mb-5 display-6 fw-bold text-white">
-                    <i class="bi bi-trophy-fill me-2 text-warning"></i> Top 3 Encargados <i class="bi bi-trophy-fill ms-2 text-warning"></i>
-                </h2>
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold text-primary mb-3">
+                        <i class="bi bi-trophy-fill me-2"></i>Top 3 Encargados
+                    </h2>
+                    <p class="lead text-muted">Los mejores miembros de nuestro equipo</p>
+                </div>
+                
                 <div class="row g-4 justify-content-center">
                     <?php if (!empty($formattedTopUsers)): ?>
-                        <?php foreach ($formattedTopUsers as $user): ?>
+                        <?php foreach ($formattedTopUsers as $index => $user): ?>
                             <div class="col-12 col-md-4">
-                                <div class="card h-100 border-0 shadow-sm bg-primary text-white">
+                                <div class="card h-100 border-0 shadow-sm overflow-hidden">
+                                    <div class="card-header py-3 <?= $user['badge_class'] ?>">
+                                        <h3 class="h5 mb-0 text-center text-white fw-bold">
+                                            <i class="bi <?= $user['icon'] ?> me-2"></i><?= $user['rank'] ?>
+                                        </h3>
+                                    </div>
                                     <div class="card-body text-center p-4">
-                                        <i class="bi bi-trophy-fill display-4 mb-3" style="color: <?= $user['icon_color'] ?>"></i>
-                                        <div class="mb-3">
-                                            <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" alt="<?= htmlspecialchars($user['name']) ?>" class="rounded-circle mb-2 img-thumbnail" style="width: 100px; height: 100px; object-fit: cover;">
-                                            <h3 class="h4 mb-0 fw-bold"><?= htmlspecialchars($user['name']) ?></h3>
+                                        <div class="mb-4">
+                                            <img loading="lazy" src="https://www.habbo.es/habbo-imaging/avatarimage?user=<?= urlencode($user['name']) ?>&amp;headonly=1&amp;head_direction=3&amp;size=m" 
+                                                 alt="<?= htmlspecialchars($user['name']) ?>" 
+                                                 class="rounded-circle border border-4 border-primary mb-3 img-thumbnail" 
+                                                 style="width: 120px; height: 120px; object-fit: cover;">
+                                            <h4 class="h5 mb-2 fw-bold"><?= htmlspecialchars($user['name']) ?></h4>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">
+                                                    <i class="bi bi-check2-circle me-2"></i><?= htmlspecialchars($user['score']) ?> Acciones
+                                                </span>
+                                            </div>
                                         </div>
-                                        <p class="text-white-50 mb-2"><?= htmlspecialchars($user['rank']) ?></p>
-                                        <span class="badge bg-info text-dark rounded-pill fs-5"><?= htmlspecialchars($user['score']) ?> Acciones</span>
                                     </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="col-12">
-                            <div class="alert alert-primary text-center text-white">
-                                No hay datos disponibles para mostrar el top de encargados.
+                        <div class="col-12 col-md-8">
+                            <div class="alert alert-info text-center py-4">
+                                <i class="bi bi-info-circle-fill fs-1 d-block mb-3"></i>
+                                <h3 class="h4">No hay datos disponibles</h3>
+                                <p class="mb-0">Pronto tendremos información sobre los mejores encargados</p>
                             </div>
                         </div>
                     <?php endif; ?>
@@ -127,26 +148,43 @@ class BodyHome
         ];
 
     ?>
-        <section class="py-5 bg-primary">
+        <section class="py-5 bg-white">
             <div class="container">
-                <h2 class="text-center mb-5 display-6 fw-bold text-white">
-                    <i class="bi bi-newspaper me-2 text-info"></i> Noticias <i class="bi bi-newspaper ms-2 text-info"></i>
-                </h2>
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold text-primary mb-3">
+                        <i class="bi bi-megaphone-fill me-2"></i>Eventos y Noticias
+                    </h2>
+                    <p class="lead text-muted">Mantente informado de nuestras actividades</p>
+                </div>
+                
                 <div class="row g-4">
                     <?php foreach ($events as $event): ?>
                         <div class="col-12 col-md-6 col-lg-4">
-                            <div class="card h-100 border-0 shadow-sm bg-info text-white">
-                                <img src="<?= $event['image'] ?>" class="card-img-top" style="height: 180px; object-fit: cover;" alt="<?= htmlspecialchars($event['title']) ?>">
-                                <div class="card-body">
-                                    <h3 class="card-title h5 fw-bold"><?= $event['title'] ?></h3>
-                                    <p class="card-text text-white-50"><?= $event['description'] ?></p>
+                            <div class="card h-100 border-0 shadow-sm overflow-hidden">
+                                <div class="position-relative">
+                                    <img src="<?= $event['image'] ?>" class="card-img-top" style="height: 180px; object-fit: cover;" alt="<?= htmlspecialchars($event['title']) ?>">
+                                    <div class="position-absolute top-0 end-0 bg-primary text-white px-3 py-1 rounded-bl">
+                                        <i class="bi bi-calendar-event me-1"></i> <?= $event['date'] ?>
+                                    </div>
                                 </div>
-                                <div class="card-footer bg-primary border-top-0">
-                                    <span class="badge bg-success rounded-pill"><?= $event['date'] ?></span>
+                                <div class="card-body">
+                                    <h3 class="card-title h5 fw-bold text-primary"><?= $event['title'] ?></h3>
+                                    <p class="card-text text-muted"><?= $event['description'] ?></p>
+                                </div>
+                                <div class="card-footer bg-transparent border-top-0">
+                                    <button class="btn btn-outline-primary w-100">
+                                        <i class="bi bi-info-circle me-2"></i>Más información
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
+                </div>
+                
+                <div class="text-center mt-4">
+                    <a href="#" class="btn btn-primary px-4 py-2">
+                        <i class="bi bi-arrow-right-circle me-2"></i>Ver todos los eventos
+                    </a>
                 </div>
             </div>
         </section>
@@ -156,54 +194,26 @@ class BodyHome
     private function renderPaydaySection()
     {
         $countries = [
-            [
-                'name' => 'México',
-                'flag' => 'https://flagcdn.com/mx.svg',
-                'paytime' => '14:00'
-            ],
-            [
-                'name' => 'Argentina',
-                'flag' => 'https://flagcdn.com/ar.svg',
-                'paytime' => '17:00'
-            ],
-            [
-                'name' => 'Colombia',
-                'flag' => 'https://flagcdn.com/co.svg',
-                'paytime' => '15:00'
-            ],
-            [
-                'name' => 'Perú',
-                'flag' => 'https://flagcdn.com/pe.svg',
-                'paytime' => '15:00'
-            ],
-            [
-                'name' => 'Chile',
-                'flag' => 'https://flagcdn.com/cl.svg',
-                'paytime' => '16:00'
-            ],
-            [
-                'name' => 'Brasil',
-                'flag' => 'https://flagcdn.com/br.svg',
-                'paytime' => '17:00'
-            ],
-            [
-                'name' => 'España',
-                'flag' => 'https://flagcdn.com/es.svg',
-                'paytime' => '22:00'
-            ],
-            [
-                'name' => 'Estados Unidos',
-                'flag' => 'https://flagcdn.com/us.svg',
-                'paytime' => '14:00'
-            ],
+            ['name' => 'México', 'flag' => 'https://flagcdn.com/mx.svg', 'paytime' => '14:00'],
+            ['name' => 'Argentina', 'flag' => 'https://flagcdn.com/ar.svg', 'paytime' => '17:00'],
+            ['name' => 'Colombia', 'flag' => 'https://flagcdn.com/co.svg', 'paytime' => '15:00'],
+            ['name' => 'Perú', 'flag' => 'https://flagcdn.com/pe.svg', 'paytime' => '15:00'],
+            ['name' => 'Chile', 'flag' => 'https://flagcdn.com/cl.svg', 'paytime' => '16:00'],
+            ['name' => 'Brasil', 'flag' => 'https://flagcdn.com/br.svg', 'paytime' => '17:00'],
+            ['name' => 'España', 'flag' => 'https://flagcdn.com/es.svg', 'paytime' => '22:00'],
+            ['name' => 'Estados Unidos', 'flag' => 'https://flagcdn.com/us.svg', 'paytime' => '14:00'],
         ];
 
     ?>
-        <section class="py-5 bg-info bg-opacity-25">
+        <section class="py-5 bg-light">
             <div class="container">
-                <h2 class="text-center mb-5 display-6 fw-bold text-white">
-                    <i class="bi bi-clock-history me-2 text-primary"></i> Horarios de Pago <i class="bi bi-clock-history ms-2 text-primary"></i>
-                </h2>
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold text-primary mb-3">
+                        <i class="bi bi-clock-history me-2"></i>Horarios de Pago
+                    </h2>
+                    <p class="lead text-muted">Consulta los horarios según tu país</p>
+                </div>
+                
                 <div id="paydayCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <?php
@@ -214,13 +224,13 @@ class BodyHome
                                 <div class="row g-4 justify-content-center">
                                     <?php foreach ($chunk as $country): ?>
                                         <div class="col-md-4">
-                                            <div class="card h-100 border-0 shadow-sm bg-primary text-white">
-                                                <div class="card-body text-center">
-                                                    <img src="<?= $country['flag'] ?>" class="img-fluid mb-3" style="height: 80px;" alt="<?= htmlspecialchars($country['name']) ?>">
-                                                    <h3 class="h5 fw-bold"><?= $country['name'] ?></h3>
-                                                    <div class="d-flex align-items-center justify-content-center mt-3">
-                                                        <i class="bi bi-clock-fill me-2 text-info"></i>
-                                                        <span class="fs-5 fw-bold"><?= $country['paytime'] ?></span>
+                                            <div class="card h-100 border-0 shadow-sm">
+                                                <div class="card-body text-center p-4">
+                                                    <img src="<?= $country['flag'] ?>" class="img-fluid mb-3" style="height: 80px; width: auto;" alt="<?= htmlspecialchars($country['name']) ?>">
+                                                    <h3 class="h5 fw-bold text-primary mb-3"><?= $country['name'] ?></h3>
+                                                    <div class="d-flex align-items-center justify-content-center bg-primary text-white rounded-pill py-2 px-4">
+                                                        <i class="bi bi-clock-fill me-2 fs-4"></i>
+                                                        <span class="fs-4 fw-bold"><?= $country['paytime'] ?></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -230,14 +240,15 @@ class BodyHome
                             </div>
                         <?php endforeach; ?>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#paydayCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+                    
+                    <div class="mt-4 text-center">
+                        <button class="btn btn-outline-primary mx-1" type="button" data-bs-target="#paydayCarousel" data-bs-slide="prev">
+                            <i class="bi bi-chevron-left"></i> Anterior
+                        </button>
+                        <button class="btn btn-outline-primary mx-1" type="button" data-bs-target="#paydayCarousel" data-bs-slide="next">
+                            Siguiente <i class="bi bi-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </section>
@@ -249,83 +260,77 @@ class BodyHome
         $memberships = [
             [
                 'title' => 'Membresía Gold',
-                'benefits' => 'Mimsmos beneficios de bronce y silver + fila vip + Guarda paga + Mision libre.',
+                'benefits' => ['Todos beneficios Silver', 'Fila VIP prioritaria', 'Guarda paga 72h', 'Misión libre'],
                 'image' => '/usuario/rangos/image/membresias/gold.png',
-                'price' => '40 créditos por mes'
+                'price' => '40 créditos/mes',
+                'badge' => 'bg-warning text-dark'
+            ],
+            [
+                'title' => 'Membresía Silver',
+                'benefits' => ['Todos beneficios Bronce', 'Reducción requisitos', 'Acceso anticipado'],
+                'image' => '/usuario/rangos/image/membresias/silver.png',
+                'price' => '34 créditos/mes',
+                'badge' => 'bg-secondary text-white'
             ],
             [
                 'title' => 'Membresía Bronce',
-                'benefits' => 'Incluye ropa libre + Chat libre + Baile + Uso de efectos.',
+                'benefits' => ['Ropa libre', 'Chat ilimitado', 'Baile y efectos', 'Soporte básico'],
                 'image' => '/usuario/rangos/image/membresias/premim.png',
-                'price' => '28 créditos por mes'
-            ],
-            [
-                'title' => 'Membresía regla libre',
-                'benefits' => 'Chat, Mision y ropa libre',
-                'image' => '/usuario/rangos/image/membresias/regla.png',
-                'price' => '25 créditos por mes'
-            ],
-            [
-                'title' => 'Membresía save',
-                'benefits' => 'Guarda tu paga por 48 Horas.',
-                'image' => '/usuario/rangos/image/membresias/save.png',
-                'price' => '10 créditos por mes'
-            ],
-            [
-                'title' => 'Membresía Fila Vip',
-                'benefits' => 'Garantiza beneficios frente al resto de usuarios que no tengan fila vip.',
-                'image' => '/usuario/rangos/image/membresias/vip.png',
-                'price' => '15 créditos por mes'
-            ],
-            [
-                'title' => 'Membresía silver',
-                'benefits' => 'Mismos beneficios de la Membresia bronce + Reduccion en requisitos.',
-                'image' => '/usuario/rangos/image/membresias/silver.png',
-                'price' => '34 créditos por mes'
+                'price' => '28 créditos/mes',
+                'badge' => 'bg-danger text-white'
             ],
         ];
 
-        echo '<section class="py-5 bg-primary">';
-        echo '<div class="container text-center">';
-        echo '<h2 class="text-white mb-4 display-6 fw-bold"><i class="bi bi-gem me-2 text-info"></i> Membresías Disponibles <i class="bi bi-gem ms-2 text-info"></i></h2>';
-        echo '<p class="text-white-50 mb-5">Elige la membresía que mejor se adapte a tus necesidades y disfruta de nuestros beneficios exclusivos.</p>';
-        echo '<div id="membershipCarousel" class="carousel slide" data-bs-ride="carousel">';
-        echo '<div class="carousel-inner">';
-
-        $chunks = array_chunk($memberships, 3);
-        foreach ($chunks as $index => $chunk) {
-            echo '<div class="carousel-item' . ($index === 0 ? ' active' : '') . '">';
-            echo '<div class="row justify-content-center">';
-
-            foreach ($chunk as $membership) {
-                echo '<div class="col-12 col-sm-6 col-md-4 mb-4">';
-                echo '<div class="bg-info text-white p-4 rounded-3 shadow h-100">';
-                echo '<img src="' . $membership['image'] . '" class="img-fluid rounded mb-3" style="height: 150px; object-fit: cover;" alt="Imagen de la membresía ' . htmlspecialchars($membership['title']) . '">';
-                echo '<h3 class="h5 fw-bold">' . $membership['title'] . '</h3>';
-                echo '<p class="text-white-50">' . $membership['benefits'] . '</p>';
-                echo '<div class="badge bg-warning text-dark rounded-pill py-2 px-3 mt-2">';
-                echo '<i class="bi bi-coin me-2"></i>' . $membership['price'];
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-            }
-
-            echo '</div>';
-            echo '</div>';
-        }
-
-        echo '</div>';
-        echo '<button class="carousel-control-prev" type="button" data-bs-target="#membershipCarousel" data-bs-slide="prev">';
-        echo '<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
-        echo '<span class="visually-hidden">Previous</span>';
-        echo '</button>';
-        echo '<button class="carousel-control-next" type="button" data-bs-target="#membershipCarousel" data-bs-slide="next">';
-        echo '<span class="carousel-control-next-icon" aria-hidden="true"></span>';
-        echo '<span class="visually-hidden">Next</span>';
-        echo '</button>';
-        echo '</div>';
-        echo '</div>';
-        echo '</section>';
+    ?>
+        <section class="py-5 bg-white">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="display-5 fw-bold text-primary mb-3">
+                        <i class="bi bi-gem me-2"></i>Membresías Premium
+                    </h2>
+                    <p class="lead text-muted">Elige el plan que mejor se adapte a tus necesidades</p>
+                </div>
+                
+                <div class="row g-4 justify-content-center">
+                    <?php foreach ($memberships as $membership): ?>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card h-100 border-0 shadow-sm overflow-hidden">
+                                <div class="card-header py-3 <?= $membership['badge'] ?>">
+                                    <h3 class="h4 mb-0 text-center text-white fw-bold"><?= $membership['title'] ?></h3>
+                                </div>
+                                <div class="card-body text-center p-4">
+                                    <img src="<?= $membership['image'] ?>" class="img-fluid mb-4" style="height: 100px; width: auto;" alt="<?= htmlspecialchars($membership['title']) ?>">
+                                    
+                                    <ul class="list-unstyled text-start mb-4">
+                                        <?php foreach ($membership['benefits'] as $benefit): ?>
+                                            <li class="mb-2">
+                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                                <?= $benefit ?>
+                                            </li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                    
+                                    <div class="d-grid">
+                                        <button class="btn btn-primary py-2">
+                                            <i class="bi bi-credit-card me-2"></i>
+                                            <?= $membership['price'] ?>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                
+                <div class="text-center mt-5">
+                    <div class="alert alert-info d-inline-block">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        Todas las membresías incluyen soporte prioritario y regalos exclusivos
+                    </div>
+                </div>
+            </div>
+        </section>
+<?php
     }
 }
 
