@@ -79,7 +79,7 @@ class Navbar
                   <?php endforeach; ?>
                 <?php else: ?>
                   <li>
-                    <span class="dropdown-item text-white">No tienes notificaciones</span>
+                    <span class="dropdown-item text-black">No tienes notificaciones</span>
                   </li>
                 <?php endif; ?>
 
