@@ -1,29 +1,29 @@
-<div class="min-h-screen bg-gradient-to-br from-blue-100 to-blue-50 p-4 md:p-8 flex flex-col justify-center">
+<div class="min-h-screen bg-gradient-to-b from-indigo-100 via-purple-100 to-pink-100 p-4 md:p-8 flex flex-col justify-center">
   <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-200">
     
     <!-- Header -->
-    <header class="bg-blue-600 p-6 text-center relative">
-      <div class="w-28 h-28 md:w-32 md:h-32 mx-auto rounded-full border-4 border-white overflow-hidden shadow-lg">
-        <img src="https://i.pravatar.cc/300?u=Santidemg2" alt="Foto de perfil de Santidemg2" class="w-full h-full object-cover" />
+    <header class="bg-gradient-to-r from-pink-600 to-purple-600 p-6 text-center relative">
+      <div class="w-28 h-28 md:w-32 md:h-32 mx-auto rounded-full border-4 border-white overflow-hidden shadow-lg bg-gradient-to-tr from-yellow-400 via-red-400 to-pink-500">
+        <img src="https://i.pravatar.cc/300?u=Santidemg2" alt="Foto de perfil" class="w-full h-full object-cover" />
       </div>
       <h1 class="mt-4 text-3xl font-bold text-white">Santidemg2</h1>
-      <span class="inline-flex items-center mt-2 bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
+      <span class="inline-flex items-center mt-2 bg-pink-500 text-white px-3 py-1 rounded-full text-sm">
         <i data-lucide="activity" class="w-4 h-4 mr-1"></i> Activo
       </span>
     </header>
 
     <!-- Información General -->
     <section class="p-6 space-y-6">
-      <h2 class="flex items-center text-xl font-semibold text-gray-700 border-b border-gray-200 pb-2 mb-4">
-        <i data-lucide="info" class="w-5 h-5 mr-2 text-blue-500"></i> Información General
+      <h2 class="flex items-center text-xl font-semibold text-pink-600 border-b border-pink-200 pb-2 mb-4">
+        <i data-lucide="info" class="w-5 h-5 mr-2 text-pink-500"></i> Información General
       </h2>
       <div class="grid grid-cols-2 gap-x-6 gap-y-4 text-gray-800">
-        <div><p class="text-sm text-gray-500">ID</p><p>62</p></div>
-        <div><p class="text-sm text-gray-500">Usuario</p><p>Santidemg2</p></div>
-        <div><p class="text-sm text-gray-500">Código</p><p>TSZU8</p></div>
-        <div><p class="text-sm text-gray-500">Rango</p><p>Web_master</p></div>
-        <div><p class="text-sm text-gray-500">Membresía</p><p>Sin membresía</p></div>
-        <div><p class="text-sm text-gray-500">Pagos</p><p>-</p></div>
+        <div><p class="text-sm text-pink-500">ID</p><p>62</p></div>
+        <div><p class="text-sm text-pink-500">Usuario</p><p>Santidemg2</p></div>
+        <div><p class="text-sm text-pink-500">Código</p><p>TSZU8</p></div>
+        <div><p class="text-sm text-pink-500">Rango</p><p>Web_master</p></div>
+        <div><p class="text-sm text-pink-500">Membresía</p><p>Sin membresía</p></div>
+        <div><p class="text-sm text-pink-500">Pagos</p><p>-</p></div>
       </div>
     </section>
 
@@ -78,8 +78,8 @@
     </section>
 
     <!-- Botón editar -->
-    <div class="p-6 border-t border-gray-200">
-      <button class="w-full md:w-auto px-6 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto shadow-md">
+    <div class="p-6 border-t border-pink-200">
+      <button class="w-full md:w-auto px-6 py-2.5 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition duration-300 flex items-center justify-center mx-auto shadow-md">
         <i data-lucide="edit-3" class="w-5 h-5 mr-2"></i> Editar Perfil
       </button>
     </div>
