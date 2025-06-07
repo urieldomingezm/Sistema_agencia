@@ -7,6 +7,7 @@
   <title><?php echo isset($pageTitle) ? $pageTitle : 'Agencia Shein APP'; ?></title>
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script src="https://unpkg.com/@heroicons/vue@2.0.16/24/solid/index.js" defer></script>
   <link href="https://cdn.jsdelivr.net/npm/lucide@latest/dist/lucide.css" rel="stylesheet" />
