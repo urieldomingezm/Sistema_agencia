@@ -64,7 +64,8 @@ define('CUSTOM_RADIO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_radi
 define('TEMPLATES_APP_PATH', PRIVATE_PATH . 'plantilla/');
 define('BIENVENIDA_APP_PATH', PRIVATE_PATH . 'plantilla/home_app/');
 define('TABS_APP_PATH', PRIVATE_PATH . 'tabs/');
-define('APP_PATH', __DIR__ . '/usuario/app/'); // Nueva constante
+define('APP_SECCIONES', PRIVATE_PATH . 'usuarios/app/');
+define('APP_PATH', __DIR__ . '/usuario/app/');
 
 
 ?>
