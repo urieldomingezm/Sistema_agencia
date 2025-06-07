@@ -1,10 +1,13 @@
 <!-- Contenedor principal azul -->
-<div class="max-w-md mx-auto p-4 bg-gradient-to-b from-blue-100 via-cyan-100 to-indigo-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-900 rounded-xl shadow-lg">
+<div class="max-w-md mx-auto p-4 bg-gradient-to-b from-blue-100 via-cyan-100 to-indigo-100 rounded-xl shadow-lg">
 
   <!-- Encabezado con avatar estilo Habbo -->
   <div class="text-center mb-6">
-    <h1 class="text-3xl font-bold text-indigo-700 dark:text-indigo-300 tracking-wider mb-1">¡Bienvenido!</h1>
-    <p class="text-blue-700 dark:text-blue-300 font-semibold">Tu portal Habbo Fansite</p>
+    <div class="w-28 h-28 mx-auto rounded-full bg-gradient-to-tr from-blue-400 via-cyan-400 to-indigo-500 border-4 border-white shadow-lg flex items-center justify-center mb-4 overflow-hidden">
+      <span class="text-6xl select-none">🎮</span>
+    </div>
+    <h1 class="text-3xl font-bold text-indigo-700 tracking-wider mb-1">¡Bienvenido!</h1>
+    <p class="text-blue-700 font-semibold">Tu portal Habbo Fansite</p>
   </div>
 
   <!-- Tarjetas informativas -->
