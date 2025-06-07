@@ -86,8 +86,6 @@ class Header
 
         echo '<link id="icons-css" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">';
 
-        echo '<script src="https://cdn.tailwindcss.com"></script>';
-
         foreach ($this->preloadLinks as $link) {
             echo $link;
         }
