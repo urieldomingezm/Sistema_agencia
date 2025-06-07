@@ -37,11 +37,6 @@ $controller = new AppController();
 $contentFile = $controller->loadContent();
 ?>
 
-<!-- Contenido principal usando Tailwind -->
-<div class="w-full h-screen overflow-auto bg-gray-100 inner-scroll">
-    <?php require_once($contentFile); ?>
-</div>
-
 <?php
 require_once(TABS_APP_PATH . 'tab_bajos.php');
 require_once(TEMPLATES_APP_PATH . 'footer_app.php');
