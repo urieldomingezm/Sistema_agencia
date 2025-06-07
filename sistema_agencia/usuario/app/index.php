@@ -23,7 +23,7 @@ class AppController
 
             if ($pageConfig['roles'][0] === 'all') {
                 if ($page === 'perfil') {
-                    return $pageConfig['file']; // Ahora usará la ruta relativa
+                    return $pageConfig['file'];
                 }
                 return BIENVENIDA_APP_PATH . $pageConfig['file'];
             }
@@ -37,11 +37,10 @@ $controller = new AppController();
 $contentFile = $controller->loadContent();
 ?>
 
-<ion-content fullscreen="true">
-    <div class="inner-scroll">
-        <?php require_once($contentFile); ?>
-    </div>
-</ion-content>
+<!-- Contenido principal usando Tailwind -->
+<div class="w-full h-screen overflow-auto bg-gray-100 inner-scroll">
+    <?php require_once($contentFile); ?>
+</div>
 
 <?php
 require_once(TABS_APP_PATH . 'tab_bajos.php');

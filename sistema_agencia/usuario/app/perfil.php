@@ -1,58 +1,25 @@
-<br>
-
-<ion-app>
-  <ion-content fullscreen="true" color="light" class="perfil-content">
-    <!-- Avatar y bienvenida -->
-    <div class="ion-text-center ion-padding perfil-header">
-      <ion-avatar class="perfil-avatar">
-        <img src="https://i.pravatar.cc/300" alt="Avatar de usuario">
-      </ion-avatar>
-      <ion-text color="primary">
-        <h1 class="ion-no-margin">Usuario Ejemplo</h1>
-      </ion-text>
-      <ion-badge color="medium" class="perfil-badge">Agente</ion-badge>
+<div class="flex-1 p-4">
+    <div class="bg-white rounded-lg shadow-md p-6 text-center mb-6">
+        <div class="w-32 h-32 mx-auto rounded-full border-4 border-blue-500 overflow-hidden mb-4">
+            <img src="https://i.pravatar.cc/300" alt="Avatar" class="w-full h-full object-cover">
+        </div>
+        <h1 class="text-2xl font-bold text-blue-600 mb-2">Usuario Ejemplo</h1>
+        <span class="inline-block bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">Agente</span>
     </div>
 
-    <!-- Datos del perfil -->
-    <ion-list lines="full" class="perfil-list">
-      <ion-item>
-        <ion-icon name="mail" slot="start" color="primary"></ion-icon>
-        <ion-label>Correo Electrónico</ion-label>
-        <ion-note slot="end">usuario@ejemplo.com</ion-note>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="calendar" slot="start" color="primary"></ion-icon>
-        <ion-label>Fecha de Ingreso</ion-label>
-        <ion-note slot="end">15/03/2023</ion-note>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="time" slot="start" color="primary"></ion-icon>
-        <ion-label>Tiempo Total</ion-label>
-        <ion-note slot="end">245 horas</ion-note>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="trophy" slot="start" color="primary"></ion-icon>
-        <ion-label>Último Ascenso</ion-label>
-        <ion-note slot="end">Hace 2 meses</ion-note>
-      </ion-item>
-    </ion-list>
-
-    <!-- Botón de configuración -->
-    <ion-grid class="ion-padding perfil-grid">
-      <ion-row>
-        <ion-col size="12">
-          <ion-button expand="block" fill="outline" color="primary">
-            <ion-icon name="settings" slot="start"></ion-icon>
-            Configuración
-          </ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-content>
-</ion-app>
+    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+        <div class="flex items-center py-3 border-b border-gray-100">
+            <svg class="w-6 h-6 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <div>
+                <p class="text-gray-500 text-sm">Correo Electrónico</p>
+                <p class="font-medium">usuario@ejemplo.com</p>
+            </div>
+        </div>
+        <!-- Más elementos del perfil aquí -->
+    </div>
+</div>
 
 <!-- CSS personalizado solo para el perfil -->
 <style>

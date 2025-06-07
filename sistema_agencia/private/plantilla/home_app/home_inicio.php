@@ -1,187 +1,118 @@
-<ion-content fullscreen="true" scroll-y="true">
-    <!-- Header con imagen de fondo -->
-    <div class="ion-text-center ion-margin-bottom">
-        <ion-avatar class="ion-margin-auto" style="width: 120px; height: 120px;">
-          
-        </ion-avatar>
-        <ion-text color="primary">
-            <h1 class="ion-no-margin">¡Bienvenido!</h1>
-        </ion-text>
-        <ion-text color="medium">
-            <p>Gestiona tu negocio de manera eficiente</p>
-        </ion-text>
+<main class="w-full min-h-screen bg-gray-50 px-4 py-6 overflow-y-auto">
+  <!-- Header con avatar -->
+  <div class="text-center mb-6">
+    <div class="w-28 h-28 mx-auto rounded-full bg-gray-200 overflow-hidden mb-4">
+      <!-- Aquí puedes insertar la imagen -->
+      <!-- <img src="ruta-avatar.jpg" alt="Avatar" class="w-full h-full object-cover"> -->
+    </div>
+    <h1 class="text-2xl font-semibold text-indigo-600 mb-1">¡Bienvenido!</h1>
+    <p class="text-gray-500">Gestiona tu negocio de manera eficiente</p>
+  </div>
+
+  <!-- Slider con tarjetas -->
+  <div class="space-y-6">
+    <div class="bg-white shadow rounded-xl p-6">
+      <h2 class="text-xl font-semibold text-indigo-600">Agencia Shein APP</h2>
+      <p class="text-gray-500 text-sm mb-4">Tu herramienta de gestión</p>
+      <p class="text-gray-700">Estamos encantados de tenerte aquí. Esta aplicación te ayudará a gestionar tus pedidos, clientes y actividades diarias.</p>
+      <button class="mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition">🚀 Comenzar</button>
     </div>
 
-    <!-- Tarjeta de bienvenida con slider -->
-    <ion-slides pager="true" [options]="{autoHeight: true}">
-        <ion-slide>
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title color="primary">Agencia Shein APP</ion-card-title>
-                    <ion-card-subtitle>Tu herramienta de gestión</ion-card-subtitle>
-                </ion-card-header>
-                <ion-card-content>
-                    <ion-text>
-                        <p>Estamos encantados de tenerte aquí. Esta aplicación te ayudará a gestionar tus pedidos, clientes y actividades diarias.</p>
-                    </ion-text>
-                    <ion-button expand="block" color="primary" class="ion-margin-top">
-                        <ion-icon slot="start" name="rocket-outline"></ion-icon>
-                        Comenzar
-                    </ion-button>
-                </ion-card-content>
-            </ion-card>
-        </ion-slide>
-        
-        <ion-slide>
-            <ion-card>
-                <ion-card-header>
-                    <ion-card-title color="secondary">Nuevas Funciones</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                    <ion-list lines="none">
-                        <ion-item>
-                            <ion-icon slot="start" name="checkmark-circle" color="success"></ion-icon>
-                            <ion-label>Reportes mejorados</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-icon slot="start" name="checkmark-circle" color="success"></ion-icon>
-                            <ion-label>Sincronización en la nube</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-icon slot="start" name="checkmark-circle" color="success"></ion-icon>
-                            <ion-label>Notificaciones push</ion-label>
-                        </ion-item>
-                    </ion-list>
-                </ion-card-content>
-            </ion-card>
-        </ion-slide>
-    </ion-slides>
+    <div class="bg-white shadow rounded-xl p-6">
+      <h2 class="text-xl font-semibold text-purple-600">Nuevas Funciones</h2>
+      <ul class="mt-4 space-y-2 text-gray-700">
+        <li class="flex items-center gap-2"><span class="text-green-500">✔️</span> Reportes mejorados</li>
+        <li class="flex items-center gap-2"><span class="text-green-500">✔️</span> Sincronización en la nube</li>
+        <li class="flex items-center gap-2"><span class="text-green-500">✔️</span> Notificaciones push</li>
+      </ul>
+    </div>
+  </div>
 
-    <!-- Sección de estadísticas rápidas -->
-    <ion-grid class="ion-margin-top">
-        <ion-row>
-            <ion-col size="12">
-                <ion-text color="medium">
-                    <h2 class="ion-no-margin">Resumen</h2>
-                </ion-text>
-            </ion-col>
-            
-            <ion-col size="4" class="ion-text-center">
-                <ion-chip color="primary" outline="true">
-                    <ion-label>25</ion-label>
-                </ion-chip>
-                <ion-text>
-                    <p class="ion-no-margin">Pedidos</p>
-                </ion-text>
-            </ion-col>
-            
-            <ion-col size="4" class="ion-text-center">
-                <ion-chip color="secondary" outline="true">
-                    <ion-label>12</ion-label>
-                </ion-chip>
-                <ion-text>
-                    <p class="ion-no-margin">Clientes</p>
-                </ion-text>
-            </ion-col>
-            
-            <ion-col size="4" class="ion-text-center">
-                <ion-chip color="tertiary" outline="true">
-                    <ion-label>$8,450</ion-label>
-                </ion-chip>
-                <ion-text>
-                    <p class="ion-no-margin">Ventas</p>
-                </ion-text>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+  <!-- Estadísticas -->
+  <div class="mt-8">
+    <h2 class="text-lg text-gray-500 font-semibold mb-4">Resumen</h2>
+    <div class="grid grid-cols-3 gap-4 text-center">
+      <div>
+        <div class="inline-block bg-indigo-100 text-indigo-600 rounded-full px-3 py-1 font-bold">25</div>
+        <p class="text-sm text-gray-700 mt-1">Pedidos</p>
+      </div>
+      <div>
+        <div class="inline-block bg-purple-100 text-purple-600 rounded-full px-3 py-1 font-bold">12</div>
+        <p class="text-sm text-gray-700 mt-1">Clientes</p>
+      </div>
+      <div>
+        <div class="inline-block bg-teal-100 text-teal-600 rounded-full px-3 py-1 font-bold">$8,450</div>
+        <p class="text-sm text-gray-700 mt-1">Ventas</p>
+      </div>
+    </div>
+  </div>
 
-    <!-- Sección de accesos rápidos mejorada -->
-    <ion-grid class="ion-margin-top">
-        <ion-row>
-            <ion-col size="12">
-                <ion-text color="medium">
-                    <h2 class="ion-no-margin">Accesos rápidos</h2>
-                </ion-text>
-            </ion-col>
-            
-            <ion-col size="6" class="ion-text-center ion-padding">
-                <ion-button expand="block" fill="clear" color="primary">
-                    <ion-icon slot="icon-only" name="cart-outline" size="large"></ion-icon>
-                    <ion-label class="ion-margin-top">Pedidos</ion-label>
-                </ion-button>
-            </ion-col>
-            
-            <ion-col size="6" class="ion-text-center ion-padding">
-                <ion-button expand="block" fill="clear" color="secondary">
-                    <ion-icon slot="icon-only" name="people-outline" size="large"></ion-icon>
-                    <ion-label class="ion-margin-top">Clientes</ion-label>
-                </ion-button>
-            </ion-col>
-            
-            <ion-col size="6" class="ion-text-center ion-padding">
-                <ion-button expand="block" fill="clear" color="tertiary">
-                    <ion-icon slot="icon-only" name="stats-chart-outline" size="large"></ion-icon>
-                    <ion-label class="ion-margin-top">Reportes</ion-label>
-                </ion-button>
-            </ion-col>
-            
-            <ion-col size="6" class="ion-text-center ion-padding">
-                <ion-button expand="block" fill="clear" color="success">
-                    <ion-icon slot="icon-only" name="settings-outline" size="large"></ion-icon>
-                    <ion-label class="ion-margin-top">Ajustes</ion-label>
-                </ion-button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+  <!-- Accesos rápidos -->
+  <div class="mt-8">
+    <h2 class="text-lg text-gray-500 font-semibold mb-4">Accesos rápidos</h2>
+    <div class="grid grid-cols-2 gap-4 text-center">
+      <button class="flex flex-col items-center p-4 bg-white shadow rounded-lg hover:bg-indigo-50 transition">
+        <span class="text-indigo-600 text-2xl">🛒</span>
+        <span class="text-sm mt-2 text-gray-700">Pedidos</span>
+      </button>
+      <button class="flex flex-col items-center p-4 bg-white shadow rounded-lg hover:bg-purple-50 transition">
+        <span class="text-purple-600 text-2xl">👥</span>
+        <span class="text-sm mt-2 text-gray-700">Clientes</span>
+      </button>
+      <button class="flex flex-col items-center p-4 bg-white shadow rounded-lg hover:bg-teal-50 transition">
+        <span class="text-teal-600 text-2xl">📊</span>
+        <span class="text-sm mt-2 text-gray-700">Reportes</span>
+      </button>
+      <button class="flex flex-col items-center p-4 bg-white shadow rounded-lg hover:bg-green-50 transition">
+        <span class="text-green-600 text-2xl">⚙️</span>
+        <span class="text-sm mt-2 text-gray-700">Ajustes</span>
+      </button>
+    </div>
+  </div>
 
-    <!-- Notificaciones recientes -->
-    <ion-list class="ion-margin-top" lines="none">
-        <ion-list-header>
-            <ion-label>Notificaciones recientes</ion-label>
-        </ion-list-header>
-        
-        <ion-item>
-            <ion-icon slot="start" name="notifications-outline" color="warning"></ion-icon>
-            <ion-label>
-                <h3>Pedido completado</h3>
-                <p>El pedido #1254 ha sido entregado</p>
-            </ion-label>
-            <ion-note slot="end">Hoy</ion-note>
-        </ion-item>
-        
-        <ion-item>
-            <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
-            <ion-label>
-                <h3>Stock bajo</h3>
-                <p>El producto ZX-45 está por agotarse</p>
-            </ion-label>
-            <ion-note slot="end">Ayer</ion-note>
-        </ion-item>
-        
-        <ion-item>
-            <ion-icon slot="start" name="checkmark-done-outline" color="success"></ion-icon>
-            <ion-label>
-                <h3>Pago recibido</h3>
-                <p>Se ha registrado un pago de $1,250</p>
-            </ion-label>
-            <ion-note slot="end">2 días</ion-note>
-        </ion-item>
-    </ion-list>
+  <!-- Notificaciones recientes -->
+  <div class="mt-8">
+    <h2 class="text-lg text-gray-500 font-semibold mb-4">Notificaciones recientes</h2>
+    <ul class="space-y-4">
+      <li class="bg-white rounded-lg shadow p-4 flex justify-between items-center">
+        <div class="flex items-start gap-3">
+          <span class="text-yellow-500 text-xl">🔔</span>
+          <div>
+            <h3 class="font-semibold text-gray-700">Pedido completado</h3>
+            <p class="text-sm text-gray-500">El pedido #1254 ha sido entregado</p>
+          </div>
+        </div>
+        <span class="text-sm text-gray-400">Hoy</span>
+      </li>
+      <li class="bg-white rounded-lg shadow p-4 flex justify-between items-center">
+        <div class="flex items-start gap-3">
+          <span class="text-red-500 text-xl">⚠️</span>
+          <div>
+            <h3 class="font-semibold text-gray-700">Stock bajo</h3>
+            <p class="text-sm text-gray-500">El producto ZX-45 está por agotarse</p>
+          </div>
+        </div>
+        <span class="text-sm text-gray-400">Ayer</span>
+      </li>
+      <li class="bg-white rounded-lg shadow p-4 flex justify-between items-center">
+        <div class="flex items-start gap-3">
+          <span class="text-green-500 text-xl">✅</span>
+          <div>
+            <h3 class="font-semibold text-gray-700">Pago recibido</h3>
+            <p class="text-sm text-gray-500">Se ha registrado un pago de $1,250</p>
+          </div>
+        </div>
+        <span class="text-sm text-gray-400">2 días</span>
+      </li>
+    </ul>
+  </div>
 
-    <!-- Banner promocional -->
-    <ion-card class="ion-margin-top" color="primary">
-        <ion-card-header>
-            <ion-card-title class="ion-text-center" color="light">
-                <ion-icon name="star-outline"></ion-icon> Pro Version
-            </ion-card-title>
-        </ion-card-header>
-        <ion-card-content class="ion-text-center">
-            <ion-text color="light">
-                <p>Desbloquea todas las funciones premium</p>
-            </ion-text>
-            <ion-button color="light" fill="outline" size="small" class="ion-margin-top">
-                Actualizar ahora
-            </ion-button>
-        </ion-card-content>
-    </ion-card>
-</ion-content>
+  <!-- Banner promocional -->
+  <div class="mt-8 bg-indigo-600 text-white rounded-xl p-6 text-center shadow">
+    <h2 class="text-lg font-semibold flex justify-center items-center gap-2">
+      ⭐ Pro Version
+    </h2>
+    <p class="text-sm mt-2">Desbloquea todas las funciones premium</p>
+    <button class="mt-4 border border-white px-4 py-2 rounded-md hover:bg-white hover:text-indigo-600 transition">Actualizar ahora</button>
+  </div>
+</main>
