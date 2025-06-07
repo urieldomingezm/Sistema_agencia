@@ -44,7 +44,6 @@ class AppController {
         }
     }
 
-    // CAMBIO: Este método ahora es público
     public function getTabFile() {
         $tabMap = [
             'Agente' => 'tab_bajos.php',

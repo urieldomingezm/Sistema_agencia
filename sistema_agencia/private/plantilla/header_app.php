@@ -28,7 +28,7 @@
     <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
     <div class="container mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center gap-4">
-        <span class="text-xl font-bold">Agencia Shein</span>
+        <span class="text-xl font-bold">Agencia Shein APP</span>
       </div>
       <div class="flex items-center gap-4">
         <!-- Botón de modo oscuro (solo diseño, sin funcionalidad) -->
