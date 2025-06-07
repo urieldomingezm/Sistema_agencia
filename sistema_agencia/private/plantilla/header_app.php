@@ -49,7 +49,7 @@
           <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
           <path d="M16 3h-8v4h8V3z" />
         </svg>
-        <span>Cambiar a escritorio</span>
+        <span>escritorio</span>
       </button>
     </div>
   </div>
