@@ -311,13 +311,6 @@ class BodyHome
                         </div>
                     <?php endforeach; ?>
                 </div>
-                
-                <div class="text-center mt-5">
-                    <div class="alert alert-info d-inline-block">
-                        <i class="bi bi-info-circle-fill me-2"></i>
-                        Todas las membresías incluyen soporte prioritario y regalos exclusivos
-                    </div>
-                </div>
             </div>
         </section>
 <?php
