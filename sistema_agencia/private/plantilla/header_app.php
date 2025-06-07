@@ -29,7 +29,7 @@
   <nav class="bg-black text-white shadow-lg sticky top-0 z-50">
   <div class="container mx-auto px-4 py-3 flex justify-between items-center">
     <div class="flex items-center gap-4">
-      <span class="text-xl font-bold">Agencia Shein</span>
+      <span class="text-xl font-bold">Shein</span>
     </div>
     <div class="flex items-center gap-4">
       <script>
@@ -55,13 +55,13 @@
       </button>
 
       <!-- Botón Cambiar a escritorio -->
-      <button class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-sm px-4 py-2 rounded-full transition select-none">
+      <button onclick="window.location.href='/usuario/index.php'" class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-sm px-4 py-2 rounded-full transition select-none">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" stroke-width="2"
           viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
           <path d="M16 3h-8v4h8V3z" />
         </svg>
-        <span>Escritorio</span>
+        <span>Modo escritorio</span>
       </button>
     </div>
   </div>
