@@ -37,6 +37,9 @@ $controller = new AppController();
 $contentFile = $controller->loadContent();
 ?>
 
+<!-- Contenido principal usando Tailwind -->
+    <?php require_once($contentFile); ?>
+
 <?php
 require_once(TABS_APP_PATH . 'tab_bajos.php');
 require_once(TEMPLATES_APP_PATH . 'footer_app.php');
