@@ -67,7 +67,7 @@ require_once(TEMPLATES_PATH . 'header.php');
                                 <label for="username" class="form-label fw-semibold">Usuario</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light"><i class="bi bi-person-fill text-primary"></i></span>
-                                    <input type="text" class="form-control py-2" id="username" name="username" placeholder="Ingresa tu usuario o email" required>
+                                    <input type="text" class="form-control py-2" id="username" name="username" placeholder="Ingresa tu usuario" required>
                                 </div>
                                 <div class="invalid-feedback">
                                     Por favor ingresa tu usuario
