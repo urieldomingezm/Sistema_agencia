@@ -25,6 +25,8 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./base-datos/permisos/grants_usuarios_basicos.sql:/docker-entrypoint-initdb.d/grants_usuarios_basicos.sql
+      - ./base-datos/tablas/sistema_agencia.sql:/docker-entrypoint-initdb.d/sistema_agencia.sql
     command: --log-bin-trust-function-creators=1
 
   nginx:

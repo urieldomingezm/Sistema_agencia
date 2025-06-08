@@ -64,13 +64,13 @@ require_once(TEMPLATES_PATH . 'header.php');
                     <div class="card-body p-4 p-md-5">
                         <form id="loginForm" method="post" class="needs-validation" novalidate>
                             <div class="mb-4">
-                                <label for="username" class="form-label fw-semibold">Usuario o Email</label>
+                                <label for="username" class="form-label fw-semibold">Usuario</label>
                                 <div class="input-group">
                                     <span class="input-group-text bg-light"><i class="bi bi-person-fill text-primary"></i></span>
                                     <input type="text" class="form-control py-2" id="username" name="username" placeholder="Ingresa tu usuario o email" required>
                                 </div>
                                 <div class="invalid-feedback">
-                                    Por favor ingresa tu usuario o email
+                                    Por favor ingresa tu usuario
                                 </div>
                             </div>
                             
