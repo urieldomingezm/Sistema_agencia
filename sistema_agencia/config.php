@@ -60,11 +60,40 @@ define('CUSTOM_HOME_JS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_home/j
 define('CUSTOM_RADIO_CSS_PATH', PUBLIC_PATH . 'assets/custom_general/custom_radio/');
 
 // APP
-
 define('TEMPLATES_APP_PATH', PRIVATE_PATH . 'plantilla/');
 define('TABS_APP_PATH', PRIVATE_PATH . 'tabs/');
 define('APP_SECCIONES', ROOT_PATH . 'usuario/app/');
 define('APP_PATH', __DIR__ . '/usuario/app/');
+
+// DASHBOARD
+define('DASHBOARD_PATH', PRIVATE_PATH . 'procesos/dashboard/');
+
+// AUDITORIAS 
+define('AUDITORIA_ASCENSOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditoria_ascensos/');
+define('AUDITORIA_PAGOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditoria_pagos/');
+define('AUDITORIA_RANGOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditoria_rangos/');
+define('AUDITORIA_REGISTRO_PATH', PRIVATE_PATH . 'procesos/dashboard/auditoria_registro/');
+
+// INTERFAZ
+define('INTERFAZ_ANUNCIOS_PATH', PRIVATE_PATH . 'procesos/dashboard/interfaz/interfaz_anuncios/');
+define('INTERFAZ_HORARIOS_PATH', PRIVATE_PATH . 'procesos/dashboard/interfaz/interfaz_horarios/');
+define('INTERFAZ_MEMBRESIAS_PATH', PRIVATE_PATH . 'procesos/dashboard/interfaz/interfaz_membresias/');
+define('INTERFAZ_NOTICIAS_PATH', PRIVATE_PATH . 'procesos/dashboard/interfaz/interfaz_noticias/');
+
+// MEMBRESIAS
+define('MEMBRESIA_HISTORIAL_PATH', PRIVATE_PATH . 'procesos/dashboard/membresias/membresia_historial/');
+define('MEMBRESIA_LISTA_PATH', PRIVATE_PATH . 'procesos/dashboard/membresias/membresia_lista/');
+define('MEMBRESIA_VENTAS_PATH', PRIVATE_PATH . 'procesos/dashboard/membresias/membresia_ventas/');
+define('MEMBRESIAS_RENOVACIONES_PATH', PRIVATE_PATH . 'procesos/dashboard/membresias/membresias_renovaciones/');
+
+// PAGOS
+define('PAGO_LISTA_PATH', PRIVATE_PATH . 'procesos/dashboard/pagos/pago_lista/');
+define('PAGO_REGISTRO_PATH', PRIVATE_PATH . 'procesos/dashboard/pagos/pago_registro/');
+define('PAGO_TRANSACCIONES_PATH', PRIVATE_PATH . 'procesos/dashboard/pagos/pago_transacciones/');
+
+// USUARIOS
+define('USUARIO_LISTA_PATH', PRIVATE_PATH . 'procesos/dashboard/usuarios/usuario_lista/');
+define('USUARIO_MODIFICAR_PATH', PRIVATE_PATH . 'procesos/dashboard/usuarios/usuario_modificar/');
 
 
 ?>
