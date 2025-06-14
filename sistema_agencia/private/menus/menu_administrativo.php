@@ -86,7 +86,8 @@ class AdminNavbar
                   <hr class="dropdown-divider">
                 </li>
                 <li><a class="dropdown-item py-2" href="index.php?page=ver_perfil"><i class="bi bi-person-lines-fill me-2"></i> Perfil</a></li>
-                <li><a class="dropdown-item py-2" href="index.php?page=configuracion"><i class="bi bi-gear-fill me-2"></i> Configuración</a></li>
+                <li><a class="dropdown-item py-2" href="index.php?page=configuracion"><i class="bi bi-gear-fill me-2"></i> Modo movil</a></li>
+                <li><a class="dropdown-item py-2" href="index.php?page=configuracion"><i class="bi bi-gear-fill me-2"></i> Modo escritorio</a></li>
                 <li>
                   <hr class="dropdown-divider my-1">
                 </li>
