@@ -97,6 +97,14 @@ class AdminController {
             'cerrar_session' => [
                 'file' => 'CRSS.php',
                 'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
+            ],
+            'auditoria_de_ascensos' => [
+                'file' => 'AUS.php',
+                'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
+            ],
+            'auditoria_de_registros' => [
+                'file' => 'AUR.php',
+                'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
             ]
         ];
 
