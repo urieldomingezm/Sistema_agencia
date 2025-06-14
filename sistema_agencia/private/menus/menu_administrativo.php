@@ -268,7 +268,7 @@ class AdminNavbar
   private function getMenuIcon($itemName)
   {
     $icons = [
-      'Dashboard' => 'bi bi-speedometer2',
+      'Inicio' => 'bi bi-house-door-fill',
       'Usuarios' => 'bi bi-people-fill',
       'Membresías' => 'bi bi-person-badge-fill',
       'Rangos' => 'bi bi-award-fill',
@@ -340,7 +340,7 @@ class AdminNavbar
 
 // Configuración del menú con 2 niveles
 $adminItems = [
-  ['name' => 'Dashboard'],
+  ['name' => 'Inicio'],
   ['name' => 'Usuarios', 'dropdown' => [
     ['name' => 'Gestión de usuarios', 'id' => 'gestion', 'submenu' => [
       'Lista de usuarios',
