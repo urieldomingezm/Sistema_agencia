@@ -60,7 +60,7 @@ require_once(TEMPLATES_PATH . 'header.php');
                                     <input type="text" class="form-control py-2" id="username" name="username" placeholder="Ingresa tu usuario o email" required>
                                 </div>
                                 <div class="invalid-feedback">
-                                    Por favor ingresa tu usuario o email
+                                    Por favor ingresa tu nombre habbo
                                 </div>
                             </div>
                             
@@ -83,7 +83,6 @@ require_once(TEMPLATES_PATH . 'header.php');
                                     <input class="form-check-input" type="checkbox" id="rememberMe" name="rememberMe">
                                     <label class="form-check-label" for="rememberMe">Recordar sesión</label>
                                 </div>
-                                <a href="#" class="text-decoration-none text-primary fw-semibold">¿Olvidaste tu contraseña?</a>
                             </div>
                             
                             <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
@@ -94,7 +93,7 @@ require_once(TEMPLATES_PATH . 'header.php');
                             </button>
                             
                             <div class="text-center pt-3">
-                                <p class="mb-0">¿No tienes una cuenta? <a href="registrar.php" class="text-decoration-none fw-semibold text-primary">Regístrate</a></p>
+                                <p class="mb-0">¿Ya tienes cuenta? <a href="login.php" class="text-decoration-none fw-semibold text-primary">Login</a></p>
                                 <p class="mb-0 mt-2"><a href="index.php" class="text-decoration-none text-muted"><i class="bi bi-arrow-left"></i> Volver al inicio</a></p>
                             </div>
                         </form>
