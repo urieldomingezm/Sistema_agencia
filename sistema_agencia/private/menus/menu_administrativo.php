@@ -344,18 +344,16 @@ $adminItems = [
   ['name' => 'Usuarios', 'dropdown' => [
     ['name' => 'Gestión de usuarios', 'id' => 'gestion', 'submenu' => [
       'Lista de usuarios',
-      'Agregar usuario',
       'Modificar usuario',
       'Cambio de contraseñas',
-      'divider',
-      'Roles y permisos'
     ]],
     'divider',
     'Reporte de usuarios'
   ]],
   ['name' => 'Membresías', 'dropdown' => [
     ['name' => 'Administración', 'id' => 'membresias', 'submenu' => [
-      'Tipos de membresía',
+      'Agregar membresias',
+      'Lista de membresias',
       'Ventas',
       'Renovaciones',
       'Historial'
@@ -363,21 +361,12 @@ $adminItems = [
     'divider',
     'Reporte de membresías'
   ]],
-  ['name' => 'Rangos', 'dropdown' => [
-    ['name' => 'Gestión', 'id' => 'rangos', 'submenu' => [
-      'Catálogo de rangos',
-      'Asignación',
-      'Promociones',
-      'Traslados'
-    ]],
-    'divider',
-    'Reporte de rangos'
-  ]],
   ['name' => 'Pagos', 'dropdown' => [
     ['name' => 'Transacciones', 'id' => 'pagos', 'submenu' => [
       'Registro de pagos',
       'Reporte de ingresos',
-      'Transacciones'
+      'Transacciones',
+      'Lista de pagos',
     ]],
     'divider',
     'Estadísticas financieras'
@@ -389,9 +378,11 @@ $adminItems = [
     'Noticias'
   ]],
   ['name' => 'Configuración', 'dropdown' => [
-    'Ajustes del sistema',
-    'Backup',
-    'Logs de actividad'
+    'Logs de actividad',
+    'Auditoria de registros',
+    'Auditoria de ascensos',
+    'Auditoria de pagos',
+    'Auditoria de rangos',
   ]]
 ];
 
