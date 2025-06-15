@@ -1,1 +1,1 @@
-<?php require_once(PRIVATE_PATH . 'procesos/dashboard/auditorias/auditoria_registro/mostrar_registros.php'); ?>
+<?php require_once(AUDITORIA_ASCENSOS_PATH . 'mostrar_registros.php'); ?>
