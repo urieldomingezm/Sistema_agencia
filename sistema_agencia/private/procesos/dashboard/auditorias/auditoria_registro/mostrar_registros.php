@@ -9,34 +9,35 @@ class AuditoriaRegistroManager {
         $this->conn = $db->getConnection();
     }
 
-    public function getAllAuditoriaRegistros()
-    {
-        $sql = "SELECT
-                    id_auditoria,
-                    fecha_cambio,
-                    codigo_time,
+    public function getUniqueAuditoriaRegistros() {
+        $sql = "SELECT DISTINCT
                     nombre_habbo,
+                    codigo_time,
                     rango_anterior,
                     rango_nuevo,
                     mision_anterior,
                     mision_nueva,
-                    firma_anterior,
-                    firma_nueva,
                     usuario_modificador,
-                    ip_modificacion
+                    MIN(fecha_cambio) as primera_fecha
                 FROM
                     auditoria_ascensos
-                ORDER BY fecha_cambio DESC";
+                GROUP BY 
+                    nombre_habbo,
+                    codigo_time,
+                    rango_anterior,
+                    rango_nuevo,
+                    mision_anterior,
+                    mision_nueva,
+                    usuario_modificador
+                ORDER BY primera_fecha DESC";
 
         try {
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            return $results;
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch(PDOException $exception) {
-            error_log("Error fetching auditoria registros: " . $exception->getMessage());
-            return []; // Return empty array on error
+            error_log("Error fetching unique auditoria registros: " . $exception->getMessage());
+            return [];
         }
     }
 }
@@ -47,14 +48,14 @@ class GestionAuditoriaRegistro {
     public function __construct() {
         $database = new Database();
         $auditoriaManager = new AuditoriaRegistroManager($database);
-        $this->auditoriaRegistros = $auditoriaManager->getAllAuditoriaRegistros();
+        $this->auditoriaRegistros = $auditoriaManager->getUniqueAuditoriaRegistros();
     }
 
     public function renderTable() {
         $html = '<div class="container-fluid mt-4">
             <div class="card shadow-lg">
                 <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="bi bi-clipboard-data me-2"></i>Auditoría de Registros</h5>
+                    <h5 class="mb-0"><i class="bi bi-clipboard-data me-2"></i>Registros Únicos de Auditoría</h5>
                     <button class="btn btn-light" 
                             id="Ayuda_auditoria_registro-tab" 
                             data-bs-toggle="modal" 
@@ -67,8 +68,6 @@ class GestionAuditoriaRegistro {
                         <table id="auditoriaRegistroTable" class="table table-striped table-bordered align-middle mb-0" style="width:100%">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="text-center">ID</th>
-                                    <th class="text-center">Fecha</th>
                                     <th class="text-center">Usuario</th>
                                     <th class="text-center">Rango Anterior</th>
                                     <th class="text-center">Rango Nuevo</th>
@@ -90,7 +89,7 @@ class GestionAuditoriaRegistro {
                 <div class="card-footer bg-light">
                     <div class="row">
                         <div class="col-12 text-end">
-                            <span class="badge bg-info"><i class="bi bi-info-circle me-1"></i> Total registros: ' . count($this->auditoriaRegistros) . '</span>
+                            <span class="badge bg-info"><i class="bi bi-info-circle me-1"></i> Total registros únicos: ' . count($this->auditoriaRegistros) . '</span>
                         </div>
                     </div>
                 </div>
@@ -101,33 +100,18 @@ class GestionAuditoriaRegistro {
     }
 
     private function renderRow($registro) {
-        $id_auditoria = $registro['id_auditoria'] ?? '';
-        $fecha_cambio = $registro['fecha_cambio'] ?? '';
-        $codigo_time = $registro['codigo_time'] ?? '';
         $nombre_habbo = $registro['nombre_habbo'] ?? '';
+        $codigo_time = $registro['codigo_time'] ?? '';
         $rango_anterior = $registro['rango_anterior'] ?? '';
         $rango_nuevo = $registro['rango_nuevo'] ?? '';
         $mision_anterior = $registro['mision_anterior'] ?? '';
         $mision_nueva = $registro['mision_nueva'] ?? '';
-        $firma_anterior = $registro['firma_anterior'] ?? '';
-        $firma_nueva = $registro['firma_nueva'] ?? '';
         $usuario_modificador = $registro['usuario_modificador'] ?? '';
-        $ip_modificacion = $registro['ip_modificacion'] ?? '';
 
-        $fechaFormateada = !empty($fecha_cambio) ? date('d/m/Y H:i:s', strtotime($fecha_cambio)) : '';
-
-        // Badge para rango anterior
         $badgeAnterior = $this->getRangoBadge($rango_anterior);
-        // Badge para rango nuevo
         $badgeNuevo = $this->getRangoBadge($rango_nuevo);
 
         return '<tr>
-            <td class="text-center align-middle">
-                <span class="badge bg-secondary">' . htmlspecialchars($id_auditoria) . '</span>
-            </td>
-            <td class="text-center align-middle">
-                <small>' . htmlspecialchars($fechaFormateada) . '</small>
-            </td>
             <td class="text-start align-middle">
                 <div class="d-flex align-items-center">
                     <img loading="lazy" class="me-2 rounded-circle" 
@@ -209,16 +193,11 @@ document.addEventListener('DOMContentLoaded', function() {
             perPage: "registros por página",
             noRows: "No se encontraron registros",
             info: "Mostrando {start} a {end} de {rows} registros"
-        },
-        columns: [
-            { select: 2, sortable: false },
-        ]
+        }
     });
-    
-    dataTable.columns().sort(1, "desc");
 });
 </script>
 
 <head>
-    <meta name="keywords" content="Auditoría de registros, cambios de rangos, historial de modificaciones">
+    <meta name="keywords" content="Auditoría de registros únicos, cambios de rangos, historial de modificaciones">
 </head>
