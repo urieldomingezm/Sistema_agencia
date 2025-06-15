@@ -68,11 +68,11 @@ class GestionRegistroUsuario {
                         <table id="registroUsuarioTable" class="table table-sm table-striped table-bordered align-middle mb-0" style="width:100%">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="text-center" style="width:5%">ID</th>
-                                    <th class="text-center" style="width:30%">Usuario</th>
-                                    <th class="text-center" style="width:25%">Fecha Registro</th>
-                                    <th class="text-center" style="width:25%">IP Registro</th>
-                                    <th class="text-center" style="width:15%">Estado</th>
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Usuario</th>
+                                    <th class="text-center">Fecha Registro</th>
+                                    <th class="text-center">IP Registro</th>
+                                    <th class="text-center">Estado</th>
                                 </tr>
                             </thead>
                             <tbody>';
