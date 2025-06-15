@@ -121,7 +121,7 @@
                             <td class="text-center align-middle p-2">
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-info btn-sm" title="Ver detalles" 
-                                            onclick="verDetalles(<?= htmlspecialchars($id) ?>)">
+                                            onclick="verDetalles(<?= htmlspecialchars($id) ?>, '<?= htmlspecialchars($usuario_registro) ?>', '<?= htmlspecialchars($fechaFormateada) ?>', '<?= htmlspecialchars($codigo_time) ?>')">
                                         <i class="bi bi-eye-fill"></i>
                                     </button>
                                     <button type="button" class="btn btn-warning btn-sm" title="Desbloquear usuario"
@@ -206,8 +206,24 @@ function filtrarBloqueados() {
         : '<i class="bi bi-filter-circle me-1"></i> Mostrar Bloqueados';
 }
 
-function verDetalles(id) {
-    console.log('Ver detalles del usuario:', id);
+function verDetalles(id, usuario, fechaRegistro, codigoTime) {
+    const imagenUrl = `https://www.habbo.es/habbo-imaging/avatarimage?user=${encodeURIComponent(usuario)}&headonly=1&head_direction=3&size=l`;
+    
+    Swal.fire({
+        title: 'Detalles del Usuario',
+        html: `
+            <div class="text-center">
+                <img src="${imagenUrl}" class="rounded-circle mb-3" width="120" height="120">
+                <p><strong>ID:</strong> ${id}</p>
+                <p><strong>Usuario:</strong> ${usuario}</p>
+                <p><strong>ID Time:</strong> ${codigoTime}</p>
+                <p><strong>Fecha de Registro:</strong> ${fechaRegistro}</p>
+            </div>
+        `,
+        confirmButtonText: 'Cerrar',
+        confirmButtonColor: '#3085d6',
+        width: '500px'
+    });
 }
 
 function cambiarPassword(id, usuario) {
