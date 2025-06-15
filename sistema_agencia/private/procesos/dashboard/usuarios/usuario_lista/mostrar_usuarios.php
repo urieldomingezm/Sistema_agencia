@@ -754,7 +754,7 @@ class GestionRegistroUsuario {
         $today = date('Y-m-d');
         return count(array_filter($this->registroUsuarios, function($user) use ($today) {
             return date('Y-m-d', strtotime($user['fecha_registro'])) === $today;
-        });
+        }));
     }
 
     private function getActivePercentage() {
