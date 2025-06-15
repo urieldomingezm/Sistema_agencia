@@ -62,7 +62,6 @@ class GestionRegistroUsuario {
                                 <tr>
                                     <th class="text-center">ID</th>
                                     <th class="text-center">Usuario</th>
-                                    <th class="text-center">Rol</th>
                                     <th class="text-center">Fecha Registro</th>
                                     <th class="text-center">IP Registro</th>
                                     <th class="text-center">Habbo</th>
@@ -123,7 +122,6 @@ class GestionRegistroUsuario {
                     </div>
                 </div>
             </td>
-            <td class="text-center align-middle">' . $rolBadge . '</td>
             <td class="text-center align-middle">
                 <small>' . htmlspecialchars($fechaFormateada) . '</small>
             </td>
