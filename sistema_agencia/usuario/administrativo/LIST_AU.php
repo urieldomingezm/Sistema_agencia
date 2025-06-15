@@ -178,7 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
     dataTable.columns().sort(2, "desc");
 });
 
-// Función para filtrar usuarios bloqueados
 function filtrarBloqueados() {
     const table = document.getElementById('registroUsuarioTable');
     const rows = table.querySelectorAll('tbody tr');
@@ -203,57 +202,103 @@ function filtrarBloqueados() {
         : '<i class="bi bi-filter-circle me-1"></i> Mostrar Bloqueados';
 }
 
-// Action handler functions
 function verDetalles(id) {
-    // Handle view details action
     console.log('Ver detalles del usuario:', id);
 }
 
 function desbloquearUsuario(id) {
-    if (confirm('¿Estás seguro de que deseas desbloquear este usuario?')) {
-        fetch(`/api/usuarios/desbloquear/${id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Usuario desbloqueado correctamente');
-                location.reload();
-            } else {
-                alert('Error al desbloquear usuario: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al desbloquear usuario');
-        });
-    }
+    Swal.fire({
+        title: '¿Desbloquear usuario?',
+        text: "¿Estás seguro de que deseas desbloquear este usuario?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, desbloquear',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/api/usuarios/desbloquear/${id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire(
+                        '¡Desbloqueado!',
+                        'El usuario ha sido desbloqueado correctamente.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire(
+                        'Error',
+                        'Error al desbloquear usuario: ' + data.message,
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error',
+                    'Error al desbloquear usuario',
+                    'error'
+                );
+            });
+        }
+    });
 }
 
 function eliminarUsuario(id) {
-    if (confirm('¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.')) {
-        fetch(`/api/usuarios/eliminar/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Usuario eliminado correctamente');
-                location.reload();
-            } else {
-                alert('Error al eliminar usuario: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al eliminar usuario');
-        });
-    }
+    Swal.fire({
+        title: '¿Eliminar usuario?',
+        text: "Esta acción no se puede deshacer",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/api/usuarios/eliminar/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire(
+                        '¡Eliminado!',
+                        'El usuario ha sido eliminado correctamente.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire(
+                        'Error',
+                        'Error al eliminar usuario: ' + data.message,
+                        'error'
+                    );
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire(
+                    'Error',
+                    'Error al eliminar usuario',
+                    'error'
+                );
+            });
+        }
+    });
 }
 </script>
