@@ -128,6 +128,10 @@
                                             onclick="desbloquearUsuario(<?= htmlspecialchars($id) ?>)">
                                         <i class="bi bi-unlock-fill"></i>
                                     </button>
+                                    <button type="button" class="btn btn-primary btn-sm" title="Cambiar contraseña"
+                                            onclick="cambiarPassword('<?= htmlspecialchars($id) ?>', '<?= htmlspecialchars($usuario_registro) ?>')">
+                                        <i class="bi bi-key-fill"></i>
+                                    </button>
                                     <button type="button" class="btn btn-danger btn-sm" title="Eliminar usuario"
                                             onclick="eliminarUsuario(<?= htmlspecialchars($id) ?>)">
                                         <i class="bi bi-trash-fill"></i>
@@ -204,6 +208,54 @@ function filtrarBloqueados() {
 
 function verDetalles(id) {
     console.log('Ver detalles del usuario:', id);
+}
+
+function cambiarPassword(id, usuario) {
+    Swal.fire({
+        title: 'Cambiar Contraseña',
+        html: `
+            <div class="text-start">
+                <p class="mb-3">Usuario: <strong>${usuario}</strong></p>
+                <div class="form-group">
+                    <label for="newPassword" class="form-label">Nueva Contraseña:</label>
+                    <input type="password" id="newPassword" class="form-control" placeholder="Ingrese la nueva contraseña">
+                </div>
+                <div class="form-group mt-3">
+                    <label for="confirmPassword" class="form-label">Confirmar Contraseña:</label>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="Confirme la nueva contraseña">
+                </div>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Cambiar Contraseña',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        preConfirm: () => {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!newPassword || !confirmPassword) {
+                Swal.showValidationMessage('Por favor complete todos los campos');
+                return false;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                Swal.showValidationMessage('Las contraseñas no coinciden');
+                return false;
+            }
+            
+            return { newPassword, confirmPassword };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                'Simulación',
+                'Aquí se implementará el endpoint para cambiar la contraseña',
+                'info'
+            );
+        }
+    });
 }
 
 function desbloquearUsuario(id) {
