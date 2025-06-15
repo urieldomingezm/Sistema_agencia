@@ -121,7 +121,6 @@ class GestionRegistroUsuario {
             </style>
         </head>
         <body class="bg-light">
-            '.$this->renderNavbar().'
             <div class="container-fluid mt-3">
                 '.$this->renderTable().'
                 '.$this->renderModals().'
@@ -135,43 +134,6 @@ class GestionRegistroUsuario {
             '.$this->renderScripts().'
         </body>
         </html>';
-    }
-
-    private function renderNavbar() {
-        return '
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-people-fill me-2"></i>Registro de Usuarios
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <form class="d-flex ms-auto" id="searchForm">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Buscar usuario..." id="searchInput">
-                            <button class="btn btn-outline-light" type="submit">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <ul class="navbar-nav ms-3">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="bi bi-gear-fill me-1"></i>Opciones
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#exportModal"><i class="bi bi-download me-2"></i>Exportar datos</a></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#filterModal"><i class="bi bi-funnel-fill me-2"></i>Filtrar</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#Ayuda_registro_usuario"><i class="bi bi-question-circle-fill me-2"></i>Ayuda</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>';
     }
 
     private function renderTable() {
