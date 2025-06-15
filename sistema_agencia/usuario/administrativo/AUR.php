@@ -1,0 +1,1 @@
+<?php require_once(AUDITORIA_REGISTRO_PATH . 'mostrar_registros.php'); ?>
