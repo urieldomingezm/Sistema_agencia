@@ -69,10 +69,10 @@ define('APP_PATH', __DIR__ . '/usuario/app/');
 define('DASHBOARD_PATH', PRIVATE_PATH . 'procesos/dashboard/');
 
 // AUDITORIAS 
-define('AUDITORIA_ASCENSOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditoria_ascensos/');
-define('AUDITORIA_PAGOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditoria_pagos/');
-define('AUDITORIA_RANGOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditoria_rangos/');
-define('AUDITORIA_REGISTRO_PATH', PRIVATE_PATH . 'procesos/dashboard/auditoria_registro/');
+define('AUDITORIA_ASCENSOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditorias/auditoria_ascensos/');
+define('AUDITORIA_PAGOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditorias/auditoria_pagos/');
+define('AUDITORIA_RANGOS_PATH', PRIVATE_PATH . 'procesos/dashboard/auditorias/auditoria_rangos/');
+define('AUDITORIA_REGISTRO_PATH', PRIVATE_PATH . 'procesos/dashboard/auditorias/auditoria_registro/');
 
 // INTERFAZ
 define('INTERFAZ_ANUNCIOS_PATH', PRIVATE_PATH . 'procesos/dashboard/interfaz/interfaz_anuncios/');
