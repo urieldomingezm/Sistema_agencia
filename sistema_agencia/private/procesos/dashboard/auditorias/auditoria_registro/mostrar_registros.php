@@ -11,7 +11,6 @@ class AuditoriaRegistroManager {
 
     public function getAllAuditoriaRegistros()
     {
-        // SQL query to select data from the auditoria_ascensos table
         $sql = "SELECT
                     id_auditoria,
                     fecha_cambio,
@@ -103,7 +102,6 @@ class GestionAuditoriaRegistro {
     }
 
     private function renderRow($registro) {
-        // Asegurarse de que los valores no sean null
         $id_auditoria = $registro['id_auditoria'] ?? '';
         $fecha_cambio = $registro['fecha_cambio'] ?? '';
         $codigo_time = $registro['codigo_time'] ?? '';
@@ -154,9 +152,6 @@ class GestionAuditoriaRegistro {
             </td>
             <td class="text-center align-middle">
                 <span class="badge bg-primary">' . htmlspecialchars($usuario_modificador) . '</span>
-            </td>
-            <td class="text-center align-middle">
-                <small class="text-muted">' . htmlspecialchars($ip_modificacion) . '</small>
             </td>
         </tr>';
     }
@@ -217,11 +212,10 @@ document.addEventListener('DOMContentLoaded', function() {
             info: "Mostrando {start} a {end} de {rows} registros"
         },
         columns: [
-            { select: 2, sortable: false }, // Deshabilitar ordenamiento en columna de usuario
+            { select: 2, sortable: false },
         ]
     });
     
-    // Ordenar por fecha descendente por defecto
     dataTable.columns().sort(1, "desc");
 });
 </script>
