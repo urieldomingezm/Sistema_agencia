@@ -63,16 +63,16 @@ class GestionRegistroUsuario {
                         <i class="bi bi-question-circle-fill me-1"></i> Ayuda
                     </button>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-2">
                     <div class="table-responsive">
-                        <table id="registroUsuarioTable" class="table table-striped table-bordered align-middle mb-0" style="width:100%">
+                        <table id="registroUsuarioTable" class="table table-sm table-striped table-bordered align-middle mb-0" style="width:100%">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="text-center">ID</th>
-                                    <th class="text-center">Usuario</th>
-                                    <th class="text-center">Fecha Registro</th>
-                                    <th class="text-center">IP Registro</th>
-                                    <th class="text-center">Estado</th>
+                                    <th class="text-center" style="width:5%">ID</th>
+                                    <th class="text-center" style="width:30%">Usuario</th>
+                                    <th class="text-center" style="width:25%">Fecha Registro</th>
+                                    <th class="text-center" style="width:25%">IP Registro</th>
+                                    <th class="text-center" style="width:15%">Estado</th>
                                 </tr>
                             </thead>
                             <tbody>';
@@ -85,7 +85,7 @@ class GestionRegistroUsuario {
                         </table>
                     </div>
                 </div>
-                <div class="card-footer bg-light">
+                <div class="card-footer bg-light py-2">
                     <div class="row">
                         <div class="col-12 text-end">
                             <span class="badge bg-success"><i class="bi bi-info-circle me-1"></i> Total usuarios: ' . count($this->registroUsuarios) . '</span>
@@ -116,29 +116,29 @@ class GestionRegistroUsuario {
         $estadoBadge = $this->getEstadoBadge($masked_ip_bloqueo);
 
         return '<tr>
-            <td class="text-center align-middle">
+            <td class="text-center align-middle p-1">
                 <span class="badge bg-secondary">' . htmlspecialchars($id) . '</span>
             </td>
-            <td class="text-start align-middle">
+            <td class="text-start align-middle p-1">
                 <div class="d-flex align-items-center">
-                    <img loading="lazy" class="me-2 rounded-circle" 
+                    <img loading="lazy" class="me-1 rounded-circle" 
                          src="https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($usuario_registro) . '&amp;headonly=1&amp;head_direction=3&amp;size=m" 
                          alt="' . htmlspecialchars($usuario_registro) . '" 
                          title="' . htmlspecialchars($usuario_registro) . '" 
-                         width="30" height="30">
+                         width="25" height="25">
                     <div>
-                        <span class="fw-semibold">' . htmlspecialchars($usuario_registro) . '</span><br>
-                        <small class="text-muted">ID: ' . htmlspecialchars($codigo_time) . '</small>
+                        <span class="fw-semibold small">' . htmlspecialchars($usuario_registro) . '</span><br>
+                        <small class="text-muted" style="font-size: 0.75rem;">ID: ' . htmlspecialchars($codigo_time) . '</small>
                     </div>
                 </div>
             </td>
-            <td class="text-center align-middle">
-                <small>' . htmlspecialchars($fechaFormateada) . '</small>
+            <td class="text-center align-middle p-1">
+                <small style="font-size: 0.8rem;">' . htmlspecialchars($fechaFormateada) . '</small>
             </td>
-            <td class="text-center align-middle">
-                <small class="text-muted">' . htmlspecialchars($masked_ip) . '</small>
+            <td class="text-center align-middle p-1">
+                <small class="text-muted" style="font-size: 0.8rem;">' . htmlspecialchars($masked_ip) . '</small>
             </td>
-            <td class="text-center align-middle">' . $estadoBadge . '</td>
+            <td class="text-center align-middle p-1">' . $estadoBadge . '</td>
         </tr>';
     }
 
@@ -153,9 +153,9 @@ class GestionRegistroUsuario {
 
     private function getEstadoBadge($ip_bloqueo) {
         if (!empty($ip_bloqueo)) {
-            return '<span class="badge bg-danger"><i class="bi bi-lock-fill me-1"></i>Bloqueado</span>';
+            return '<span class="badge bg-danger" style="font-size: 0.75rem;"><i class="bi bi-lock-fill me-1"></i>Bloqueado</span>';
         } else {
-            return '<span class="badge bg-success"><i class="bi bi-check-circle-fill me-1"></i>Activo</span>';
+            return '<span class="badge bg-success" style="font-size: 0.75rem;"><i class="bi bi-check-circle-fill me-1"></i>Activo</span>';
         }
     }
 }
@@ -178,11 +178,10 @@ document.addEventListener('DOMContentLoaded', function() {
             info: "Mostrando {start} a {end} de {rows} registros"
         },
         columns: [
-            { select: 1, sortable: false } // Deshabilitar ordenamiento en columna de usuario
+            { select: 1, sortable: false }
         ]
     });
     
-    // Ordenar por fecha de registro descendente por defecto
     dataTable.columns().sort(2, "desc");
 });
 </script>
