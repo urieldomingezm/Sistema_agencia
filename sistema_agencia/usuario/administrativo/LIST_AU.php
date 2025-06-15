@@ -25,6 +25,7 @@
                             <th class="text-center fs-5">Fecha Registro</th>
                             <th class="text-center fs-5">IP Registro</th>
                             <th class="text-center fs-5">Estado</th>
+                            <th class="text-center fs-5">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,6 +67,22 @@
                                 <?= htmlspecialchars($masked_ip) ?>
                             </td>
                             <td class="text-center align-middle p-2"><?= $estadoBadge ?></td>
+                            <td class="text-center align-middle p-2">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-info btn-sm" title="Ver detalles" 
+                                            onclick="verDetalles(<?= htmlspecialchars($id) ?>)">
+                                        <i class="bi bi-eye-fill"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-sm" title="Desbloquear usuario"
+                                            onclick="desbloquearUsuario(<?= htmlspecialchars($id) ?>)">
+                                        <i class="bi bi-unlock-fill"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" title="Eliminar usuario"
+                                            onclick="eliminarUsuario(<?= htmlspecialchars($id) ?>)">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -96,10 +113,27 @@ document.addEventListener('DOMContentLoaded', function() {
             info: "Mostrando {start} a {end} de {rows} registros"
         },
         columns: [
-            { select: 1, sortable: false }
+            { select: 1, sortable: false },
+            { select: 5, sortable: false }
         ]
     });
     
     dataTable.columns().sort(2, "desc");
 });
+
+// Action handler functions
+function verDetalles(id) {
+    // Handle view details action
+    console.log('Ver detalles del usuario:', id);
+}
+
+function desbloquearUsuario(id) {
+    // Handle unlock user action
+    console.log('Desbloquear usuario:', id);
+}
+
+function eliminarUsuario(id) {
+    // Handle delete user action
+    console.log('Eliminar usuario:', id);
+}
 </script>
