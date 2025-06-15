@@ -31,6 +31,32 @@ class RegistroUsuarioManager {
         }
     }
 
+    public function getUsuariosActivosCount() {
+        $sql = "SELECT COUNT(*) as count FROM registro_usuario WHERE ip_bloqueo IS NULL OR ip_bloqueo = ''";
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['count'] ?? 0;
+        } catch(PDOException $exception) {
+            error_log("Error counting active users: " . $exception->getMessage());
+            return 0;
+        }
+    }
+
+    public function getUsuariosBloqueadosCount() {
+        $sql = "SELECT COUNT(*) as count FROM registro_usuario WHERE ip_bloqueo IS NOT NULL AND ip_bloqueo != ''";
+        try {
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['count'] ?? 0;
+        } catch(PDOException $exception) {
+            error_log("Error counting blocked users: " . $exception->getMessage());
+            return 0;
+        }
+    }
+
     // Helper function to mask IP address
     public function maskIP($ip) {
         if (empty($ip)) return '';
@@ -58,6 +84,14 @@ class GestionRegistroUsuario {
 
     public function getTotalUsuarios() {
         return count($this->registroUsuarios);
+    }
+
+    public function getUsuariosActivos() {
+        return $this->registroManager->getUsuariosActivosCount();
+    }
+
+    public function getUsuariosBloqueados() {
+        return $this->registroManager->getUsuariosBloqueadosCount();
     }
 
     public function formatearFecha($fecha) {

@@ -1,19 +1,70 @@
 <?php require_once(USUARIO_LISTA_PATH . 'mostrar_usuarios.php'); ?>
 
 <head>
-    <meta name="keywords" content="Lista de usuarios registrados, gestión de usuarios, registro de usuarios">
+    <meta name="keywords" content="Lista de usuarios registrados, gestión de usuarios, registro de usuarios, estadísticas de usuarios">
 </head>
 
 <div class="container-fluid mt-4">
+    <!-- Wizard de Estadísticas -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white shadow">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-1">Total Usuarios</h5>
+                            <h2 class="mb-0"><?= $gestionRegistroUsuario->getTotalUsuarios() ?></h2>
+                        </div>
+                        <i class="bi bi-people-fill fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white shadow">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-1">Usuarios Activos</h5>
+                            <h2 class="mb-0"><?= $gestionRegistroUsuario->getUsuariosActivos() ?></h2>
+                        </div>
+                        <i class="bi bi-check-circle-fill fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-danger text-white shadow">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="card-title mb-1">Usuarios Bloqueados</h5>
+                            <h2 class="mb-0"><?= $gestionRegistroUsuario->getUsuariosBloqueados() ?></h2>
+                        </div>
+                        <i class="bi bi-lock-fill fs-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tabla de Usuarios -->
     <div class="card shadow-lg">
         <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
             <h3 class="mb-0"><i class="bi bi-person-plus me-2"></i>Lista de Usuarios Registrados</h3>
-            <button class="btn btn-light btn-lg" 
-                    id="Ayuda_registro_usuario-tab" 
-                    data-bs-toggle="modal" 
-                    data-bs-target="#Ayuda_registro_usuario">
-                <i class="bi bi-question-circle-fill me-1"></i> Ayuda
-            </button>
+            <div>
+                <button class="btn btn-light btn-lg me-2" 
+                        id="filtroBloqueados" 
+                        onclick="filtrarBloqueados()">
+                    <i class="bi bi-filter-circle me-1"></i> Mostrar Bloqueados
+                </button>
+                <button class="btn btn-light btn-lg" 
+                        id="Ayuda_registro_usuario-tab" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#Ayuda_registro_usuario">
+                    <i class="bi bi-question-circle-fill me-1"></i> Ayuda
+                </button>
+            </div>
         </div>
         <div class="card-body p-3">
             <div class="table-responsive">
@@ -43,7 +94,7 @@
                             $fechaFormateada = $gestionRegistroUsuario->formatearFecha($fecha_registro);
                             $estadoBadge = $gestionRegistroUsuario->getEstadoBadge($masked_ip_bloqueo);
                         ?>
-                        <tr>
+                        <tr data-estado="<?= empty($ip_bloqueo) ? 'activo' : 'bloqueado' ?>">
                             <td class="text-center align-middle p-2">
                                 <span class="badge bg-secondary fs-6"><?= htmlspecialchars($id) ?></span>
                             </td>
@@ -91,8 +142,14 @@
         </div>
         <div class="card-footer bg-light py-3">
             <div class="row">
-                <div class="col-12 text-end">
-                    <span class="badge bg-success fs-5"><i class="bi bi-info-circle me-1"></i> Total usuarios: <?= $gestionRegistroUsuario->getTotalUsuarios() ?></span>
+                <div class="col-md-4">
+                    <span class="badge bg-primary fs-5"><i class="bi bi-people-fill me-1"></i> Total: <?= $gestionRegistroUsuario->getTotalUsuarios() ?></span>
+                </div>
+                <div class="col-md-4 text-center">
+                    <span class="badge bg-success fs-5"><i class="bi bi-check-circle-fill me-1"></i> Activos: <?= $gestionRegistroUsuario->getUsuariosActivos() ?></span>
+                </div>
+                <div class="col-md-4 text-end">
+                    <span class="badge bg-danger fs-5"><i class="bi bi-lock-fill me-1"></i> Bloqueados: <?= $gestionRegistroUsuario->getUsuariosBloqueados() ?></span>
                 </div>
             </div>
         </div>
@@ -121,6 +178,31 @@ document.addEventListener('DOMContentLoaded', function() {
     dataTable.columns().sort(2, "desc");
 });
 
+// Función para filtrar usuarios bloqueados
+function filtrarBloqueados() {
+    const table = document.getElementById('registroUsuarioTable');
+    const rows = table.querySelectorAll('tbody tr');
+    const btn = document.getElementById('filtroBloqueados');
+    
+    let mostrarSoloBloqueados = btn.textContent.includes('Mostrar Bloqueados');
+    
+    rows.forEach(row => {
+        if (mostrarSoloBloqueados) {
+            if (row.getAttribute('data-estado') === 'bloqueado') {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        } else {
+            row.style.display = '';
+        }
+    });
+    
+    btn.innerHTML = mostrarSoloBloqueados 
+        ? '<i class="bi bi-filter-circle-fill me-1"></i> Mostrar Todos'
+        : '<i class="bi bi-filter-circle me-1"></i> Mostrar Bloqueados';
+}
+
 // Action handler functions
 function verDetalles(id) {
     // Handle view details action
@@ -128,12 +210,50 @@ function verDetalles(id) {
 }
 
 function desbloquearUsuario(id) {
-    // Handle unlock user action
-    console.log('Desbloquear usuario:', id);
+    if (confirm('¿Estás seguro de que deseas desbloquear este usuario?')) {
+        fetch(`/api/usuarios/desbloquear/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Usuario desbloqueado correctamente');
+                location.reload();
+            } else {
+                alert('Error al desbloquear usuario: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al desbloquear usuario');
+        });
+    }
 }
 
 function eliminarUsuario(id) {
-    // Handle delete user action
-    console.log('Eliminar usuario:', id);
+    if (confirm('¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.')) {
+        fetch(`/api/usuarios/eliminar/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Usuario eliminado correctamente');
+                location.reload();
+            } else {
+                alert('Error al eliminar usuario: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al eliminar usuario');
+        });
+    }
 }
 </script>
