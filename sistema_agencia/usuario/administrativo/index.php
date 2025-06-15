@@ -105,7 +105,11 @@ class AdminController {
             'auditoria_de_registros' => [
                 'file' => 'AUR.php',
                 'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
-            ]
+            ],
+            'lista_de_usuarios' => [
+                'file' => 'LIST_AU.php',
+                'roles' => ['Owner', 'owner', 'Fundador', 'fundador', 'My_queen', 'my_queen', 'Web_master']
+            ]            
         ];
 
         if (array_key_exists($page, $validPages) && in_array($this->userRango, $validPages[$page]['roles'])) {

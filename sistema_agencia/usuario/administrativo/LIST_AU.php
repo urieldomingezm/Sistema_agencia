@@ -1,0 +1,1 @@
+<?php require_once(USUARIO_LISTA_PATH . 'mostrar_usuarios.php'); ?>
