@@ -1,0 +1,1 @@
+<?php require_once(AUDITORIA_ASCENSOS_PATH . 'mostrar_registros.php'); ?>
