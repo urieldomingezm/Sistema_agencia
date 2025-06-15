@@ -101,6 +101,9 @@ class GestionRegistroUsuario {
             <!-- DataTables CSS -->
             <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.css" rel="stylesheet">
             
+            <!-- SweetAlert2 CSS -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+            
             <style>
                 .avatar-img {
                     transition: transform 0.3s ease;
@@ -118,6 +121,9 @@ class GestionRegistroUsuario {
                     font-size: 0.75rem;
                     padding: 0.35em 0.65em;
                 }
+                .swal2-popup {
+                    font-size: 1rem !important;
+                }
             </style>
         </head>
         <body class="bg-light">
@@ -130,6 +136,8 @@ class GestionRegistroUsuario {
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
             <!-- DataTables JS -->
             <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
+            <!-- SweetAlert2 JS -->
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
             
             '.$this->renderScripts().'
         </body>
@@ -219,7 +227,7 @@ class GestionRegistroUsuario {
         $acciones = $this->getAcciones($id, $ip_bloqueo);
 
         return '
-        <tr>
+        <tr data-id="'.$id.'">
             <td class="text-center align-middle">
                 <span class="badge bg-secondary">' . htmlspecialchars($id) . '</span>
             </td>
@@ -277,10 +285,10 @@ class GestionRegistroUsuario {
         
         return '
         <div class="btn-group btn-group-sm" role="group">
-            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#detailModal'.$id.'">
+            <button class="btn btn-sm btn-primary view-btn" data-id="'.$id.'">
                 <i class="bi bi-eye-fill"></i>
             </button>
-            <button class="btn btn-sm '.$btnClass.' toggle-block-btn" data-id="'.$id.'">
+            <button class="btn btn-sm '.$btnClass.' toggle-block-btn" data-id="'.$id.'" data-blocked="'.(!empty($ip_bloqueo) ? '1' : '0').'">
                 <i class="bi '.$btnIcon.'"></i>
             </button>
             <button class="btn btn-sm btn-danger delete-btn" data-id="'.$id.'">
@@ -493,25 +501,6 @@ class GestionRegistroUsuario {
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Modal de Confirmación -->
-        <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header bg-warning text-dark">
-                        <h5 class="modal-title"><i class="bi bi-exclamation-triangle-fill me-2"></i>Confirmar acción</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="confirmMessage">¿Está seguro que desea realizar esta acción?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-warning" id="confirmAction">Confirmar</button>
-                    </div>
-                </div>
-            </div>
         </div>';
     }
 
@@ -545,63 +534,204 @@ class GestionRegistroUsuario {
             });
             
             // Manejar búsqueda
-            document.getElementById("searchForm").addEventListener("submit", function(e) {
+            document.getElementById("searchForm")?.addEventListener("submit", function(e) {
                 e.preventDefault();
-                const searchTerm = document.getElementById("searchInput").value.trim();
+                const searchTerm = document.getElementById("searchInput")?.value.trim();
                 if(searchTerm) {
                     window.location.href = "?search=" + encodeURIComponent(searchTerm);
                 }
             });
             
             // Manejar botón de actualización
-            document.getElementById("refreshBtn").addEventListener("click", function() {
+            document.getElementById("refreshBtn")?.addEventListener("click", function() {
                 window.location.reload();
+            });
+            
+            // Función para hacer peticiones AJAX
+            async function makeRequest(url, method, data) {
+                try {
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Requested-With": "XMLHttpRequest"
+                        },
+                        body: JSON.stringify(data)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    return await response.json();
+                } catch (error) {
+                    console.error("Error en la petición:", error);
+                    throw error;
+                }
+            }
+            
+            // Manejar botones de visualización
+            document.querySelectorAll(".view-btn").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    const userId = this.getAttribute("data-id");
+                    
+                    // Aquí podrías implementar una llamada AJAX para obtener los detalles
+                    // y mostrarlos en un modal o SweetAlert2
+                    Swal.fire({
+                        title: "Detalles del Usuario",
+                        html: `Cargando detalles del usuario ID: ${userId}...`,
+                        showConfirmButton: false,
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            // Simular carga de datos
+                            setTimeout(() => {
+                                Swal.getHtmlContainer().innerHTML = `
+                                    <div class="text-start">
+                                        <p><strong>ID:</strong> ${userId}</p>
+                                        <p><strong>Nombre:</strong> Usuario Ejemplo</p>
+                                        <p><strong>Registrado el:</strong> 01/01/2023</p>
+                                        <p><strong>Estado:</strong> Activo</p>
+                                    </div>
+                                `;
+                                Swal.showLoading();
+                                Swal.update({
+                                    showConfirmButton: true,
+                                    confirmButtonText: "Cerrar"
+                                });
+                            }, 1000);
+                        }
+                    });
+                });
             });
             
             // Manejar botones de bloqueo/desbloqueo
             document.querySelectorAll(".toggle-block-btn").forEach(btn => {
-                btn.addEventListener("click", function() {
+                btn.addEventListener("click", async function() {
                     const userId = this.getAttribute("data-id");
-                    const isBlocked = this.classList.contains("btn-success");
+                    const isBlocked = this.getAttribute("data-blocked") === "1";
+                    const action = isBlocked ? "desbloquear" : "bloquear";
                     
-                    const confirmModal = new bootstrap.Modal(document.getElementById("confirmModal"));
-                    document.getElementById("confirmMessage").textContent = 
-                        `¿Está seguro que desea ${isBlocked ? "desbloquear" : "bloquear"} este usuario?`;
+                    const result = await Swal.fire({
+                        title: `¿${isBlocked ? "Desbloquear" : "Bloquear"} usuario?`,
+                        text: `Estás a punto de ${action} este usuario. ¿Deseas continuar?`,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: `Sí, ${action}`,
+                        cancelButtonText: "Cancelar",
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: `btn ${isBlocked ? "btn-success" : "btn-warning"} mx-2`,
+                            cancelButton: "btn btn-secondary mx-2"
+                        },
+                        buttonsStyling: false
+                    });
                     
-                    document.getElementById("confirmAction").onclick = function() {
-                        // Aquí iría la llamada AJAX para cambiar el estado
-                        console.log(`${isBlocked ? "Desbloqueando" : "Bloqueando"} usuario ID: ${userId}`);
-                        
-                        // Simular éxito y recargar
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
-                    };
-                    
-                    confirmModal.show();
+                    if (result.isConfirmed) {
+                        try {
+                            // Mostrar loading
+                            Swal.fire({
+                                title: "Procesando...",
+                                text: `Por favor espera mientras se ${action} al usuario`,
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+                            
+                            // Simular llamada AJAX
+                            // En un caso real, aquí harías una petición al servidor
+                            // const response = await makeRequest("/api/users/toggle-block", "POST", { id: userId });
+                            
+                            // Simular retardo de red
+                            await new Promise(resolve => setTimeout(resolve, 1500));
+                            
+                            // Mostrar resultado
+                            Swal.fire({
+                                title: "¡Éxito!",
+                                text: `El usuario ha sido ${action}do correctamente.`,
+                                icon: "success",
+                                confirmButtonText: "Aceptar",
+                                willClose: () => {
+                                    // Recargar la página para ver los cambios
+                                    window.location.reload();
+                                }
+                            });
+                        } catch (error) {
+                            Swal.fire({
+                                title: "Error",
+                                text: `Ocurrió un error al intentar ${action} al usuario.`,
+                                icon: "error",
+                                confirmButtonText: "Aceptar"
+                            });
+                            console.error(error);
+                        }
+                    }
                 });
             });
             
             // Manejar botones de eliminación
             document.querySelectorAll(".delete-btn").forEach(btn => {
-                btn.addEventListener("click", function() {
+                btn.addEventListener("click", async function() {
                     const userId = this.getAttribute("data-id");
+                    const row = this.closest("tr");
+                    const userName = row.querySelector("td:nth-child(2) .fw-semibold").textContent;
                     
-                    const confirmModal = new bootstrap.Modal(document.getElementById("confirmModal"));
-                    document.getElementById("confirmMessage").textContent = 
-                        `¿Está seguro que desea eliminar este registro de usuario? Esta acción no se puede deshacer.`;
+                    const result = await Swal.fire({
+                        title: "¿Eliminar registro?",
+                        html: `Estás a punto de eliminar el registro de <strong>${userName}</strong> (ID: ${userId}).<br><br>Esta acción no se puede deshacer.`,
+                        icon: "warning",
+                        showCancelButton: true,
+                        confirmButtonText: "Sí, eliminar",
+                        cancelButtonText: "Cancelar",
+                        reverseButtons: true,
+                        customClass: {
+                            confirmButton: "btn btn-danger mx-2",
+                            cancelButton: "btn btn-secondary mx-2"
+                        },
+                        buttonsStyling: false,
+                        focusCancel: true
+                    });
                     
-                    document.getElementById("confirmAction").onclick = function() {
-                        // Aquí iría la llamada AJAX para eliminar
-                        console.log(`Eliminando usuario ID: ${userId}`);
-                        
-                        // Simular éxito y recargar
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 1000);
-                    };
-                    
-                    confirmModal.show();
+                    if (result.isConfirmed) {
+                        try {
+                            // Mostrar loading
+                            Swal.fire({
+                                title: "Eliminando...",
+                                text: "Por favor espera mientras se elimina el registro",
+                                allowOutsideClick: false,
+                                didOpen: () => {
+                                    Swal.showLoading();
+                                }
+                            });
+                            
+                            // Simular llamada AJAX
+                            // En un caso real, aquí harías una petición al servidor
+                            // const response = await makeRequest("/api/users/delete", "DELETE", { id: userId });
+                            
+                            // Simular retardo de red
+                            await new Promise(resolve => setTimeout(resolve, 1500));
+                            
+                            // Mostrar resultado
+                            Swal.fire({
+                                title: "¡Eliminado!",
+                                text: "El registro ha sido eliminado correctamente.",
+                                icon: "success",
+                                confirmButtonText: "Aceptar",
+                                willClose: () => {
+                                    // Recargar la página para ver los cambios
+                                    window.location.reload();
+                                }
+                            });
+                        } catch (error) {
+                            Swal.fire({
+                                title: "Error",
+                                text: "Ocurrió un error al intentar eliminar el registro.",
+                                icon: "error",
+                                confirmButtonText: "Aceptar"
+                            });
+                            console.error(error);
+                        }
+                    }
                 });
             });
         });
@@ -624,7 +754,7 @@ class GestionRegistroUsuario {
         $today = date('Y-m-d');
         return count(array_filter($this->registroUsuarios, function($user) use ($today) {
             return date('Y-m-d', strtotime($user['fecha_registro'])) === $today;
-        }));
+        });
     }
 
     private function getActivePercentage() {
