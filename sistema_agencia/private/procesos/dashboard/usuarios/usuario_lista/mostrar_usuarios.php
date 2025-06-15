@@ -30,6 +30,16 @@ class RegistroUsuarioManager {
             return [];
         }
     }
+
+    // Helper function to mask IP address
+    private function maskIP($ip) {
+        if (empty($ip)) return '';
+        $parts = explode('.', $ip);
+        if (count($parts) === 4) {
+            return $parts[0] . '.***.***.' . $parts[3];
+        }
+        return hash('sha256', $ip);
+    }
 }
 
 class GestionRegistroUsuario {
@@ -96,10 +106,14 @@ class GestionRegistroUsuario {
         $codigo_time = $registro['codigo_time'] ?? '';
         $ip_bloqueo = $registro['ip_bloqueo'] ?? '';
 
+        // Mask IP addresses
+        $masked_ip = $this->maskIP($ip_registro);
+        $masked_ip_bloqueo = $this->maskIP($ip_bloqueo);
+
         $fechaFormateada = !empty($fecha_registro) ? date('d/m/Y H:i:s', strtotime($fecha_registro)) : '';
         
         // Estado del usuario (bloqueado o activo)
-        $estadoBadge = $this->getEstadoBadge($ip_bloqueo);
+        $estadoBadge = $this->getEstadoBadge($masked_ip_bloqueo);
 
         return '<tr>
             <td class="text-center align-middle">
@@ -122,10 +136,19 @@ class GestionRegistroUsuario {
                 <small>' . htmlspecialchars($fechaFormateada) . '</small>
             </td>
             <td class="text-center align-middle">
-                <small class="text-muted">' . htmlspecialchars($ip_registro) . '</small>
+                <small class="text-muted">' . htmlspecialchars($masked_ip) . '</small>
             </td>
             <td class="text-center align-middle">' . $estadoBadge . '</td>
         </tr>';
+    }
+
+    private function maskIP($ip) {
+        if (empty($ip)) return '';
+        $parts = explode('.', $ip);
+        if (count($parts) === 4) {
+            return $parts[0] . '.***.***.' . $parts[3];
+        }
+        return hash('sha256', $ip);
     }
 
     private function getEstadoBadge($ip_bloqueo) {
