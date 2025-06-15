@@ -13,10 +13,8 @@ class RegistroUsuarioManager {
         $sql = "SELECT
                     id,
                     usuario_registro,
-                    rol_id,
                     fecha_registro,
                     ip_registro,
-                    nombre_habbo,
                     codigo_time,
                     ip_bloqueo
                 FROM
@@ -64,7 +62,6 @@ class GestionRegistroUsuario {
                                     <th class="text-center">Usuario</th>
                                     <th class="text-center">Fecha Registro</th>
                                     <th class="text-center">IP Registro</th>
-                                    <th class="text-center">Habbo</th>
                                     <th class="text-center">Estado</th>
                                 </tr>
                             </thead>
@@ -94,17 +91,12 @@ class GestionRegistroUsuario {
     private function renderRow($registro) {
         $id = $registro['id'] ?? '';
         $usuario_registro = $registro['usuario_registro'] ?? '';
-        $rol_id = $registro['rol_id'] ?? '';
         $fecha_registro = $registro['fecha_registro'] ?? '';
         $ip_registro = $registro['ip_registro'] ?? '';
-        $nombre_habbo = $registro['nombre_habbo'] ?? '';
         $codigo_time = $registro['codigo_time'] ?? '';
         $ip_bloqueo = $registro['ip_bloqueo'] ?? '';
 
         $fechaFormateada = !empty($fecha_registro) ? date('d/m/Y H:i:s', strtotime($fecha_registro)) : '';
-        
-        // Badge para rol
-        $rolBadge = $this->getRolBadge($rol_id);
         
         // Estado del usuario (bloqueado o activo)
         $estadoBadge = $this->getEstadoBadge($ip_bloqueo);
@@ -115,7 +107,11 @@ class GestionRegistroUsuario {
             </td>
             <td class="text-start align-middle">
                 <div class="d-flex align-items-center">
-                    <i class="bi bi-person-circle me-2 text-primary" style="font-size: 1.5rem;"></i>
+                    <img loading="lazy" class="me-2 rounded-circle" 
+                         src="https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($usuario_registro) . '&amp;headonly=1&amp;head_direction=3&amp;size=m" 
+                         alt="' . htmlspecialchars($usuario_registro) . '" 
+                         title="' . htmlspecialchars($usuario_registro) . '" 
+                         width="30" height="30">
                     <div>
                         <span class="fw-semibold">' . htmlspecialchars($usuario_registro) . '</span><br>
                         <small class="text-muted">ID: ' . htmlspecialchars($codigo_time) . '</small>
@@ -128,47 +124,8 @@ class GestionRegistroUsuario {
             <td class="text-center align-middle">
                 <small class="text-muted">' . htmlspecialchars($ip_registro) . '</small>
             </td>
-            <td class="text-start align-middle">
-                <div class="d-flex align-items-center">
-                    <img loading="lazy" class="me-2 rounded-circle" 
-                         src="https://www.habbo.es/habbo-imaging/avatarimage?user=' . urlencode($nombre_habbo) . '&amp;headonly=1&amp;head_direction=3&amp;size=m" 
-                         alt="' . htmlspecialchars($nombre_habbo) . '" 
-                         title="' . htmlspecialchars($nombre_habbo) . '" 
-                         width="30" height="30">
-                    <span class="fw-semibold" style="word-break: break-word;">' . htmlspecialchars($nombre_habbo) . '</span>
-                </div>
-            </td>
             <td class="text-center align-middle">' . $estadoBadge . '</td>
         </tr>';
-    }
-
-    private function getRolBadge($rol_id) {
-        $badgeStyle = '';
-        $rolTexto = '';
-        
-        switch ($rol_id) {
-            case '1':
-                $badgeStyle = 'background-color: #dc3545; color: #f8f9fa;';
-                $rolTexto = 'Administrador';
-                break;
-            case '2':
-                $badgeStyle = 'background-color: #0d6efd; color: #f8f9fa;';
-                $rolTexto = 'Moderador';
-                break;
-            case '3':
-                $badgeStyle = 'background-color: #198754; color: #f8f9fa;';
-                $rolTexto = 'Usuario';
-                break;
-            case '4':
-                $badgeStyle = 'background-color: #ffc107; color: #212529;';
-                $rolTexto = 'Invitado';
-                break;
-            default:
-                $badgeStyle = 'background-color: #6c757d; color: #f8f9fa;';
-                $rolTexto = 'Rol ' . $rol_id;
-        }
-
-        return '<span class="badge" style="' . $badgeStyle . '">' . htmlspecialchars($rolTexto) . '</span>';
     }
 
     private function getEstadoBadge($ip_bloqueo) {
@@ -198,13 +155,12 @@ document.addEventListener('DOMContentLoaded', function() {
             info: "Mostrando {start} a {end} de {rows} registros"
         },
         columns: [
-            { select: 1, sortable: false }, // Deshabilitar ordenamiento en columna de usuario
-            { select: 5, sortable: false }, // Deshabilitar ordenamiento en columna de habbo
+            { select: 1, sortable: false } // Deshabilitar ordenamiento en columna de usuario
         ]
     });
     
     // Ordenar por fecha de registro descendente por defecto
-    dataTable.columns().sort(3, "desc");
+    dataTable.columns().sort(2, "desc");
 });
 </script>
 
