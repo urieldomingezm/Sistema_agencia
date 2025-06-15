@@ -75,7 +75,6 @@ class GestionAuditoriaRegistro {
                                     <th class="text-center">Misión Anterior</th>
                                     <th class="text-center">Misión Nueva</th>
                                     <th class="text-center">Modificador</th>
-                                    <th class="text-center">IP</th>
                                 </tr>
                             </thead>
                             <tbody>';
