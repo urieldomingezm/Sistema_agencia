@@ -1,0 +1,21 @@
+# Variables de entorno
+.env
+.env.*
+!.env.example
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+
+# Dependencias y logs
+vendor/
+node_modules/
+*.log
+
+# Respaldos de base de datos con datos reales
+*.dump
+*backup*.sql

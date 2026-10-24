@@ -1,88 +1,97 @@
-## 🚀 Sistema de Gestión de Agencia
+<div align="center">
 
-Este proyecto es un **sistema de gestión web** diseñado para una agencias de habbo, que permite administrar:
-👤 Usuarios | ⏱️ Tiempos | 📈 Ascensos | 💰 Ventas | 📋 Requisitos semanales
+# 🏢 Sistema de Gestión de Agencia
 
-## 🛠️ Tecnologías y Herramientas Utilizadas
+Plataforma web para administrar una agencia de Habbo: usuarios, rangos, tiempos, ascensos, ventas y pagos.
 
-* 🔧 **Backend:** PHP
-* 🗄️ **Base de Datos:** MySQL
-* 🎨 **Frontend:** HTML, CSS, JavaScript
-* 🎯 **Framework CSS:** Bootstrap
-* ✅ **Validación de Formularios:** JustValidate (`index_registro.js`)
-* 🛎️ **Alertas/Notificaciones:** SweetAlert2 (`VTM.php`, `index_registro.js`)
-* 📊 **Tablas Dinámicas:** simple-datatables (`VTM.php`)
-* 🐳 **Contenedores:** Docker, Docker Compose
-* 🌐 **Servidor Web:** Apache (`Dockerfile`)
-* 🔁 **Proxy Inverso / Servidor Adicional:** Nginx (`nginx.conf`, `docker-compose.yml`)
-* 📁 **Control de Versiones:** Git (estructura en GitHub)
+![PHP](https://img.shields.io/badge/PHP_8.2-777BB4?style=flat-square&logo=php&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL_8-4479A1?style=flat-square&logo=mysql&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=flat-square&logo=bootstrap&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white)
+![License](https://img.shields.io/badge/licencia-MIT-green?style=flat-square)
 
-## 🗂️ Estructura del Proyecto
+</div>
+
+> Existe una versión más reciente migrada a Python + Flask: [sistema-agencia-v2](https://github.com/urieldomingezm/sistema-agencia-v2).
+
+## ✨ Funcionalidades
+
+- **Usuarios y roles**: registro, inicio de sesión y menús distintos según el rango del usuario.
+- **Control de tiempos**: inicio, pausa y cierre de turnos con historial automático.
+- **Ascensos**: flujo de ascensos con auditoría de cada cambio.
+- **Ventas y pagos**: registro de ventas de rangos y control de pagas.
+- **Requisitos semanales** y **quejas** por usuario.
+- **Auditoría en base de datos**: triggers que registran cambios en ascensos, tiempos y contraseñas.
+- **Permisos por tabla**: cada rol tiene permisos de lectura, escritura y eliminación definidos.
+
+## 🛠️ Stack
+
+| Capa | Tecnología |
+|---|---|
+| Backend | PHP 8.2 (PDO) |
+| Base de datos | MySQL 8 con triggers |
+| Frontend | HTML, CSS, JavaScript, Bootstrap |
+| Librerías | JustValidate, SweetAlert2, simple-datatables |
+| Infraestructura | Docker Compose, Apache, Nginx (proxy inverso + SSL) |
+
+## 📁 Estructura
 
 ```
-📁 base-datos/
-  └── Script SQL de la base de datos
-📄 config.php
-📄 docker-compose.yml
-📄 Dockerfile
-📄 nginx.conf
-
-📁 private/
-├── conexion/          → Conexión BD (`bd.php`)
-├── menus/             → Menús según rango
-├── modal/             → Modales de ventas, tiempos, ascensos
-├── plantilla/         → Header, Footer, Home
-├── procesos/          → Scripts de lógica PHP
-└── radio/             → Archivos de radio (en desarrollo)
-
-📁 public/
-└── assets/
-    ├── custom_general/ → Estilos y scripts personalizados
-    ├── framework/      → Bootstrap y otros frameworks
-    └── img/            → Imágenes generales
-
-📁 usuario/
-├── Archivos por sección (`USR.php`, `VTM.php`, etc.)
-└── rangos/             → Requisitos y pagos por rango
-
-📄 index.php | login.php | registrar.php | rangos.php
+.
+├── base-datos/
+│   ├── tablas/          # Esquema de la BD (sin datos reales)
+│   └── permisos/        # Grants del usuario de la aplicación
+├── private/             # Lógica que no se expone al navegador
+│   ├── conexion/        # Conexión PDO a MySQL
+│   ├── menus/           # Menús por rango
+│   ├── modal/           # Modales (ventas, tiempos, ascensos)
+│   ├── plantilla/       # Header, footer y layout
+│   ├── procesos/        # Lógica de negocio y seguridad
+│   └── tabs/
+├── public/assets/       # CSS, JS e imágenes
+├── usuario/             # Vistas del panel por sección
+│   ├── administrativo/
+│   ├── app/
+│   └── rangos/
+├── config.php           # Rutas globales del proyecto
+├── docker-compose.yml
+├── Dockerfile
+└── nginx.conf
 ```
 
-## ⚙️ Configuración e Instalación (con Docker Compose)
+## 🚀 Instalación
 
-1. Clona el repositorio:
+**Requisitos:** Docker y Docker Compose.
 
-   ```bash
-   git clone https://github.com/tu-usuario/sistema-agencia.git
-   ```
-2. Asegúrate de tener **Docker** y **Docker Compose** instalados.
-3. Navega al directorio del proyecto:
+```bash
+git clone https://github.com/urieldomingezm/sistema_agencia.git
+cd sistema_agencia
+cp .env.example .env        # edita las contraseñas
+docker compose up --build -d
+```
 
-   ```bash
-   cd sistema-agencia
-   ```
-4. Ejecuta:
+La base de datos se crea sola al primer arranque con el esquema de `base-datos/tablas/`.
 
-   ```bash
-   docker-compose up --build -d
-   ```
-5. Importa la base de datos desde `base-datos/sistema_agencia (4).sql` usando **phpMyAdmin** (`http://localhost:8081`) o el cliente MySQL.
-6. Accede al sistema:
+| Servicio | URL |
+|---|---|
+| App vía Nginx | http://localhost:8082 |
+| App directa (Apache) | http://localhost:8080 |
 
-   * `http://localhost:8082` (via Nginx)
-   * `http://localhost:8080` (directo por Apache)
+## 🔐 Variables de entorno
 
-## 🧭 Uso
+| Variable | Descripción |
+|---|---|
+| `MYSQL_HOST` | Host de MySQL (`db` dentro de Docker) |
+| `MYSQL_DATABASE` | Nombre de la base de datos |
+| `MYSQL_USER` | Usuario de la aplicación |
+| `MYSQL_PASSWORD` | Contraseña del usuario |
+| `MYSQL_ROOT_PASSWORD` | Contraseña de root de MySQL |
 
-1. Accede a la URL del sistema
-2. Regístrate o inicia sesión
-3. Navega por las secciones habilitadas según tu rango:
+## 👤 Autor
 
-   * 📄 Perfil
-   * ⏱️ Gestión de tiempos
-   * 💼 Gestión de ventas
-   * 🧍 Gestión de ascensos
+**Angel Uriel Domínguez Medina** · [GitHub](https://github.com/urieldomingezm) · [Portafolio](https://cv-uriel-nine.vercel.app/)
 
 ## 📄 Licencia
 
-Este proyecto está bajo la **Licencia MIT**. Consulta el archivo [LICENSE](LICENSE) para más detalles.
+Distribuido bajo la licencia MIT. Consulta [LICENSE](LICENSE).
